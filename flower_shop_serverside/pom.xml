@@ -8,6 +8,11 @@
         <module>cargo_transportation_repository</module>
         <module>cargo_transportation_service</module>
         <module>cargo_transportation_web</module>
+        <module>flower_shop_web</module>
+        <module>flower_shop_service</module>
+        <module>flower_shop_security</module>
+        <module>flower_shop_repository</module>
+        <module>flower_shop_entity</module>
     </modules>
 
     <parent>
