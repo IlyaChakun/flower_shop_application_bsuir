@@ -4,15 +4,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <modules>
-        <module>cargo_transportation_entity_model</module>
-        <module>cargo_transportation_repository</module>
-        <module>cargo_transportation_service</module>
-        <module>cargo_transportation_web</module>
         <module>flower_shop_web</module>
         <module>flower_shop_service</module>
         <module>flower_shop_security</module>
         <module>flower_shop_repository</module>
         <module>flower_shop_entity</module>
+        <module>flower_shop_application_payload</module>
+        <module>flower_shop_report_service</module>
     </modules>
 
     <parent>
@@ -78,21 +76,39 @@
         <dependencies>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>cargo_transportation_entity_model</artifactId>
+                <artifactId>flower_shop_entity</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>cargo_transportation_repository</artifactId>
+                <artifactId>flower_shop_repository</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>cargo_transportation_service</artifactId>
+                <artifactId>flower_shop_security</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
-
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>flower_shop_service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>flower_shop_web</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>flower_shop_application_payload</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>flower_shop_report_service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <!-- SPRING -->
             <!-- web -->
             <dependency>
@@ -100,11 +116,14 @@
                 <artifactId>spring-boot-starter-web</artifactId>
                 <version>${spring-global-version}</version>
             </dependency>
+
             <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-thymeleaf</artifactId>
-                <version>${spring-global-version}</version>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>4.0.1</version>
+                <scope>provided</scope>
             </dependency>
+
 
             <!-- JPA -->
             <dependency>
@@ -115,14 +134,16 @@
 
             <!-- security dependencies -->
             <dependency>
-                <groupId>org.springframework.security</groupId>
-                <artifactId>spring-security-taglibs</artifactId>
-                <version>${spring-security-taglibs-version}</version>
-            </dependency>
-            <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-security</artifactId>
                 <version>${spring-global-version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-oauth2-client</artifactId>
+                <version>5.4.1</version>
             </dependency>
 
             <!-- spring mail -->
@@ -153,20 +174,6 @@
             </dependency>
 
             <!-- -->
-
-            <!-- Need this to compile JSP -->
-            <dependency>
-                <groupId>org.apache.tomcat.embed</groupId>
-                <artifactId>tomcat-embed-jasper</artifactId>
-                <version>${apache-tomcat-emdeb-version}</version>
-            </dependency>
-
-            <!-- JSTL for JSP -->
-            <dependency>
-                <groupId>javax.servlet</groupId>
-                <artifactId>jstl</artifactId>
-                <version>${jstl-version}</version>
-            </dependency>
 
             <!-- DB DRIVER -->
             <!--  mysql connector -->
