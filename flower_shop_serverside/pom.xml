@@ -11,6 +11,7 @@
         <module>flower_shop_entity</module>
         <module>flower_shop_application_payload</module>
         <module>flower_shop_report_service</module>
+        <module>flower_shop_dto_payload</module>
     </modules>
 
     <parent>
@@ -22,11 +23,11 @@
 
 
     <groupId>by.bsuir</groupId>
-    <artifactId>cargo_transportation_application</artifactId>
+    <artifactId>flower_shop_application</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
 
-    <name>BSUIR Lab 3 cargo transportation application</name>
+    <name></name>
 
     <properties>
         <!-- project global properties-->
@@ -107,6 +108,11 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>flower_shop_report_service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>flower_shop_dto_payload</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!-- SPRING -->
