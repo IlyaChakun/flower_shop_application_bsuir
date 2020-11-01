@@ -1,5 +1,7 @@
 package by.bsuir.entity.common;
 
+import by.bsuir.entity.AbstractEntity;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -7,10 +9,12 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Embeddable
+//@Table(name = "images")
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
-public class Image {
+public class Image extends AbstractEntity {
 
     @Lob
     @Basic(fetch = FetchType.LAZY)
