@@ -11,7 +11,7 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Sort extends AbstractEntity {
+public class FlowerSort extends AbstractEntity {
 
     @Column(name = "sort_name", nullable = false)
     private String sortName;
