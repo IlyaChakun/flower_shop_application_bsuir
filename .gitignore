@@ -1,7 +1,34 @@
 /flower_shop_clientside/node_modules
+/flower_shop_clientside/.pnp
+/flower_shop_clientside/.pnp.js
+
+# testing
+/flower_shop_clientside/coverage
+# production
+/flower_shop_clientside/build
+
+
+# misc
+/flower_shop_clientside/.DS_Store
+/flower_shop_clientside/.env.local
+/flower_shop_clientside/.env.development.local
+/flower_shop_clientside/.env.test.local
+/flower_shop_clientside/.env.production.local
+
+/flower_shop_clientside/npm-debug.log*
+/flower_shop_clientside/yarn-debug.log*
+/flower_shop_clientside/yarn-error.log*
+
+
+
 
 /flower_shop_serverside/*/target
 
 /.idea/
 *.iml
+
+
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+
 
