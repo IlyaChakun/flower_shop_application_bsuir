@@ -13,10 +13,12 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@MappedSuperclass
+@Entity
+@Table(name = "flower_products")
 @Getter
 @Setter
 @NoArgsConstructor
+@Inheritance(strategy = InheritanceType.JOINED)
 public class AbstractFlowerProduct extends AbstractEntity {
 
 

@@ -6,5 +6,5 @@ package by.bsuir.entity.user;
 public enum SupportedAuthProvider {
     local,
     google,
-    facebook
+    github
 }
