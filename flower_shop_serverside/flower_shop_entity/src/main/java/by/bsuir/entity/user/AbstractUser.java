@@ -46,6 +46,6 @@ public class AbstractUser extends AbstractEntity {
 
     //phone number
     @Column(name = "phone_number", length = 48)
-    private String PhoneNumber;
+    private String phoneNumber;
 
 }

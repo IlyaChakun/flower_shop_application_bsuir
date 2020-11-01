@@ -1,0 +1,7 @@
+/flower_shop_clientside/node_modules
+
+/flower_shop_serverside/*/target
+
+/.idea/
+*.iml
+

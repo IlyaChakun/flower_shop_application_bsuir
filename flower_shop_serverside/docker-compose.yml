@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+
+  # MYSQL DB
+  db:
+    image: mysql
+    container_name: mysql_db
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - f:/DOCKER/data/mysql:/var/lib/mysql
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: 1111
+    restart: always
+
+  adminer:
+    image: adminer
+    container_name: adminer_db
+    restart: always
+    ports:
+      - '8085:8080'
