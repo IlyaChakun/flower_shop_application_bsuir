@@ -1,5 +1,8 @@
 import React from 'react'
 import ProductCard from "./ProductCard";
+import cat1Image from '../../images/shop/category/category-1.jpg'
+import cat2Image from '../../images/shop/category/category-2.jpg'
+import cat3Image from '../../images/shop/category/category-3.jpg'
 
 
 function Content() {
@@ -18,7 +21,7 @@ function Content() {
                         <div className="col-md-6">
                             <div className="category-box">
                                 <a href="">
-                                    <img src="../../images/shop/category/category-1.jpg" alt=""/>
+                                    <img src={cat1Image} alt=""/>
                                     <div className="content">
                                         <h3>Clothes Sales</h3>
                                         <p>Shop New Season Clothing</p>
@@ -27,7 +30,7 @@ function Content() {
                             </div>
                             <div className="category-box">
                                 <a href="">
-                                    <img src="../../images/shop/category/category-2.jpg" alt=""/>
+                                    <img src={cat2Image} alt=""/>
                                     <div className="content">
                                         <h3>Smart Casuals</h3>
                                         <p>Get Wide Range Selection</p>
@@ -38,7 +41,7 @@ function Content() {
                         <div className="col-md-6">
                             <div className="category-box category-box-2">
                                 <a href="">
-                                    <img src="../../images/shop/category/category-3.jpg" alt=""/>
+                                    <img src={cat3Image} alt=""/>
                                     <div className="content">
                                         <h3>Jewellery</h3>
                                         <p>Special Design Comes First</p>

@@ -54,52 +54,47 @@ function Footer() {
             {/*Essential Scripts*/}
 
 
-             {/*Main jQuery*/}
-            <script src="../../plugins/jquery/dist/jquery.min.js"/>
-             {/*Bootstrap 3.1*/}
-            <script src="../../plugins/bootstrap/js/bootstrap.min.js"/>
-             {/*Bootstrap Touchpin*/}
-            <script src="../../plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js"/>
-             {/*Instagram Feed Js*/}
-            <script src="../../plugins/instafeed-js/instafeed.min.js"/>
-            {/*Video Lightbox Plugin*/}
-            <script src="../../plugins/ekko-lightbox/dist/ekko-lightbox.min.js"/>
-            {/*Count Down Js*/}
-            <script src="../../plugins/SyoTimer/build/jquery.syotimer.min.js"/>
+            {/* /!*Main jQuery*!/*/}
+            {/*<script src="../../plugins/jquery/dist/jquery.min.js"/>*/}
 
-            {/*Revolution Slider*/}
-            <script type="text/javascript"
-                    src="../../plugins/revolution-slider/revolution/js/jquery.themepunch.tools.min.js"/>
-            <script type="text/javascript"
-                    src="../../plugins/revolution-slider/revolution/js/jquery.themepunch.revolution.min.js"/>
+            {/*/!*Video Lightbox Plugin*!/*/}
+            {/*<script src="../../plugins/ekko-lightbox/dist/ekko-lightbox.min.js"/>*/}
+            {/*/!*Count Down Js*!/*/}
+            {/*<script src="../../plugins/SyoTimer/build/jquery.syotimer.min.js"/>*/}
 
-            {/*Revolution Slider*/}
-            <script type="text/javascript"
-                    src="../../plugins/revolution-slider/revolution/js/extensions/revolution.extension.actions.min.js"/>
-            <script type="text/javascript"
-    src="../../plugins/revolution-slider/revolution/js/extensions/revolution.extension.carousel.min.js"/>
-            <script type="text/javascript"
-                    src="../../plugins/revolution-slider/revolution/js/extensions/revolution.extension.kenburn.min.js"/>
-            <script type="text/javascript"
-                    src="../../plugins/revolution-slider/revolution/js/extensions/revolution.extension.layeranimation.min.js"/>
-            <script type="text/javascript"
-                    src="../../plugins/revolution-slider/revolution/js/extensions/revolution.extension.migration.min.js"/>
-            <script type="text/javascript"
-                    src="../../plugins/revolution-slider/revolution/js/extensions/revolution.extension.navigation.min.js"/>
-            <script type="text/javascript"
-                    src="../../plugins/revolution-slider/revolution/js/extensions/revolution.extension.parallax.min.js"/>
-            <script type="text/javascript"
-                    src="../../plugins/revolution-slider/revolution/js/extensions/revolution.extension.slideanims.min.js"/>
-            <script type="text/javascript"
-                    src="../../plugins/revolution-slider/revolution/js/extensions/revolution.extension.video.min.js"/>
-            <script type="text/javascript"
-                    src="../../plugins/revolution-slider/revolution/js/extensions/revolution.extension.video.min.js"/>
-            <script type="text/javascript" src="../../plugins/revolution-slider/assets/warning.js"/>
+    {/*        /!*Revolution Slider*!/*/}
+    {/*        <script type="text/javascript"*/}
+    {/*                src="../../plugins/revolution-slider/revolution/js/jquery.themepunch.tools.min.js"/>*/}
+    {/*        <script type="text/javascript"*/}
+    {/*                src="../../plugins/revolution-slider/revolution/js/jquery.themepunch.revolution.min.js"/>*/}
+
+    {/*        /!*Revolution Slider*!/*/}
+    {/*        <script type="text/javascript"*/}
+    {/*                src="../../plugins/revolution-slider/revolution/js/extensions/revolution.extension.actions.min.js"/>*/}
+    {/*        <script type="text/javascript"*/}
+    {/*src="../../plugins/revolution-slider/revolution/js/extensions/revolution.extension.carousel.min.js"/>*/}
+    {/*        <script type="text/javascript"*/}
+    {/*                src="../../plugins/revolution-slider/revolution/js/extensions/revolution.extension.kenburn.min.js"/>*/}
+    {/*        <script type="text/javascript"*/}
+    {/*                src="../../plugins/revolution-slider/revolution/js/extensions/revolution.extension.layeranimation.min.js"/>*/}
+    {/*        <script type="text/javascript"*/}
+    {/*                src="../../plugins/revolution-slider/revolution/js/extensions/revolution.extension.migration.min.js"/>*/}
+    {/*        <script type="text/javascript"*/}
+    {/*                src="../../plugins/revolution-slider/revolution/js/extensions/revolution.extension.navigation.min.js"/>*/}
+    {/*        <script type="text/javascript"*/}
+    {/*                src="../../plugins/revolution-slider/revolution/js/extensions/revolution.extension.parallax.min.js"/>*/}
+    {/*        <script type="text/javascript"*/}
+    {/*                src="../../plugins/revolution-slider/revolution/js/extensions/revolution.extension.slideanims.min.js"/>*/}
+    {/*        <script type="text/javascript"*/}
+    {/*                src="../../plugins/revolution-slider/revolution/js/extensions/revolution.extension.video.min.js"/>*/}
+    {/*        <script type="text/javascript"*/}
+    {/*                src="../../plugins/revolution-slider/revolution/js/extensions/revolution.extension.video.min.js"/>*/}
+    {/*        <script type="text/javascript" src="../../plugins/revolution-slider/assets/warning.js"/>*/}
 
 
-             {/*Google Map*/}
-            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC72vZw-6tGqFyRhhg5CkF2fqfILn2Tsw"/>
-            <script type="text/javascript" src="../../plugins/google-map/gmap.js"/>
+            {/* /!*Google Map*!/*/}
+            {/*<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC72vZw-6tGqFyRhhg5CkF2fqfILn2Tsw"/>*/}
+            {/*<script type="text/javascript" src="../../plugins/google-map/gmap.js"/>*/}
 
              {/*Main Js File*/}
             <script src="../../js/script.js"/>
