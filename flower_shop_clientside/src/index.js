@@ -1,8 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
+import App from './app/App';
+import 'bootstrap/dist/css/bootstrap.css';
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+
+// <!-- Themefisher Icon font -->
+import './plugins/themefisher-font/style.css'
+// <!-- Revolution Slider -->
+import './plugins/revolution-slider/revolution/fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css'
+import './plugins/revolution-slider/revolution/fonts/font-awesome/css/font-awesome.css'
+// <!-- REVOLUTION STYLE SHEETS -->
+import './plugins/revolution-slider/revolution/css/settings.css'
+import './plugins/revolution-slider/revolution/css/layers.css'
+import './plugins/revolution-slider/revolution/css/navigation.css'
+
+// <!-- Main Stylesheet -->
+import './css/style.css'
+
+import reportWebVitals from './app/reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
