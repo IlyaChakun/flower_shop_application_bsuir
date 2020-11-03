@@ -23,8 +23,4 @@ public class Flower extends AbstractFlowerProduct {
     @ManyToOne
     private FlowerType flowerType; // розы, цветы и зелень
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Country country;  // страна происхождения
-
-
 }

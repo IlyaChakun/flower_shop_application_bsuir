@@ -22,6 +22,7 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>flower_shop_application_payload</artifactId>
         </dependency>
+
     </dependencies>
 
 </project>

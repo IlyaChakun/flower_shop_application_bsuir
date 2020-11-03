@@ -16,7 +16,7 @@ public enum SecurityContextConstants {
     GRANT_TYPE_ANON_ACTION("anon_action"),
     GRANT_TYPE_ACTION("action"),
 
-    VALID_TOKEN_TYPE("Bearer");
+    VALID_TOKEN_TYPE("bearer");
 
     private final String value;
 

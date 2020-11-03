@@ -12,6 +12,7 @@
         <module>flower_shop_application_payload</module>
         <module>flower_shop_report_service</module>
         <module>flower_shop_dto_payload</module>
+        <module>flower-shop-email-service-core</module>
     </modules>
 
     <parent>
@@ -115,6 +116,13 @@
                 <artifactId>flower_shop_dto_payload</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>flower-shop-email-service-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+
             <!-- SPRING -->
             <!-- web -->
             <dependency>
