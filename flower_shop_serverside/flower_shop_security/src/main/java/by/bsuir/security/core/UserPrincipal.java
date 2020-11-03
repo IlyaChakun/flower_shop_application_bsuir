@@ -1,7 +1,7 @@
 package by.bsuir.security.core;
 
 
-import by.bsuir.entity.user.AbstractUser;
+import by.bsuir.dto.model.user.AbstractUserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -23,7 +23,7 @@ public class UserPrincipal implements OAuth2User, UserDetails {
     private Map<String, Object> attributes;
 
 
-    public static UserPrincipal create(final AbstractUser user) {
+    public static UserPrincipal create(final AbstractUserDTO user) {
         List<GrantedAuthority> authorities = new ArrayList<>();
         user.getRoles()
                 .forEach(role ->
@@ -38,7 +38,7 @@ public class UserPrincipal implements OAuth2User, UserDetails {
                 );
     }
 
-    public static UserPrincipal create(final AbstractUser user,
+    public static UserPrincipal create(final AbstractUserDTO user,
                                        final Map<String, Object> attributes) {
         UserPrincipal userPrincipal = UserPrincipal.create(user);
         userPrincipal.setAttributes(attributes);

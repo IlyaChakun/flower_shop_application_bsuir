@@ -1,4 +1,4 @@
-package by.bsuir;
+package by.bsuir.dto.model;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

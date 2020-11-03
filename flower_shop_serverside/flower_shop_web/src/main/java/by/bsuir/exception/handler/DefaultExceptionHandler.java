@@ -2,8 +2,11 @@ package by.bsuir.exception.handler;
 
 
 import by.bsuir.exception.IllegalRequestException;
+import by.bsuir.payload.exception.AbstractException;
 import by.bsuir.payload.exception.ErrorMessage;
 import by.bsuir.security.exception.AccessTokenException;
+import by.bsuir.security.exception.ConfirmationTokeBrokenLinkException;
+import by.bsuir.security.exception.InvalidEmailException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
@@ -90,6 +93,18 @@ public class DefaultExceptionHandler {
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler({ConfirmationTokeBrokenLinkException.class, InvalidEmailException.class})
+    public ResponseEntity<ErrorMessage> handleConfirmationTokeBrokenLinkException(AbstractException ex) {
+        /*
+         * Handles ConfirmationTokeBrokenLinkException exceptions. Status code 400.
+         */
+        System.out.println("ConfirmationTokeBrokenLinkException  InvalidEmailException handler");
+        return
+                new ResponseEntity<>(
+                        new ErrorMessage(ex.getCode(), ex.getError(), ex.getErrorDescription()),
+                        HttpStatus.BAD_REQUEST);
+    }
+
 
     @ExceptionHandler(AccessTokenException.class)
     public ResponseEntity<ErrorMessage> handleExpiredAccessTokenException(AccessTokenException ex) {
@@ -99,7 +114,7 @@ public class DefaultExceptionHandler {
         System.out.println("ExpiredAccessTokenException handler");
         return
                 new ResponseEntity<>(
-                        new ErrorMessage(401, "invalid_token", ex.getMessage()),
+                        new ErrorMessage(401, "invalid_token", ex.getErrorDescription()),
                         HttpStatus.UNAUTHORIZED);
     }
 

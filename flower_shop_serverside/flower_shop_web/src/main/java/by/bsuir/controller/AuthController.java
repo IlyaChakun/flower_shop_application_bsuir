@@ -1,12 +1,13 @@
 package by.bsuir.controller;
 
-import by.bsuir.entity.user.AbstractUser;
+import by.bsuir.dto.model.user.AbstractUserDTO;
 import by.bsuir.exception.ControllerException;
 import by.bsuir.security.core.TokenProvider;
 import by.bsuir.security.dto.ApiResponse;
 import by.bsuir.security.dto.AuthTokenResponse;
 import by.bsuir.security.dto.LoginRequest;
-import by.bsuir.security.dto.signup.SignUpRequest;
+import by.bsuir.security.dto.UserIdentityAvailability;
+import by.bsuir.security.dto.signup.ClientSignUpRequest;
 import by.bsuir.security.service.api.UserSecurityService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +17,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,8 +37,8 @@ public class AuthController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@RequestBody @Valid LoginRequest loginRequest,
-                                              BindingResult result) {
+    public ResponseEntity<AuthTokenResponse> authenticateUser(@RequestBody @Valid LoginRequest loginRequest,
+                                                              BindingResult result) {
         checkBindingResultAndThrowExceptionIfInvalid(result);
 
         Authentication authentication = authenticationManager.authenticate(
@@ -56,16 +54,16 @@ public class AuthController {
         return ResponseEntity.ok(authTokenResponse);
     }
 
-    @PostMapping("/sign-up")
-    public ResponseEntity<?> register(@RequestBody @Valid SignUpRequest signUpRequest,
-                                      BindingResult result) {
+    @PostMapping("/client/sign-up")
+    public ResponseEntity<ApiResponse> register(@RequestBody @Valid ClientSignUpRequest signUpRequest,
+                                                BindingResult result) {
         checkBindingResultAndThrowExceptionIfInvalid(result);
 
         if (!signUpRequest.getPassword().equals(signUpRequest.getConfirmedPassword())) {
             throw new ControllerException("The password you entered did not match the confirmed password!");
         }
 
-        AbstractUser addedUser = userService.register(signUpRequest);
+        AbstractUserDTO addedUser = userService.registerClient(signUpRequest);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath()
@@ -96,10 +94,24 @@ public class AuthController {
         return ResponseEntity.ok("privet braran");
     }
 
-//
-//    @GetMapping("/checkEmailAvailability")
-//    public UserIdentityAvailability checkEmailAvailability(@RequestParam(value = "email") String email) {
-//        Boolean isAvailable = !userService.existsByEmail(email);
-//        return new UserIdentityAvailability(isAvailable);
-//    }
+    @GetMapping("/check-email-availability")
+    public ResponseEntity<UserIdentityAvailability> checkEmailAvailability(@RequestParam(value = "email") String email) {
+        Boolean isAvailable = !userService.existsByEmail(email);
+        return ResponseEntity.ok(
+                new UserIdentityAvailability(isAvailable)
+        );
+    }
+
+
+    @RequestMapping(value = "/confirm-account",
+            method = {RequestMethod.GET, RequestMethod.POST})
+    public ResponseEntity<ApiResponse> confirmUserAccount(@RequestParam("token") String confirmationToken) {
+
+        userService.confirmUserAccount(confirmationToken);
+
+        return ResponseEntity.ok(
+                new ApiResponse(true, "Account confirmed successfully")
+        );
+    }
+
 }

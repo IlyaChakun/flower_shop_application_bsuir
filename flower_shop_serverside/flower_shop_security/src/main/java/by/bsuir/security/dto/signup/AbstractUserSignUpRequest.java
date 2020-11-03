@@ -11,7 +11,7 @@ import javax.validation.constraints.Pattern;
 @Getter
 @Setter
 @NoArgsConstructor
-public class AbstractSignUpRequest {
+public class AbstractUserSignUpRequest {
 
     @NotBlank(message = "Name can`t be null or spaces")
     @Pattern(regexp = ".{5,30}", message = "Name can`t be smaller then 5 symbols and bigger then 30 symbols")
