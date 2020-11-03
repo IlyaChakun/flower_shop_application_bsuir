@@ -15,7 +15,6 @@ import by.bsuir.security.exception.DuplicateEmailException;
 import by.bsuir.security.mail.UserSecurityMailService;
 import by.bsuir.security.service.api.UserSecurityService;
 import lombok.AllArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,16 +28,16 @@ public class UserSecurityServiceImpl implements UserSecurityService {
     private final UserBaseRepository userRepository;
     private final ClientRepository clientRepository;
     private final RoleRepository roleRepository;
-    private final PasswordEncoder passwordEncoder;
     private final UserConfirmationTokenRepository userConfirmationTokenRepository;
     private final UserSecurityMailService userSecurityMailService;
 
     private final UserMapperDTO userMapper;
+    private final ClientConverter clientConverter;
 
     @Override
     @Transactional
     public AbstractUserDTO registerClient(ClientSignUpRequest signUpRequest) {
-        Client client = getClient(signUpRequest);
+        Client client = clientConverter.getClient(signUpRequest);
         Client savedClient = clientRepository.save(client);
         //
         UserConfirmationToken confirmationToken = new UserConfirmationToken(client);
@@ -53,14 +52,6 @@ public class UserSecurityServiceImpl implements UserSecurityService {
         //
     }
 
-    private Client getClient(ClientSignUpRequest signUpRequest) {
-        Client client = new Client();
-        client.setName(signUpRequest.getName());
-        client.setEmail(signUpRequest.getEmail());
-        client.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
-        client.setProvider(SupportedAuthProvider.local);
-        return client;
-    }
 
     @Override
     public boolean existsByEmail(String email) {
@@ -106,7 +97,6 @@ public class UserSecurityServiceImpl implements UserSecurityService {
         Client userToSave = new Client();
         userToSave.setName(abstractUserDTO.getName());
         userToSave.setEmail(abstractUserDTO.getEmail());
-//        userToSave.setPassword(passwordEncoder.encode(abstractUserDTO.getPassword()));
         userToSave.setProvider(SupportedAuthProvider.local);
 
         Role role = roleRepository.findByName(UserRoles.ROLE_CLIENT.getRoleName());
@@ -130,12 +120,7 @@ public class UserSecurityServiceImpl implements UserSecurityService {
                         new ResourceNotFoundException("Client with id = " + abstractUserDTO.getId() + " not found!")
                 );
 
-
-        prevUser.setName(abstractUserDTO.getName());
-        prevUser.setEmail(abstractUserDTO.getEmail());
-        prevUser.setPassword(passwordEncoder.encode(abstractUserDTO.getPassword()));
-        prevUser.setProvider(SupportedAuthProvider.local);
-
+        clientConverter.resetClientField(prevUser, abstractUserDTO);
 
         return userMapper.toDto(prevUser);
     }
