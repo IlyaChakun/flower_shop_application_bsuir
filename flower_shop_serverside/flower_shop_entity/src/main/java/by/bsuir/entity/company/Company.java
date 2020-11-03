@@ -1,35 +1,50 @@
 package by.bsuir.entity.company;
 
-import by.bsuir.entity.common.Image;
+import by.bsuir.entity.AbstractEntity;
+import by.bsuir.entity.user.ShopAdmin;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Table(name = "company_owner")
+@Entity
+@Table(name = "companies")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class Company {
+public class Company extends AbstractEntity {
 
-    @Column(name = "company_name", length = 48)
-    private String companyName;
+    @OneToOne
+    private ShopAdmin shopAdmin;
 
-    @Column(name = "company_desciption", length = 48)
-    private String companyDesciption;
+    @Column(name = "name", length = 48)
+    private String name;
 
-    private CompanyOwner owner;
+    @Column(name = "description", length = 48)
+    private String description;
 
+    @Column(name = "licence_number", length = 48)
+    private String licenceNumber;
+
+    @OneToOne
     private Contacts contacts;
 
-    private Image logo;
+    private CompanyLegalAddress companyLegalAddress;
 
+    // private Image logo;
+
+    @OneToMany(
+            cascade = {
+                    CascadeType.MERGE,
+                    CascadeType.PERSIST
+            },
+            fetch = FetchType.LAZY,
+            mappedBy = "company")
     private Set<Shop> shops = new HashSet<>();
 
 

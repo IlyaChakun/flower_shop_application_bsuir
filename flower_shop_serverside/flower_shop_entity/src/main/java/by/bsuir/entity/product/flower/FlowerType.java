@@ -1,4 +1,4 @@
-package by.bsuir.entity.common;
+package by.bsuir.entity.product.flower;
 
 import by.bsuir.entity.AbstractEntity;
 import lombok.AllArgsConstructor;
@@ -11,17 +11,14 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "countries")
+@Table(name = "flower_types")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class Country extends AbstractEntity {
+public class FlowerType extends AbstractEntity {
 
-    @Column(name = "country_name_ru", nullable = false, length = 48)
-    private String countryNameRu;
+    @Column(name = "flower_type")
+    private String flowerType;
 
-    @Column(name = "country_name_en", nullable = false, length = 48)
-    private String countryNameEn;
 }
-
