@@ -41,8 +41,9 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
         final String grantType = getGrantType(request);
 
-        if (!grantType.isEmpty() &&
-                !grantType.equals(SecurityContextConstants.GRANT_TYPE_ANON_ACTION.getValue())) {//if anon action then miss
+        logger.info("Grant type: " + grantType);
+
+        if (!grantType.equals(SecurityContextConstants.GRANT_TYPE_ANON_ACTION.getValue())) {//if anon action then miss
             doTokenValidation(request, grantType);
         }
 
@@ -52,16 +53,22 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     private void doTokenValidation(final HttpServletRequest request,
                                    final String grantType) {
 
+        logger.info("validation token works");
+        logger.info("grantType=" + grantType);
+
         final String tokenType = getTokenType(request);
         final String authorizationAccessToken = getAuthorizationAccessToken(request);
         final String authorizationRefreshToken = getAuthorizationRefreshToken(request);
 
 
         if (!tokenType.equals(SecurityContextConstants.VALID_TOKEN_TYPE.getValue())) {
+            logger.info("The token type is invalid! Please, use " + SecurityContextConstants.VALID_TOKEN_TYPE.getValue()
+                    + ",  actual token type= " + tokenType);
             throw new InvalidTokenTypeException("The token type is invalid! Please, use bearer!");
         }
 
         if (grantType.equals(SecurityContextConstants.GRANT_TYPE_REFRESH_TOKEN.getValue())) {//if refresh action
+            logger.info("validation refresh token");
             tokenProvider.validateRefreshTokenOrThrowException(authorizationRefreshToken);
         } else {
             if (StringUtils.hasText(authorizationAccessToken) &&

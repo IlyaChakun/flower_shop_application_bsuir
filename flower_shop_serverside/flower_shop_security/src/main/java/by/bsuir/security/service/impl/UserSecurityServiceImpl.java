@@ -2,7 +2,10 @@ package by.bsuir.security.service.impl;
 
 import by.bsuir.dto.mapper.user.UserMapperDTO;
 import by.bsuir.dto.model.user.AbstractUserDTO;
-import by.bsuir.entity.user.*;
+import by.bsuir.entity.user.AbstractUser;
+import by.bsuir.entity.user.Client;
+import by.bsuir.entity.user.Role;
+import by.bsuir.entity.user.UserRoles;
 import by.bsuir.entity.user.token.UserConfirmationToken;
 import by.bsuir.payload.exception.ResourceNotFoundException;
 import by.bsuir.repository.api.user.ClientRepository;
@@ -97,7 +100,7 @@ public class UserSecurityServiceImpl implements UserSecurityService {
         Client userToSave = new Client();
         userToSave.setName(abstractUserDTO.getName());
         userToSave.setEmail(abstractUserDTO.getEmail());
-        userToSave.setProvider(SupportedAuthProvider.local);
+        userToSave.setProvider(abstractUserDTO.getProvider());
 
         Role role = roleRepository.findByName(UserRoles.ROLE_CLIENT.getRoleName());
         userToSave.setRoles(Collections.singleton(role));

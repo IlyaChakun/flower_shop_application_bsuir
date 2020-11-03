@@ -25,7 +25,7 @@ public class TokenProviderImpl implements TokenProvider {
     private final ApplicationTokenSecurityProperties applicationTokenSecurityProperties;
 
     @Override
-    public AuthTokenResponse updateAuthToken(HttpServletRequest request) {
+    public AuthTokenResponse updateAuthToken(final HttpServletRequest request) {
 
         final String refreshToken = request.getHeader("Authorization-Refresh-Token");
         //
@@ -43,14 +43,21 @@ public class TokenProviderImpl implements TokenProvider {
                         applicationTokenSecurityProperties.getAuth().getRefreshTokenExpirationMsec(),
                         applicationTokenSecurityProperties.getAuth().getRefreshTokenSecret());
 
+        logger.info("TOKENS AFTER UPDATE");
+        logger.info("ACCESS TOKEN=   " + accessToken);
+        logger.info("NEW REFRESH TOKEN=   " + newRefreshToken);
+
         return this.getAuthTokenResponse(accessToken, newRefreshToken);
 
     }
 
     @Override
-    public AuthTokenResponse buildAuthTokenResponse(Authentication authentication) {
+    public AuthTokenResponse buildAuthTokenResponse(final Authentication authentication) {
         final String accessToken = createAccessToken(authentication);
         final String refreshToken = createRefreshToken(authentication);
+
+        logger.info("ACCESS TOKEN=   " + accessToken);
+        logger.info("REFRESH TOKEN=   " + refreshToken);
 
         return getAuthTokenResponse(accessToken, refreshToken);
     }
