@@ -17,5 +17,5 @@ public class ShopDTO extends AbstractDTO {
     private ContactsDTO contacts;
     private WorkingHoursDTO workingHours;
     private CompanyDTO company;
-    private List<AbstractFlowerProduct> shopProducts = new ArrayList<>();
+//    private List<AbstractFlowerProduct> shopProducts = new ArrayList<>();
 }

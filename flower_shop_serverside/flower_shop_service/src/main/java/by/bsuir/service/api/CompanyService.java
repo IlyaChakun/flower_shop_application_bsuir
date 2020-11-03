@@ -1,4 +1,8 @@
 package by.bsuir.service.api;
 
-public interface CompanyService {
+
+import by.bsuir.dto.model.company.CompanyDTO;
+import by.bsuir.service.core.CustomCrudService;
+
+public interface CompanyService extends CustomCrudService<CompanyDTO> {
 }

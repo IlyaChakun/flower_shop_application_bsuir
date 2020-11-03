@@ -13,5 +13,4 @@ import javax.persistence.Embeddable;
 public class WorkingHoursDTO {
 
     private String title;
-
 }

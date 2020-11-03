@@ -2,19 +2,12 @@ package by.bsuir.dto.model.company;
 
 import by.bsuir.dto.model.AbstractDTO;
 import by.bsuir.dto.model.user.ShopAdminDTO;
-import by.bsuir.entity.AbstractEntity;
 import by.bsuir.entity.company.CompanyLegalAddress;
-import by.bsuir.entity.company.Contacts;
-import by.bsuir.entity.company.Shop;
-import by.bsuir.entity.user.ShopAdmin;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 
 @AllArgsConstructor
@@ -36,7 +29,7 @@ public class CompanyDTO extends AbstractDTO {
 
     // private Image logo;
 
-    private Set<Shop> shops = new HashSet<>();
+    private List<ShopDTO> shops;
 
 
 }
