@@ -41,7 +41,8 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
         final String grantType = getGrantType(request);
 
-        if (!grantType.equals(SecurityContextConstants.GRANT_TYPE_ANON_ACTION.getValue())) {//if anon action then miss
+        if (!grantType.isEmpty() &&
+                !grantType.equals(SecurityContextConstants.GRANT_TYPE_ANON_ACTION.getValue())) {//if anon action then miss
             doTokenValidation(request, grantType);
         }
 

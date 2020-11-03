@@ -11,7 +11,6 @@ import by.bsuir.security.dto.signup.ClientSignUpRequest;
 import by.bsuir.security.service.api.UserSecurityService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -84,16 +83,6 @@ public class AuthController {
         return ResponseEntity.ok(authTokenResponse);
     }
 
-
-    @PreAuthorize("isAuthenticated()")
-    @PostMapping("/test")
-    public ResponseEntity<?> test() {
-
-        System.out.println("test work");
-
-        return ResponseEntity.ok("privet braran");
-    }
-
     @GetMapping("/check-email-availability")
     public ResponseEntity<UserIdentityAvailability> checkEmailAvailability(@RequestParam(value = "email") String email) {
         Boolean isAvailable = !userService.existsByEmail(email);
@@ -101,7 +90,6 @@ public class AuthController {
                 new UserIdentityAvailability(isAvailable)
         );
     }
-
 
     @RequestMapping(value = "/confirm-account",
             method = {RequestMethod.GET, RequestMethod.POST})

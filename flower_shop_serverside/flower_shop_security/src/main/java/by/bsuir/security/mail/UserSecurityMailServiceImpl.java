@@ -3,8 +3,11 @@ package by.bsuir.security.mail;
 import by.bsuir.email.configuration.BaseEmailProperties;
 import by.bsuir.email.exception.EmailServiceException;
 import by.bsuir.email.service.core.EmailSenderService;
+import by.bsuir.security.core.RestAuthenticationEntryPoint;
 import by.bsuir.security.exception.InvalidEmailException;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +15,7 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class UserSecurityMailServiceImpl implements UserSecurityMailService {
 
+    private static final Logger logger = LoggerFactory.getLogger(RestAuthenticationEntryPoint.class);
     private final EmailSenderService emailSenderService;
 
     @Override
@@ -21,7 +25,9 @@ public class UserSecurityMailServiceImpl implements UserSecurityMailService {
 
         try {
             this.emailSenderService.send(mailMessage);
+            logger.info("confirm acc email sent successfully");
         } catch (EmailServiceException ex) {
+            logger.error("Вы указали не верный Email! Такого не существует; " + ex.getMessage());
             throw new InvalidEmailException("Вы указали не верный Email! Такого не существует");
         }
 
@@ -29,6 +35,9 @@ public class UserSecurityMailServiceImpl implements UserSecurityMailService {
 
     private SimpleMailMessage getConfirmAccountMailMessage(final String recipient,
                                                            final String confirmationToken) {
+
+        logger.info("sending to : " + recipient + " and token= " + confirmationToken);
+
         final String subject = "Завершение регистрации!";
 
         final SimpleMailMessage mailMessage = new SimpleMailMessage();
