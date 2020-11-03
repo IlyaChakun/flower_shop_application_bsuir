@@ -1,11 +1,16 @@
 package by.bsuir.entity.common;
 
 import by.bsuir.entity.AbstractEntity;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Table;
 
+@Entity
 @Table(name = "countries")
 @NoArgsConstructor
 @AllArgsConstructor

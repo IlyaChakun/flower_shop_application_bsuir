@@ -1,7 +1,7 @@
 package by.bsuir.security.oauth2;
 
 
-import by.bsuir.entity.user.AbstractUser;
+import by.bsuir.dto.model.user.AbstractUserDTO;
 import by.bsuir.entity.user.SupportedAuthProvider;
 import by.bsuir.security.core.UserPrincipal;
 import by.bsuir.security.exception.OAuth2AuthenticationProcessingException;
@@ -55,9 +55,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             throw new OAuth2AuthenticationProcessingException("Email not found from OAuth2 provider");
         }
 
-        final Optional<AbstractUser> userOptional = userService.findByEmail(oAuth2UserInfo.getEmail());
+        final Optional<AbstractUserDTO> userOptional = userService.findByEmail(oAuth2UserInfo.getEmail());
 
-        AbstractUser user;
+        AbstractUserDTO user;
         if (userOptional.isPresent()) {
             user = userOptional.get();
             resolveProvider(oAuth2UserRequest, user);
@@ -70,7 +70,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     private void resolveProvider(final OAuth2UserRequest oAuth2UserRequest,
-                                 final AbstractUser user) {
+                                 final AbstractUserDTO user) {
         if (!user.getProvider().equals(
                 SupportedAuthProvider.valueOf(
                         oAuth2UserRequest.getClientRegistration().getRegistrationId()))) {
@@ -81,22 +81,24 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
 
-    private AbstractUser registerNewUser(final OAuth2UserRequest oAuth2UserRequest,
-                                         final OAuth2UserInfo oAuth2UserInfo) {
-        AbstractUser user = new AbstractUser();
+    private AbstractUserDTO registerNewUser(final OAuth2UserRequest oAuth2UserRequest,
+                                            final OAuth2UserInfo oAuth2UserInfo) {
+        AbstractUserDTO user = new AbstractUserDTO();
         user.setProvider(SupportedAuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()));
         user.setName(oAuth2UserInfo.getName());
         user.setEmail(oAuth2UserInfo.getEmail());
 //        user.setImageUrl(oAuth2UserInfo.getImageUrl());
 //        user.setLastVisit(LocalDateTime.now());
+
         return userService.save(user);
     }
 
-    private AbstractUser updateExistingUser(final AbstractUser existingUser,
-                                            final OAuth2UserInfo oAuth2UserInfo) {
+    private AbstractUserDTO updateExistingUser(final AbstractUserDTO existingUser,
+                                               final OAuth2UserInfo oAuth2UserInfo) {
         existingUser.setName(oAuth2UserInfo.getName());
         //existingUser.setImageUrl(oAuth2UserInfo.getImageUrl());
-        return userService.update(existingUser);
+
+        return userService.save(existingUser);
     }
 
 }

@@ -8,8 +8,8 @@ import java.util.Map;
 
 public final class OAuth2UserInfoFactory {
 
-    public static OAuth2UserInfo getOAuth2UserInfo(String registrationId,
-                                                   Map<String, Object> attributes) {
+    public static OAuth2UserInfo getOAuth2UserInfo(final String registrationId,
+                                                   final Map<String, Object> attributes) {
         if (registrationId.equalsIgnoreCase(SupportedAuthProvider.google.toString())) {
             return new GoogleOAuth2UserInfo(attributes);
         } else if (registrationId.equalsIgnoreCase(SupportedAuthProvider.github.toString())) {

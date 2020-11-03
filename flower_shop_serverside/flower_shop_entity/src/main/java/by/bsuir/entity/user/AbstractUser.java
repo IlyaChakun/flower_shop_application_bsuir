@@ -44,7 +44,6 @@ public class AbstractUser extends AbstractEntity {
     @Column(name = "is_mail_confirmed")
     private boolean isMailConfirmed;
 
-    //phone number
     @Column(name = "phone_number", length = 48)
     private String phoneNumber;
 

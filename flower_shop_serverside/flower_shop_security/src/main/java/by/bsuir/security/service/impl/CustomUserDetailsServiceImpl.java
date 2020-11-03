@@ -1,7 +1,7 @@
 package by.bsuir.security.service.impl;
 
 
-import by.bsuir.entity.user.AbstractUser;
+import by.bsuir.dto.model.user.AbstractUserDTO;
 import by.bsuir.security.core.UserPrincipal;
 import by.bsuir.security.service.api.CustomUserDetailsService;
 import by.bsuir.security.service.api.UserSecurityService;
@@ -22,7 +22,7 @@ public class CustomUserDetailsServiceImpl implements CustomUserDetailsService {
     @Transactional
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-        final AbstractUser user =
+        final AbstractUserDTO user =
                 userService.findByEmail(email)
                         .orElseThrow(() ->
                                 new UsernameNotFoundException("User not found with email : " + email)
@@ -34,7 +34,7 @@ public class CustomUserDetailsServiceImpl implements CustomUserDetailsService {
     @Transactional
     @Override
     public UserDetails loadUserById(Long id) {
-        AbstractUser user = userService.getOne(id);
+        AbstractUserDTO user = userService.getOne(id);
         return UserPrincipal.create(user);
     }
 
