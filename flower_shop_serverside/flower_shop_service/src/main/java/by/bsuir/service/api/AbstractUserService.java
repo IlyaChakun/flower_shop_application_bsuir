@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface AbstractUserService<T extends AbstractUserDTO> {
 
-    Optional<T> findByEmail(String email);
+    T findByEmail(String email);
 
     T getByEmail(String email);
 
