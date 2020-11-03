@@ -12,7 +12,7 @@ public enum SecurityContextConstants {
     AUTHORIZATION_REFRESH_TOKEN("Authorization-Refresh-Token"),
 
     GRANT_TYPE("Grant-Type"),
-    GRANT_TYPE_REFRESH_TOKEN("refresh_token"),
+    GRANT_TYPE_REFRESH_TOKEN("refresh_token-action"),
     GRANT_TYPE_ANON_ACTION("anon_action"),
     GRANT_TYPE_ACTION("action"),
 
