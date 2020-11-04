@@ -1,5 +1,10 @@
 package by.bsuir.service.core;
 
-public interface SearchCrudService<T> extends FindOperationService<T>, GetOperationService<T> {
+import by.bsuir.service.core.base.FindAllOperationService;
+import by.bsuir.service.core.base.FindOperationService;
+import by.bsuir.service.core.base.FindOptionalOperationService;
+import by.bsuir.service.core.base.GetOperationService;
+
+public interface SearchCrudService<T> extends FindOptionalOperationService<T>, FindAllOperationService<T>, GetOperationService<T> {
 
 }

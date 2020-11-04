@@ -1,4 +1,4 @@
-package by.bsuir.service.core;
+package by.bsuir.service.core.base;
 
 public interface SaveUpdateService<T> {
 
