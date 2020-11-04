@@ -16,12 +16,10 @@ import java.util.stream.Collectors;
 public abstract class AbstractMapperDTO<E extends BaseAbstractEntity, D extends BaseAbstractDTO>
         implements MapperDTO<E, D> {
 
-    @Autowired
-    private ModelMapper mapper;
-
     private final Class<E> entityClass;
     private final Class<D> dtoClass;
-
+    @Autowired
+    private ModelMapper mapper;
 
     @Override
     public E toEntity(final D dto) {

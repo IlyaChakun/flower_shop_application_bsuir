@@ -1,7 +1,6 @@
 package by.bsuir.service.core;
 
 import by.bsuir.service.core.base.FindAllOperationService;
-import by.bsuir.service.core.base.FindOperationService;
 import by.bsuir.service.core.base.FindOptionalOperationService;
 import by.bsuir.service.core.base.GetOperationService;
 

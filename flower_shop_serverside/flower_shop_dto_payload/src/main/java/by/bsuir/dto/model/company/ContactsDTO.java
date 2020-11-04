@@ -1,7 +1,9 @@
 package by.bsuir.dto.model.company;
 
 import by.bsuir.dto.model.BaseAbstractDTO;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
 @Getter

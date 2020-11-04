@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
-
 import java.util.List;
 
 import static by.bsuir.controller.ControllerHelper.checkBindingResultAndThrowExceptionIfInvalid;
@@ -33,7 +32,7 @@ public class ShopController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ShopDTO> findById(@PathVariable("id") String id,
-                                                BindingResult bindingResult) {
+                                            BindingResult bindingResult) {
         checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
 
         ShopDTO shop = shopService.findById(Long.valueOf(id));
@@ -50,7 +49,7 @@ public class ShopController {
     @PostMapping
     public ResponseEntity<ShopDTO> save(@RequestBody @Valid ShopDTO shopDTO,
                                         @CurrentUser UserPrincipal userPrincipal,
-                                            BindingResult bindingResult) {
+                                        BindingResult bindingResult) {
         checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
 
         final String userEmail = userPrincipal.getEmail();
@@ -69,8 +68,8 @@ public class ShopController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ShopDTO> update(@PathVariable("id") String id,
-                                              @RequestBody @Valid ShopDTO shopDTO,
-                                              BindingResult bindingResult) {
+                                          @RequestBody @Valid ShopDTO shopDTO,
+                                          BindingResult bindingResult) {
         checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
         shopDTO.setId(Long.valueOf(id));
         ShopDTO shop = shopService.update(shopDTO);

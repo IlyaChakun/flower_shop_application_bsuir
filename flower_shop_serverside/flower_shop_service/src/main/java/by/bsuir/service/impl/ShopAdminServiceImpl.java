@@ -1,17 +1,13 @@
 package by.bsuir.service.impl;
 
 import by.bsuir.dto.mapper.user.ShopAdminMapperDTO;
-import by.bsuir.dto.model.user.ClientDTO;
 import by.bsuir.dto.model.user.ShopAdminDTO;
-import by.bsuir.entity.user.Client;
 import by.bsuir.entity.user.ShopAdmin;
 import by.bsuir.payload.exception.ResourceNotFoundException;
 import by.bsuir.repository.api.user.ShopAdminRepository;
 import by.bsuir.service.api.ShopAdminService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
