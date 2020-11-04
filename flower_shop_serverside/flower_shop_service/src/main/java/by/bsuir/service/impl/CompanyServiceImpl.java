@@ -9,6 +9,8 @@ import by.bsuir.payload.exception.ResourceNotFoundException;
 import by.bsuir.repository.api.core.CompanyRepository;
 import by.bsuir.service.api.CompanyService;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -18,18 +20,23 @@ import java.util.Optional;
 @AllArgsConstructor
 public class CompanyServiceImpl implements CompanyService {
 
+    private static final Logger logger = LoggerFactory.getLogger(CompanyServiceImpl.class);
+
     private final CompanyRepository companyRepository;
     private final CompanyMapperDTO companyMapper;
 
     @Override
     @Transactional
     public CompanyDTO save(CompanyDTO companyDTO) {
+        logger.info("Save company: " + companyDTO);
+
         return companyMapper.toDto(companyRepository.save(companyMapper.toEntity(companyDTO)));
     }
 
     @Override
     @Transactional
     public CompanyDTO update(CompanyDTO companyDTO) {
+        logger.info("update company: " + companyDTO);
 
         Company company = companyMapper.toEntity(companyDTO);
 
@@ -39,13 +46,19 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public CompanyDTO findById(Long id) {
         Company company = companyRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Company with id=" + id + " not found!"));
+                .orElseThrow(() -> {
+                            logger.error("Company with id=" + id + " not found!");
+                            return new ResourceNotFoundException("Company with id=" + id + " not found!");
+                        }
+                );
 
         return companyMapper.toDto(company);
     }
 
     @Override
     public CompanyDTO findByName(String name) {
+        logger.info("search by company name: " + name);
+
         return companyMapper.toDto(companyRepository.findByName(name));
     }
 }
