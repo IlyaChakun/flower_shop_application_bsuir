@@ -19,15 +19,15 @@ import java.util.List;
 @Setter
 public class Shop extends AbstractEntity {
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Contacts contacts;
 
     private WorkingHours workingHours;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Company company;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<AbstractFlowerProduct> shopProducts = new ArrayList<>();
 
 
