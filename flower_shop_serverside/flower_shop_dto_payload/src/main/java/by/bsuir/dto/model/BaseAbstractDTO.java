@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 @Getter
 @Setter
-@EqualsAndHashCode
+//@EqualsAndHashCode
 @NoArgsConstructor
 public class BaseAbstractDTO implements Serializable {
 

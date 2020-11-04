@@ -4,6 +4,8 @@ package by.bsuir.exception.handler;
 import by.bsuir.exception.IllegalRequestException;
 import by.bsuir.payload.exception.AbstractException;
 import by.bsuir.payload.exception.ErrorMessage;
+import by.bsuir.payload.exception.ResourceNotFoundException;
+import by.bsuir.payload.exception.ServiceException;
 import by.bsuir.security.exception.AccessTokenException;
 import by.bsuir.security.exception.ConfirmationTokeBrokenLinkException;
 import by.bsuir.security.exception.InvalidEmailException;
@@ -53,17 +55,28 @@ public class DefaultExceptionHandler {
                 HttpStatus.BAD_REQUEST);
     }
 
-//    @ExceptionHandler({ResourceNotFoundException.class})
-//    public ResponseEntity<ErrorMessage> handleResourceNotFound(ResourceNotFoundException e) {
-//        /*
-//         * Exception occurs when passed id is null. Status 404.
-//         */
-//        logger.error(e.getMessage());
-//        e.printStackTrace();
-//        String message = Objects.isNull(e.getMessage()) ? "" : e.getMessage();
-//        return new ResponseEntity<>(new ErrorMessage("Resource not found! " + message), HttpStatus.NOT_FOUND);
-//    }
-//
+    @ExceptionHandler({ResourceNotFoundException.class})
+    public ResponseEntity<ErrorMessage> handleResourceNotFound(ResourceNotFoundException e) {
+        /*
+         * Exception occurs when passed id is null. Status 404.
+         */
+        logger.error(e.getMessage());
+        String message = Objects.isNull(e.getMessage()) ? "" : e.getMessage();
+        return new ResponseEntity<>(
+                new ErrorMessage(HttpStatus.BAD_REQUEST.value(), "Resource not found!", message),
+                HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({ServiceException.class})
+    public ResponseEntity<ErrorMessage> handleServiceException(ServiceException e) {
+        /* Handles service exception. Status code 400. */
+        logger.error(e.getMessage());
+        String message = Objects.isNull(e.getMessage()) ? "" : e.getMessage();
+        return new ResponseEntity<>(
+                new ErrorMessage(HttpStatus.BAD_REQUEST.value(), "Resource not found!", message),
+                HttpStatus.BAD_REQUEST);
+    }
+
 //    @ExceptionHandler({ServiceException.class, ControllerException.class})
 //    public ResponseEntity<ErrorMessage> handleServiceException(Exception e) {
 //        /* Handles service exception. Status code 400. */

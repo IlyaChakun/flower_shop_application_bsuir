@@ -7,7 +7,6 @@ import lombok.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
 public class ContactsDTO extends BaseAbstractDTO {
 
     private String firstPhoneNumber;

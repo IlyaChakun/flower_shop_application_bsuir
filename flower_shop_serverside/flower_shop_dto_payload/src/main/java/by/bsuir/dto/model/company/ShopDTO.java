@@ -11,7 +11,6 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
 public class ShopDTO extends AbstractDTO {
 
     private ContactsDTO contacts;

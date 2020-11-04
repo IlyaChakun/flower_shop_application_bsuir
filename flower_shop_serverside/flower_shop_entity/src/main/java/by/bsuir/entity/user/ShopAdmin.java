@@ -17,6 +17,6 @@ import javax.persistence.Table;
 @NoArgsConstructor
 public class ShopAdmin extends AbstractUser {
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private Company company;
 }

@@ -5,13 +5,13 @@ import by.bsuir.dto.model.user.ShopAdminDTO;
 import by.bsuir.entity.company.CompanyLegalAddress;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
 public class CompanyDTO extends AbstractDTO {
 
     private ShopAdminDTO shopAdmin;
@@ -28,7 +28,7 @@ public class CompanyDTO extends AbstractDTO {
 
     // private Image logo;
 
-    private List<ShopDTO> shops;
+    private List<ShopDTO> shops = new ArrayList<>();
 
 
 }
