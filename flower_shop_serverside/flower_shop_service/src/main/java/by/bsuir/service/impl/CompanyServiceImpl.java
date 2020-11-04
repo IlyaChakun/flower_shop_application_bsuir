@@ -44,7 +44,7 @@ public class CompanyServiceImpl implements CompanyService {
 
         Company company = companyMapper.toEntity(companyDTO);
         company.setShopAdmin(shopAdmin);
-//        shopAdmin.setCompany(company);
+        shopAdmin.setCompany(company);
 
         Company savedCompany = companyRepository.save(company);
 
