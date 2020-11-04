@@ -1,5 +1,8 @@
 package by.bsuir.service.core;
 
-public interface CrudService<T> extends SaveUpdateService<T>, DeleteService<T>, SearchCrudService<T> {
+import by.bsuir.service.core.base.DeleteOperationService;
+import by.bsuir.service.core.base.SaveUpdateService;
+
+public interface CrudService<T> extends SaveUpdateService<T>, DeleteOperationService<T>, SearchCrudService<T> {
 
 }

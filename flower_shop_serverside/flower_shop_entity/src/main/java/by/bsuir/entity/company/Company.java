@@ -19,7 +19,7 @@ import java.util.Set;
 @Setter
 public class Company extends AbstractEntity {
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private ShopAdmin shopAdmin;
 
     @Column(name = "name", length = 48)
@@ -31,7 +31,7 @@ public class Company extends AbstractEntity {
     @Column(name = "licence_number", length = 48)
     private String licenceNumber;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Contacts contacts;
 
     private CompanyLegalAddress companyLegalAddress;
@@ -46,6 +46,5 @@ public class Company extends AbstractEntity {
             fetch = FetchType.LAZY,
             mappedBy = "company")
     private Set<Shop> shops = new HashSet<>();
-
 
 }
