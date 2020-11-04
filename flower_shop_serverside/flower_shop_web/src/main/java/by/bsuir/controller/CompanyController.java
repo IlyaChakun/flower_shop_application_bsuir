@@ -12,9 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
-
-import java.net.URL;
 
 import static by.bsuir.controller.ControllerHelper.checkBindingResultAndThrowExceptionIfInvalid;
 
@@ -28,7 +25,7 @@ public class CompanyController {
 
     @GetMapping("/{name}")
     public ResponseEntity<CompanyDTO> findCompanyByName(@PathVariable("name") String name,
-                                                      BindingResult bindingResult) {
+                                                        BindingResult bindingResult) {
         checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
 
         CompanyDTO company = companyService.findByName(name);
@@ -58,5 +55,6 @@ public class CompanyController {
         CompanyDTO company = companyService.update(companyDTO);
         return ResponseEntity.ok(company);
     }
+
 
 }
