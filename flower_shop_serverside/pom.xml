@@ -224,7 +224,7 @@
 
 
     <build>
-        <finalName>logisticApplication</finalName>
+        <finalName>flower_shop_application</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
