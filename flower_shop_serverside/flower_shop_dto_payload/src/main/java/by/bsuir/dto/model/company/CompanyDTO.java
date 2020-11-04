@@ -5,14 +5,15 @@ import by.bsuir.dto.model.user.ShopAdminDTO;
 import by.bsuir.entity.company.CompanyLegalAddress;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
 
 
-@AllArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
 public class CompanyDTO extends AbstractDTO {
 
     private ShopAdminDTO shopAdmin;
@@ -25,7 +26,7 @@ public class CompanyDTO extends AbstractDTO {
 
     private ContactsDTO contacts;
 
-    private CompanyLegalAddress companyLegalAddress;
+    private CompanyLegalAddressDTO companyLegalAddress;
 
     // private Image logo;
 
