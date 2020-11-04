@@ -54,7 +54,7 @@ public class ShopServiceImpl implements ShopService {
     @Override
     @Transactional
     public ShopDTO save(ShopDTO shopDTO) {
-        logger.info("Save company: " + shopDTO);
+        logger.info("Save company: " + shopDTO.toString());
 
         return shopMapper.toDto(shopRepository.save(shopMapper.toEntity(shopDTO)));
     }
@@ -63,7 +63,7 @@ public class ShopServiceImpl implements ShopService {
     @Override
     @Transactional
     public ShopDTO update(ShopDTO shopDTO) {
-        logger.info("update company: " + shopDTO);
+        logger.info("update company: " + shopDTO.toString());
 
         Shop shopFromDb = shopRepository.findById(shopDTO.getId())
                 .orElseThrow(() -> {

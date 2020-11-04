@@ -2,10 +2,7 @@ package by.bsuir.dto.model.company;
 
 import by.bsuir.dto.model.AbstractDTO;
 import by.bsuir.entity.product.AbstractFlowerProduct;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +11,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class ShopDTO extends AbstractDTO {
 
     private ContactsDTO contacts;

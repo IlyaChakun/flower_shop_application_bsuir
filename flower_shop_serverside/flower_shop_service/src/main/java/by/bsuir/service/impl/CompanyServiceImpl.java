@@ -28,7 +28,7 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     @Transactional
     public CompanyDTO save(CompanyDTO companyDTO) {
-        logger.info("Save company: " + companyDTO);
+        logger.info("Save company: " + companyDTO.toString());
 
         return companyMapper.toDto(companyRepository.save(companyMapper.toEntity(companyDTO)));
     }
@@ -36,7 +36,7 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     @Transactional
     public CompanyDTO update(CompanyDTO companyDTO) {
-        logger.info("update company: " + companyDTO);
+        logger.info("update company: " + companyDTO.toString());
 
         Company company = companyMapper.toEntity(companyDTO);
 

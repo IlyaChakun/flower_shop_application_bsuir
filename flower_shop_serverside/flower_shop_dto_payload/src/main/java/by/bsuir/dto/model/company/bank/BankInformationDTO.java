@@ -1,16 +1,16 @@
 package by.bsuir.dto.model.company.bank;
 
-import by.bsuir.dto.model.AbstractDTO;
+import by.bsuir.dto.model.BaseAbstractDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.persistence.Embeddable;
+import lombok.ToString;
 
 @Getter
 @Setter
 @NoArgsConstructor
-public class BankInformationDTO extends AbstractDTO {
+@ToString
+public class BankInformationDTO extends BaseAbstractDTO {
 
     private String bankName;
 
