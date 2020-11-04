@@ -20,7 +20,7 @@ public class BankInformation {
     private String bankCode;//идентификациооный номер банка в системе
 
     @Column(name = "postal_code")
-    private Short postalCode;
+    private String postalCode;
 
     @Column(name = "address")
     private String address;
