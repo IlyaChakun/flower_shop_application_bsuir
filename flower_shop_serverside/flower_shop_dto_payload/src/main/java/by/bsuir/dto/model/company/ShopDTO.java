@@ -1,17 +1,14 @@
 package by.bsuir.dto.model.company;
 
 import by.bsuir.dto.model.AbstractDTO;
-import by.bsuir.entity.product.AbstractFlowerProduct;
-import lombok.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
 public class ShopDTO extends AbstractDTO {
 
     private ContactsDTO contacts;

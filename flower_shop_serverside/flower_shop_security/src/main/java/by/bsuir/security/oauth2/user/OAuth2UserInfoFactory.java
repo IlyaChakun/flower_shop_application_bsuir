@@ -8,6 +8,9 @@ import java.util.Map;
 
 public final class OAuth2UserInfoFactory {
 
+    private OAuth2UserInfoFactory() {
+    }
+
     public static OAuth2UserInfo getOAuth2UserInfo(final String registrationId,
                                                    final Map<String, Object> attributes) {
         if (registrationId.equalsIgnoreCase(SupportedAuthProvider.google.toString())) {
@@ -17,8 +20,5 @@ public final class OAuth2UserInfoFactory {
         } else {
             throw new OAuth2AuthenticationProcessingException("Sorry! Login with " + registrationId + " is not supported yet.");
         }
-    }
-
-    private OAuth2UserInfoFactory() {
     }
 }

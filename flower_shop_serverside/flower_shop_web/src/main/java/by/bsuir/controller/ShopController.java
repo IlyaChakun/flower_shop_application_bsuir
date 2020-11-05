@@ -1,6 +1,10 @@
 package by.bsuir.controller;
 
 import by.bsuir.dto.model.company.ShopDTO;
+import by.bsuir.dto.model.user.ShopAdminDTO;
+import by.bsuir.security.core.CurrentUser;
+import by.bsuir.security.core.UserPrincipal;
+import by.bsuir.service.api.ShopAdminService;
 import by.bsuir.service.api.ShopService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -12,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
-
 import java.util.List;
 
 import static by.bsuir.controller.ControllerHelper.checkBindingResultAndThrowExceptionIfInvalid;
@@ -24,10 +27,12 @@ import static by.bsuir.controller.ControllerHelper.checkBindingResultAndThrowExc
 public class ShopController {
 
     private final ShopService shopService;
+    private final ShopAdminService shopAdminService;
+
 
     @GetMapping("/{id}")
     public ResponseEntity<ShopDTO> findById(@PathVariable("id") String id,
-                                                BindingResult bindingResult) {
+                                            BindingResult bindingResult) {
         checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
 
         ShopDTO shop = shopService.findById(Long.valueOf(id));
@@ -43,8 +48,15 @@ public class ShopController {
 
     @PostMapping
     public ResponseEntity<ShopDTO> save(@RequestBody @Valid ShopDTO shopDTO,
-                                            BindingResult bindingResult) {
+                                        @CurrentUser UserPrincipal userPrincipal,
+                                        BindingResult bindingResult) {
         checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
+
+        final String userEmail = userPrincipal.getEmail();
+        ShopAdminDTO shopAdminDTO = shopAdminService.findByEmail(userEmail);
+        shopDTO.getCompany().setShopAdmin(shopAdminDTO);
+        shopDTO.setCompany(shopAdminDTO.getCompany());
+
         ShopDTO shop = shopService.save(shopDTO);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
@@ -56,8 +68,8 @@ public class ShopController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ShopDTO> update(@PathVariable("id") String id,
-                                              @RequestBody @Valid ShopDTO shopDTO,
-                                              BindingResult bindingResult) {
+                                          @RequestBody @Valid ShopDTO shopDTO,
+                                          BindingResult bindingResult) {
         checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
         shopDTO.setId(Long.valueOf(id));
         ShopDTO shop = shopService.update(shopDTO);

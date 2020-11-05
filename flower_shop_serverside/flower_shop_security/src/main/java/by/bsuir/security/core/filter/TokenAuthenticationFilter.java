@@ -27,10 +27,9 @@ import java.util.Objects;
 @AllArgsConstructor
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
+    private static final Logger logger = LoggerFactory.getLogger(TokenAuthenticationFilter.class);
     private final TokenProvider tokenProvider;
     private final CustomUserDetailsService userDetailsService;
-
-    private static final Logger logger = LoggerFactory.getLogger(TokenAuthenticationFilter.class);
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,

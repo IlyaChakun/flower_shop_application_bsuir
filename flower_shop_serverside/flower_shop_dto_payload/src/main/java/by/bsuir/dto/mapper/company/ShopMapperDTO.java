@@ -1,9 +1,7 @@
 package by.bsuir.dto.mapper.company;
 
 import by.bsuir.dto.mapper.core.AbstractMapperDTO;
-import by.bsuir.dto.model.company.CompanyDTO;
 import by.bsuir.dto.model.company.ShopDTO;
-import by.bsuir.entity.company.Company;
 import by.bsuir.entity.company.Shop;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

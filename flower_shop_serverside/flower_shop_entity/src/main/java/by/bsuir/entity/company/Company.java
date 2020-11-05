@@ -19,7 +19,7 @@ import java.util.Set;
 @Setter
 public class Company extends AbstractEntity {
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private ShopAdmin shopAdmin;
 
     @Column(name = "name", length = 48)

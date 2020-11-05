@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -54,7 +53,7 @@ public class ShopServiceImpl implements ShopService {
     @Override
     @Transactional
     public ShopDTO save(ShopDTO shopDTO) {
-        logger.info("Save company: " + shopDTO.toString());
+        logger.info("Save company: ");
 
         return shopMapper.toDto(shopRepository.save(shopMapper.toEntity(shopDTO)));
     }
@@ -63,7 +62,7 @@ public class ShopServiceImpl implements ShopService {
     @Override
     @Transactional
     public ShopDTO update(ShopDTO shopDTO) {
-        logger.info("update company: " + shopDTO.toString());
+        logger.info("update company: ");
 
         Shop shopFromDb = shopRepository.findById(shopDTO.getId())
                 .orElseThrow(() -> {
