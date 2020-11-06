@@ -6,6 +6,8 @@ import by.bsuir.security.core.TokenProvider;
 import by.bsuir.security.dto.AuthTokenResponse;
 import by.bsuir.security.exception.BadRequestException;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -23,6 +25,8 @@ import java.util.Optional;
 @AllArgsConstructor
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
+    private static final Logger logger = LoggerFactory.getLogger(OAuth2AuthenticationSuccessHandler.class);
+
     private final TokenProvider tokenProvider;
     private final ApplicationTokenSecurityProperties applicationTokenSecurityProperties;
     private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
@@ -32,6 +36,8 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
                                         final HttpServletResponse response,
                                         final Authentication authentication) throws IOException {
         final String targetUrl = determineTargetUrl(request, response, authentication);
+
+        logger.info("On auth success  url: " + targetUrl);
 
         if (response.isCommitted()) {
             logger.debug("Response has already been committed. Unable to redirect to " + targetUrl);
