@@ -7,7 +7,23 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.7em;
+  }
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+html, body, #root {
+  height: 100%;
+}
+
+#root{
+  display: flex;
+  flex-direction: column;
+}
+
