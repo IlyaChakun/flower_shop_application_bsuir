@@ -73,17 +73,17 @@
 
 
 
-Стэк на фронт: 
+	Стэк на фронт: 
 React, antd, redux, oauth2 support, webpack, bootstrap (optional)
 
-Стэк на бэк:
+	Стэк на бэк:
 Spring boot, web, data, security, ouath2, mail, validation, modelMapper, lombok, openpdf.
 
 DB: mysql
 
 
-Info: 
-Antd components: https://ant.design/components/overview/
-Oauth2 intro:    https://www.digitalocean.com/community/tutorials/oauth-2-ru
-Example: 	 https://github.com/YuraLu/SpringBoot-JPA-Data-OAuth2-Security-Sensor-App/tree/master/monintorsensor_clientside
-Redux info:	 https://rajdee.gitbooks.io/redux-in-russian/content/
+	Info: 
+1. Antd components: https://ant.design/components/overview/
+2. Oauth2 intro:    https://www.digitalocean.com/community/tutorials/oauth-2-ru
+3. Example: 	 https://github.com/YuraLu/SpringBoot-JPA-Data-OAuth2-Security-Sensor-App/tree/master/monintorsensor_clientside
+4. Redux info:	 https://rajdee.gitbooks.io/redux-in-russian/content/

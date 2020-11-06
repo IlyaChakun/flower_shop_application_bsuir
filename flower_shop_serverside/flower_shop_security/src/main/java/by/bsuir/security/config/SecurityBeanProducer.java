@@ -1,8 +1,8 @@
 package by.bsuir.security.config;
 
+import by.bsuir.security.core.TokenProvider;
 import by.bsuir.security.core.filter.ExceptionHandlerFilter;
 import by.bsuir.security.core.filter.TokenAuthenticationFilter;
-import by.bsuir.security.core.TokenProvider;
 import by.bsuir.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
 import by.bsuir.security.service.impl.CustomUserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
