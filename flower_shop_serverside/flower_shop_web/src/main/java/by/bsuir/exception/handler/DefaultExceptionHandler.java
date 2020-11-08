@@ -69,20 +69,12 @@ public class DefaultExceptionHandler {
 
     @ExceptionHandler({ServiceException.class})
     public ResponseEntity<ErrorMessage> handleServiceException(ServiceException e) {
-        /* Handles service exception. Status code 400. */
-        logger.error(e.getMessage());
-        String message = Objects.isNull(e.getMessage()) ? "" : e.getMessage();
+        /* Handles service exception. */
+        logger.error(e.getError());
+        String message = Objects.isNull(e.getError()) ? "" : e.getError();
         return new ResponseEntity<>(
-                new ErrorMessage(HttpStatus.BAD_REQUEST.value(), "Resource not found!", message),
-                HttpStatus.BAD_REQUEST);
+                new ErrorMessage(e.getCode(), message, e.getErrorDescription()), HttpStatus.valueOf(e.getCode()));
     }
-
-//    @ExceptionHandler({ServiceException.class, ControllerException.class})
-//    public ResponseEntity<ErrorMessage> handleServiceException(Exception e) {
-//        /* Handles service exception. Status code 400. */
-//        logger.error(e.getMessage());
-//        return new ResponseEntity<>(new ErrorMessage(e.getMessage()), HttpStatus.BAD_REQUEST);
-//    }
 
     @ExceptionHandler(IllegalRequestException.class)
     public ResponseEntity<List<String>> handleValidation(IllegalRequestException e) {

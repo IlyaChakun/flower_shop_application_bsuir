@@ -10,5 +10,4 @@ public interface ShopService extends
         CustomCrudService<ShopDTO>,
         DeleteOperationService<ShopDTO>,
         FindAllOperationService<ShopDTO> {
-
 }
