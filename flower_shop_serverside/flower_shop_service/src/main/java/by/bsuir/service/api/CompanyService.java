@@ -7,4 +7,6 @@ import by.bsuir.service.core.CustomCrudService;
 public interface CompanyService extends CustomCrudService<CompanyDTO> {
 
     CompanyDTO findByName(String name);
+
+    CompanyDTO update(CompanyDTO company, String name);
 }

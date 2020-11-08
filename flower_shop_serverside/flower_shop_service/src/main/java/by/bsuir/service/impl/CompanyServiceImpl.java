@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -31,18 +32,28 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     @Transactional
     public CompanyDTO save(CompanyDTO companyDTO) {
+
         if (isCompanyExistByName(companyDTO.getName())) {
-            logger.error("Company with id={} exist. Just Update it!", companyDTO.getName());
+            logger.error("Company with name={} exist. Just Update it!", companyDTO.getName());
             throw new ServiceException(HttpStatus.CONFLICT.value(),
-                    "company_already_exist",
-                    "Company with name=" + companyDTO.getName() + " exist. Just Update it!");
+                    "company_already_exists",
+                    "Company with name=" + companyDTO.getName() + " exists. Just Update it!");
         }
 
-        final String adminEmail = companyDTO.getShopAdmin().getEmail();
-        ShopAdmin shopAdmin = shopAdminRepository.getByEmail(adminEmail);
+        ShopAdmin shopAdmin = shopAdminRepository.getOne(companyDTO.getShopAdmin().getId());
+
+        if (Objects.nonNull(shopAdmin.getCompany())){
+            logger.error("You try to add another one company! It is not possible. Only one company may exist. " +
+                    "And you have one with name={} already exists. Just Update it!", shopAdmin.getCompany().getName());
+            throw new ServiceException(HttpStatus.CONFLICT.value(),
+                    "company_already_exists",
+                    "You try to add another one company! It is not possible. Only one company may exist. " +
+                            "And you have one with name=" + shopAdmin.getCompany().getName() + " already exists. Just Update it!");
+        }
 
         Company company = companyMapper.toEntity(companyDTO);
         company.setShopAdmin(shopAdmin);
+        company.getShopAdmin().setCompany(company);
         shopAdmin.setCompany(company);
 
         Company savedCompany = companyRepository.save(company);
@@ -65,6 +76,8 @@ public class CompanyServiceImpl implements CompanyService {
         Company companyToSave = companyMapper.toEntity(companyDTO);
 
         return companyMapper.toDto(companyRepository.save(companyToSave));
+
+        //TODO contacts doubles
     }
 
     @Override
@@ -89,6 +102,20 @@ public class CompanyServiceImpl implements CompanyService {
         });
 
         return companyMapper.toDto(company);
+    }
+
+    @Override
+    public CompanyDTO update(CompanyDTO company, String name) {
+        if (!isCompanyExistByName(name)) {
+            logger.error("Company with name={} doesn't exist!", name);
+            throw new ServiceException(HttpStatus.NOT_FOUND.value(),
+                    "company_not_found",
+                    "Company with name=" + name + " doesn't exist!");
+        }
+
+        Company companyToSave = companyMapper.toEntity(company);
+
+        return companyMapper.toDto(companyRepository.save(companyToSave));
     }
 
 
