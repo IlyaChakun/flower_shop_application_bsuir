@@ -8,7 +8,6 @@ import lombok.Setter;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,12 +22,14 @@ public class CompanyDTO extends AbstractDTO {
     private ShopAdminDTO shopAdmin;
 
     @NotBlank(message = "Название организации не может быть пустым")
+    @Size(max = 48, message = "Название организации не более 48 символов!")
     private String name;
 
-    @Size(min = 0, max = 512, message = "Описание для организации не более 512 символов!")
+    @NotBlank
+    @Size(max = 48, message = "Описание для организации не более 48 символов!")
     private String description;
 
-    @NotBlank(message = "Номер лицензии организации не может быть пустым")
+    @Size(max = 48, message = "Номер лицензии организации не более 48 символов!")
     private String licenceNumber;
 
     @Valid
