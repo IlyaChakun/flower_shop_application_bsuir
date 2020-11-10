@@ -24,6 +24,7 @@ import static by.bsuir.controller.ControllerHelper.checkBindingResultAndThrowExc
 @RestController
 @RequestMapping("/user/admin/company/shop")
 @AllArgsConstructor
+@CrossOrigin(origins = "*")
 public class ShopController {
 
     private final ShopService shopService;
@@ -47,15 +48,15 @@ public class ShopController {
 
 
     @PostMapping
-    public ResponseEntity<ShopDTO> save(@RequestBody @Valid ShopDTO shopDTO,
+    public ResponseEntity<ShopDTO> saveShopToCompany(@RequestBody @Valid ShopDTO shopDTO,
                                         @CurrentUser UserPrincipal userPrincipal,
                                         BindingResult bindingResult) {
         checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
 
         final String userEmail = userPrincipal.getEmail();
         ShopAdminDTO shopAdminDTO = shopAdminService.findByEmail(userEmail);
-        shopDTO.getCompany().setShopAdmin(shopAdminDTO);
         shopDTO.setCompany(shopAdminDTO.getCompany());
+        shopDTO.getCompany().getShops().add(shopDTO);
 
         ShopDTO shop = shopService.save(shopDTO);
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -82,6 +83,5 @@ public class ShopController {
         shopService.delete(Long.valueOf(id));
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
 
 }

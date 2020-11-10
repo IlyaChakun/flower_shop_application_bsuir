@@ -23,6 +23,7 @@ import static by.bsuir.controller.ControllerHelper.checkBindingResultAndThrowExc
 @RestController
 @RequestMapping("/user/admin/company")
 @AllArgsConstructor
+@CrossOrigin(origins = "*")
 public class CompanyController {
 
     private final CompanyService companyService;
@@ -66,9 +67,9 @@ public class CompanyController {
                                                     @RequestBody @Valid CompanyDTO companyDTO,
                                                     BindingResult bindingResult) {
         checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
-        CompanyDTO company = companyService.update(companyDTO);
+
+        CompanyDTO company = companyService.update(companyDTO, name);
         return ResponseEntity.ok(company);
     }
-
 
 }
