@@ -1,16 +1,19 @@
 //package by.bsuir.service.impl;
 //
-//import by.bsuir.dto.model.basket.AddProductBasketDTO;
+//import by.bsuir.dto.model.basket.AddUpdateProductBasketDTO;
 //import by.bsuir.dto.model.basket.BasketDTO;
 //import by.bsuir.dto.model.basket.CountedProductBasketDTO;
 //import by.bsuir.dto.model.basket.UpdateProductBasketDTO;
 //import by.bsuir.entity.basket.Basket;
 //import by.bsuir.entity.product.AbstractFlowerProduct;
 //import by.bsuir.entity.product.bouqet.FlowerBouquet;
+//import by.bsuir.entity.product.common.FlowerLengthCost;
 //import by.bsuir.entity.product.flower.Flower;
 //import by.bsuir.entity.user.Client;
 //import by.bsuir.payload.exception.ResourceNotFoundException;
 //import by.bsuir.payload.exception.ServiceException;
+//import by.bsuir.repository.api.core.FlowerBouquetRepository;
+//import by.bsuir.repository.api.core.FlowerRepository;
 //import by.bsuir.repository.api.user.ClientRepository;
 //import by.bsuir.service.api.BasketService;
 //import lombok.AllArgsConstructor;
@@ -23,6 +26,7 @@
 //import java.math.BigDecimal;
 //import java.util.*;
 //import java.util.stream.Collectors;
+//import java.util.stream.DoubleStream;
 //
 //@Service
 //@AllArgsConstructor
@@ -31,27 +35,30 @@
 //    private static final Logger logger = LoggerFactory.getLogger(BasketServiceImpl.class);
 //
 //    private final ClientRepository clientRepository;
+//    private final FlowerRepository flowerRepository;
+//    private final FlowerBouquetRepository flowerBouquetRepository;
 //
 //
 //    @Override
 //    @Transactional
-//        public BasketDTO addProduct(AddProductBasketDTO addProductBasketDTO) {
-//        Client client = findUserById(addProductBasketDTO.getUserId());
-//        AbstractFlowerProduct product = resolveAbstractFlowerProduct(addProductBasketDTO.getProductId());
+//    public BasketDTO addProduct(AddUpdateProductBasketDTO addUpdateProductBasketDTO) {
+//        Client client = findUserById(addUpdateProductBasketDTO.getClientId());
+//        AbstractFlowerProduct product = resolveAbstractFlowerProduct(addUpdateProductBasketDTO.getProductId());
+//
+//        List<AbstractFlowerProduct> productsToAdd = new ArrayList<>();
+//
+//        for (int i = 0; i < addUpdateProductBasketDTO.getQuantity(); i++) {
+//            productsToAdd.add(product);
+//        }
 //
 //        Basket basket = client.getBasket();
 //        List<AbstractFlowerProduct> basketAbstractFlowerProducts = basket.getBasketProducts();
-//        basketAbstractFlowerProducts.add(product);
-//
-////        BigDecimal totalPrice = basket.getTotalPrice();
-////        basket.setTotalPrice(totalPrice.add(product.getPrice()));
-////
-////        return buildCountedProductList(new ArrayList<>(basketProducts));
+//        basketAbstractFlowerProducts.addAll(productsToAdd);
 //
 //        BigDecimal totalPrice = basket.getTotalPrice();
-//        Integer productAmount = addProductBasketDTO.getQuantity();
-//        Double price = addProductBasketDTO.getProduct().getFlowerLengthCosts().stream().findFirst().get().getPrice();
-//        Double cost = price * productAmount;
+//        Integer productAmount = addUpdateProductBasketDTO.getQuantity();
+//        Double price = product.getFlowerLengthCosts().stream().findFirst().get().getPrice();
+//        double cost = price * productAmount;
 //
 //        basket.setTotalPrice(totalPrice.add(BigDecimal.valueOf(cost)));
 //
@@ -75,16 +82,15 @@
 //            }
 //        }
 //
-//
 //        return product;
 //    }
 //
 //
 //    @Override
 //    @Transactional
-//    public BasketDTO updateProduct(UpdateProductBasketDTO updateProductBasketDTO) {
-//        Client client = findUserById(updateProductBasketDTO.getUserId());
-//        AbstractFlowerProduct product = findAbstractFlowerProductById(updateProductBasketDTO.getProductId());
+//    public BasketDTO updateProduct(AddUpdateProductBasketDTO addUpdateProductBasketDTO) {
+//        Client client = findUserById(addUpdateProductBasketDTO.getClientId());
+//        AbstractFlowerProduct product = findAbstractFlowerProductById(addUpdateProductBasketDTO.getProductId());
 //
 //        Basket basket = client.getBasket();
 //        List<AbstractFlowerProduct> basketAbstractFlowerProducts = basket.getBasketProducts();
@@ -92,15 +98,15 @@
 //        BigDecimal previousTotalPrice = basket.getTotalPrice();
 //        int previousQuantity = Collections.frequency(basketAbstractFlowerProducts, product);
 //
-//        calculateBasketAbstractFlowerProductCount(updateProductBasketDTO, product, basket, basketAbstractFlowerProducts, previousTotalPrice, previousQuantity);
+//        calculateBasketAbstractFlowerProductCount(addUpdateProductBasketDTO, product, basket, basketAbstractFlowerProducts, previousTotalPrice, previousQuantity);
 //
 //        return buildCountedAbstractFlowerProductList(basketAbstractFlowerProducts);
 //    }
 //
 //    @Override
 //    @Transactional
-//    public BasketDTO deleteProduct(AddProductBasketDTO addProductBasketDTO) {
-//        Client client = findUserById(addProductBasketDTO.getUserId());
+//    public BasketDTO deleteProduct(AddUpdateProductBasketDTO addProductBasketDTO) {
+//        Client client = findUserById(addProductBasketDTO.getClientId());
 //        AbstractFlowerProduct product = findAbstractFlowerProductById(addProductBasketDTO.getProductId());
 //
 //        Basket basket = client.getBasket();
@@ -110,7 +116,10 @@
 //        basketAbstractFlowerProducts.removeIf(basketAbstractFlowerProduct -> basketAbstractFlowerProduct.equals(product));
 //
 //        BigDecimal previousTotalPrice = basket.getTotalPrice();
-//        BigDecimal newTotalPrice = previousTotalPrice.subtract(product.getPrice().multiply(BigDecimal.valueOf(quantity)));
+//        BigDecimal newTotalPrice = previousTotalPrice
+//                .subtract(
+//                        BigDecimal.valueOf(product.getFlowerLengthCosts().get(0).getPrice())
+//                                .multiply(BigDecimal.valueOf(quantity)));
 //        basket.setTotalPrice(newTotalPrice);
 //
 //
@@ -119,7 +128,7 @@
 //
 //    @Override
 //    @Transactional
-//    public BasketDTO findAll(Long userId) {
+//    public BasketDTO findBasket(Long userId) {
 //        Client client = findUserById(userId);
 //        Basket basket = client.getBasket();
 //        List<AbstractFlowerProduct> basketAbstractFlowerProducts = basket.getBasketProducts();
@@ -172,10 +181,17 @@
 //    }
 //
 //    private BigDecimal calculateTotalPrice(List<AbstractFlowerProduct> products) {
-//        return products
-//                .stream()
-//                .map(AbstractFlowerProduct::getPrice)
-//                .reduce(BigDecimal.ZERO, BigDecimal::add);
+//
+//        double totalSum = 0.0;
+//
+//        for (AbstractFlowerProduct product : products) {
+//            DoubleStream doubleStream = product.getFlowerLengthCosts().stream().mapToDouble(FlowerLengthCost::getPrice);
+//            double total = doubleStream.sum();
+//            totalSum += total;
+//        }
+//
+//        return BigDecimal.valueOf(totalSum);
+//
 //    }
 //
 //    private Client findUserById(Long userId) {
@@ -184,7 +200,16 @@
 //    }
 //
 //    private AbstractFlowerProduct findAbstractFlowerProductById(Long productId) {
-//        return productRepository.findById(productId)
-//                .orElseThrow(() -> new ResourceNotFoundException("No product with id=" + productId));
+//
+//        AbstractFlowerProduct product;
+//
+//        if (flowerRepository.findById(productId).isPresent()) {
+//            product = flowerRepository.getOne(productId);
+//        } else {
+//            product = flowerBouquetRepository.findById(productId)
+//                    .orElseThrow(() -> new ResourceNotFoundException("No product with id=" + productId));
+//        }
+//
+//        return product;
 //    }
 //}

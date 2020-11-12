@@ -1,11 +1,9 @@
 package by.bsuir.controller;
 
-import by.bsuir.dto.model.basket.AddProductBasketDTO;
+import by.bsuir.dto.model.basket.AddUpdateProductBasketDTO;
 import by.bsuir.dto.model.basket.BasketDTO;
-import by.bsuir.dto.model.basket.UpdateProductBasketDTO;
 import by.bsuir.service.api.BasketService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
@@ -16,7 +14,7 @@ import javax.validation.Valid;
 import static by.bsuir.controller.ControllerHelper.checkBindingResultAndThrowExceptionIfInvalid;
 
 @RestController
-@RequestMapping("/user/{userId}/basket")
+@RequestMapping("/user/{clientId}/basket")
 @AllArgsConstructor
 @CrossOrigin(origins = "*")
 public class BasketController {
@@ -26,47 +24,45 @@ public class BasketController {
 
     @PreAuthorize("hasAnyAuthority('ROLE_CLIENT')")
     @PostMapping
-    public ResponseEntity<BasketDTO> addProduct(@PathVariable("userId") Long userId,
-                                                @RequestBody @Valid AddProductBasketDTO addProductBasketDTO,
+    public ResponseEntity<BasketDTO> addProduct(@PathVariable("clientId") Long clientId,
+                                                @RequestBody @Valid AddUpdateProductBasketDTO addUpdateProductBasketDTO,
                                                 BindingResult bindingResult) {
         checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
-        addProductBasketDTO.setUserId(userId);
-        BasketDTO basketDto = basketService.addProduct(addProductBasketDTO);
+        addUpdateProductBasketDTO.setClientId(clientId);
+        BasketDTO basketDto = basketService.addProduct(addUpdateProductBasketDTO);
 
-        return new ResponseEntity<>(
-                basketDto, HttpStatus.CREATED);
+        return ResponseEntity.ok(basketDto);
     }
 
     @PreAuthorize("hasAnyAuthority('ROLE_CLIENT')")
     @PutMapping
-    public ResponseEntity<BasketDTO> updateProduct(@PathVariable("userId") Long userId,
-                                                   @RequestBody @Valid UpdateProductBasketDTO updateProductBasketDTO,
+    public ResponseEntity<BasketDTO> updateProduct(@PathVariable("clientId") Long clientId,
+                                                   @RequestBody @Valid AddUpdateProductBasketDTO addUpdateProductBasketDTO,
                                                    BindingResult bindingResult) {
         checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
-        updateProductBasketDTO.setUserId(userId);
-        BasketDTO basketDto = basketService.updateProduct(updateProductBasketDTO);
+        addUpdateProductBasketDTO.setClientId(clientId);
+        BasketDTO basketDto = basketService.updateProduct(addUpdateProductBasketDTO);
 
         return ResponseEntity.ok(basketDto);
     }
 
     @PreAuthorize("hasAnyAuthority('ROLE_CLIENT')")
     @DeleteMapping
-    public ResponseEntity<BasketDTO> deleteProduct(@PathVariable("userId") Long userId,
-                                                   @RequestBody @Valid AddProductBasketDTO addProductBasketDTO,
+    public ResponseEntity<BasketDTO> deleteProduct(@PathVariable("clientId") Long clientId,
+                                                   @RequestBody @Valid AddUpdateProductBasketDTO addUpdateProductBasketDTO,
                                                    BindingResult result) {
         checkBindingResultAndThrowExceptionIfInvalid(result);
-        addProductBasketDTO.setUserId(userId);
-        BasketDTO basketDto = basketService.deleteProduct(addProductBasketDTO);
+        addUpdateProductBasketDTO.setClientId(clientId);
+        BasketDTO basketDto = basketService.deleteProduct(addUpdateProductBasketDTO);
 
         return ResponseEntity.ok(basketDto);
     }
 
 
-
     @PreAuthorize("hasAnyAuthority('ROLE_CLIENT')")
     @GetMapping
-    public ResponseEntity<BasketDTO> findBasket(@PathVariable("userId") Long userId) {
-        BasketDTO basketDto = basketService.findAll(userId);
+    public ResponseEntity<BasketDTO> findBasket(@PathVariable("clientId") Long clientId) {
+        BasketDTO basketDto = basketService.findBasket(clientId);
         return ResponseEntity.ok(basketDto);
     }
 }
