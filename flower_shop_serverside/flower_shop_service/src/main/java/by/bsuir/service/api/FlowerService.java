@@ -9,4 +9,6 @@ import by.bsuir.service.core.base.DeleteOperationService;
 public interface FlowerService extends CustomCrudService<FlowerDTO>, DeleteOperationService<FlowerDTO> {
 
     PageWrapper<FlowerDTO> findAll(int page, int size, SearchAndSortParamDto searchAndSortParamDto);
+
+    PageWrapper<FlowerDTO> findAllFlowerTypes(int page, Integer size);
 }
