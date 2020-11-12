@@ -65,4 +65,8 @@ public class AbstractFlowerProduct extends AbstractEntity {
     private String description;
 
 
+    @Column(name="available_amount_on_stock")
+    private Integer availableAmountOnStock;
+
+
 }

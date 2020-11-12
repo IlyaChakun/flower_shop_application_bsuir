@@ -32,17 +32,15 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     @Transactional
     public CompanyDTO save(CompanyDTO companyDTO) {
-
         if (isCompanyExistByName(companyDTO.getName())) {
             logger.error("Company with name={} exist. Just Update it!", companyDTO.getName());
             throw new ServiceException(HttpStatus.CONFLICT.value(),
                     "company_already_exists",
                     "Company with name=" + companyDTO.getName() + " exists. Just Update it!");
         }
-
         ShopAdmin shopAdmin = shopAdminRepository.getOne(companyDTO.getShopAdmin().getId());
 
-        if (Objects.nonNull(shopAdmin.getCompany())){
+        if (Objects.nonNull(shopAdmin.getCompany())) {
             logger.error("You try to add another one company! It is not possible. Only one company may exist. " +
                     "And you have one with name={} already exists. Just Update it!", shopAdmin.getCompany().getName());
             throw new ServiceException(HttpStatus.CONFLICT.value(),
@@ -63,22 +61,25 @@ public class CompanyServiceImpl implements CompanyService {
         return companyMapper.toDto(savedCompany);
     }
 
+
     @Override
     @Transactional
-    public CompanyDTO update(CompanyDTO companyDTO) {
-        if (!isCompanyExistByName(companyDTO.getName())) {
-            logger.error("Company with name={} doesn't exist!", companyDTO.getName());
-            throw new ServiceException(HttpStatus.NOT_FOUND.value(),
-                    "company_not_found",
-                    "Company with name=" + companyDTO.getName() + " doesn't exist!");
-        }
+    public CompanyDTO update(CompanyDTO companyDTO, String name) {
+
+        Company company = companyRepository.findByName(name)
+                .orElseThrow(() -> {
+                    throw new ServiceException(HttpStatus.NOT_FOUND.value(),
+                            "company_not_found",
+                            "Company with name=" + name + " doesn't exist!");
+                });
 
         Company companyToSave = companyMapper.toEntity(companyDTO);
+        companyToSave.setId(company.getId());
 
         return companyMapper.toDto(companyRepository.save(companyToSave));
 
-        //TODO contacts doubles
     }
+
 
     @Override
     public CompanyDTO findById(Long id) {
@@ -92,6 +93,7 @@ public class CompanyServiceImpl implements CompanyService {
         return companyMapper.toDto(company);
     }
 
+
     @Override
     public CompanyDTO findByName(String name) {
         logger.info("search by company name: " + name);
@@ -102,20 +104,6 @@ public class CompanyServiceImpl implements CompanyService {
         });
 
         return companyMapper.toDto(company);
-    }
-
-    @Override
-    public CompanyDTO update(CompanyDTO company, String name) {
-        if (!isCompanyExistByName(name)) {
-            logger.error("Company with name={} doesn't exist!", name);
-            throw new ServiceException(HttpStatus.NOT_FOUND.value(),
-                    "company_not_found",
-                    "Company with name=" + name + " doesn't exist!");
-        }
-
-        Company companyToSave = companyMapper.toEntity(company);
-
-        return companyMapper.toDto(companyRepository.save(companyToSave));
     }
 
 

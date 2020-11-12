@@ -2,9 +2,10 @@ package by.bsuir.service.api;
 
 
 import by.bsuir.dto.model.company.CompanyDTO;
-import by.bsuir.service.core.CustomCrudService;
+import by.bsuir.service.core.base.FindOperationService;
+import by.bsuir.service.core.base.SaveOperationService;
 
-public interface CompanyService extends CustomCrudService<CompanyDTO> {
+public interface CompanyService extends SaveOperationService<CompanyDTO>, FindOperationService<CompanyDTO> {
 
     CompanyDTO findByName(String name);
 
