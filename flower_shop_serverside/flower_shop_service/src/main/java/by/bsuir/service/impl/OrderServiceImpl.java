@@ -146,7 +146,7 @@ public class OrderServiceImpl implements OrderService {
 
         Pageable pageable = PageRequest.of(page, size);
 
-        Page<Order> orders = orderRepository.findAllByClient(pageable, client);
+        Page<Order> orders = orderRepository.findAllByOrderInfoClient(pageable, client);
 
         return
                 new PageWrapper<>(
