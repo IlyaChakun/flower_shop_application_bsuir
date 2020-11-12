@@ -2,10 +2,7 @@ package by.bsuir.exception.handler;
 
 
 import by.bsuir.exception.IllegalRequestException;
-import by.bsuir.payload.exception.AbstractException;
-import by.bsuir.payload.exception.ErrorMessage;
-import by.bsuir.payload.exception.ResourceNotFoundException;
-import by.bsuir.payload.exception.ServiceException;
+import by.bsuir.payload.exception.*;
 import by.bsuir.security.exception.AccessTokenException;
 import by.bsuir.security.exception.ConfirmationTokeBrokenLinkException;
 import by.bsuir.security.exception.InvalidEmailException;
@@ -91,11 +88,18 @@ public class DefaultExceptionHandler {
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<List<String>> handleConstraintViolationException(ConstraintViolationException e) {
+    public ResponseEntity<ErrorMessageList> handleConstraintViolationException(ConstraintViolationException e) {
         logger.error(e.getMessage());
-        List<String> errors = new ArrayList<>();
-        e.getConstraintViolations().forEach(er -> errors.add(er.getMessageTemplate()));
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        List<ErrorMessage> errors = new ArrayList<>();
+        e.getConstraintViolations().forEach(er -> errors.add(
+                new ErrorMessage(400, "constraint_error",
+                        er.getMessageTemplate() +
+                                " " + er.getPropertyPath() +
+                                " " + er.getInvalidValue().toString())));
+
+        return new ResponseEntity<>(
+                new ErrorMessageList(HttpStatus.BAD_REQUEST.value(), "binding_result_errors",
+                        "errors during binding", errors), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({ConfirmationTokeBrokenLinkException.class, InvalidEmailException.class})
