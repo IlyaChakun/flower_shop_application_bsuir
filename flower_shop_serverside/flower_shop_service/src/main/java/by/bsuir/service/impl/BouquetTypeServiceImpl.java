@@ -20,7 +20,8 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class BouquetTypeServiceImpl implements BouquetTypeService {
-    private static final Logger logger = LoggerFactory.getLogger(FlowerServiceImpl.class);
+
+    private static final Logger logger = LoggerFactory.getLogger(BouquetTypeServiceImpl.class);
 
     private final BouquetTypeRepository bouquetTypeRepository;
     private final BouquetTypeMapperDTO bouquetTypeMapperDTO;

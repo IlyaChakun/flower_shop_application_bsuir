@@ -7,13 +7,15 @@ import by.bsuir.service.api.BouquetTypeService;
 import by.bsuir.service.api.FlowerCommonService;
 import by.bsuir.service.api.FlowerTypeService;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
 public class FlowerCommonServiceImpl implements FlowerCommonService {
+
+    private static final Logger logger = LoggerFactory.getLogger(FlowerCommonServiceImpl.class);
 
     private final BouquetTypeService bouquetTypeService;
     private final FlowerTypeService flowerTypeService;

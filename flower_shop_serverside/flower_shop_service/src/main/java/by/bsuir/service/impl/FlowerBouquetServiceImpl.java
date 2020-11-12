@@ -3,7 +3,6 @@ package by.bsuir.service.impl;
 import by.bsuir.dto.mapper.product.FlowerBouquetMapperDTO;
 import by.bsuir.dto.model.PageWrapper;
 import by.bsuir.dto.model.SearchAndSortParamDto;
-import by.bsuir.dto.model.product.bouquet.BouquetTypeDTO;
 import by.bsuir.dto.model.product.bouquet.FlowerBouquetDTO;
 import by.bsuir.entity.product.bouqet.FlowerBouquet;
 import by.bsuir.payload.exception.ResourceNotFoundException;
@@ -16,7 +15,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +25,7 @@ import javax.transaction.Transactional;
 public class FlowerBouquetServiceImpl implements FlowerBouquetService {
 
 
-    private static final Logger logger = LoggerFactory.getLogger(FlowerServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(FlowerBouquetServiceImpl.class);
 
     private final FlowerBouquetRepository flowerBouquetRepository;
     private final FlowerBouquetMapperDTO flowerBouquetMapperDTO;

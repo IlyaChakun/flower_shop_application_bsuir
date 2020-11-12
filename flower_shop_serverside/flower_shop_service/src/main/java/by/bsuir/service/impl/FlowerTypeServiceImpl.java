@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
 public class FlowerTypeServiceImpl implements FlowerTypeService {
 
 
-    private static final Logger logger = LoggerFactory.getLogger(FlowerServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(FlowerTypeServiceImpl.class);
 
     private final FlowerTypeRepository flowerTypeRepository;
     private final FlowerTypeMapperDTO flowerTypeMapperDTO;

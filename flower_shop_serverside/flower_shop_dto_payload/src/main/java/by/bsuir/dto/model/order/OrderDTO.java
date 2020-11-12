@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,7 @@ public class OrderDTO extends AbstractDTO {
     private String comment;
 
     @Valid
+    @NotNull(message = "В заказе должен быть хотябы один продукт!")
     private List<AbstractFlowerProductDTO> orderProducts = new ArrayList<>();
 
     @Valid
