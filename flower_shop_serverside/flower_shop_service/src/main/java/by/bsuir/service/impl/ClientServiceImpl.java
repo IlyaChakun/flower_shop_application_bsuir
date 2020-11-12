@@ -44,13 +44,14 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     @Transactional
-    public ClientDTO update(ClientDTO clientDTO, String email) {
+    public ClientDTO update(ClientDTO clientDTO, String uniqueId) {
 
-        Client client = clientRepository.findByEmail(email)
+        Client client = clientRepository.findByUniqueId(uniqueId)
                 .orElseThrow(() -> {
+                    logger.error("Client with uniqueId={} doesn't exist!", uniqueId);
                     throw new ServiceException(HttpStatus.NOT_FOUND.value(),
                             "client_not_found",
-                            "Client with email=" + email + " doesn't exist!");
+                            "Client with uniqueId=" + uniqueId + " doesn't exist!");
                 });
 
         Client clientToSave = clientMapper.toEntity(clientDTO);

@@ -17,4 +17,7 @@ public class Client extends AbstractUser {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "basket_id", referencedColumnName = "id")
     private Basket basket;
+
+    @Column(name = "unique_id")
+    private String uniqueId;//для понтов типо униклаьный ид хз зачем пригодиться
 }

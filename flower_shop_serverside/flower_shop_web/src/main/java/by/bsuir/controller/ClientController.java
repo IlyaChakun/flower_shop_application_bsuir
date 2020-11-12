@@ -25,13 +25,13 @@ public class ClientController {
 
 
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
-    @PutMapping("/{email}")
-    public ResponseEntity<ClientDTO> updateClientProfile(@PathVariable("email") String email,
+    @PutMapping("/{uniqueId}")
+    public ResponseEntity<ClientDTO> updateClientProfile(@PathVariable("uniqueId") String uniqueId,
                                                     @RequestBody @Valid ClientDTO clientDTO,
                                                     BindingResult bindingResult) {
         checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
 
-        ClientDTO client = clientService.update(clientDTO, email);
+        ClientDTO client = clientService.update(clientDTO, uniqueId);
         return ResponseEntity.ok(client);
     }
 

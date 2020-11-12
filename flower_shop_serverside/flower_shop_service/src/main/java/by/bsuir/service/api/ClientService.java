@@ -4,6 +4,6 @@ import by.bsuir.dto.model.user.ClientDTO;
 
 public interface ClientService extends AbstractUserService<ClientDTO> {
 
-    ClientDTO update(ClientDTO clientDTO, String name);
+    ClientDTO update(ClientDTO clientDTO, String uniqueId);
 
 }
