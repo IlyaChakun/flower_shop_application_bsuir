@@ -2,7 +2,6 @@ package by.bsuir.service.impl;
 
 import by.bsuir.dto.mapper.company.CompanyMapperDTO;
 import by.bsuir.dto.mapper.company.ShopMapperDTO;
-import by.bsuir.dto.model.company.CompanyDTO;
 import by.bsuir.dto.model.company.ShopDTO;
 import by.bsuir.entity.company.Company;
 import by.bsuir.entity.company.Contacts;
@@ -43,7 +42,7 @@ public class ShopServiceImpl implements ShopService {
     }
 
 
-    @Override
+    @Override//TODO пагинация
     public List<ShopDTO> findAll() {
         return shopMapper.toDtoList(shopRepository.findAll());
     }

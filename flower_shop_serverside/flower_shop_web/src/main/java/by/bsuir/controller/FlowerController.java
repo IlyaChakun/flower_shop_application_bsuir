@@ -60,7 +60,7 @@ public class FlowerController {
 
         FlowerDTO flower = flowerService.save(flowerDTO);
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{}")
+        httpHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{}")//TODO ид  для findById
                 .buildAndExpand(flower.getId()).toUri());
 
 

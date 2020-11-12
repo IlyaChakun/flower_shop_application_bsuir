@@ -30,7 +30,7 @@ public class ShopController {
     @GetMapping("/{id}")
     public ResponseEntity<ShopDTO> findById(@PathVariable("id") String id,
                                             BindingResult bindingResult) {
-        checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
+        checkBindingResultAndThrowExceptionIfInvalid(bindingResult);//TODO Тоже самое что в bouquet
 
         ShopDTO shop = shopService.findById(Long.valueOf(id));
 
@@ -39,7 +39,7 @@ public class ShopController {
 
     @GetMapping()
     public ResponseEntity<List<ShopDTO>> findAll() {
-        return ResponseEntity.ok(shopService.findAll());
+        return ResponseEntity.ok(shopService.findAll());//TODO пагинацию
     }
 
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
@@ -63,7 +63,7 @@ public class ShopController {
                                           @RequestBody @Valid ShopDTO shopDTO,
                                           BindingResult bindingResult) {
         checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
-        shopDTO.setId(Long.valueOf(id));
+        shopDTO.setId(Long.valueOf(id));//TODO как в букетах про ид
         ShopDTO shop = shopService.update(shopDTO);
         return ResponseEntity.ok(shop);
     }
@@ -72,7 +72,7 @@ public class ShopController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("name") String name,
                                        @PathVariable("id") String id) {
-        shopService.delete(Long.valueOf(id), name);
+        shopService.delete(Long.valueOf(id), name);//TODO как в букетах про ид
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

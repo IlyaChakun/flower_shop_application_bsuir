@@ -7,13 +7,12 @@ import by.bsuir.dto.model.product.flower.FlowerTypeDTO;
 import by.bsuir.service.api.FlowerCommonService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Validated
 @RestController
-@RequestMapping("/user/admin/company")
+@RequestMapping("/company")//TODO просто company
 @AllArgsConstructor
 @CrossOrigin(origins = "*")
 public class FlowerCommonController {
@@ -21,7 +20,7 @@ public class FlowerCommonController {
     private final FlowerCommonService flowerCommonService;
 
 
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
+    //TODO не админ а для всех, ведь это же можно получать просто для каталога поиск и тд
     @GetMapping("/flower-types")
     public ResponseEntity<?> findAllFlowerTypes(
             @RequestParam(defaultValue = "1", required = false) Integer page,
@@ -32,7 +31,7 @@ public class FlowerCommonController {
         return ResponseEntity.ok(wrapper);
     }
 
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
+    //TODO тоже самое
     @GetMapping("/flower-bouquet-types")
     public ResponseEntity<?> findAllFlowerBouquetTypes(
             @RequestParam(defaultValue = "1", required = false) Integer page,

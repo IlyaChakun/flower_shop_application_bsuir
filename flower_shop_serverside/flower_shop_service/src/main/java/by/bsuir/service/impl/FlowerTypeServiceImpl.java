@@ -18,7 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor
+@AllArgsConstructor//TODO не выкупил нафига этот сервис вроде же базарили что эта шляпа изначально в базе а теперь придется писать контроллер и логику чтобы можно было добавиять типу цветов в каждый магазин, напишешь в туду сам для фронта :)
 public class FlowerTypeServiceImpl implements FlowerTypeService {
 
 

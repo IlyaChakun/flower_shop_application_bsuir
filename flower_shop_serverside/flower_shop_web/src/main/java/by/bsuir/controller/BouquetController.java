@@ -31,7 +31,7 @@ public class BouquetController {
     @GetMapping("/{id}")
     public ResponseEntity<FlowerBouquetDTO> findById(@PathVariable("id") String id) {
 
-        FlowerBouquetDTO flowerBouquet = flowerBouquetService.findById(Long.valueOf(id));
+        FlowerBouquetDTO flowerBouquet = flowerBouquetService.findById(Long.valueOf(id));//TODO давай напишем либо аннотацию ValidLong ( я псал как то ) суть в том чтобы кинуть 400 ошибку если там все таки строка а не число а то будет плохо
 
         return ResponseEntity.ok(flowerBouquet);
     }
@@ -55,12 +55,12 @@ public class BouquetController {
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<FlowerBouquetDTO> save(@RequestBody @Valid FlowerBouquetDTO flowerBouquetDTO,
-                                          BindingResult bindingResult) {
+                                                 BindingResult bindingResult) {
         checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
 
         FlowerBouquetDTO flowerBouquet = flowerBouquetService.save(flowerBouquetDTO);
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{}")
+        httpHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{}")//TODO а где путь для findByid?
                 .buildAndExpand(flowerBouquet.getId()).toUri());
 
 
@@ -70,10 +70,10 @@ public class BouquetController {
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<FlowerBouquetDTO> update(@PathVariable("id") String id,
-                                            @RequestBody @Valid FlowerBouquetDTO flowerBouquetDTO,
-                                            BindingResult bindingResult) {
+                                                   @RequestBody @Valid FlowerBouquetDTO flowerBouquetDTO,
+                                                   BindingResult bindingResult) {
         checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
-        flowerBouquetDTO.setId(Long.valueOf(id));
+        flowerBouquetDTO.setId(Long.valueOf(id));//TODO так не надо, по урлу наебать можно систесу, надо надеяться что пришел ид внутри сущности, а в урле он прпросто для читаемости
         FlowerBouquetDTO flowerBouquet = flowerBouquetService.update(flowerBouquetDTO);
         return ResponseEntity.ok(flowerBouquet);
     }

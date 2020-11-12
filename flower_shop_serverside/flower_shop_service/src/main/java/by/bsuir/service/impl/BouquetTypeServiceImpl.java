@@ -54,7 +54,7 @@ public class BouquetTypeServiceImpl implements BouquetTypeService {
         return bouquetTypeMapperDTO.toDto(bouquetType);
     }
 
-    @Override
+    @Override//TODO где транзакции??
     public BouquetTypeDTO save(BouquetTypeDTO bouquetTypeDTO) {
         if (isFlowerBouquetExistById(bouquetTypeDTO.getId())) {
             logger.error("Bouquet Type with id={} exist. Just Update it!", bouquetTypeDTO.getId());

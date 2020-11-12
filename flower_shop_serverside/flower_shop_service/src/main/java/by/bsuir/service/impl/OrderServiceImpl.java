@@ -69,7 +69,7 @@ public class OrderServiceImpl implements OrderService {
 
         Order newOrder = new Order();
         newOrder.setOrderInfo(orderFromUI.getOrderInfo());
-        newOrder.setOrderStatus(OrderStatus.DRAFT);
+        newOrder.setOrderStatus(OrderStatus.DRAFT);//TODO на скок понимаю заказ в draft только пока в корзине а тут он уже в роли нового но хз хз
         newOrder.setOrderProducts(resolveProducts(basketProducts));
         return newOrder;
     }
@@ -85,11 +85,11 @@ public class OrderServiceImpl implements OrderService {
                 products.stream()
                         .map(basketProduct -> {
 
-
+            //TODO разбирать на методы железно нихуя не понятно
                             AbstractFlowerProduct product = flowerRepository.findById(basketProduct.getId())
                                     .orElseThrow(() -> new ResourceNotFoundException("No flower with id=" + basketProduct.getId()));
 
-                            if (product instanceof Flower) {
+                            if (product instanceof Flower) {//TODO а тут предлоагают еще на нулл проверить почему то
                                 if (product.getAvailableAmountOnStock() == 0) {
                                     throw new ServiceException(HttpStatus.CONFLICT.value(),
                                             "flower_not_on_stock",
@@ -157,7 +157,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
-    @Override
+    @Override//TODO охуенно придумал)))) но кстать по логике может и пригодится но хз, типо обновлять за админа заказ мб
     public OrderDTO update(OrderDTO orderDTO) {
         return null;
     }

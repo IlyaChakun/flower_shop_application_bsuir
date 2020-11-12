@@ -15,6 +15,7 @@ import static by.bsuir.controller.ControllerHelper.checkBindingResultAndThrowExc
 
 @RestController
 @RequestMapping("/user/{clientId}/basket")
+//TODO опять же ид чисто для читаемост и и он туту не нужен!!!! и посмтори как я корзину делал на моем гите online- store можешь даже скопировать практически
 @AllArgsConstructor
 @CrossOrigin(origins = "*")
 public class BasketController {

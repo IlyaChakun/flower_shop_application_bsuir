@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class SearchAndSortParamDto extends AbstractDTO {
+public class SearchAndSortParamDto extends AbstractDTO {//TODO а куда делся lombok?))
 
     @Size(min = 3, max = 30, message = "Name could not be empty! Should be not empty and in 4-30 characters range!")
     private String name;

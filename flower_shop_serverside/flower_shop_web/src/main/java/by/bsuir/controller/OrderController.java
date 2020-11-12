@@ -21,8 +21,10 @@ import javax.validation.Valid;
 import static by.bsuir.controller.ControllerHelper.checkBindingResultAndThrowExceptionIfInvalid;
 
 @Validated
-@RestController
-@RequestMapping("/user/client/{clientId}/order")
+@RestController//users/clients/
+@RequestMapping("/user/client/{clientId}/order")//TODO так просто  не получится.. Да и не забываем писать во множ числе
+//тут ты должден понимать что под клиентом не нужно указывать ид ( то есть я смотрю свои заказы и у меня урл user/client/orders+ {id} если конкртный
+//или если он смотрти заказы в конкретном магазине там user/admin/company/{name}/shops/{id}/orders + {id} если конкретный
 @AllArgsConstructor
 @CrossOrigin(origins = "*")
 public class OrderController {
@@ -71,7 +73,7 @@ public class OrderController {
 
     @PreAuthorize("hasAnyAuthority('ROLE_CLIENT')")
     @GetMapping()
-    public ResponseEntity<PageWrapper<OrderDTO>> findAll(@PathVariable("id") String id,
+    public ResponseEntity<PageWrapper<OrderDTO>> findAll(@PathVariable("id") String id,//TODO
                                                          @RequestParam(defaultValue = "1", required = false) Integer page,
                                                          @RequestParam(defaultValue = "10", required = false) Integer size) {
         PageWrapper<OrderDTO> wrapper = orderService.findAllByClientId(page - 1, size, Long.valueOf(id));
