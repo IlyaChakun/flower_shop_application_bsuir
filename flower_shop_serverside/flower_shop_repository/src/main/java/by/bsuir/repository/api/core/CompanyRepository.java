@@ -10,4 +10,6 @@ public interface CompanyRepository extends AbstractRepository<Company> {
 
     Optional<Company> findByName(String name);
 
+    Company getByName(String name);
+
 }

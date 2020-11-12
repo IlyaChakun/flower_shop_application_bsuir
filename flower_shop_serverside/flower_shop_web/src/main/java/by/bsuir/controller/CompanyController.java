@@ -10,12 +10,14 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 
 import static by.bsuir.controller.ControllerHelper.checkBindingResultAndThrowExceptionIfInvalid;
 
@@ -29,7 +31,7 @@ public class CompanyController {
     private final CompanyService companyService;
     private final ShopAdminService shopAdminService;
 
-
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     @GetMapping("/{name}")
     public ResponseEntity<CompanyDTO> findCompanyByName(@PathVariable("name") String name,
                                                         BindingResult bindingResult) {
@@ -40,7 +42,7 @@ public class CompanyController {
         return ResponseEntity.ok(company);
     }
 
-
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<CompanyDTO> saveCompany(@RequestBody @Valid CompanyDTO companyDTO,
                                                   @CurrentUser UserPrincipal userPrincipal,
@@ -61,7 +63,7 @@ public class CompanyController {
         return new ResponseEntity<>(company, httpHeaders, HttpStatus.CREATED);
     }
 
-
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     @PutMapping("/{name}")
     public ResponseEntity<CompanyDTO> updateCompany(@PathVariable("name") String name,
                                                     @RequestBody @Valid CompanyDTO companyDTO,

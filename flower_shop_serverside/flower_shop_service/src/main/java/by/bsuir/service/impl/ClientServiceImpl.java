@@ -4,14 +4,22 @@ import by.bsuir.dto.mapper.user.ClientMapperDTO;
 import by.bsuir.dto.model.user.ClientDTO;
 import by.bsuir.entity.user.Client;
 import by.bsuir.payload.exception.ResourceNotFoundException;
+import by.bsuir.payload.exception.ServiceException;
 import by.bsuir.repository.api.user.ClientRepository;
 import by.bsuir.service.api.ClientService;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
 
 @Service
 @AllArgsConstructor
 public class ClientServiceImpl implements ClientService {
+
+    private static final Logger logger = LoggerFactory.getLogger(ClientServiceImpl.class);
 
     private final ClientRepository clientRepository;
     private final ClientMapperDTO clientMapper;
@@ -32,5 +40,23 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public Boolean existsByEmail(String email) {
         return clientRepository.existsByEmail(email);
+    }
+
+    @Override
+    @Transactional
+    public ClientDTO update(ClientDTO clientDTO, String uniqueId) {
+
+        Client client = clientRepository.findByUniqueId(uniqueId)
+                .orElseThrow(() -> {
+                    logger.error("Client with uniqueId={} doesn't exist!", uniqueId);
+                    throw new ServiceException(HttpStatus.NOT_FOUND.value(),
+                            "client_not_found",
+                            "Client with uniqueId=" + uniqueId + " doesn't exist!");
+                });
+
+        Client clientToSave = clientMapper.toEntity(clientDTO);
+        clientToSave.setId(client.getId());
+
+        return clientMapper.toDto(clientRepository.save(clientToSave));
     }
 }

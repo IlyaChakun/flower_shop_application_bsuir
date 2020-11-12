@@ -1,8 +1,6 @@
 package by.bsuir.service.core.base;
 
-public interface SaveUpdateService<T> {
-
-    T save(T t);
+public interface UpdateOperationService<T> {
 
     T update(T t);
 }

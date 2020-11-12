@@ -2,6 +2,7 @@ package by.bsuir.dto.model.user;
 
 import by.bsuir.dto.model.AbstractDTO;
 import by.bsuir.entity.user.SupportedAuthProvider;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,7 +22,7 @@ public class AbstractUserDTO extends AbstractDTO {
 
     private String email;
 
-
+    @JsonIgnore
     private String password;
 
 

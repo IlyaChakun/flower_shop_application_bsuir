@@ -1,15 +1,12 @@
 package by.bsuir.controller;
 
 import by.bsuir.dto.model.company.ShopDTO;
-import by.bsuir.dto.model.user.ShopAdminDTO;
-import by.bsuir.security.core.CurrentUser;
-import by.bsuir.security.core.UserPrincipal;
-import by.bsuir.service.api.ShopAdminService;
 import by.bsuir.service.api.ShopService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -22,15 +19,14 @@ import static by.bsuir.controller.ControllerHelper.checkBindingResultAndThrowExc
 
 @Validated
 @RestController
-@RequestMapping("/user/admin/company/shop")
+@RequestMapping("/user/admin/company/{name}/shop")
 @AllArgsConstructor
 @CrossOrigin(origins = "*")
 public class ShopController {
 
     private final ShopService shopService;
-    private final ShopAdminService shopAdminService;
 
-
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<ShopDTO> findById(@PathVariable("id") String id,
                                             BindingResult bindingResult) {
@@ -46,19 +42,14 @@ public class ShopController {
         return ResponseEntity.ok(shopService.findAll());
     }
 
-
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     @PostMapping
-    public ResponseEntity<ShopDTO> saveShopToCompany(@RequestBody @Valid ShopDTO shopDTO,
-                                        @CurrentUser UserPrincipal userPrincipal,
-                                        BindingResult bindingResult) {
+    public ResponseEntity<ShopDTO> saveShopToCompany(@PathVariable("name") String name,
+                                                     @RequestBody @Valid ShopDTO shopDTO,
+                                                     BindingResult bindingResult) {
         checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
 
-        final String userEmail = userPrincipal.getEmail();
-        ShopAdminDTO shopAdminDTO = shopAdminService.findByEmail(userEmail);
-        shopDTO.setCompany(shopAdminDTO.getCompany());
-        shopDTO.getCompany().getShops().add(shopDTO);
-
-        ShopDTO shop = shopService.save(shopDTO);
+        ShopDTO shop = shopService.save(shopDTO, name);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(shop.getId()).toUri());
@@ -66,7 +57,7 @@ public class ShopController {
         return new ResponseEntity<>(shop, httpHeaders, HttpStatus.CREATED);
     }
 
-
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<ShopDTO> update(@PathVariable("id") String id,
                                           @RequestBody @Valid ShopDTO shopDTO,
@@ -77,10 +68,11 @@ public class ShopController {
         return ResponseEntity.ok(shop);
     }
 
-
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") String id) {
-        shopService.delete(Long.valueOf(id));
+    public ResponseEntity<Void> delete(@PathVariable("name") String name,
+                                       @PathVariable("id") String id) {
+        shopService.delete(Long.valueOf(id), name);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

@@ -8,7 +8,6 @@ import java.io.Serializable;
 
 @Getter
 @Setter
-//@EqualsAndHashCode
 @NoArgsConstructor
 public class BaseAbstractDTO implements Serializable {
 

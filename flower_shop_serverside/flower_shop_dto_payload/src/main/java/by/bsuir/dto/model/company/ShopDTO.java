@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,8 +16,12 @@ import java.util.List;
 @NoArgsConstructor
 public class ShopDTO extends AbstractDTO {
 
+    @Valid
     private ContactsDTO contacts;
+
+    @Valid
     private WorkingHoursDTO workingHours;
-    private CompanyDTO company;
+
+    @Valid
     private List<AbstractFlowerProductDTO> shopProducts = new ArrayList<>();
 }

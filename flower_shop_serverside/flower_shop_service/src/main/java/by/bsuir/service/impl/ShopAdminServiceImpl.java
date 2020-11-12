@@ -7,11 +7,15 @@ import by.bsuir.payload.exception.ResourceNotFoundException;
 import by.bsuir.repository.api.user.ShopAdminRepository;
 import by.bsuir.service.api.ShopAdminService;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
 public class ShopAdminServiceImpl implements ShopAdminService {
+
+    private static final Logger logger = LoggerFactory.getLogger(ShopAdminServiceImpl.class);
 
     private final ShopAdminRepository shopAdminRepository;
     private final ShopAdminMapperDTO shopAdminMapper;

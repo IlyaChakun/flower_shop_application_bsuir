@@ -1,13 +1,18 @@
 package by.bsuir.service.impl;
 
+import by.bsuir.dto.mapper.company.CompanyMapperDTO;
 import by.bsuir.dto.mapper.company.ShopMapperDTO;
+import by.bsuir.dto.model.company.CompanyDTO;
 import by.bsuir.dto.model.company.ShopDTO;
 import by.bsuir.entity.company.Company;
+import by.bsuir.entity.company.Contacts;
 import by.bsuir.entity.company.Shop;
 import by.bsuir.payload.exception.ResourceNotFoundException;
 import by.bsuir.payload.exception.ServiceException;
 import by.bsuir.repository.api.core.CompanyRepository;
+import by.bsuir.repository.api.core.ContactsRepository;
 import by.bsuir.repository.api.core.ShopRepository;
+import by.bsuir.service.api.CompanyService;
 import by.bsuir.service.api.ShopService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -26,7 +31,10 @@ public class ShopServiceImpl implements ShopService {
 
     private final ShopRepository shopRepository;
     private final CompanyRepository companyRepository;
+    private final ContactsRepository contactsRepository;
+    private final CompanyService companyService;
     private final ShopMapperDTO shopMapper;
+    private final CompanyMapperDTO companyMapperDTO;
 
     @Override
     public ShopDTO findById(Long id) {
@@ -43,7 +51,7 @@ public class ShopServiceImpl implements ShopService {
 
     @Override
     @Transactional
-    public ShopDTO save(ShopDTO shopDTO) {
+    public ShopDTO save(ShopDTO shopDTO, String companyName) {
         if (isShopExistsByAddress(shopDTO.getContacts().getCity(), shopDTO.getContacts().getAddress())) {
             logger.error("Shop with address={},{} exist. Just Update it!",
                     shopDTO.getContacts().getCity(),
@@ -54,7 +62,7 @@ public class ShopServiceImpl implements ShopService {
                             + shopDTO.getContacts().getAddress() + " exist. Just Update it!");
         }
 
-        Company company = companyRepository.getOne(shopDTO.getCompany().getId());
+        Company company = companyRepository.getByName(companyName);
 
         Shop shop = shopMapper.toEntity(shopDTO);
         shop.setCompany(company);
@@ -66,31 +74,48 @@ public class ShopServiceImpl implements ShopService {
         return shopMapper.toDto(savedShop);
     }
 
-    private boolean isShopExistsByAddress(String city, String address) {
-        return shopRepository.findByContactsCityAndContactsAddress(city, address).isPresent();
+
+    @Override
+    @Transactional
+    public ShopDTO update(ShopDTO shopDTO) {
+        Shop shopFromDb = getShopByIdOrThrowException(shopDTO.getId());
+
+        Shop shopForUpdate = shopMapper.toEntity(shopDTO);
+
+        shopFromDb.setContacts(resolveContacts(shopForUpdate));
+        shopFromDb.setWorkingHours(shopForUpdate.getWorkingHours());
+        shopFromDb.setShopProducts(shopForUpdate.getShopProducts());
+
+        return shopMapper.toDto(shopRepository.save(shopFromDb));
+    }
+
+    private Contacts resolveContacts(Shop shopForUpdate) {
+
+        Contacts contacts;
+        if (contactsRepository.findByCityAndAddress(shopForUpdate.getContacts().getCity(), shopForUpdate.getContacts().getAddress()).isPresent()) {
+            contacts = contactsRepository.findByCityAndAddress(shopForUpdate.getContacts().getCity(), shopForUpdate.getContacts().getAddress()).get();
+            contacts.setEmail(shopForUpdate.getContacts().getEmail());
+            contacts.setFirstPhoneNumber(shopForUpdate.getContacts().getFirstPhoneNumber());
+            contacts.setSecondPhoneNumber(shopForUpdate.getContacts().getSecondPhoneNumber());
+        } else {
+            contacts = shopForUpdate.getContacts();
+        }
+        return contacts;
     }
 
 
     @Override
     @Transactional
-    public ShopDTO update(ShopDTO shopDTO) {
-        Shop shopFromDb =  getShopByIdOrThrowException(shopDTO.getId());
-
-        Shop shopForUpdate = shopMapper.toEntity(shopDTO);
-
-        shopFromDb.setCompany(shopForUpdate.getCompany());
-        shopFromDb.setContacts(shopForUpdate.getContacts());
-        shopFromDb.setShopProducts(shopForUpdate.getShopProducts());
-        shopFromDb.setWorkingHours(shopForUpdate.getWorkingHours());
-
-        return shopMapper.toDto(shopRepository.save(shopForUpdate));
+    public void delete(Long shopId, String companyName) {
+        Shop shop = getShopByIdOrThrowException(shopId);
+        Company company = companyRepository.getByName(companyName);
+        company.getShops().remove(shop);
+        shopRepository.delete(shop);
     }
 
 
-    @Override
-    public void delete(Long id) {
-        Shop shop = getShopByIdOrThrowException(id);
-        shopRepository.delete(shop);
+    private boolean isShopExistsByAddress(String city, String address) {
+        return shopRepository.findByContactsCityAndContactsAddress(city, address).isPresent();
     }
 
 
