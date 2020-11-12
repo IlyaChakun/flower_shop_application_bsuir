@@ -53,19 +53,22 @@ const request = (options) => {
                 localStorage.removeItem(ACCESS_TOKEN)
                 localStorage.removeItem(REFRESH_TOKEN)
 
-                return response.json()
+                // return response.json()
             }
 
-            if (response.status !== 204) { //удаление
-                return response.json()
-            }
-
-            if (!response.ok) {//если совсем пиздец
+            if (response.status === 400 || response.status === 409 ) {//если совсем пиздец
+                console.log('throw exception: ' + response)
                 throw response
             }
 
+            if (response.status !== 204) { //удаление  // !==
+                return response.json()
+            }
 
-        }).then(json => {
+
+        })
+        .then(json => {
+            console.log('return final json body: ' + json)
             return json
         })
 }
@@ -102,7 +105,7 @@ export function getCurrentUserRequest() {
 
 export function checkLoginAvailabilityRequest(login) {
     return request({
-        url: BASE_URL + 'auth/user/check-email-availability?login=' + login,
+        url: BASE_URL + 'auth/user/check-email-availability?email=' + login,
         method: 'GET'
     })
 }
