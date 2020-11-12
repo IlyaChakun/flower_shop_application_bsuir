@@ -10,5 +10,4 @@ public interface FlowerService extends CustomCrudService<FlowerDTO>, DeleteOpera
 
     PageWrapper<FlowerDTO> findAll(int page, int size, SearchAndSortParamDto searchAndSortParamDto);
 
-    PageWrapper<FlowerDTO> findAllFlowerTypes(int page, Integer size);
 }
