@@ -22,7 +22,7 @@ import static by.bsuir.controller.ControllerHelper.checkBindingResultAndThrowExc
 
 @Validated
 @RestController
-@RequestMapping("/user/order")
+@RequestMapping("/user/client/{clientId}/order")
 @AllArgsConstructor
 @CrossOrigin(origins = "*")
 public class OrderController {
@@ -32,23 +32,21 @@ public class OrderController {
 
     @PreAuthorize("hasAnyAuthority('ROLE_CLIENT')")
     @GetMapping("/{id}")
-    public ResponseEntity<OrderDTO> findById(@PathVariable("id") String id) {
+    public ResponseEntity<OrderDTO> findById(@PathVariable("clientId") String clientId,
+                                             @PathVariable("id") String id) {
 
-        OrderDTO orderDTO = orderService.findById(Long.valueOf(id));
+        OrderDTO orderDTO = orderService.findByIdAndClientId(Long.valueOf(id), Long.valueOf(clientId));
 
         return ResponseEntity.ok(orderDTO);
     }
 
     @PreAuthorize("hasAnyAuthority('ROLE_CLIENT')")
     @PostMapping
-    public ResponseEntity<OrderDTO> saveOrder(@RequestBody @Valid OrderDTO orderDTO,
-                                              UserPrincipal userPrincipal,
+    public ResponseEntity<OrderDTO> saveOrder(@PathVariable("clientId") String clientId,
+                                              @RequestBody @Valid OrderDTO orderDTO,
                                               BindingResult bindingResult) {
         checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
-
-        String email = userPrincipal.getEmail();
-        ClientDTO clientDTO = cLientService.getByEmail(email);
-        orderDTO.getOrderInfo().setClient(clientDTO);
+        orderDTO.getOrderInfo().getClient().setId(Long.valueOf(clientId));
 
         OrderDTO order = orderService.save(orderDTO);
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -60,28 +58,23 @@ public class OrderController {
 
     @PreAuthorize("hasAnyAuthority('ROLE_CLIENT')")
     @PutMapping("/{id}")
-    public ResponseEntity<OrderDTO> update(@PathVariable("id") String id,
+    public ResponseEntity<OrderDTO> update(@PathVariable("clientId") String clientId,
+                                           @PathVariable("id") String id,
                                            @RequestBody @Valid OrderDTO orderDTO,
                                            BindingResult bindingResult) {
         checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
+        orderDTO.getOrderInfo().getClient().setId(Long.valueOf(clientId));
         orderDTO.setId(Long.valueOf(id));
         OrderDTO order = orderService.update(orderDTO);
         return ResponseEntity.ok(order);
     }
 
     @PreAuthorize("hasAnyAuthority('ROLE_CLIENT')")
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") String id) {
-        orderService.delete(Long.valueOf(id));
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-
-    @PreAuthorize("hasAnyAuthority('ROLE_CLIENT')")
     @GetMapping()
-    public ResponseEntity<PageWrapper<OrderDTO>> findAll(@RequestParam(defaultValue = "1", required = false) Integer page,
+    public ResponseEntity<PageWrapper<OrderDTO>> findAll(@PathVariable("id") String id,
+                                                         @RequestParam(defaultValue = "1", required = false) Integer page,
                                                          @RequestParam(defaultValue = "10", required = false) Integer size) {
-        PageWrapper<OrderDTO> wrapper = orderService.findAll(page - 1, size);
+        PageWrapper<OrderDTO> wrapper = orderService.findAllByClientId(page - 1, size, Long.valueOf(id));
         return ResponseEntity.ok(wrapper);
     }
 }
