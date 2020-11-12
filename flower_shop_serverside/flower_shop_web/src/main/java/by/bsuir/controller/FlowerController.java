@@ -1,15 +1,16 @@
 package by.bsuir.controller;
 
+import by.bsuir.dto.model.PageWrapper;
+import by.bsuir.dto.model.SearchAndSortParamDto;
 import by.bsuir.dto.model.product.flower.FlowerDTO;
-import by.bsuir.dto.model.user.ShopAdminDTO;
-import by.bsuir.security.core.CurrentUser;
-import by.bsuir.security.core.UserPrincipal;
 import by.bsuir.service.api.FlowerService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -20,49 +21,64 @@ import static by.bsuir.controller.ControllerHelper.checkBindingResultAndThrowExc
 @RestController
 @RequestMapping("/user/admin/company/shops/{id}/flowers")
 @AllArgsConstructor
-@CrossOrigin(origins = "localhost:/3000")
+@CrossOrigin(origins = "*")
 public class FlowerController {
 
 
     private final FlowerService flowerService;
 
-
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     @GetMapping("/{id}")
-    public ResponseEntity<FlowerDTO> findById(@PathVariable("id") String id,
-                                              BindingResult bindingResult) {
-        checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
+    public ResponseEntity<FlowerDTO> findById(@PathVariable("id") String id) {
 
         FlowerDTO flower = flowerService.findById(Long.valueOf(id));
 
         return ResponseEntity.ok(flower);
     }
 
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
+    @GetMapping()
+    public ResponseEntity<?> findAllBySearchString(
+            @RequestParam(defaultValue = "1", required = false) Integer page,
+            @RequestParam(defaultValue = "10", required = false) Integer size,
+            @Validated SearchAndSortParamDto searchAndSortParamDto,
+            BindingResult bindingResult) {
 
-    @PostMapping
-    public ResponseEntity<FlowerDTO> save(@RequestBody @Valid FlowerDTO flowerDTO,
-                                                  @CurrentUser UserPrincipal userPrincipal,
-                                                  BindingResult bindingResult) {
         checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
 
-        FlowerDTO company = flowerService.save(flowerDTO);
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{}")
-                .buildAndExpand(company.getId()).toUri());
+        PageWrapper<FlowerDTO> wrapper = flowerService.findAll(page - 1, size, searchAndSortParamDto);
 
-
-        return new ResponseEntity<>(company, httpHeaders, HttpStatus.CREATED);
+        return ResponseEntity.ok(wrapper);
     }
 
 
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
+    @PostMapping
+    public ResponseEntity<FlowerDTO> save(@RequestBody @Valid FlowerDTO flowerDTO,
+                                          BindingResult bindingResult) {
+        checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
+
+        FlowerDTO flower = flowerService.save(flowerDTO);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{}")
+                .buildAndExpand(flower.getId()).toUri());
+
+
+        return new ResponseEntity<>(flower, httpHeaders, HttpStatus.CREATED);
+    }
+
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<FlowerDTO> update(@PathVariable("id") String id,
-                                                    @RequestBody @Valid FlowerDTO flowerDTO,
-                                                    BindingResult bindingResult) {
+                                            @RequestBody @Valid FlowerDTO flowerDTO,
+                                            BindingResult bindingResult) {
         checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
+        flowerDTO.setId(Long.valueOf(id));
         FlowerDTO flower = flowerService.update(flowerDTO);
         return ResponseEntity.ok(flower);
     }
 
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") String id) {
         flowerService.delete(Long.valueOf(id));
