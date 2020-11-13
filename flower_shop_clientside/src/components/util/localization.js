@@ -138,6 +138,7 @@ export const localizedStrings = new LocalizedStrings({
     search: 'Search',
     cancel: 'Cancel',
     chooseColor: 'Choose color',
+    edit: 'Edit',
 
     // Social
     useSocial: 'use your social account:',
@@ -274,6 +275,7 @@ export const localizedStrings = new LocalizedStrings({
     search: 'Поиск',
     cancel: 'Отменить',
     chooseColor: 'Выбрать цвет',
+    edit: 'Изменить',
 
     // Social
     useSocial: 'используйте свой аккаунт в соц сетях:',

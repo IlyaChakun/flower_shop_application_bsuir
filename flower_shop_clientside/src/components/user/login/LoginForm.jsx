@@ -85,12 +85,12 @@ class LoginForm extends Component {
                         {localizedStrings.login}
                     </Button>
 
-                    <span>
-            {localizedStrings.or}
+                    <span className={s.text}>
+                        {localizedStrings.or}
                         <span>
-              <Link to="/sign-up">{localizedStrings.emailFormRegisterNow}</Link>
-            </span>
-          </span>
+                            <Link to="/sign-up">{localizedStrings.loginFormRegisterNow}</Link>
+                        </span>
+                    </span>
                 </Form.Item>
             </Form>
 
