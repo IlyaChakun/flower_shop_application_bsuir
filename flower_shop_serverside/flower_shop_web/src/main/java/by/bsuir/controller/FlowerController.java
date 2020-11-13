@@ -3,6 +3,7 @@ package by.bsuir.controller;
 import by.bsuir.dto.model.PageWrapper;
 import by.bsuir.dto.model.SearchAndSortParamDto;
 import by.bsuir.dto.model.product.flower.FlowerDTO;
+import by.bsuir.dto.validation.annotation.PositiveLong;
 import by.bsuir.service.api.FlowerService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 
 import static by.bsuir.controller.ControllerHelper.checkBindingResultAndThrowExceptionIfInvalid;
+import static by.bsuir.controller.ControllerHelper.checkIdInsideDto;
 
 @RestController
 @RequestMapping("/user/admin/company/shops/{id}/flowers")
@@ -29,7 +31,7 @@ public class FlowerController {
 
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     @GetMapping("/{id}")
-    public ResponseEntity<FlowerDTO> findById(@PathVariable("id") String id) {
+    public ResponseEntity<FlowerDTO> findById(@PathVariable("id") @PositiveLong String id) {
 
         FlowerDTO flower = flowerService.findById(Long.valueOf(id));
 
@@ -60,7 +62,7 @@ public class FlowerController {
 
         FlowerDTO flower = flowerService.save(flowerDTO);
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{}")//TODO ид  для findById
+        httpHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")//TODO ид  для findById
                 .buildAndExpand(flower.getId()).toUri());
 
 
@@ -69,18 +71,19 @@ public class FlowerController {
 
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<FlowerDTO> update(@PathVariable("id") String id,
+    public ResponseEntity<FlowerDTO> update(@PathVariable("id") @PositiveLong String id,
                                             @RequestBody @Valid FlowerDTO flowerDTO,
                                             BindingResult bindingResult) {
         checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
-        flowerDTO.setId(Long.valueOf(id));
+        checkIdInsideDto(flowerDTO);//TODO
+//        flowerDTO.setId(Long.valueOf(id));
         FlowerDTO flower = flowerService.update(flowerDTO);
         return ResponseEntity.ok(flower);
     }
 
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") String id) {
+    public ResponseEntity<Void> delete(@PathVariable("id") @PositiveLong String id) {
         flowerService.delete(Long.valueOf(id));
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

@@ -1,7 +1,6 @@
 package by.bsuir.service.impl;
 
 import by.bsuir.dto.mapper.product.FlowerTypeMapperDTO;
-import by.bsuir.dto.model.PageWrapper;
 import by.bsuir.dto.model.product.flower.FlowerTypeDTO;
 import by.bsuir.entity.product.flower.FlowerType;
 import by.bsuir.payload.exception.ResourceNotFoundException;
@@ -11,14 +10,16 @@ import by.bsuir.service.api.FlowerTypeService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
-@AllArgsConstructor//TODO не выкупил нафига этот сервис вроде же базарили что эта шляпа изначально в базе а теперь придется писать контроллер и логику чтобы можно было добавиять типу цветов в каждый магазин, напишешь в туду сам для фронта :)
+@AllArgsConstructor
+//TODO не выкупил нафига этот сервис вроде же базарили что эта шляпа изначально в базе а теперь придется писать контроллер и логику чтобы можно было добавиять типу цветов в каждый магазин, напишешь в туду сам для фронта :)
 public class FlowerTypeServiceImpl implements FlowerTypeService {
 
 
@@ -29,16 +30,8 @@ public class FlowerTypeServiceImpl implements FlowerTypeService {
 
 
     @Override
-    public PageWrapper<FlowerTypeDTO> findAll(int page, int size) {
-        Pageable pageable = getPageable(page, size);
-
-        Page<FlowerType> flowerTypes = flowerTypeRepository.findAll(pageable);
-
-        return
-                new PageWrapper<>(
-                        flowerTypeMapperDTO.toDtoList(flowerTypes.toList()),
-                        flowerTypes.getTotalPages(),
-                        flowerTypes.getTotalElements());
+    public List<FlowerTypeDTO> findAll() {
+        return flowerTypeMapperDTO.toDtoList(flowerTypeRepository.findAll());
     }
 
     @Override

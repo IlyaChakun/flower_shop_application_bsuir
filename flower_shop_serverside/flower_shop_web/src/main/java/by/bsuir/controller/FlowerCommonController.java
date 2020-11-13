@@ -1,14 +1,18 @@
 package by.bsuir.controller;
 
 
-import by.bsuir.dto.model.PageWrapper;
 import by.bsuir.dto.model.product.bouquet.BouquetTypeDTO;
 import by.bsuir.dto.model.product.flower.FlowerTypeDTO;
 import by.bsuir.service.api.FlowerCommonService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @Validated
 @RestController
@@ -22,24 +26,20 @@ public class FlowerCommonController {
 
     //TODO не админ а для всех, ведь это же можно получать просто для каталога поиск и тд
     @GetMapping("/flower-types")
-    public ResponseEntity<?> findAllFlowerTypes(
-            @RequestParam(defaultValue = "1", required = false) Integer page,
-            @RequestParam(defaultValue = "10", required = false) Integer size) {
+    public ResponseEntity<?> findAllFlowerTypes() {
 
-        PageWrapper<FlowerTypeDTO> wrapper = flowerCommonService.findAllFlowerTypes(page - 1, size);
+        List<FlowerTypeDTO> flowerTypes = flowerCommonService.findAllFlowerTypes();
 
-        return ResponseEntity.ok(wrapper);
+        return ResponseEntity.ok(flowerTypes);
     }
 
     //TODO тоже самое
     @GetMapping("/flower-bouquet-types")
-    public ResponseEntity<?> findAllFlowerBouquetTypes(
-            @RequestParam(defaultValue = "1", required = false) Integer page,
-            @RequestParam(defaultValue = "10", required = false) Integer size) {
+    public ResponseEntity<?> findAllFlowerBouquetTypes() {
 
-        PageWrapper<BouquetTypeDTO> wrapper = flowerCommonService.findAllFlowerBouquetTypes(page - 1, size);
+        List<BouquetTypeDTO> flowerBouquetTypes = flowerCommonService.findAllFlowerBouquetTypes();
 
-        return ResponseEntity.ok(wrapper);
+        return ResponseEntity.ok(flowerBouquetTypes);
     }
 }
 
