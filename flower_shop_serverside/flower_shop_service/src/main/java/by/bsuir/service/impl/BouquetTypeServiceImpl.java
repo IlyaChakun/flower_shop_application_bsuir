@@ -1,7 +1,6 @@
 package by.bsuir.service.impl;
 
 import by.bsuir.dto.mapper.product.BouquetTypeMapperDTO;
-import by.bsuir.dto.model.PageWrapper;
 import by.bsuir.dto.model.product.bouquet.BouquetTypeDTO;
 import by.bsuir.entity.product.bouqet.BouquetType;
 import by.bsuir.payload.exception.ResourceNotFoundException;
@@ -11,11 +10,13 @@ import by.bsuir.service.api.BouquetTypeService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -28,16 +29,8 @@ public class BouquetTypeServiceImpl implements BouquetTypeService {
 
 
     @Override
-    public PageWrapper<BouquetTypeDTO> findAll(int page, int size) {
-        Pageable pageable = getPageable(page, size);
-
-        Page<BouquetType> bouquetTypes = bouquetTypeRepository.findAll(pageable);
-
-        return
-                new PageWrapper<>(
-                        bouquetTypeMapperDTO.toDtoList(bouquetTypes.toList()),
-                        bouquetTypes.getTotalPages(),
-                        bouquetTypes.getTotalElements());
+    public List<BouquetTypeDTO> findAll() {
+        return bouquetTypeMapperDTO.toDtoList(bouquetTypeRepository.findAll());
     }
 
     @Override
@@ -55,6 +48,7 @@ public class BouquetTypeServiceImpl implements BouquetTypeService {
     }
 
     @Override//TODO где транзакции??
+    @Transactional
     public BouquetTypeDTO save(BouquetTypeDTO bouquetTypeDTO) {
         if (isFlowerBouquetExistById(bouquetTypeDTO.getId())) {
             logger.error("Bouquet Type with id={} exist. Just Update it!", bouquetTypeDTO.getId());
@@ -88,11 +82,6 @@ public class BouquetTypeServiceImpl implements BouquetTypeService {
     }
 
 
-    private Pageable getPageable(int page, int size) {
-        return PageRequest.of(page, size);
-    }
-
-
     private BouquetType getBouquetTypeByIdOrThrowException(Long id) {
         return bouquetTypeRepository.findById(id)
                 .orElseThrow(() -> {
@@ -106,4 +95,5 @@ public class BouquetTypeServiceImpl implements BouquetTypeService {
     private boolean isFlowerBouquetExistById(Long id) {
         return bouquetTypeRepository.findById(id).isPresent();
     }
+
 }

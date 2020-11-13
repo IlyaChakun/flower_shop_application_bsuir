@@ -1,5 +1,6 @@
 package by.bsuir.controller;
 
+import by.bsuir.dto.model.PageWrapper;
 import by.bsuir.dto.model.company.ShopDTO;
 import by.bsuir.dto.validation.annotation.PositiveLong;
 import by.bsuir.service.api.ShopService;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.util.List;
 
 import static by.bsuir.controller.ControllerHelper.checkBindingResultAndThrowExceptionIfInvalid;
 import static by.bsuir.controller.ControllerHelper.checkIdInsideDto;
@@ -40,8 +40,12 @@ public class ShopController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<ShopDTO>> findAll() {
-        return ResponseEntity.ok(shopService.findAll());//TODO пагинацию
+    public ResponseEntity<PageWrapper<ShopDTO>> findAll(@RequestParam(defaultValue = "1", required = false) Integer page,
+                                                        @RequestParam(defaultValue = "10", required = false) Integer size) {
+
+        PageWrapper<ShopDTO> wrapper = shopService.findAll(page - 1, size);
+
+        return ResponseEntity.ok(wrapper);//TODO пагинацию
     }
 
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")

@@ -2,6 +2,7 @@ package by.bsuir.service.impl;
 
 import by.bsuir.dto.mapper.company.CompanyMapperDTO;
 import by.bsuir.dto.mapper.company.ShopMapperDTO;
+import by.bsuir.dto.model.PageWrapper;
 import by.bsuir.dto.model.company.ShopDTO;
 import by.bsuir.entity.company.Company;
 import by.bsuir.entity.company.Contacts;
@@ -16,11 +17,13 @@ import by.bsuir.service.api.ShopService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -43,8 +46,20 @@ public class ShopServiceImpl implements ShopService {
 
 
     @Override//TODO пагинация
-    public List<ShopDTO> findAll() {
-        return shopMapper.toDtoList(shopRepository.findAll());
+    public PageWrapper<ShopDTO> findAll(int page, int size) {
+        Pageable pageable = getPageable(page, size);
+
+        Page<Shop> shops = shopRepository.findAll(pageable);
+
+        return
+                new PageWrapper<>(
+                shopMapper.toDtoList(shops.toList()),
+                shops.getTotalPages(),
+                shops.getTotalElements());
+    }
+
+    private Pageable getPageable(int page, int size) {
+        return PageRequest.of(page, size);
     }
 
 
