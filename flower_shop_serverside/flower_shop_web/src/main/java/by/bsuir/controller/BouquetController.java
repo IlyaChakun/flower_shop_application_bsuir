@@ -3,6 +3,7 @@ package by.bsuir.controller;
 import by.bsuir.dto.model.PageWrapper;
 import by.bsuir.dto.model.SearchAndSortParamDto;
 import by.bsuir.dto.model.product.bouquet.FlowerBouquetDTO;
+import by.bsuir.dto.validation.annotation.PositiveLong;
 import by.bsuir.service.api.FlowerBouquetService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 
 import static by.bsuir.controller.ControllerHelper.checkBindingResultAndThrowExceptionIfInvalid;
+import static by.bsuir.controller.ControllerHelper.checkIdInsideDto;
 
 
 @RestController
@@ -29,7 +31,7 @@ public class BouquetController {
 
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     @GetMapping("/{id}")
-    public ResponseEntity<FlowerBouquetDTO> findById(@PathVariable("id") String id) {
+    public ResponseEntity<FlowerBouquetDTO> findById(@PathVariable("id") @PositiveLong String id) {
 
         FlowerBouquetDTO flowerBouquet = flowerBouquetService.findById(Long.valueOf(id));//TODO давай напишем либо аннотацию ValidLong ( я псал как то ) суть в том чтобы кинуть 400 ошибку если там все таки строка а не число а то будет плохо
 
@@ -60,7 +62,7 @@ public class BouquetController {
 
         FlowerBouquetDTO flowerBouquet = flowerBouquetService.save(flowerBouquetDTO);
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{}")//TODO а где путь для findByid?
+        httpHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")//TODO а где путь для findByid?
                 .buildAndExpand(flowerBouquet.getId()).toUri());
 
 
@@ -69,18 +71,21 @@ public class BouquetController {
 
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<FlowerBouquetDTO> update(@PathVariable("id") String id,
+    public ResponseEntity<FlowerBouquetDTO> update(@PathVariable("id") @PositiveLong String id,
                                                    @RequestBody @Valid FlowerBouquetDTO flowerBouquetDTO,
                                                    BindingResult bindingResult) {
         checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
-        flowerBouquetDTO.setId(Long.valueOf(id));//TODO так не надо, по урлу наебать можно систесу, надо надеяться что пришел ид внутри сущности, а в урле он прпросто для читаемости
+
+        checkIdInsideDto(flowerBouquetDTO);
+//        flowerBouquetDTO.setId(Long.valueOf(id));//TODO так не надо, по урлу наебать можно систесу, надо надеяться что пришел ид внутри сущности, а в урле он прпросто для читаемости
+
         FlowerBouquetDTO flowerBouquet = flowerBouquetService.update(flowerBouquetDTO);
         return ResponseEntity.ok(flowerBouquet);
     }
 
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") String id) {
+    public ResponseEntity<Void> delete(@PathVariable("id") @PositiveLong String id) {
         flowerBouquetService.delete(Long.valueOf(id));
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

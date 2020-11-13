@@ -24,7 +24,7 @@ public class ClientController {
     private final ClientService clientService;
 
 
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")//TODO заебись :)
+    @PreAuthorize("hasAnyAuthority('ROLE_CLIENT')")//TODO заебись :)
     @PutMapping("/{uniqueId}")
     public ResponseEntity<ClientDTO> updateClientProfile(@PathVariable("uniqueId") String uniqueId,
                                                     @RequestBody @Valid ClientDTO clientDTO,
