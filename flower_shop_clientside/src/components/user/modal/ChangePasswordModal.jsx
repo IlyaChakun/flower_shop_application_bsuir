@@ -146,10 +146,6 @@ class ChangePasswordModal extends React.Component {
             }
         })
 
-        console.log('  ' + this.state.newPassword.value + '    ' + this.state.confirmedPassword.value)
-        console.log(inputName === 'newPassword')
-        console.log(inputValue)
-
         if (inputName === 'newPassword') {
             if (this.state.confirmedPassword.value !== inputValue) {
                 this.state.confirmedPassword.validateStatus = ERROR
