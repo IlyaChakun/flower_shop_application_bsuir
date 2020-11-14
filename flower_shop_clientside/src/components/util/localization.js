@@ -47,6 +47,10 @@ export const localizedStrings = new LocalizedStrings({
     profile: 'Profile',
     yourName: 'Your name: ',
     yourLogin: 'Your login: ',
+    yourPhoneNumber: 'Your phone number: ',
+
+    currentPassword: 'Current password: ',
+    newPassword: 'New password: ',
 
     /// params
     name: 'Name',
@@ -56,10 +60,13 @@ export const localizedStrings = new LocalizedStrings({
     alertBadPassword: 'Please input your Password!',
     alertSuccessRegister: 'Thank you! You\'re successfully registered. Please Login to continue!',
 
+    alertSuccessfulUserUpdate: 'Editing has completed successfully!',
+
     alertException: 'Sorry! Something went wrong. Please try again!',
 
     alertBadNameTooShort: `Name is too short (Minimum ${NAME_MIN_LENGTH} characters needed.)`,
     alertBadNameTooLong: `Name is too long (Maximum ${NAME_MAX_LENGTH} characters allowed.)`,
+    alertBadNameEmpty: 'Name can\'t be empty!',
 
     alertBadLoginTooLong: `Email is too long (Maximum ${LOGIN_MAX_LENGTH} characters allowed)`,
     alertLoginEmpty: 'Email may not be empty',
@@ -139,6 +146,7 @@ export const localizedStrings = new LocalizedStrings({
     cancel: 'Cancel',
     chooseColor: 'Choose color',
     edit: 'Edit',
+    changePassword: 'Change password',
 
     // Social
     useSocial: 'use your social account:',

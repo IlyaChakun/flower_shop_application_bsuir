@@ -7,7 +7,7 @@ export const SENSOR_DESCRIPTION_MAX_LENGTH = 200
 export const SENSOR_RANGE_MIN = -5000
 export const SENSOR_RANGE_MAX = 5000
 
-export const NAME_MIN_LENGTH = 3
+export const NAME_MIN_LENGTH = 5
 export const NAME_MAX_LENGTH = 30
 
 export const EMAIL_MAX_LENGTH = 30
