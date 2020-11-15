@@ -21,7 +21,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 
 import static by.bsuir.controller.ControllerHelper.checkBindingResultAndThrowExceptionIfInvalid;
-import static by.bsuir.controller.ControllerHelper.checkIdInsideDto;
+import static by.bsuir.controller.ControllerHelper.isIdInsideDtoOrThrowException;
 
 @Validated
 @RestController//users/clients/
@@ -73,7 +73,7 @@ public class OrderController {
                                            @CurrentUser UserPrincipal userPrincipal,
                                            BindingResult bindingResult) {
         checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
-        checkIdInsideDto(orderDTO);
+        isIdInsideDtoOrThrowException(orderDTO);
 
         ClientDTO clientDTO = getClient(userPrincipal);
 

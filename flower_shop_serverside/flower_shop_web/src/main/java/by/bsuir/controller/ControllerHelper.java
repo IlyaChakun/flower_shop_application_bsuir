@@ -19,7 +19,7 @@ final class ControllerHelper {
     }
 
 
-    static void checkIdInsideDto(AbstractDTO abstractDTO){
+    static void isIdInsideDtoOrThrowException(AbstractDTO abstractDTO){
         if (Objects.isNull(abstractDTO.getId())){
             throw new ControllerException("Сущность с фронта пришла без id");
         }

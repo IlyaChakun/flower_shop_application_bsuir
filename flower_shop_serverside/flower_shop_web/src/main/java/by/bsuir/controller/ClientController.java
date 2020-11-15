@@ -15,7 +15,7 @@ import static by.bsuir.controller.ControllerHelper.checkBindingResultAndThrowExc
 
 @Validated
 @RestController
-@RequestMapping("/user/client")
+@RequestMapping("/users/clients")
 @AllArgsConstructor
 @CrossOrigin(origins = "*")
 public class ClientController {
@@ -24,7 +24,7 @@ public class ClientController {
     private final ClientService clientService;
 
 
-    @PreAuthorize("hasAnyAuthority('ROLE_CLIENT')")//TODO заебись :)
+    @PreAuthorize("hasAnyAuthority('ROLE_CLIENT')")
     @PutMapping("/{uniqueId}")
     public ResponseEntity<ClientDTO> updateClientProfile(@PathVariable("uniqueId") String uniqueId,
                                                     @RequestBody @Valid ClientDTO clientDTO,

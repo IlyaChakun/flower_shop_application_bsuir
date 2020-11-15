@@ -18,10 +18,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 
 import static by.bsuir.controller.ControllerHelper.checkBindingResultAndThrowExceptionIfInvalid;
-import static by.bsuir.controller.ControllerHelper.checkIdInsideDto;
+import static by.bsuir.controller.ControllerHelper.isIdInsideDtoOrThrowException;
 
 @RestController
-@RequestMapping("/user/admin/company/shops/{id}/flowers")
+@RequestMapping("/users/admin/company/shops/{id}/flowers")
 @AllArgsConstructor
 @CrossOrigin(origins = "*")
 public class FlowerController {
@@ -62,7 +62,7 @@ public class FlowerController {
 
         FlowerDTO flower = flowerService.save(flowerDTO);
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")//TODO ид  для findById
+        httpHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(flower.getId()).toUri());
 
 
@@ -75,8 +75,7 @@ public class FlowerController {
                                             @RequestBody @Valid FlowerDTO flowerDTO,
                                             BindingResult bindingResult) {
         checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
-        checkIdInsideDto(flowerDTO);//TODO
-//        flowerDTO.setId(Long.valueOf(id));
+        isIdInsideDtoOrThrowException(flowerDTO);
         FlowerDTO flower = flowerService.update(flowerDTO);
         return ResponseEntity.ok(flower);
     }

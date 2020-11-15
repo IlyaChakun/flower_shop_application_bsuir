@@ -17,11 +17,11 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 
 import static by.bsuir.controller.ControllerHelper.checkBindingResultAndThrowExceptionIfInvalid;
-import static by.bsuir.controller.ControllerHelper.checkIdInsideDto;
+import static by.bsuir.controller.ControllerHelper.isIdInsideDtoOrThrowException;
 
 @Validated
 @RestController
-@RequestMapping("/user/admin/company/{name}/shop")
+@RequestMapping("/users/admin/company/{name}/shops")
 @AllArgsConstructor
 @CrossOrigin(origins = "*")
 public class ShopController {
@@ -32,7 +32,7 @@ public class ShopController {
     @GetMapping("/{id}")
     public ResponseEntity<ShopDTO> findById(@PathVariable("id") @PositiveLong String id,
                                             BindingResult bindingResult) {
-        checkBindingResultAndThrowExceptionIfInvalid(bindingResult);//TODO Тоже самое что в bouquet
+        checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
 
         ShopDTO shop = shopService.findById(Long.valueOf(id));
 
@@ -44,8 +44,7 @@ public class ShopController {
                                                         @RequestParam(defaultValue = "10", required = false) Integer size) {
 
         PageWrapper<ShopDTO> wrapper = shopService.findAll(page - 1, size);
-
-        return ResponseEntity.ok(wrapper);//TODO пагинацию
+        return ResponseEntity.ok(wrapper);
     }
 
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
@@ -70,8 +69,7 @@ public class ShopController {
                                           BindingResult bindingResult) {
         checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
 
-        checkIdInsideDto(shopDTO);
-//        shopDTO.setId(Long.valueOf(id));//TODO как в букетах про ид
+        isIdInsideDtoOrThrowException(shopDTO);
 
         ShopDTO shop = shopService.update(shopDTO);
         return ResponseEntity.ok(shop);
@@ -81,7 +79,7 @@ public class ShopController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("name") String name,
                                        @PathVariable("id") @PositiveLong String id) {
-        shopService.delete(Long.valueOf(id), name);//TODO как в букетах про ид
+        shopService.delete(Long.valueOf(id), name);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
