@@ -5,7 +5,6 @@ import PrivateRoute from './util/PrivateRoute'
 import {ConfigProvider, Layout, notification} from 'antd'
 import {Route, Switch, withRouter} from 'react-router-dom'
 
-import {getCurrentUserRequest} from '../components/util/utilsAPI'
 import {localizedStrings} from '../components/util/localization'
 import {
     LANGUAGE,
@@ -29,6 +28,8 @@ import Company from '../components/company/Company'
 import ruRU from 'antd/es/locale/ru_RU'
 import enEn from 'antd/es/locale/en_US'
 
+import {getCurrentUserRequest, getCurrentCompanyRequest} from '../components/util/utilsAPI'
+
 const {Content} = Layout
 
 class App extends Component {
@@ -37,6 +38,9 @@ class App extends Component {
         super(props)
         this.state = {
             currentUser: null,
+
+            currentCompany: null,
+
             isAuthenticated: false,
             isLoading: false,
 
@@ -55,6 +59,26 @@ class App extends Component {
         this.setState(() => ({
             language: lang
         }))
+    }
+
+    loadCurrentCompany = () => {
+
+        this.setState({
+            isLoading: true
+        })
+        getCurrentCompanyRequest()
+            .then(response => {
+                console.log('RESPONCE' + response)
+                this.setState({
+                    currentCompany: response,
+                    isLoading: false
+                })
+            }).catch(() => {
+            this.setState({
+                isLoading: false
+            })
+        })
+
     }
 
     loadCurrentUser = () => {
@@ -79,6 +103,7 @@ class App extends Component {
 
     componentDidMount() {
         this.loadCurrentUser()
+        this.loadCurrentCompany()
     }
 
     handleLogout =
@@ -153,8 +178,7 @@ class App extends Component {
                                           component={Profile}/>
 
                             <Route path="/company"
-                                          isAuthenticated={this.state.isAuthenticated}
-                                          currentUser={this.state.currentUser}
+                                          currentCompany={this.state.currentCompany}
                                           component={Company}/>
 
                             <Route component={NotFound}/>

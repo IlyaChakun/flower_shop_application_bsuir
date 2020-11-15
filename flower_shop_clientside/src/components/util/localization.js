@@ -10,7 +10,11 @@ import {
   SENSOR_NAME_MAX_LENGTH,
   SENSOR_NAME_MIN_LENGTH,
   PASSWORD_MAX_LENGTH,
-  PASSWORD_MIN_LENGTH, SENSOR_DESCRIPTION_MAX_LENGTH
+  PASSWORD_MIN_LENGTH,
+  SENSOR_DESCRIPTION_MAX_LENGTH,
+  COMPANY_NAME_MAX_LENGTH,
+  COMPANY_DESCRIPTION_MAX_LENGTH,
+  COMPANY_LICENCE_NUM_MAX_LENGTH
 } from '../../constants'
 
 export const localizedStrings = new LocalizedStrings({
@@ -43,6 +47,7 @@ export const localizedStrings = new LocalizedStrings({
     description: 'Description',
     found: 'Total: ',
 
+
     //
     profile: 'Profile',
     yourName: 'Your name: ',
@@ -66,7 +71,9 @@ export const localizedStrings = new LocalizedStrings({
 
     alertBadNameTooShort: `Name is too short (Minimum ${NAME_MIN_LENGTH} characters needed.)`,
     alertBadNameTooLong: `Name is too long (Maximum ${NAME_MAX_LENGTH} characters allowed.)`,
-    alertBadNameEmpty: 'Name can\'t be empty!',
+    alertBadNameEmpty: `Name can\`t be empty!`,
+
+
 
     alertBadLoginTooLong: `Email is too long (Maximum ${LOGIN_MAX_LENGTH} characters allowed)`,
     alertLoginEmpty: 'Email may not be empty',
@@ -183,6 +190,12 @@ export const localizedStrings = new LocalizedStrings({
     description: 'Описание',
     found: 'Всего: ',
 
+
+    //company
+    companyName:"Название",
+    companyLicenceNumber:"Номер лицензии",
+    companyDescription:"Описание",
+
     //
 
     profile: 'Профиль',
@@ -217,6 +230,19 @@ export const localizedStrings = new LocalizedStrings({
     alertBadPasswordTooShort: `Пароль очень короткий! (Минимум ${PASSWORD_MIN_LENGTH} символов)`,
     alertBadPasswordTooLong: `Пароль очень длинный (Максимум  ${PASSWORD_MAX_LENGTH} символов)`,
     alertBadConfirmedPasswordNotEqual: ' Подтвержденный пароль не соответсвует паролю',
+
+
+    //company////
+    alertCompanyBadNameEmpty: `Название компании не может быть пустым!`,
+    alertCompanyBadNameTooLong: `Название слишком длинное (Более ${COMPANY_NAME_MAX_LENGTH} символов )`,
+
+    alertCompanyDescrTooLong: `Описание слишком длинное (Более ${COMPANY_DESCRIPTION_MAX_LENGTH} символов )`,
+
+    alertCompanyLicenceNumberTooLong: `Номер лицензии слишком длинный (Более ${COMPANY_LICENCE_NUM_MAX_LENGTH} символов )`,
+
+    companyShops: `Магазины`,
+    aboutCompany: `О компании`,
+    /////////////
 
     // sensors
 

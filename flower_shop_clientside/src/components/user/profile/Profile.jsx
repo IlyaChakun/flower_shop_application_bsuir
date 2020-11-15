@@ -3,6 +3,7 @@ import React, {Component} from 'react'
 import {localizedStrings} from '../../util/localization'
 // import s from "../login/Login.module.css";
 import s from "../profile/Profile.module.css";
+import "../../../index.css";
 import {Button, Form, Input, notification} from "antd";
 
 import ChangePasswordModal from "../modal/ChangePasswordModal";
@@ -95,77 +96,89 @@ class Profile extends Component {
 
         return (
 
-            <div className={s.profileContainer}>
-                <div className={s.content}>
-
-                    <div>
-                        <Form className={s.form}>
-                            <Form.Item
-                                className={s.formItem}
-                                label={localizedStrings.yourName}
-                                validateStatus={this.state.name.validateStatus}
-                                hasFeedback
-                                onChange={(event) => this.handleInputChange(event, this.validateName)}
-                                help={this.state.name.errorMsg}
-                            >
-                                <Input
-                                    name="name"
-                                    type=""
-                                    size="middle"
-                                    disabled={!this.state.isEditing}
-                                    value={this.state.name.value}>
-                                </Input>
-                            </Form.Item>
-
-                            <Form.Item
-                                className={s.formItem}
-                                label={localizedStrings.yourLogin}
-                                validateStatus={this.state.email.validateStatus}
-                                onBlur={this.validateLoginAvailability}
-                                onChange={(event) => this.handleInputChange(event, this.validateLogin)}
-                                help={this.state.email.errorMsg}>
-                                <Input
-                                    name="email"
-                                    size="middle"
-                                    disabled={!this.state.isEditing}
-                                    value={this.state.email.value}>
-                                </Input>
-                            </Form.Item>
-
-                            <Form.Item
-                                className={s.formItem}
-                                label={localizedStrings.yourPhoneNumber}
-                                validateStatus={this.state.phoneNumber.validateStatus}
-                                onChange={(event) => this.handleInputChange(event, this.validatePhoneNumber)}
-                                help={this.state.phoneNumber.errorMsg}>
-                                <Input
-                                    name="phoneNumber"
-                                    type="phoneNumber"
-                                    size="middle"
-                                    disabled={!this.state.isEditing}
-                                    value={this.state.phoneNumber.value}>
-                                </Input>
-                            </Form.Item>
-
-                            <div className="row ">
-                                <div className="col">
-                                    <Button onClick={this.editProfile} className={s.button}>
-                                        {localizedStrings.edit}
-                                    </Button>
-                                </div>
-
-                                <div className="col">
-
-                                <ChangePasswordModal
-                                    currentUserId={this.state.currentUser.id}/>
+            <div className="container-fluid">
+                <div className="wrapper_inner  ">
+                    <div className="top-block-wrapper title_position_CENTERED">
+                        <section className="page-top maxwidth-theme ">
+                            <div className="topic">
+                                <div className="topic__inner">
+                                    <div className="topic__heading">
+                                        <h1 id="pagetitle">{localizedStrings.aboutCompany}</h1>
+                                    </div>
                                 </div>
                             </div>
-
-                        </Form>
+                        </section>
                     </div>
 
-                    <div>
-                        <div className="container">
+                    <div className="row m-0 p-0">
+                        <div className="col">
+                            <div>
+                                <Form>
+                                    <Form.Item
+                                        label={localizedStrings.yourName}
+                                        validateStatus={this.state.name.validateStatus}
+                                        hasFeedback
+                                        onChange={(event) => this.handleInputChange(event, this.validateName)}
+                                        help={this.state.name.errorMsg}
+                                    >
+                                        <Input
+                                            name="name"
+                                            type=""
+                                            size="middle"
+                                            disabled={!this.state.isEditing}
+                                            value={this.state.name.value}>
+                                        </Input>
+                                    </Form.Item>
+
+                                    <Form.Item
+                                        className={s.formItem}
+                                        label={localizedStrings.yourLogin}
+                                        validateStatus={this.state.email.validateStatus}
+                                        onBlur={this.validateLoginAvailability}
+                                        onChange={(event) => this.handleInputChange(event, this.validateLogin)}
+                                        help={this.state.email.errorMsg}>
+                                        <Input
+                                            name="email"
+                                            size="middle"
+                                            disabled={!this.state.isEditing}
+                                            value={this.state.email.value}>
+                                        </Input>
+                                    </Form.Item>
+
+                                    <Form.Item
+                                        className={s.formItem}
+                                        label={localizedStrings.yourPhoneNumber}
+                                        validateStatus={this.state.phoneNumber.validateStatus}
+                                        onChange={(event) => this.handleInputChange(event, this.validatePhoneNumber)}
+                                        help={this.state.phoneNumber.errorMsg}>
+                                        <Input
+                                            name="phoneNumber"
+                                            type="phoneNumber"
+                                            size="middle"
+                                            disabled={!this.state.isEditing}
+                                            value={this.state.phoneNumber.value}>
+                                        </Input>
+                                    </Form.Item>
+
+                                    <div className="row ">
+                                        <div className="col">
+                                            <Button onClick={this.editProfile} className={s.button}>
+                                                {localizedStrings.edit}
+                                            </Button>
+                                        </div>
+
+                                        <div className="col">
+
+                                            <ChangePasswordModal
+                                                currentUserId={this.state.currentUser.id}/>
+                                        </div>
+                                    </div>
+
+                                </Form>
+                            </div>
+                        </div>
+
+                        <div className="col">
 
                             <div className="profile-info">
 
@@ -199,14 +212,14 @@ class Profile extends Component {
                             </div>
 
                         </div>
+
+
                     </div>
 
                 </div>
+
+
             </div>
-
-
-
-            // </div>
             // </div>
             // </div>
         )

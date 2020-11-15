@@ -3,6 +3,7 @@ import {Layout} from 'antd'
 import {localizedStrings} from '../../util/localization'
 // import './AppFooter.css'
 import '../../../index.css'
+import AboutUsComponent from './AboutUsComponent'
 
 
 const Footer = Layout.Footer
@@ -17,44 +18,44 @@ const AppFooter = () => {
 
                         <div className="row">
 
-
-
                             <div className="col-md-3 col-sm-3">
-                                <div className="first_bottom_menu">
-                                    <div className="bottom-menu">
-                                        <div className="items">
-                                            <div className="item 0 childs   accordion-close ">
-                                                <div className="title">
-                                                    <a> О нас</a>
-                                                </div>
-                                            </div>
+                                {/*<div className="first_bottom_menu">*/}
+                                {/*    <div className="bottom-menu">*/}
+                                {/*        <div className="items">*/}
+                                {/*            <div className="item 0 childs   accordion-close ">*/}
+                                {/*                <div className="title">*/}
+                                {/*                    <a> О нас</a>*/}
+                                {/*                </div>*/}
+                                {/*            </div>*/}
 
-                                            <div id="bottom_help"
-                                                 className="wrap panel-collapse wrap_compact_mobile">
-                                                <div className="item">
-                                                    <div className="title">
-                                                        <a href="/company">О компании</a>
-                                                    </div>
-                                                </div>
-                                                <div className="item">
-                                                    <div className="title">
-                                                        <a href="">Как оформить заказ</a>
-                                                    </div>
-                                                </div>
-                                                <div className="item">
-                                                    <div className="title">
-                                                        <a href="">Отзывы</a>
-                                                    </div>
-                                                </div>
-                                                <div className="item active">
-                                                    <div className="title">
-                                                        <a href="">Магазины</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                {/*            <div id="bottom_help"*/}
+                                {/*                 className="wrap panel-collapse wrap_compact_mobile">*/}
+                                {/*                <div className="item">*/}
+                                {/*                    <div className="title">*/}
+                                {/*                        <a href="/company">О компании</a>*/}
+                                {/*                    </div>*/}
+                                {/*                </div>*/}
+                                {/*                <div className="item">*/}
+                                {/*                    <div className="title">*/}
+                                {/*                        <a href="">Как оформить заказ</a>*/}
+                                {/*                    </div>*/}
+                                {/*                </div>*/}
+                                {/*                <div className="item">*/}
+                                {/*                    <div className="title">*/}
+                                {/*                        <a href="">Отзывы</a>*/}
+                                {/*                    </div>*/}
+                                {/*                </div>*/}
+                                {/*                <div className="item active">*/}
+                                {/*                    <div className="title">*/}
+                                {/*                        <a href="">Магазины</a>*/}
+                                {/*                    </div>*/}
+                                {/*                </div>*/}
+                                {/*            </div>*/}
+                                {/*        </div>*/}
+                                {/*    </div>*/}
+                                {/*</div>*/}
+                            <AboutUsComponent/>
+
                             </div>
                             <div className="col-md-3 col-sm-3">
                                 <div className="second_bottom_menu">
