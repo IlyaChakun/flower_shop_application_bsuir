@@ -1,6 +1,6 @@
 package by.bsuir.entity.user;
 
-import by.bsuir.entity.basket.Basket;
+import by.bsuir.entity.cart.Cart;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,8 +15,8 @@ import javax.persistence.*;
 public class Client extends AbstractUser {
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "basket_id", referencedColumnName = "id")
-    private Basket basket;
+    @JoinColumn(name = "cart_id", referencedColumnName = "id")
+    private Cart cart;
 
     @Column(name = "unique_id")
     private String uniqueId;//для понтов типо униклаьный ид хз зачем пригодиться

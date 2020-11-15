@@ -2,6 +2,7 @@ package by.bsuir.security.service.impl;
 
 import by.bsuir.dto.mapper.user.UserMapperDTO;
 import by.bsuir.dto.model.user.AbstractUserDTO;
+import by.bsuir.entity.cart.Cart;
 import by.bsuir.entity.user.AbstractUser;
 import by.bsuir.entity.user.Client;
 import by.bsuir.entity.user.Role;
@@ -41,6 +42,10 @@ public class UserSecurityServiceImpl implements UserSecurityService {
     @Transactional
     public AbstractUserDTO registerClient(ClientSignUpRequest signUpRequest) {
         Client client = clientConverter.getClient(signUpRequest);
+
+        Cart cart = new Cart();
+        client.setCart(cart);
+
         Client savedClient = clientRepository.save(client);
         //
         UserConfirmationToken confirmationToken = new UserConfirmationToken(client);
