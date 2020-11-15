@@ -8,9 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "orders")
@@ -25,8 +23,11 @@ public class Order extends AbstractEntity {
     @Column(name = "comment", length = 512)
     private String comment;
 
+//    @OneToMany
+//    private Set<AbstractFlowerProduct> orderProducts = new HashSet<>();
+
     @OneToMany
-    private Set<AbstractFlowerProduct> orderProducts = new HashSet<>();
+    private Set<OrderProduct> orderProducts = new HashSet<>();
 
     private OrderInfo orderInfo;
 
