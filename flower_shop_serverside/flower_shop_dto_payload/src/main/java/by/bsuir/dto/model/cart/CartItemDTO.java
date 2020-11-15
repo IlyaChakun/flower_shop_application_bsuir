@@ -1,28 +1,31 @@
-package by.bsuir.dto.model.basket;
+package by.bsuir.dto.model.cart;
 
 import by.bsuir.dto.model.BaseAbstractDTO;
-import lombok.AllArgsConstructor;
+import by.bsuir.entity.product.AbstractFlowerProduct;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 
-@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-public class UpdateProductBasketDTO extends BaseAbstractDTO {
+public class CartItemDTO extends BaseAbstractDTO {
 
-    @NotNull(message = "userId must be set")
-    private Long userId;
+    private Long clientId;
 
     @NotNull(message = "productId must be set")
     private Long productId;
 
+    @NotNull(message = "flowerLengthCostId must be set")
+    private Long flowerLengthCostId;
+
     @NotNull(message = "product quantity must be set")
-    @Min(value = 0, message = "Quantity can`t be <0")
+    @Min(value = 1, message = "Quantity can`t be <1")
     @Max(value = 99, message = "Quantity can`t be bigger then 99")
     private Integer quantity;
+
 }
