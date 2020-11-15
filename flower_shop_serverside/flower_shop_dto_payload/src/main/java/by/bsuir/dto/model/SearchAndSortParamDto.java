@@ -12,7 +12,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 @Setter
-public class SearchAndSortParamDto extends AbstractDTO {//TODO а куда делся lombok?))
+public class SearchAndSortParamDto extends AbstractDTO {
 
     @Size(min = 3, max = 30, message = "Name could not be empty! Should be not empty and in 4-30 characters range!")
     private String flowerType;
@@ -25,5 +25,4 @@ public class SearchAndSortParamDto extends AbstractDTO {//TODO а куда де�
 
     @Pattern(regexp = "(asc|ASC|desc|DESC)", message = "sortType param could not be null or blank. Only ASC or DESC!")
     private String sortType;
-
 }
