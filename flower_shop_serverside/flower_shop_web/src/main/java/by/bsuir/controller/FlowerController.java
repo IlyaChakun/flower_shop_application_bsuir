@@ -17,11 +17,13 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 
+import java.util.List;
+
 import static by.bsuir.controller.ControllerHelper.checkBindingResultAndThrowExceptionIfInvalid;
-import static by.bsuir.controller.ControllerHelper.checkIdInsideDto;
+import static by.bsuir.controller.ControllerHelper.isIdInsideDtoOrThrowException;
 
 @RestController
-@RequestMapping("/user/admin/company/shops/{id}/flowers")
+@RequestMapping("/users/admin/company/{name}/shops/{id}/flowers")
 @AllArgsConstructor
 @CrossOrigin(origins = "*")
 public class FlowerController {
@@ -42,13 +44,17 @@ public class FlowerController {
     @GetMapping()
     public ResponseEntity<?> findAllBySearchString(
             @RequestParam(defaultValue = "1", required = false) Integer page,
-            @RequestParam(defaultValue = "10", required = false) Integer size,
-            @Validated SearchAndSortParamDto searchAndSortParamDto,
-            BindingResult bindingResult) {
+            @RequestParam(defaultValue = "10", required = false) Integer size
+//            @Validated SearchAndSortParamDto searchAndSortParamDto,
+//            BindingResult bindingResult
+    ) {
 
-        checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
+//        checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
 
-        PageWrapper<FlowerDTO> wrapper = flowerService.findAll(page - 1, size, searchAndSortParamDto);
+//        PageWrapper<FlowerDTO> wrapper = flowerService.findAll(page - 1, size, searchAndSortParamDto);
+
+        PageWrapper<FlowerDTO> wrapper = flowerService.findAll(page - 1, size, new SearchAndSortParamDto());
+
 
         return ResponseEntity.ok(wrapper);
     }
@@ -62,7 +68,7 @@ public class FlowerController {
 
         FlowerDTO flower = flowerService.save(flowerDTO);
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")//TODO ид  для findById
+        httpHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(flower.getId()).toUri());
 
 
@@ -75,8 +81,7 @@ public class FlowerController {
                                             @RequestBody @Valid FlowerDTO flowerDTO,
                                             BindingResult bindingResult) {
         checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
-        checkIdInsideDto(flowerDTO);//TODO
-//        flowerDTO.setId(Long.valueOf(id));
+        isIdInsideDtoOrThrowException(flowerDTO);
         FlowerDTO flower = flowerService.update(flowerDTO);
         return ResponseEntity.ok(flower);
     }

@@ -3,16 +3,16 @@ package by.bsuir.service.impl;
 import by.bsuir.dto.mapper.order.OrderMapperDTO;
 import by.bsuir.dto.model.PageWrapper;
 import by.bsuir.dto.model.order.OrderDTO;
-import by.bsuir.entity.basket.Basket;
+import by.bsuir.entity.cart.Cart;
+import by.bsuir.entity.cart.CartItem;
 import by.bsuir.entity.order.Order;
+import by.bsuir.entity.order.OrderProduct;
 import by.bsuir.entity.order.OrderStatus;
 import by.bsuir.entity.product.AbstractFlowerProduct;
-import by.bsuir.entity.product.bouqet.FlowerBouquet;
-import by.bsuir.entity.product.flower.Flower;
 import by.bsuir.entity.user.Client;
 import by.bsuir.payload.exception.ResourceNotFoundException;
 import by.bsuir.payload.exception.ServiceException;
-import by.bsuir.repository.api.core.BasketRepository;
+import by.bsuir.repository.api.core.CartRepository;
 import by.bsuir.repository.api.core.FlowerBouquetRepository;
 import by.bsuir.repository.api.core.FlowerRepository;
 import by.bsuir.repository.api.core.OrderRepository;
@@ -41,84 +41,84 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final OrderMapperDTO orderMapperDTO;
     private final ClientRepository clientRepository;
-    private final BasketRepository basketRepository;
+    private final CartRepository cartRepository;
     private final FlowerRepository flowerRepository;
     private final FlowerBouquetRepository flowerBouquetRepository;
 
     @Override
     public OrderDTO save(OrderDTO orderDTO) {
         Client client = resolveClient(orderDTO.getOrderInfo().getClient().getId());
-        Basket basket = client.getBasket();
-        Order newOrder = createOrder(basket.getBasketProducts(), orderDTO);
+        Cart cart = client.getCart();
+        Order newOrder = createOrder(cart.getCartItems(), orderDTO);
         Order savedOrder = orderRepository.save(newOrder);
-        clearBasket(basket);
+        clearCart(cart);
 
         return orderMapperDTO.toDto(savedOrder);
     }
 
 
-    private Order createOrder(List<AbstractFlowerProduct> basketProducts,
-                              OrderDTO orderDTO) {
-        if (basketProducts.isEmpty()) {
+    private Order createOrder(List<CartItem> cartItems, OrderDTO orderDTO) {
+        if (cartItems.isEmpty()) {
+            logger.error("Order creation with empty cart!");
             throw new ServiceException(HttpStatus.CONFLICT.value(),
-                    "basket_is_empty",
-                    "Your basket is empty!");
+                    "cart_is_empty",
+                    "Your cart is empty!");
         }
 
         Order orderFromUI = orderMapperDTO.toEntity(orderDTO);
 
         Order newOrder = new Order();
         newOrder.setOrderInfo(orderFromUI.getOrderInfo());
-        newOrder.setOrderStatus(OrderStatus.DRAFT);//TODO на скок понимаю заказ в draft только пока в корзине а тут он уже в роли нового но хз хз
-        newOrder.setOrderProducts(resolveProducts(basketProducts));
+        newOrder.setOrderStatus(OrderStatus.NEW);//TODO на скок понимаю заказ в draft только пока в корзине а тут он уже в роли нового но хз хз
+        newOrder.setOrderProducts(resolveProducts(cartItems));
         return newOrder;
     }
 
-    private void clearBasket(Basket basket) {
-        basket.setBasketProducts(null);
-        basket.setTotalPrice(BigDecimal.ZERO);
-        basketRepository.save(basket);
+    private void clearCart(Cart cart) {
+        cart.setCartItems(null);
+        cart.setTotalPrice(BigDecimal.ZERO);
+        cartRepository.save(cart);
     }
 
-    private Set<AbstractFlowerProduct> resolveProducts(List<AbstractFlowerProduct> products) {
+    private Set<OrderProduct> resolveProducts(List<CartItem> cartItems) {
         return
-                products.stream()
-                        .map(basketProduct -> {
+                cartItems.stream()
+                        .map(cartItem -> {
 
-            //TODO разбирать на методы железно нихуя не понятно
-                            AbstractFlowerProduct product = flowerRepository.findById(basketProduct.getId())
-                                    .orElseThrow(() -> new ResourceNotFoundException("No flower with id=" + basketProduct.getId()));
+                            //TODO разбирать на методы железно нихуя не понятно
+                            AbstractFlowerProduct product = findAbstractFlowerProductById(cartItem.getProduct().getId());
+                            product.setAvailableAmountOnStock(product.getAvailableAmountOnStock() - cartItem.getQuantity());
 
-                            if (product instanceof Flower) {//TODO а тут предлоагают еще на нулл проверить почему то
-                                if (product.getAvailableAmountOnStock() == 0) {
-                                    throw new ServiceException(HttpStatus.CONFLICT.value(),
-                                            "flower_not_on_stock",
-                                            "Flower with type=" + ((Flower) product).getFlowerType().getFlowerType() + " is unavailable now!");
-                                } else {
-                                    product.setAvailableAmountOnStock(product.getAvailableAmountOnStock() - 1);
-                                }
+                            OrderProduct orderProduct = new OrderProduct();
+                            orderProduct.setProduct(product);
+                            orderProduct.setQuantity(cartItem.getQuantity());
 
-                            } else {
-
-                                if (product.getAvailableAmountOnStock() == 0) {
-                                    throw new ServiceException(HttpStatus.CONFLICT.value(),
-                                            "flower_bouquet_not_on_stock",
-                                            "Flower Bouquet with name=" + ((FlowerBouquet) product).getTitle() + " is unavailable now!");
-                                } else {
-                                    product.setAvailableAmountOnStock(product.getAvailableAmountOnStock() - 1);
-                                }
-                            }
-
-                            return product;
+                            return orderProduct;
                         })
                         .collect(Collectors.toSet());
     }
 
 
-    private Client resolveClient(Long userId) {
+    private AbstractFlowerProduct findAbstractFlowerProductById(Long productId) {
+
+        AbstractFlowerProduct product;
+        if (flowerRepository.findById(productId).isPresent()) {
+            product = flowerRepository.getOne(productId);
+        } else {
+            product = flowerBouquetRepository.findById(productId)
+                    .orElseThrow(() -> {
+                        logger.error("No Flower or Flower Bouquet with id={}", productId);
+                        throw new ResourceNotFoundException("No Flower or Flower Bouquet with id=" + productId);
+                    });
+        }
+        return product;
+    }
+
+
+    private Client resolveClient(Long clientId) {
         return
-                clientRepository.findById(userId)
-                        .orElseThrow(() -> new ResourceNotFoundException("User with id=" + userId + " not found!"));
+                clientRepository.findById(clientId)
+                        .orElseThrow(() -> new ResourceNotFoundException("Client with id=" + clientId + " not found!"));
     }
 
 

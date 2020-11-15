@@ -1,10 +1,10 @@
 package by.bsuir.dto.model.product;
 
 import by.bsuir.dto.model.AbstractDTO;
-import by.bsuir.entity.common.Country;
-import by.bsuir.entity.product.common.FlowerColor;
-import by.bsuir.entity.product.common.FlowerLengthCost;
-import by.bsuir.entity.product.common.FlowerSort;
+import by.bsuir.dto.model.common.CountryDTO;
+import by.bsuir.dto.model.product.common.FlowerColorDTO;
+import by.bsuir.dto.model.product.common.FlowerLengthCostDTO;
+import by.bsuir.dto.model.product.common.FlowerSortDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,16 +20,16 @@ import java.util.List;
 public class AbstractFlowerProductDTO extends AbstractDTO {
 
     @Valid
-    private List<FlowerColor> flowerColors = new ArrayList<>();
+    private List<FlowerColorDTO> flowerColors = new ArrayList<>();
 
     @Valid
-    private List<FlowerLengthCost> flowerLengthCosts = new ArrayList<>();
+    private List<FlowerLengthCostDTO> flowerLengthCosts = new ArrayList<>();
 
     @Valid
-    private List<FlowerSort> flowerSorts = new ArrayList<>();
+    private List<FlowerSortDTO> flowerSorts = new ArrayList<>();
 
     @Valid
-    private Country country;  // страна происхождения
+    private CountryDTO country;  // страна происхождения
 
 //    private Image image;
 

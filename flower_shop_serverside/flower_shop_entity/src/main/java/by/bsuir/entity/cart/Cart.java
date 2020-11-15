@@ -1,4 +1,4 @@
-package by.bsuir.entity.basket;
+package by.bsuir.entity.cart;
 
 import by.bsuir.entity.AbstractEntity;
 import by.bsuir.entity.product.AbstractFlowerProduct;
@@ -11,29 +11,31 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Entity
-@Table(name = "baskets")
+@Table(name = "carts")
 @NoArgsConstructor
 @Getter
 @Setter
-public class Basket extends AbstractEntity {
+public class Cart extends AbstractEntity {
 
-    @OneToOne(mappedBy = "basket")
+    @OneToOne(mappedBy = "cart")
     private Client client;
-
 
     @ManyToMany(
             fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.MERGE
             })
-    @JoinTable(name = "basket_products",
-            joinColumns = @JoinColumn(name = "basket_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
+    @JoinTable(name = "cart_items",
+            joinColumns = @JoinColumn(name = "cart_id"),
+            inverseJoinColumns = @JoinColumn(name = "item_id")
     )
-    private List<AbstractFlowerProduct> basketProducts = new ArrayList<>();
+    private List<CartItem> cartItems = new ArrayList<>();
+
 
     @Column(name = "total_price", nullable = false)
     private BigDecimal totalPrice = BigDecimal.ZERO;

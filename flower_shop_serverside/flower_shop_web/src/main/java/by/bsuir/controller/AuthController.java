@@ -1,7 +1,7 @@
 package by.bsuir.controller;
 
 import by.bsuir.dto.model.user.AbstractUserDTO;
-import by.bsuir.exception.ControllerException;
+import by.bsuir.payload.exception.ControllerException;
 import by.bsuir.security.core.TokenProvider;
 import by.bsuir.security.dto.ApiResponse;
 import by.bsuir.security.dto.AuthTokenResponse;
@@ -10,6 +10,7 @@ import by.bsuir.security.dto.UserIdentityAvailability;
 import by.bsuir.security.dto.signup.ClientSignUpRequest;
 import by.bsuir.security.service.api.UserSecurityService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -62,7 +63,9 @@ public class AuthController {
         checkBindingResultAndThrowExceptionIfInvalid(result);
 
         if (!signUpRequest.getPassword().equals(signUpRequest.getConfirmedPassword())) {
-            throw new ControllerException("The password you entered did not match the confirmed password!");
+            throw new ControllerException(HttpStatus.CONFLICT.value(),
+                    "password_does_not_match",
+                    "The password you entered did not match the confirmed password!");
         }
 
         AbstractUserDTO addedUser = userService.registerClient(signUpRequest);

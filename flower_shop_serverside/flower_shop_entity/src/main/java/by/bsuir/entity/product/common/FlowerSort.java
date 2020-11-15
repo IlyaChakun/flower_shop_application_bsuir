@@ -11,7 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "flower_sorts")
+@Table(name = "sorts")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter

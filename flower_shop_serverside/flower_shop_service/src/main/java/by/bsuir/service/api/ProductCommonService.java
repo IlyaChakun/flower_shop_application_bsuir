@@ -6,9 +6,8 @@ import by.bsuir.dto.model.product.flower.FlowerTypeDTO;
 
 import java.util.List;
 
-public interface FlowerCommonService {
+public interface ProductCommonService {
 
-    //TODO а зачем тут пагинация..
     List<FlowerTypeDTO> findAllFlowerTypes();
 
     List<BouquetTypeDTO> findAllFlowerBouquetTypes();

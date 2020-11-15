@@ -18,11 +18,11 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 
 import static by.bsuir.controller.ControllerHelper.checkBindingResultAndThrowExceptionIfInvalid;
-import static by.bsuir.controller.ControllerHelper.checkIdInsideDto;
+import static by.bsuir.controller.ControllerHelper.isIdInsideDtoOrThrowException;
 
 
 @RestController
-@RequestMapping("/user/admin/company/shops/{id}/bouquets")
+@RequestMapping("/users/admin/company/shops/{id}/bouquets")
 @AllArgsConstructor
 @CrossOrigin(origins = "*")
 public class BouquetController {
@@ -33,8 +33,7 @@ public class BouquetController {
     @GetMapping("/{id}")
     public ResponseEntity<FlowerBouquetDTO> findById(@PathVariable("id") @PositiveLong String id) {
 
-        FlowerBouquetDTO flowerBouquet = flowerBouquetService.findById(Long.valueOf(id));//TODO давай напишем либо аннотацию ValidLong ( я псал как то ) суть в том чтобы кинуть 400 ошибку если там все таки строка а не число а то будет плохо
-
+        FlowerBouquetDTO flowerBouquet = flowerBouquetService.findById(Long.valueOf(id));
         return ResponseEntity.ok(flowerBouquet);
     }
 
@@ -62,7 +61,7 @@ public class BouquetController {
 
         FlowerBouquetDTO flowerBouquet = flowerBouquetService.save(flowerBouquetDTO);
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")//TODO а где путь для findByid?
+        httpHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(flowerBouquet.getId()).toUri());
 
 
@@ -76,8 +75,7 @@ public class BouquetController {
                                                    BindingResult bindingResult) {
         checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
 
-        checkIdInsideDto(flowerBouquetDTO);
-//        flowerBouquetDTO.setId(Long.valueOf(id));//TODO так не надо, по урлу наебать можно систесу, надо надеяться что пришел ид внутри сущности, а в урле он прпросто для читаемости
+        isIdInsideDtoOrThrowException(flowerBouquetDTO);
 
         FlowerBouquetDTO flowerBouquet = flowerBouquetService.update(flowerBouquetDTO);
         return ResponseEntity.ok(flowerBouquet);

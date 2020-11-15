@@ -23,7 +23,7 @@ import static by.bsuir.controller.ControllerHelper.checkBindingResultAndThrowExc
 
 @Validated
 @RestController
-@RequestMapping("/user/admin/company")
+@RequestMapping("/users/admin/company")
 @AllArgsConstructor
 @CrossOrigin(origins = "*")
 public class CompanyController {
@@ -32,13 +32,10 @@ public class CompanyController {
     private final ShopAdminService shopAdminService;
 
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
-    @GetMapping("/{name}")
-    public ResponseEntity<CompanyDTO> findCompanyByName(@PathVariable("name") String name,
-                                                        BindingResult bindingResult) {
-        checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
+    @GetMapping
+    public ResponseEntity<CompanyDTO> findCompanyByName(@RequestParam("name") String name) {
 
         CompanyDTO company = companyService.findByName(name);
-
         return ResponseEntity.ok(company);
     }
 

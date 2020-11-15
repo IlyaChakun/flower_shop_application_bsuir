@@ -45,7 +45,7 @@ public class ShopServiceImpl implements ShopService {
     }
 
 
-    @Override//TODO пагинация
+    @Override
     public PageWrapper<ShopDTO> findAll(int page, int size) {
         Pageable pageable = getPageable(page, size);
 

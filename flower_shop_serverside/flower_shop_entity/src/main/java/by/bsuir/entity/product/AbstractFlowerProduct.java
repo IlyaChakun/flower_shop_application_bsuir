@@ -55,6 +55,8 @@ public class AbstractFlowerProduct extends AbstractEntity {
                     referencedColumnName = "id")})
     private List<FlowerSort> flowerSorts = new ArrayList<>();
 
+    //TODO у многих цветов много сортов??...может всеже многие-к-одному
+
 
     @ManyToOne(cascade = CascadeType.ALL)
     private Country country;  // страна происхождения

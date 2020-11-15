@@ -3,7 +3,7 @@ package by.bsuir.controller;
 
 import by.bsuir.dto.model.product.bouquet.BouquetTypeDTO;
 import by.bsuir.dto.model.product.flower.FlowerTypeDTO;
-import by.bsuir.service.api.FlowerCommonService;
+import by.bsuir.service.api.ProductCommonService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -16,30 +16,23 @@ import java.util.List;
 
 @Validated
 @RestController
-@RequestMapping("/company")//TODO просто company
+@RequestMapping("/company")
 @AllArgsConstructor
 @CrossOrigin(origins = "*")
 public class FlowerCommonController {
 
-    private final FlowerCommonService flowerCommonService;
+    private final ProductCommonService productCommonService;
 
 
-    //TODO не админ а для всех, ведь это же можно получать просто для каталога поиск и тд
     @GetMapping("/flower-types")
     public ResponseEntity<?> findAllFlowerTypes() {
-
-        List<FlowerTypeDTO> flowerTypes = flowerCommonService.findAllFlowerTypes();
-
+        List<FlowerTypeDTO> flowerTypes = productCommonService.findAllFlowerTypes();
         return ResponseEntity.ok(flowerTypes);
     }
 
-    //TODO тоже самое
     @GetMapping("/flower-bouquet-types")
     public ResponseEntity<?> findAllFlowerBouquetTypes() {
-
-        List<BouquetTypeDTO> flowerBouquetTypes = flowerCommonService.findAllFlowerBouquetTypes();
-
+        List<BouquetTypeDTO> flowerBouquetTypes = productCommonService.findAllFlowerBouquetTypes();
         return ResponseEntity.ok(flowerBouquetTypes);
     }
 }
-
