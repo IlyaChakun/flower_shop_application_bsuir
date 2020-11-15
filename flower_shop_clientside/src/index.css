@@ -51,7 +51,21 @@ body {
     color: #777;
 }
 
+.title_position_CENTERED {
+    text-align: center;
+}
+
 .btn .btn-default {
+    background-color: #dbbdb8;
+    border-color: #dbbdb8;
+    color: #ffffff;
+}
+
+.button{
+    width: 50%;
+    /*margin: 10px;*/
+    padding: 0;
+    font-size: 16px;
     background-color: #dbbdb8;
     border-color: #dbbdb8;
     color: #ffffff;
@@ -154,6 +168,10 @@ footer .info .subscribe_button .btn {
     text-align: left;
     letter-spacing: .8px;
 }
+.wrapper_inner {
+    padding-bottom: 50px;
+    z-index: 3;
+}
 
 .wrapper_inner, .maxwidth-theme {
     padding: 0px 30px;
@@ -184,6 +202,7 @@ ul > li {
     box-sizing: border-box;
 }
 
+
 /*************************/
 a, .link, .button.transparent, .button.transparent:hover, .specials_slider_wrapp ul.tabs > li span,
 .basket_wrapp .basket_block .link:hover + .wraps_icon_block + .text .title, .stores .stores_list .item a span,
@@ -204,6 +223,41 @@ a, .link, .button.transparent, .button.transparent:hover, .specials_slider_wrapp
 footer .light .bottom-menu .item .title a:hover, footer .light .bottom-menu .wrap .item .title a:hover, footer .light
 .info .email a:hover {
     color: #c8877b;
+}
+
+.left_block {
+    width: 244px;
+    float: left;
+    position: relative;
+    zoom: 1;
+    z-index: 390;
+    padding-top: 0px;
+}
+.left_block .sticky-sidebar__inner > div:first-of-type {
+    margin-top: 0px;
+}
+
+.menu_top_block {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    white-space: nowrap;
+}
+
+
+.sticky-sidebar__inner {
+    transform: translate(0,0);
+    will-change: position,transform;
+    padding-bottom: 32px;
+}
+
+header .menu_top_block li .dropdown>li>a, .menu_top_block.catalog_block .dropdown>li.full>a, .left_menu > li> a {
+    display: block;
+    padding: 15px 30px 17px 15px;
+    background: #fff;
+    text-decoration: none;
+    text-align: left;
+    transition: padding 0.2s ease;
 }
 
 /*footer .light .social-icons ul li.vk a:not(:hover) {*/

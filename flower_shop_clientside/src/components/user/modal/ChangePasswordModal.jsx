@@ -4,6 +4,8 @@ import {localizedStrings} from '../../util/localization'
 import {ERROR, PASSWORD_MAX_LENGTH, PASSWORD_MIN_LENGTH, SUCCESS} from "../../../constants";
 import {changeUserPassword} from "../../util/utilsAPI";
 
+import s from "../profile/Profile.module.css";
+
 class ChangePasswordModal extends React.Component {
     state = {
         visible: false,
@@ -77,9 +79,10 @@ class ChangePasswordModal extends React.Component {
     render() {
         return (
             <>
-                <Button type="primary" onClick={this.showModal}>
+                <Button type="primary" onClick={this.showModal} className={s.button}>
                     {localizedStrings.changePassword}
                 </Button>
+
                 <Modal
                     title={localizedStrings.changePassword}
                     visible={this.state.visible}

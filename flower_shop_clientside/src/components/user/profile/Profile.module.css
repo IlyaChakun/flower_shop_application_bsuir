@@ -74,10 +74,13 @@
 }
 
 .button {
-    width: 50%;
+    width: 100%;
     /*margin: 10px;*/
     padding: 0;
     font-size: 16px;
+    background-color: #dbbdb8;
+    border-color: #dbbdb8;
+    color: #ffffff;
 }
 
 .form {

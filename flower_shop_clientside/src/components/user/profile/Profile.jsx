@@ -95,7 +95,6 @@ class Profile extends Component {
 
         return (
 
-
             <div className={s.profileContainer}>
                 <div className={s.content}>
 
@@ -148,13 +147,19 @@ class Profile extends Component {
                                 </Input>
                             </Form.Item>
 
-                            <Button onClick={this.editProfile} className={s.button}>
-                                {localizedStrings.edit}
-                            </Button>
+                            <div className="row ">
+                                <div className="col">
+                                    <Button onClick={this.editProfile} className={s.button}>
+                                        {localizedStrings.edit}
+                                    </Button>
+                                </div>
 
-                            <ChangePasswordModal
-                                currentUserId = {this.state.currentUser.id} />
+                                <div className="col">
 
+                                <ChangePasswordModal
+                                    currentUserId={this.state.currentUser.id}/>
+                                </div>
+                            </div>
 
                         </Form>
                     </div>
@@ -333,8 +338,6 @@ class Profile extends Component {
             }
         })
     }
-
-
 
 
 }

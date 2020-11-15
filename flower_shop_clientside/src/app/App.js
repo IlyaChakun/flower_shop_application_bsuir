@@ -24,6 +24,7 @@ import NotFound from '../components/common/error/NotFound'
 import Profile from '../components/user/profile/Profile'
 import SignUp from '../components/user/signup/SignUp'
 import Login from '../components/user/login/Login'
+import Company from '../components/company/Company'
 
 import ruRU from 'antd/es/locale/ru_RU'
 import enEn from 'antd/es/locale/en_US'
@@ -150,6 +151,11 @@ class App extends Component {
                                           isAuthenticated={this.state.isAuthenticated}
                                           currentUser={this.state.currentUser}
                                           component={Profile}/>
+
+                            <Route path="/company"
+                                          isAuthenticated={this.state.isAuthenticated}
+                                          currentUser={this.state.currentUser}
+                                          component={Company}/>
 
                             <Route component={NotFound}/>
 

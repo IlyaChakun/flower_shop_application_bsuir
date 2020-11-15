@@ -33,7 +33,7 @@ const AppFooter = () => {
                                                  className="wrap panel-collapse wrap_compact_mobile">
                                                 <div className="item">
                                                     <div className="title">
-                                                        <a href="">О компании</a>
+                                                        <a href="/company">О компании</a>
                                                     </div>
                                                 </div>
                                                 <div className="item">

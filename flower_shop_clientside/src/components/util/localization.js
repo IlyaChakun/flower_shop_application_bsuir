@@ -20,7 +20,7 @@ export const localizedStrings = new LocalizedStrings({
     login: 'Login',
     signUp: 'Register',
     sensor: 'Sensors',
-    appName: 'Sensor Portal',
+    appName: 'Flower Shop',
     loginFormRegisterNow: ' register now!',
     alreadyRegister: 'Already registered?',
     signUpFromLoginNow: 'Login now!',
