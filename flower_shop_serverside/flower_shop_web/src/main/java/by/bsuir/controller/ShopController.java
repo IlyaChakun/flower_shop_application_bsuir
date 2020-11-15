@@ -30,12 +30,9 @@ public class ShopController {
 
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     @GetMapping("/{id}")
-    public ResponseEntity<ShopDTO> findById(@PathVariable("id") @PositiveLong String id,
-                                            BindingResult bindingResult) {
-        checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
+    public ResponseEntity<ShopDTO> findById(@PathVariable("id") @PositiveLong String id) {
 
         ShopDTO shop = shopService.findById(Long.valueOf(id));
-
         return ResponseEntity.ok(shop);
     }
 
