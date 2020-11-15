@@ -20,7 +20,7 @@ import {
 const request = (options) => {
     const headers = new Headers({
         'Content-Type': 'application/json'
-    });
+    })
 
     if (localStorage.getItem(ACCESS_TOKEN)) {
         // headers.append('Authorization', 'Bearer ' + localStorage.getItem(ACCESS_TOKEN))
@@ -42,13 +42,12 @@ const request = (options) => {
 
     return fetch(options.url, options)
         .then(response => {
-
             console.log('request error')
             console.log('error code= ' + response.status)
 
             if (response.status === 401) {
                 console.log('remove all tokens')
-                //сначала пробуем сделать обнолвение через refresh и если опять ошибка то удаляем токены из хранилища
+                // сначала пробуем сделать обнолвение через refresh и если опять ошибка то удаляем токены из хранилища
 
                 localStorage.removeItem(ACCESS_TOKEN)
                 localStorage.removeItem(REFRESH_TOKEN)
@@ -56,23 +55,20 @@ const request = (options) => {
                 // return response.json()
             }
 
-            if (response.status === 400 || response.status === 409 ) {//если совсем пиздец
+            if (response.status === 400 || response.status === 409) { // если совсем пиздец
                 console.log('throw exception: ' + response)
                 throw response
             }
 
-            if (response.status !== 204) { //удаление  // !==
+            if (response.status !== 204) { // удаление  // !==
                 return response.json()
             }
-
-
         })
         .then(json => {
             console.log('return final json body: ' + json)
             return json
         })
 }
-
 
 export function loginRequest(loginRequest) {
     return request({
@@ -90,8 +86,23 @@ export function signUpRequest(signupRequest) {
     })
 }
 
-export function getCurrentUserRequest() {
+export function updateUserProfileRequest(editUserRequest) {
+    return request({
+        url: BASE_URL + 'users/' + Number(editUserRequest.id),
+        method: 'PUT',
+        body: JSON.stringify(editUserRequest)
+    })
+}
 
+export function changeUserPassword(changePasswordUserRequest) {
+    return request({
+        url: BASE_URL + 'users/' + Number(changePasswordUserRequest.id),
+        method: 'PUT',
+        body: JSON.stringify(changePasswordUserRequest)
+    })
+}
+
+export function getCurrentUserRequest() {
     if (!localStorage.getItem(ACCESS_TOKEN)) {
         return Promise.reject('No access token set.')
     }
@@ -100,8 +111,43 @@ export function getCurrentUserRequest() {
         url: BASE_URL + 'users/me',
         method: 'GET'
     })
+}
+
+export function getCurrentCompanyRequest() {
+    return fetch("", "").then(response => {
+        return [{
+                name: "Good Company",
+                description: "Descriptionnn",
+                licenceNumber: "Licesnce Number 1",
+                contacts: "",
+                companyLegalAddress: "",
+                shops: [
+                    {
+                        contacts: "",
+                        workingHours: "",
+                        shopProducts: []
+                    },
+                ]
+
+            }]
+        }
+    )
+
+// return request({
+//      url: BASE_URL + '/company
+//      method: 'GET'
+// })
+}
+
+export function updateCompanyInfoRequest(updateCompanyRequest) {
+    return request({
+        // url: BASE_URL + 'users/' + Number(editUserRequest.id),
+        // method: 'PUT',
+        // body: JSON.stringify(updateCompanyRequest)
+    })
 
 }
+
 
 export function checkLoginAvailabilityRequest(login) {
     return request({

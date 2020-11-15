@@ -29,7 +29,6 @@ class Login extends Component {
     return (
       <>
         <div className={s.container}>
-          <h1 className={s.title}>{localizedStrings.appName}</h1>
           <div className={s.content}>
             <LoginForm onLogin={this.props.onLogin}/>
           </div>
