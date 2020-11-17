@@ -144,7 +144,9 @@ export const localizedStrings = new LocalizedStrings({
     helpForChooseProfileColor: 'Please pick your profile color: ',
 
     // footer
-    footerText: ' Copyright YL-Studio 2020, All Rights Reserved.',
+    footerText: '2020 © ЗАО "Андрусерра Агро" УНП № 690557753\n' +
+        ' Интернет-магазин зарегистрирован в торговом реестре ___ под номером\n' +
+        ' 469671',
 
     // buttons
     save: 'Save',
@@ -301,7 +303,9 @@ export const localizedStrings = new LocalizedStrings({
     helpForChooseProfileColor: 'Выберите цвет для вашего профиля: ',
 
     // footer
-    footerText: 'YL-Studio 2020. Все права защищены',
+    footerText: '2020 © ЗАО "Андрусерра Агро" УНП № 690557753\n' +
+        ' Интернет-магазин зарегистрирован в торговом реестре ___ под номером\n' +
+        ' 469671',
 
     // buttons
     save: 'Сохранить',
