@@ -71,7 +71,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
                 UriComponentsBuilder.fromUriString(targetUrl)
                         .queryParam("accessToken", authTokenResponse.getAccessToken())
                         .queryParam("refreshToken", authTokenResponse.getRefreshToken())
-                        .queryParam("expiresIn", authTokenResponse.getExpiresIn())
+                        .queryParam("expireDate", authTokenResponse.getExpireDate())
                         .build()
                         .toUriString();
     }

@@ -69,7 +69,7 @@ public class TokenProviderImpl implements TokenProvider {
         final Date expiryDate = getRefreshTokenExpiryDate();
 
         return
-                new AuthTokenResponse(accessToken, refreshToken, expiryDate.getTime());
+                new AuthTokenResponse(accessToken, refreshToken, expiryDate);
     }
 
     private Date getRefreshTokenExpiryDate() {
