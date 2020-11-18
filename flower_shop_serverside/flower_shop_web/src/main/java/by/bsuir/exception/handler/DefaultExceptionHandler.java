@@ -2,7 +2,9 @@ package by.bsuir.exception.handler;
 
 
 import by.bsuir.exception.IllegalRequestException;
-import by.bsuir.payload.exception.*;
+import by.bsuir.payload.exception.AbstractException;
+import by.bsuir.payload.exception.ErrorMessage;
+import by.bsuir.payload.exception.ErrorMessageList;
 import by.bsuir.security.exception.AccessTokenException;
 import by.bsuir.security.exception.ConfirmationTokeBrokenLinkException;
 import by.bsuir.security.exception.InvalidEmailException;
@@ -52,26 +54,19 @@ public class DefaultExceptionHandler {
                 HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler({ResourceNotFoundException.class})
-    public ResponseEntity<ErrorMessage> handleResourceNotFound(ResourceNotFoundException e) {
+
+    @ExceptionHandler({AbstractException.class})
+    public ResponseEntity<ErrorMessage> handleException(AbstractException ex) {
         /*
-         * Exception occurs when passed id is null. Status 404.
+
          */
-        logger.error(e.getMessage());
-        String message = Objects.isNull(e.getMessage()) ? "" : e.getMessage();
-        return new ResponseEntity<>(
-                new ErrorMessage(HttpStatus.BAD_REQUEST.value(), "Resource not found!", message),
-                HttpStatus.BAD_REQUEST);
+        ex.printStackTrace();
+        return
+                new ResponseEntity<>(
+                        new ErrorMessage(ex.getCode(), ex.getError(), ex.getErrorDescription()),
+                        HttpStatus.valueOf(ex.getCode()));
     }
 
-    @ExceptionHandler({ServiceException.class})
-    public ResponseEntity<ErrorMessage> handleServiceException(ServiceException e) {
-        /* Handles service exception. */
-        logger.error(e.getError());
-        String message = Objects.isNull(e.getError()) ? "" : e.getError();
-        return new ResponseEntity<>(
-                new ErrorMessage(e.getCode(), message, e.getErrorDescription()), HttpStatus.valueOf(e.getCode()));
-    }
 
     @ExceptionHandler(IllegalRequestException.class)
     public ResponseEntity<List<String>> handleValidation(IllegalRequestException e) {
