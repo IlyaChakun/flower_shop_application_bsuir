@@ -97,131 +97,127 @@ class Profile extends Component {
         return (
 
             <div className="container-fluid">
-                <div className="wrapper_inner  ">
-                    <div className="top-block-wrapper title_position_CENTERED">
-                        <section className="page-top maxwidth-theme ">
-                            <div className="topic">
-                                <div className="topic__inner">
-                                    <div className="topic__heading">
-                                        <h1 id="pagetitle">{localizedStrings.aboutCompany}</h1>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-                    </div>
+                <div className="row">
+                    <div className="col-12">
+                        <ul className="nav nav-tabs">
+                            <li className="nav-item">
+                                <a className="nav-link" data-toggle="tab" href="#personalInfo">
+                                    Личная информация {localizedStrings.aboutCompany}
+                                </a>
+                            </li>
+                        </ul>
 
-                    <div className="row m-0 p-0">
-                        <div className="col">
-                            <div>
+                        <div className="tab-content">
+                            <div className="tab-pane fade show active" id="personalInfo">
                                 <Form>
-                                    <Form.Item
-                                        label={localizedStrings.yourName}
-                                        validateStatus={this.state.name.validateStatus}
-                                        hasFeedback
-                                        onChange={(event) => this.handleInputChange(event, this.validateName)}
-                                        help={this.state.name.errorMsg}
-                                    >
-                                        <Input
-                                            name="name"
-                                            type=""
-                                            size="middle"
-                                            disabled={!this.state.isEditing}
-                                            value={this.state.name.value}>
-                                        </Input>
-                                    </Form.Item>
+                                    <div className="row">
+                                        <div className="col-sm-3">
+                                            {
+                                                this.state.imageUrl ? (
+                                                    <img src={this.state.imageUrl}
+                                                         alt={this.state.name.value}/>
+                                                ) : (
+                                                    <div>
+                                                        <div className="text-avatar">
+                                                            <span>{this.state.name.value && this.state.name.value[0]}</span>
+                                                        </div>
+                                                    </div>
 
-                                    <Form.Item
-                                        className={s.formItem}
-                                        label={localizedStrings.yourLogin}
-                                        validateStatus={this.state.email.validateStatus}
-                                        onBlur={this.validateLoginAvailability}
-                                        onChange={(event) => this.handleInputChange(event, this.validateLogin)}
-                                        help={this.state.email.errorMsg}>
-                                        <Input
-                                            name="email"
-                                            size="middle"
-                                            disabled={!this.state.isEditing}
-                                            value={this.state.email.value}>
-                                        </Input>
-                                    </Form.Item>
-
-                                    <Form.Item
-                                        className={s.formItem}
-                                        label={localizedStrings.yourPhoneNumber}
-                                        validateStatus={this.state.phoneNumber.validateStatus}
-                                        onChange={(event) => this.handleInputChange(event, this.validatePhoneNumber)}
-                                        help={this.state.phoneNumber.errorMsg}>
-                                        <Input
-                                            name="phoneNumber"
-                                            type="phoneNumber"
-                                            size="middle"
-                                            disabled={!this.state.isEditing}
-                                            value={this.state.phoneNumber.value}>
-                                        </Input>
-                                    </Form.Item>
-
-                                    <div className="row ">
-                                        <div className="col">
-                                            <Button onClick={this.editProfile} className={s.button}>
-                                                {localizedStrings.edit}
-                                            </Button>
+                                                )
+                                            }
                                         </div>
 
-                                        <div className="col">
+                                        <div className="col-sm-8">
+                                            <Form.Item
+                                                label={localizedStrings.yourName}
+                                                validateStatus={this.state.name.validateStatus}
+                                                hasFeedback
+                                                onChange={(event) => this.handleInputChange(event, this.validateName)}
+                                                help={this.state.name.errorMsg}
+                                            >
+                                                <Input
+                                                    name="name"
+                                                    type=""
+                                                    size="middle"
+                                                    disabled={!this.state.isEditing}
+                                                    value={this.state.name.value}>
+                                                </Input>
+                                            </Form.Item>
 
-                                            <ChangePasswordModal
-                                                currentUserId={this.state.currentUser.id}/>
+                                            <Form.Item
+                                                className={s.formItem}
+                                                label={localizedStrings.yourLogin}
+                                                validateStatus={this.state.email.validateStatus}
+                                                onBlur={this.validateLoginAvailability}
+                                                onChange={(event) => this.handleInputChange(event, this.validateLogin)}
+                                                help={this.state.email.errorMsg}>
+                                                <Input
+                                                    name="email"
+                                                    size="middle"
+                                                    disabled={!this.state.isEditing}
+                                                    value={this.state.email.value}>
+                                                </Input>
+                                            </Form.Item>
+
+                                            <Form.Item
+                                                className={s.formItem}
+                                                label={localizedStrings.yourPhoneNumber}
+                                                validateStatus={this.state.phoneNumber.validateStatus}
+                                                onChange={(event) => this.handleInputChange(event, this.validatePhoneNumber)}
+                                                help={this.state.phoneNumber.errorMsg}>
+                                                <Input
+                                                    name="phoneNumber"
+                                                    type="phoneNumber"
+                                                    size="middle"
+                                                    disabled={!this.state.isEditing}
+                                                    value={this.state.phoneNumber.value}>
+                                                </Input>
+                                            </Form.Item>
                                         </div>
                                     </div>
-
                                 </Form>
-                            </div>
-                        </div>
 
-                        <div className="col">
-
-                            <div className="profile-info">
-
-                                <div className="profile-avatar">
-                                    {
-                                        this.state.imageUrl ? (
-                                            <img src={this.state.imageUrl}
-                                                 alt={this.state.name.value}/>
-                                        ) : (
-                                            <div>
-                                                <div className="text-avatar">
-                                                    <span>{this.state.name.value && this.state.name.value[0]}</span>
+                                <div className="row">
+                                    <div className="col-sm-4"></div>
+                                    <div className="col-sm-8">
+                                        <div className="row">
+                                            <div className="col-sm-4">
+                                                <div className="form-group has-error">
+                                                    {/*блок для ошибки*/}
                                                 </div>
-                                                <div className="color-pick">
-                                                    <form>
-                                                        <label>
-                                                            {localizedStrings.helpForChooseProfileColor}
-                                                            <input type="color" onChange={this.changeColor}/>
-                                                        </label>
-                                                        <button
-                                                            onClick={this.submitColor}>{localizedStrings.chooseColor}</button>
-                                                    </form>
-
+                                                <div>
+                                                    {/*тут писали что акк не активный*/}
                                                 </div>
                                             </div>
-
-                                        )
-                                    }
+                                            <div className="col-sm-5">
+                                                <Button onClick={this.editProfile} className={s.button}>
+                                                    {localizedStrings.edit}
+                                                </Button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-
+                                <div className="row mb-3 mt-3">
+                                    <div className="col-sm-4"></div>
+                                    <div className="col-sm-8">
+                                        <div className="row">
+                                            <div className="col-sm-4">
+                                                <div className="form-group">
+                                                </div>
+                                            </div>
+                                            <div className="col-sm-5">
+                                                <ChangePasswordModal currentUserId={this.state.currentUser.id}/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-
                         </div>
-
-
                     </div>
-
                 </div>
-
-
             </div>
-            // </div>
-            // </div>
+
+
         )
     }
 
