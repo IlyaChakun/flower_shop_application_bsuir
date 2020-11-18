@@ -191,21 +191,20 @@ class CompanyForm extends Component {
                                 <div className="col">
                                     <MapContainer
                                         google={this.props.google}
-                                        center={{lat: 53.893009, lng:  27.567444}}
+                                        center={{lat: 53.893009, lng: 27.567444}}
                                         height='300px'
                                         zoom={14}
                                     />
                                 </div>
                             </div>
 
-                            {/*<div className="row ">*/}
-                            {/*    <div className="col">*/}
-                            {/*        <Button onClick={this.editCompany} className={s.button}>*/}
-                            {/*            {localizedStrings.edit}*/}
-                            {/*        </Button>*/}
-                            {/*    </div>*/}
-
-                            {/*</div>*/}
+                            <div className="row ">
+                                <div className="col">
+                                    <Button onClick={this.editCompany} className={s.button}>
+                                        {localizedStrings.edit}
+                                    </Button>
+                                </div>
+                            </div>
 
                         </Form>
                     </div>

@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import {localizedStrings} from '../util/localization'
-import {Button, Form, Input, notification} from "antd";
-
+import {Link, withRouter} from 'react-router-dom'
 import CompanyForm from "../company/CompanyForm";
 
 import "../../index.css";
@@ -42,14 +41,14 @@ class Company extends Component {
                                                     </a>
                                                 </li>
                                                 <li className="v_bottom item    item ">
-                                                    <a  href="">
+                                                    <a href="">
                                                         <span className="name">Отзывы</span>
                                                     </a>
                                                 </li>
                                                 <li className="v_bottom item   item ">
-                                                    <a  href="">
+                                                    <Link to="/company/shops">
                                                         <span className="name">{localizedStrings.companyShops}</span>
-                                                    </a>
+                                                    </Link>
                                                 </li>
                                             </ul>
                                         </div>
@@ -116,4 +115,5 @@ class Company extends Component {
     }
 }
 
-export default Company
+export default withRouter(Company)
+

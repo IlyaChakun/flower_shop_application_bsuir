@@ -7,13 +7,13 @@ import {Route, Switch, withRouter} from 'react-router-dom'
 
 import {localizedStrings} from '../components/util/localization'
 import {
+    ACCESS_TOKEN_HEADER_KEY,
     LANGUAGE,
+    REFRESH_TOKEN_HEADER_KEY,
     ROLE_ADMIN,
     ROLE_USER,
     SUCCESS,
-    USER_ID,
-    ACCESS_TOKEN_HEADER_KEY,
-    REFRESH_TOKEN_HEADER_KEY
+    USER_ID
 } from '../constants'
 import AppHeader from '../components/common/header/AppHeader'
 import LoadingIndicator from '../components/common/util/LoadingIndicator'
@@ -28,7 +28,9 @@ import Company from '../components/company/Company'
 import ruRU from 'antd/es/locale/ru_RU'
 import enEn from 'antd/es/locale/en_US'
 
-import {getCurrentUserRequest, getCurrentCompanyRequest} from '../components/util/utilsAPI'
+import {getCurrentCompanyRequest, getCurrentUserRequest} from '../components/util/utilsAPI'
+import ShopsList from "../components/shop/ShopsList";
+import Home from "../components/home/Home";
 
 const {Content} = Layout
 
@@ -156,7 +158,10 @@ class App extends Component {
                     <Content className="app-content">
                         <Switch>
 
-                            <Route exact path="/"
+                            <Route path="/"
+                                   component={Home}/>
+
+                            <Route exact path="/login"
                                    render={(props) =>
                                        <Login onLogin={this.handleLogin}
                                               {...props} />}/>
@@ -177,9 +182,15 @@ class App extends Component {
                                           currentUser={this.state.currentUser}
                                           component={Profile}/>
 
+
+                            <Route path="/company/shops"
+                                   currentCompany={this.state.currentCompany}
+                                   component={ShopsList}/>
+
                             <Route path="/company"
-                                          currentCompany={this.state.currentCompany}
-                                          component={Company}/>
+                                   currentCompany={this.state.currentCompany}
+                                   component={Company}/>
+
 
                             <Route component={NotFound}/>
 
