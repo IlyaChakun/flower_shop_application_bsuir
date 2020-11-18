@@ -9,11 +9,12 @@ import {
     SUCCESS,
     COMPANY_NAME_MAX_LENGTH,
     COMPANY_DESCRIPTION_MAX_LENGTH,
-    COMPANY_LICENCE_NUM_MAX_LENGTH,
+    COMPANY_LICENCE_NUM_MAX_LENGTH, EMAIL_MAX_LENGTH,
 
 } from "../../constants";
 
 import {updateCompanyInfoRequest} from "../util/utilsAPI";
+import MapContainer from "../common/map/MapContainer";
 
 
 class CompanyForm extends Component {
@@ -35,7 +36,23 @@ class CompanyForm extends Component {
             value: ""
         },
 
-        contacts: "",
+        contacts: {
+            firstPhoneNumber: {
+                value: "+375291234567"
+            },
+            secondPhoneNumber: {
+                value: "+375291234567"
+            },
+            email: {
+                value: "+company@hu.wu"
+            },
+            city: {
+                value: "Minsk"
+            },
+            address: {
+                value: "Porshneva str. 48-987"
+            }
+        },
         // this.props.currentCompany.contacts,
 
         companyLegalAddress: "",
@@ -92,8 +109,8 @@ class CompanyForm extends Component {
 
         return (
 
-            <div >
-                <div >
+            <div>
+                <div>
 
                     <div>
                         <Form>
@@ -117,7 +134,7 @@ class CompanyForm extends Component {
                                 className={s.formItem}
                                 label={localizedStrings.companyLicenceNumber}
                                 validateStatus={this.state.licenceNumber.validateStatus}
-                                onChange={(event) => this.handleInputChange(event, this.validateLicenceNumber())}
+                                onChange={(event) => this.handleInputChange(event, this.validateLicenceNumber)}
                                 help={this.state.licenceNumber.errorMsg}>
                                 <Input
                                     name="licenceNumber"
@@ -132,7 +149,7 @@ class CompanyForm extends Component {
                                 className={s.formItem}
                                 label={localizedStrings.companyDescription}
                                 validateStatus={this.state.description.validateStatus}
-                                onChange={(event) => this.handleInputChange(event, this.validateDescription())}
+                                onChange={(event) => this.handleInputChange(event, this.validateDescription)}
                                 help={this.state.description.errorMsg}>
                                 <Input
                                     name="licenceNumber"
@@ -142,15 +159,53 @@ class CompanyForm extends Component {
                                 </Input>
                             </Form.Item>
 
+                            <Form.Item
+                                className={s.formItem}
+                                label={'Номер телефона'}
+                                validateStatus={this.state.contacts.firstPhoneNumber.validateStatus}
+                                onChange={(event) => this.handleInputChange(event, this.validatePhoneNumber)}
+                                help={this.state.contacts.firstPhoneNumber.errorMsg}>
+                                <Input
+                                    name="firstPhoneNumber"
+                                    size="middle"
+                                    disabled={!this.state.isEditing}
+                                    value={this.state.contacts.firstPhoneNumber.value}>
+                                </Input>
+                            </Form.Item>
 
-                            <div className="row ">
+                            <Form.Item
+                                className={s.formItem}
+                                label={'Емаил конторы'}
+                                validateStatus={this.state.contacts.email.validateStatus}
+                                onChange={(event) => this.handleInputChange(event, this.validateEmail)}
+                                help={this.state.contacts.email.errorMsg}>
+                                <Input
+                                    name="email"
+                                    size="middle"
+                                    disabled={!this.state.isEditing}
+                                    value={this.state.contacts.email.value}>
+                                </Input>
+                            </Form.Item>
+
+                            <div className="row" style={{marginBottom: '15%'}}>
                                 <div className="col">
-                                    <Button onClick={this.editCompany} className={s.button}>
-                                        {localizedStrings.edit}
-                                    </Button>
+                                    <MapContainer
+                                        google={this.props.google}
+                                        center={{lat: 53.893009, lng:  27.567444}}
+                                        height='300px'
+                                        zoom={14}
+                                    />
                                 </div>
-
                             </div>
+
+                            {/*<div className="row ">*/}
+                            {/*    <div className="col">*/}
+                            {/*        <Button onClick={this.editCompany} className={s.button}>*/}
+                            {/*            {localizedStrings.edit}*/}
+                            {/*        </Button>*/}
+                            {/*    </div>*/}
+
+                            {/*</div>*/}
 
                         </Form>
                     </div>
@@ -168,6 +223,10 @@ class CompanyForm extends Component {
         const target = event.target
         const inputName = target.name
         const inputValue = target.value
+
+        console.log('handle input change')
+        console.log('inputName= ' + inputName)
+        console.log('inputValue= ' + inputValue)
 
         this.setState({
             [inputName]: {
@@ -214,7 +273,44 @@ class CompanyForm extends Component {
 
     validateLicenceNumber = (number) => {
 
-        if (number.length > COMPANY_LICENCE_NUM_MAX_LENGTH) {
+        console.log('licence number for validation: ' + number)
+
+        if (number === undefined || number.length > COMPANY_LICENCE_NUM_MAX_LENGTH) {
+            return {
+                validateStatus: ERROR,
+                errorMsg: localizedStrings.alertCompanyLicenceNumberTooLong
+            }
+        }
+
+        return {
+            validateStatus: null,
+            errorMsg: null
+        }
+    }
+
+
+    validatePhoneNumber = (phoneNumber) => {
+
+        console.log('phoneNumber for validation: ' + phoneNumber)
+
+        if (phoneNumber === undefined || phoneNumber.length > COMPANY_LICENCE_NUM_MAX_LENGTH) {
+            return {
+                validateStatus: ERROR,
+                errorMsg: localizedStrings.alertCompanyLicenceNumberTooLong
+            }
+        }
+
+        return {
+            validateStatus: null,
+            errorMsg: null
+        }
+    }
+
+    validateEmail = (email) => {
+
+        console.log('email for validation : ' + email)
+
+        if (email === undefined || email.length > EMAIL_MAX_LENGTH) {
             return {
                 validateStatus: ERROR,
                 errorMsg: localizedStrings.alertCompanyLicenceNumberTooLong
