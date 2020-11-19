@@ -1,6 +1,7 @@
-package by.bsuir.repository.api.core;
+package by.bsuir.repository.api;
 
 import by.bsuir.entity.cart.Cart;
+import by.bsuir.repository.api.core.AbstractRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository

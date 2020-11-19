@@ -7,7 +7,7 @@ import by.bsuir.dto.model.product.bouquet.FlowerBouquetDTO;
 import by.bsuir.entity.product.bouqet.FlowerBouquet;
 import by.bsuir.payload.exception.ResourceNotFoundException;
 import by.bsuir.payload.exception.ServiceException;
-import by.bsuir.repository.api.core.FlowerBouquetRepository;
+import by.bsuir.repository.api.FlowerBouquetRepository;
 import by.bsuir.service.api.FlowerBouquetService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;

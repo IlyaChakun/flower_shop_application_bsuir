@@ -6,7 +6,7 @@ import by.bsuir.entity.company.Company;
 import by.bsuir.entity.user.ShopAdmin;
 import by.bsuir.payload.exception.ResourceNotFoundException;
 import by.bsuir.payload.exception.ServiceException;
-import by.bsuir.repository.api.core.CompanyRepository;
+import by.bsuir.repository.api.CompanyRepository;
 import by.bsuir.repository.api.user.ShopAdminRepository;
 import by.bsuir.service.api.CompanyService;
 import lombok.AllArgsConstructor;

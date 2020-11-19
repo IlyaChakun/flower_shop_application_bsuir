@@ -41,6 +41,13 @@ public class UserSecurityServiceImpl implements UserSecurityService {
     @Override
     @Transactional
     public AbstractUserDTO registerClient(ClientSignUpRequest signUpRequest) {
+
+        clientRepository.findByEmail(signUpRequest.getEmail())
+                .ifPresent(value -> {
+                            throw new DuplicateEmailException("Email address " + value.getEmail() + " already in use.");
+                        }
+                );
+
         Client client = clientConverter.getClient(signUpRequest);
 
         Cart cart = new Cart();

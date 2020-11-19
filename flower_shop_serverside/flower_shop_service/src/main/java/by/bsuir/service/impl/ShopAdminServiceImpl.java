@@ -23,6 +23,8 @@ public class ShopAdminServiceImpl implements ShopAdminService {
 
     @Override
     public ShopAdminDTO findByEmail(String email) {
+        logger.info("find admin by email {}", email);
+
         ShopAdmin admin = shopAdminRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("Admin with such a email " + email + " is absent in our base"));
 

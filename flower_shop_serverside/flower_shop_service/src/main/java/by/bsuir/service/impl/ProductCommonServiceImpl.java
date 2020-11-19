@@ -3,10 +3,8 @@ package by.bsuir.service.impl;
 import by.bsuir.dto.mapper.common.CountryMapperDTO;
 import by.bsuir.dto.mapper.product.*;
 import by.bsuir.dto.model.product.bouquet.BouquetTypeDTO;
-import by.bsuir.dto.model.product.common.FlowerColorDTO;
 import by.bsuir.dto.model.product.flower.FlowerTypeDTO;
-import by.bsuir.entity.product.common.FlowerColor;
-import by.bsuir.repository.api.core.*;
+import by.bsuir.repository.api.*;
 import by.bsuir.service.api.ProductCommonService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -14,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
