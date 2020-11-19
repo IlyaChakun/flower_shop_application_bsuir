@@ -9,5 +9,7 @@ public interface CompanyService extends SaveOperationService<CompanyDTO>, FindOp
 
     CompanyDTO findByName(String name);
 
+    CompanyDTO findByShopAdminId(Long adminId);
+
     CompanyDTO update(CompanyDTO company, String name);
 }

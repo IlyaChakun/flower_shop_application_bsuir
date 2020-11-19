@@ -106,6 +106,17 @@ public class CompanyServiceImpl implements CompanyService {
         return companyMapper.toDto(company);
     }
 
+    @Override
+    public CompanyDTO findByShopAdminId(Long adminId) {
+        logger.info("search by company admin id : " + adminId);
+
+        Company company = companyRepository.findByShopAdminId(adminId).orElseThrow(() -> {
+            throw new ResourceNotFoundException("Company with shop admin id =" + adminId + " does not exist!");
+        });
+
+        return companyMapper.toDto(company);
+    }
+
 
     private boolean isCompanyExistByName(String name) {
         return companyRepository.findByName(name).isPresent();

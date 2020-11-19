@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
 
 import static by.bsuir.controller.ControllerHelper.checkBindingResultAndThrowExceptionIfInvalid;
 
@@ -31,11 +30,20 @@ public class CompanyController {
     private final CompanyService companyService;
     private final ShopAdminService shopAdminService;
 
+//    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
+//    @GetMapping
+//    public ResponseEntity<CompanyDTO> findCompanyByName(@RequestParam("name") String name) {
+//
+//        CompanyDTO company = companyService.findByName(name);
+//        return ResponseEntity.ok(company);
+//    }
+
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     @GetMapping
-    public ResponseEntity<CompanyDTO> findCompanyByName(@RequestParam("name") String name) {
+    public ResponseEntity<CompanyDTO> findCompanyByName(@CurrentUser UserPrincipal userPrincipal) {
+        ShopAdminDTO shopAdminDTO = shopAdminService.findByEmail(userPrincipal.getEmail());
 
-        CompanyDTO company = companyService.findByName(name);
+        CompanyDTO company = companyService.findByShopAdminId(shopAdminDTO.getId());
         return ResponseEntity.ok(company);
     }
 

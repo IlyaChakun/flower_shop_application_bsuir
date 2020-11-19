@@ -13,4 +13,6 @@ public interface CompanyRepository extends AbstractRepository<Company> {
 
     Company getByName(String name);
 
+    Optional<Company> findByShopAdminId(Long shopAdminId);
+
 }
