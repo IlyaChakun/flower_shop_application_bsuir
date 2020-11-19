@@ -158,8 +158,6 @@ class App extends Component {
                     <Content className="app-content">
                         <Switch>
 
-                            <Route path="/"
-                                   component={Home}/>
 
                             <Route exact path="/login"
                                    render={(props) =>
@@ -191,6 +189,8 @@ class App extends Component {
                                    currentCompany={this.state.currentCompany}
                                    component={Company}/>
 
+                            <Route path="/"
+                                   component={Home}/>
 
                             <Route component={NotFound}/>
 
