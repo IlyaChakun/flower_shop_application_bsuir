@@ -1,7 +1,6 @@
 import LocalizedStrings from 'react-localization'
 import {
   EMAIL_MAX_LENGTH,
-  LOGIN_MAX_LENGTH,
   NAME_MAX_LENGTH,
   NAME_MIN_LENGTH,
   SENSOR_LOCATION_MAX_LENGTH,
@@ -75,7 +74,7 @@ export const localizedStrings = new LocalizedStrings({
 
 
 
-    alertBadLoginTooLong: `Email is too long (Maximum ${LOGIN_MAX_LENGTH} characters allowed)`,
+    alertBadLoginTooLong: `Email is too long (Maximum ${EMAIL_MAX_LENGTH} characters allowed)`,
     alertLoginEmpty: 'Email may not be empty',
     alertLoginAlreadyRegistered: 'This Email is already registered',
 
@@ -220,7 +219,7 @@ export const localizedStrings = new LocalizedStrings({
     alertBadNameTooShort: `Имя очень короткое! (Минимум ${NAME_MIN_LENGTH} символов)`,
     alertBadNameTooLong: `Имя очень длинное (Максимум ${NAME_MAX_LENGTH} символов)`,
 
-    alertBadLoginTooLong: `Логин очень длинный (Максимум ${LOGIN_MAX_LENGTH} символов)`,
+    alertBadLoginTooLong: `Логин очень длинный (Максимум ${EMAIL_MAX_LENGTH} символов)`,
     alertLoginEmpty: 'Логин не может быть пустым',
     alertLoginAlreadyRegistered: 'Этот логин уже зарегистрирован',
 

@@ -4,7 +4,7 @@ import {withRouter} from 'react-router-dom'
 import {Carousel, Form} from 'antd'
 import MapContainer from '../common/map/MapContainer'
 import ShopCard from "../shop/ShopCard";
-import ReviewsBlock from "../company/ReviewsBlock";
+import ReviewsBlock from "../company/review/ReviewsBlock";
 import FlowersList from "../company/FlowersList";
 
 class Home extends Component {

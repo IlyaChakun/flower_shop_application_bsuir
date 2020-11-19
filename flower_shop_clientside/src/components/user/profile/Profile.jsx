@@ -10,7 +10,7 @@ import ChangePasswordModal from "../modal/ChangePasswordModal";
 
 import {
     ERROR,
-    LOGIN_MAX_LENGTH,
+    EMAIL_MAX_LENGTH,
     NAME_MAX_LENGTH,
     NAME_MIN_LENGTH,
     SUCCESS
@@ -275,7 +275,7 @@ class Profile extends Component {
             }
         }
 
-        if (email.length > LOGIN_MAX_LENGTH) {
+        if (email.length > EMAIL_MAX_LENGTH) {
             return {
                 validateStatus: ERROR,
                 errorMsg: localizedStrings.alertBadLoginTooLong

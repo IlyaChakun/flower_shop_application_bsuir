@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import ShopCard from './ShopCard'
 import {withRouter} from 'react-router-dom'
+import MapContainer from "../common/map/MapContainer";
 
 class ShopsList extends Component {
 
@@ -54,9 +55,12 @@ class ShopsList extends Component {
             <div className="container">
                 <div className="contacts_map">
                     <div id="map-block" style={{height: '550px', width: '100%'}}>
-
-                        ЗДЕСЬ младшему помощнику БОГА ФРОНТЕНДА положить модуль с картой
-
+                        <MapContainer
+                            google={this.props.google}
+                            center={{lat: 53.893009, lng: 27.567444}}
+                            height='550px'
+                            zoom={14}
+                        />
                     </div>
                 </div>
 

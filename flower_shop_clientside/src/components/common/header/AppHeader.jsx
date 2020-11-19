@@ -8,6 +8,9 @@ import './AppHeader.css'
 import HomeOutlined from '@ant-design/icons/lib/icons/HomeOutlined'
 import UserOutlined from '@ant-design/icons/lib/icons/UserOutlined'
 import CaretDownOutlined from '@ant-design/icons/lib/icons/CaretDownOutlined'
+import LoginOutlined from "@ant-design/icons/lib/icons/LoginOutlined";
+import UserAddOutlined from "@ant-design/icons/lib/icons/UserAddOutlined";
+import {isAdmin} from "../../../app/App";
 
 const Header = Layout.Header
 
@@ -28,8 +31,8 @@ class AppHeader extends Component {
 
     makeMenuForUser = () => {
         return [
-            <Menu.Item key="/sensors">
-                <Link to="/sensors">
+            <Menu.Item key="/">
+                <Link to="/">
                     <HomeOutlined style={{fontSize: '20px'}}/>
                 </Link>
             </Menu.Item>,
@@ -39,6 +42,41 @@ class AppHeader extends Component {
                     currentUser={this.props.currentUser}
                     handleMenuClick={this.handleMenuClick}
                 />
+            </Menu.Item>
+        ]
+    }
+
+    makeMenuForGuest = () => {
+
+        return [
+            <Menu.Item key="/sign-up">
+                <Link to="/sign-up">
+                    <UserAddOutlined style={{fontSize: '20px'}}/>
+                </Link>
+            </Menu.Item>,
+
+            <Menu.Item key="/login">
+                <Link to="/login">
+                    <LoginOutlined style={{fontSize: '20px'}}/>
+                </Link>
+            </Menu.Item>
+        ]
+    }
+
+
+    makeMenuForShopAdmin = () => {
+
+        return [
+            <Menu.Item key="/company">
+                <Link to="/company">
+                    Компания
+                </Link>
+            </Menu.Item>,
+
+            <Menu.Item key="/company/shops">
+                <Link to="/company/shops">
+                    Магазины
+                </Link>
             </Menu.Item>
         ]
     }
@@ -55,105 +93,31 @@ class AppHeader extends Component {
 
         if (this.props.currentUser) {
             menuItems = this.makeMenuForUser()
+        } else {
+            menuItems = this.makeMenuForGuest()
+        }
+
+        if (isAdmin(this.props.currentUser)) {
+            menuItems = this.makeMenuForShopAdmin()
         }
 
         return (
 
 
-            // <Header>
-            //      <div className='logo'>
-            //      <Link to="/"> {localizedStrings.appName}</Link>
-            //      </div>
-            //
-            //     <div className='appLanguage'>
-            //         <Button
-            //             className={this.state.language === 'en' ? 'langStyle selected' : 'langStyle'}
-            //             onClick={() => this.updateLanguage('en')}>
-            //             EN
-            //         </Button>
-            //         <Button
-            //             className={this.state.language === 'ru' ? 'langStyle selected' : 'langStyle'}
-            //             onClick={() => this.updateLanguage('ru')}>
-            //             RU
-            //         </Button>
-            //     </div>
-            //
-            //     <Menu
-            //         className="app_menu"
-            //         mode="horizontal"
-            //         selectedKeys={[this.props.location.pathname]}
-            //         style={{lineHeight: '60px'}}>
-            //         {menuItems}
-            //     </Menu>
-            // </Header>
-
-            <div className="header custom">
-                <div className="container-fluid">
-
-                    <div className="second-row ">
-                        <div className="d-flex justify-content-between">
-                            <nav className="navbar navbar-expand navbar-light">
-
-                                {/*<button className="navbar-toggler" type="button" data-toggle="collapse"*/}
-                                {/*        data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"*/}
-                                {/*        aria-expanded="false"*/}
-                                {/*        aria-label="Toggle navigation">*/}
-                                {/*    <span className="navbar-toggler-icon"></span>*/}
-                                {/*</button>*/}
-
-                                <div className="collapse navbar-collapse" id="navbarNavDropdown">
-                                    <ul className="navbar-nav">
-
-
-                                        <li className="nav-item dropdown">
-                                            <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
-                                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">1</a>
-                                            <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                                <a className="dropdown-item" href="#">1 1</a>
-                                                <a className="dropdown-item" href="#">1 два</a>
-                                                <a className="dropdown-item" href="#">1 три</a>
-                                            </div>
-                                        </li>
-                                        <li className="nav-item dropdown">
-                                            <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
-                                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">2</a>
-                                            <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                                <a className="dropdown-item" href="#">2 один</a>
-                                                <a className="dropdown-item" href="#">2 два</a>
-                                                <a className="dropdown-item" href="#">2 три</a>
-                                            </div>
-                                        </li>
-
-                                        <li className="nav-item dropdown">
-                                            <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
-                                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Три</a>
-                                            <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                                <a className="dropdown-item" href="#">Три один</a>
-                                                <a className="dropdown-item" href="#">Три два</a>
-                                                <a className="dropdown-item" href="#">Три три</a>
-                                            </div>
-                                        </li>
-
-
-                                    </ul>
-                                </div>
-
-                            </nav>
-
-                            <Menu
-                                className="app_menu"
-                                mode="horizontal"
-                                selectedKeys={[this.props.location.pathname]}
-                                style={{lineHeight: '60px'}}>
-                                {menuItems}
-                            </Menu>
-
-                        </div>
-
-
-                    </div>
+            <Header>
+                <div className='logo'>
+                    <Link to="/"> {localizedStrings.appName}</Link>
                 </div>
-            </div>
+
+                <Menu
+                    className="app_menu"
+                    mode="horizontal"
+                    selectedKeys={[this.props.location.pathname]}
+                    style={{lineHeight: '60px'}}>
+                    {menuItems}
+                </Menu>
+            </Header>
+
 
         )
     };

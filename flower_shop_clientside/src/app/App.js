@@ -206,8 +206,15 @@ class App extends Component {
 }
 
 export function isAdmin(currentUser) {
+    console.log('is admin method works')
+
+
     if (currentUser !== null && currentUser !== undefined && currentUser.roles !== undefined) {
+
+        console.log('currentUser email= ' + currentUser.email)
+
         const role = currentUser.roles.find(elem => elem.name === ROLE_ADMIN)
+
         return role === undefined ? false : role.name === ROLE_ADMIN
     }
     return false

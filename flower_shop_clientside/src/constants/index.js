@@ -15,7 +15,6 @@ export const COMPANY_DESCRIPTION_MAX_LENGTH = 48
 export const COMPANY_LICENCE_NUM_MAX_LENGTH = 48
 
 export const EMAIL_MAX_LENGTH = 30
-export const LOGIN_MAX_LENGTH = 20
 
 export const PASSWORD_MIN_LENGTH = 6
 export const PASSWORD_MAX_LENGTH = 20
@@ -36,7 +35,7 @@ export const TOKEN = 'token'
 
 export const USER_ID = 'id'
 export const LANGUAGE = 'language'
-export const ROLE_ADMIN = 'Administrator'
+export const ROLE_ADMIN = 'ROLE_ADMIN'
 export const ROLE_USER = 'Viewer'
 export const SUCCESS = 'success'
 export const ERROR = 'error'
@@ -47,4 +46,4 @@ export const GITHUB_AUTH_URL = BASE_URL + 'oauth2/authorize/github?redirect_uri=
 export const GOOGLE_AUTH_URL = BASE_URL + 'oauth2/authorize/google?redirect_uri=' + OAUTH2_REDIRECT_URI
 export const FACEBOOK_AUTH_URL = BASE_URL + 'oauth2/authorize/facebook?redirect_uri=' + OAUTH2_REDIRECT_URI
 
-export const GoogleMapsAPI = 'AIzaSyB-IiUimW53u9dJl-Wk-KB_UF8rhbxGTew'
+export const GoogleMapsAPI = 'AIzaSyCQaNjrxHBqrdRLDSGNCePlwVoRO3QibdY'
