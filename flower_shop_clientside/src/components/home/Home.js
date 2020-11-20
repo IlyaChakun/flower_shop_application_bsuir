@@ -1,11 +1,12 @@
 import React, {Component} from 'react'
 
 import {withRouter} from 'react-router-dom'
-import {Carousel, Form} from 'antd'
 import MapContainer from '../common/map/MapContainer'
 import ShopCard from "../shop/ShopCard";
 import ReviewsBlock from "../company/review/ReviewsBlock";
 import FlowersList from "../company/FlowersList";
+import CarouselComponent from "../common/CarouselComponent";
+
 
 class Home extends Component {
     state = {
@@ -50,13 +51,6 @@ class Home extends Component {
     }
 
     render() {
-        const contentStyle = {
-            height: '160px',
-            color: '#fff',
-            lineHeight: '160px',
-            textAlign: 'center',
-            background: '#364d79'
-        }
 
         const shopElements = this.state.shops
             .map(shop => (<ShopCard key={shop.id} shop={shop}/>))
@@ -67,20 +61,9 @@ class Home extends Component {
 
                 <div className="col-12">
                     <div className="row">
-                        <Carousel autoplay>
-                            <div>
-                                <h3 style={contentStyle}>1</h3>
-                            </div>
-                            <div>
-                                <h3 style={contentStyle}>2</h3>
-                            </div>
-                            <div>
-                                <h3 style={contentStyle}>3</h3>
-                            </div>
-                            <div>
-                                <h3 style={contentStyle}>4</h3>
-                            </div>
-                        </Carousel>
+
+                        <CarouselComponent/>
+
                     </div>
 
                     <div className="row">
