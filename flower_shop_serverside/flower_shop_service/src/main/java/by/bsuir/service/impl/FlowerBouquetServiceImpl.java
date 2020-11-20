@@ -4,6 +4,7 @@ import by.bsuir.dto.mapper.product.FlowerBouquetMapperDTO;
 import by.bsuir.dto.model.PageWrapper;
 import by.bsuir.dto.model.SearchAndSortParamDto;
 import by.bsuir.dto.model.product.bouquet.FlowerBouquetDTO;
+import by.bsuir.entity.company.Shop;
 import by.bsuir.entity.product.bouqet.FlowerBouquet;
 import by.bsuir.payload.exception.ResourceNotFoundException;
 import by.bsuir.payload.exception.ServiceException;
@@ -29,7 +30,7 @@ public class FlowerBouquetServiceImpl implements FlowerBouquetService {
 
     private final FlowerBouquetRepository flowerBouquetRepository;
     private final FlowerBouquetMapperDTO flowerBouquetMapperDTO;
-
+    private final ProductCommonServiceHelper productCommonServiceHelper;
 
     @Override
     public PageWrapper<FlowerBouquetDTO> findAll(int page, int size, SearchAndSortParamDto searchAndSortParamDto) {
@@ -52,6 +53,7 @@ public class FlowerBouquetServiceImpl implements FlowerBouquetService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         FlowerBouquet flowerBouquet = getFlowerBouquetByIdOrThrowException(id);
 
@@ -77,16 +79,17 @@ public class FlowerBouquetServiceImpl implements FlowerBouquetService {
     @Override
     @Transactional
     public FlowerBouquetDTO save(FlowerBouquetDTO flowerBouquetDTO) {
-        if (isFlowerBouquetExistById(flowerBouquetDTO.getId())) {
-            logger.error("Flower Bouquet with id={} exist. Just Update it!", flowerBouquetDTO.getId());
-            throw new ServiceException(HttpStatus.CONFLICT.value(),
-                    "flower_bouquet_already_exist",
-                    "Flower Bouquet with id=" + flowerBouquetDTO.getId() + " exist. Just Update it!");
-        }
 
+        Shop shop = productCommonServiceHelper.resolveShop(flowerBouquetDTO);
 
         FlowerBouquet flowerBouquet = flowerBouquetMapperDTO.toEntity(flowerBouquetDTO);
-
+        flowerBouquet.setFlowerColors(productCommonServiceHelper.resolveFlowerColors(flowerBouquetDTO.getFlowerColors()));
+        flowerBouquet.setFlowerSorts(productCommonServiceHelper.resolveFlowerSorts(flowerBouquetDTO.getFlowerSorts()));
+        flowerBouquet.setCountry(productCommonServiceHelper.resolveCountry(flowerBouquetDTO.getCountry()));
+        //
+        flowerBouquet.setShop(shop);
+        shop.getShopProducts().add(flowerBouquet);
+        //
         FlowerBouquet savedFlowerBouquet = flowerBouquetRepository.save(flowerBouquet);
 
         logger.info("Saved Flower with id={} and bouquet type={}", flowerBouquet.getId(), flowerBouquet.getBouquetType());
@@ -105,6 +108,19 @@ public class FlowerBouquetServiceImpl implements FlowerBouquetService {
         }
 
         FlowerBouquet flowerBouquet = flowerBouquetMapperDTO.toEntity(flowerBouquetDTO);
+        flowerBouquet.setFlowerColors(
+                productCommonServiceHelper.resolveFlowerColors(
+                        flowerBouquetDTO.getFlowerColors())
+        );
+        flowerBouquet.setFlowerSorts(
+                productCommonServiceHelper.resolveFlowerSorts(
+                        flowerBouquetDTO.getFlowerSorts())
+        );
+        flowerBouquet.setCountry(
+                productCommonServiceHelper.resolveCountry(
+                        flowerBouquetDTO.getCountry())
+        );
+
 
         return flowerBouquetMapperDTO.toDto(flowerBouquetRepository.save(flowerBouquet));
     }

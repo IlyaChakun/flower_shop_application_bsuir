@@ -1,8 +1,6 @@
 package by.bsuir.entity.product.flower;
 
-import by.bsuir.entity.company.Shop;
 import by.bsuir.entity.product.AbstractFlowerProduct;
-import by.bsuir.entity.product.flower.FlowerType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
