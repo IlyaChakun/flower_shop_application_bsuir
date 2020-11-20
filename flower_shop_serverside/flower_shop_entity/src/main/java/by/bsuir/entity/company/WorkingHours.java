@@ -13,7 +13,7 @@ import javax.persistence.Embeddable;
 @NoArgsConstructor
 public class WorkingHours {
 
-    @Column(name = "hours", nullable = false)
+    @Column(name = "hours", nullable = false, length = 15)
     private String hours;
 
 }

@@ -19,11 +19,11 @@ import javax.persistence.Table;
 public class Contacts extends BaseAbstractEntity {
 
     //first phone number
-    @Column(name = "first_phone_number", length = 48)
+    @Column(name = "first_phone_number", length = 15)
     private String firstPhoneNumber;
 
     //second phone number
-    @Column(name = "second_phone_number", length = 48)
+    @Column(name = "second_phone_number", length = 15)
     private String secondPhoneNumber;
 
     @Column(name = "email", length = 48)

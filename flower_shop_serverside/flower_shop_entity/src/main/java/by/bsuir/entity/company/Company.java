@@ -25,10 +25,10 @@ public class Company extends AbstractEntity {
     @Column(name = "name", length = 48)
     private String name;
 
-    @Column(name = "description", length = 48)
+    @Column(name = "description", length = 512)
     private String description;
 
-    @Column(name = "licence_number", length = 48)
+    @Column(name = "licence_number", length = 20)
     private String licenceNumber;
 
     @OneToOne(cascade = CascadeType.ALL)

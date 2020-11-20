@@ -14,10 +14,10 @@ import javax.persistence.Embeddable;
 @NoArgsConstructor
 public class CompanyLegalAddress {
 
-    @Column(name = "payer_account_number")
+    @Column(name = "payer_account_number", length = 9)
     private String payerAccountNumber;
 
-    @Column(name = "checking_account")
+    @Column(name = "checking_account", length = 20)
     private String checkingAccount;
 
     private BankInformation bankInformation;

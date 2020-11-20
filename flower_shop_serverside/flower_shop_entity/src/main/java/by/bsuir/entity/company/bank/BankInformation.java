@@ -13,16 +13,16 @@ import javax.persistence.Embeddable;
 @NoArgsConstructor
 public class BankInformation {
 
-    @Column(name = "bank_name")
+    @Column(name = "bank_name", length = 48)
     private String bankName;
 
-    @Column(name = "bank_code")
+    @Column(name = "bank_code", length = 34)
     private String bankCode;//идентификациооный номер банка в системе
 
-    @Column(name = "postal_code")
+    @Column(name = "postal_code", length = 7)
     private String postalCode;
 
-    @Column(name = "address")
+    @Column(name = "address", length = 48)
     private String address;
 
 }
