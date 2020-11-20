@@ -6,11 +6,7 @@ import  {Button, Form, Input, notification} from "antd";
 
 
 import {
-    ERROR,
     SUCCESS,
-    COMPANY_NAME_MAX_LENGTH,
-    COMPANY_DESCRIPTION_MAX_LENGTH,
-    COMPANY_LICENCE_NUM_MAX_LENGTH, EMAIL_MAX_LENGTH,
 
 } from "../../constants";
 
@@ -27,6 +23,12 @@ import {
     validateEmail,
     validatePhoneNumber, validateText
 } from "../common/validation/ValidationFunctions";
+import {
+    validateBankName,
+    validateCheckingAccount,
+    validateIBAN, validateLicenceNumber, validateName, validatePayerAccountNumber,
+    validatePostalCode
+} from "./CompanyValidationFunctions";
 
 const { TextArea } = Input;
 
@@ -218,7 +220,7 @@ class CompanyForm extends Component {
                             label={localizedStrings.companyName}
                             validateStatus={this.state.name.validateStatus}
                             hasFeedback
-                            onChange={(event) => this.handleInputChange(event, this.validateName)}
+                            onChange={(event) => this.handleInputChange(event, validateName)}
                             help={this.state.name.errorMsg}
                             rules={[
                                 {
@@ -239,7 +241,7 @@ class CompanyForm extends Component {
                             className={s.formItem}
                             label={'УНП'}
                             validateStatus={this.state.payerAccountNumber.validateStatus}
-                            onChange={(event) => this.handleInputChange(event, this.validatePayerAccountNumber)}
+                            onChange={(event) => this.handleInputChange(event, validatePayerAccountNumber)}
                             help={this.state.payerAccountNumber.errorMsg}
                             rules={[
                                 {
@@ -261,7 +263,7 @@ class CompanyForm extends Component {
                             label={localizedStrings.companyLicenceNumber}
                             validateStatus={this.state.licenceNumber.validateStatus}
                             hasFeedback
-                            onChange={(event) => this.handleInputChange(event, this.validateLicenceNumber)}
+                            onChange={(event) => this.handleInputChange(event, validateLicenceNumber)}
                             help={this.state.licenceNumber.errorMsg}
                             rules={[
                                 {
@@ -408,7 +410,7 @@ class CompanyForm extends Component {
                             className={s.formItem}
                             label={'Банк'}
                             validateStatus={this.state.bankName.validateStatus}
-                            onChange={(event) => this.handleInputChange(event, validateEmail)}
+                            onChange={(event) => this.handleInputChange(event, validateBankName)}
                             help={this.state.bankName.errorMsg}
                             rules={[
                                 {
@@ -429,7 +431,7 @@ class CompanyForm extends Component {
                             className={s.formItem}
                             label={'IBAN'}
                             validateStatus={this.state.bankCode.validateStatus}
-                            onChange={(event) => this.handleInputChange(event, validateEmail)}
+                            onChange={(event) => this.handleInputChange(event, validateIBAN)}
                             help={this.state.bankCode.errorMsg}
                             rules={[
                                 {
@@ -450,7 +452,7 @@ class CompanyForm extends Component {
                             className={s.formItem}
                             label={'Расчетный счет'}
                             validateStatus={this.state.checkingAccount.validateStatus}
-                            onChange={(event) => this.handleInputChange(event, validateEmail)}
+                            onChange={(event) => this.handleInputChange(event, validateCheckingAccount)}
                             help={this.state.checkingAccount.errorMsg}
                             rules={[
                                 {
@@ -493,7 +495,7 @@ class CompanyForm extends Component {
                             className={s.formItem}
                             label={'Почтовый индекс банка'}
                             validateStatus={this.state.postalCode.validateStatus}
-                            onChange={(event) => this.handleInputChange(event, validateEmail)}
+                            onChange={(event) => this.handleInputChange(event, validatePostalCode)}
                             help={this.state.postalCode.errorMsg}
                             rules={[
                                 {
@@ -535,86 +537,6 @@ class CompanyForm extends Component {
                 </div>
             </Form>
         )
-    }
-
-
-    validateName = (name) => {
-        if (!name) {
-            return {
-                validateStatus: ERROR,
-                errorMsg: localizedStrings.alertCompanyBadNameEmpty
-            }
-        } else if (name.length > COMPANY_NAME_MAX_LENGTH) {
-            return {
-                validationStatus: ERROR,
-                errorMsg: localizedStrings.alertBadNameTooLong
-            }
-        } else {
-            return {
-                validateStatus: SUCCESS,
-                errorMsg: null,
-            }
-        }
-    }
-
-
-    validateDescription = (description) => {
-
-        if (description.length > COMPANY_DESCRIPTION_MAX_LENGTH) {
-            return {
-                validateStatus: ERROR,
-                errorMsg: localizedStrings.alertCompanyDescrTooLong
-            }
-        }
-
-        return {
-            validateStatus: SUCCESS,
-            errorMsg: null,
-        }
-    }
-
-    validateLicenceNumber = (number) => {
-
-        console.log('licence number for validation: ' + number)
-
-        if (number === undefined || number.length > COMPANY_LICENCE_NUM_MAX_LENGTH) {
-            return {
-                validateStatus: ERROR,
-                errorMsg: localizedStrings.alertCompanyLicenceNumberTooLong
-            }
-        }
-
-        return {
-            validateStatus: SUCCESS,
-            errorMsg: null,
-        }
-    }
-
-    validateLegalAddress = (legalAddress) => {
-
-        console.log('legalAddress for validation: ' + legalAddress)
-
-        if (legalAddress === undefined) {
-            return {
-                validateStatus: ERROR,
-                errorMsg: localizedStrings.alertCompanyLicenceNumberTooLong
-            }
-        }
-
-        return {
-            validateStatus: SUCCESS,
-            errorMsg: null,
-        }
-    }
-
-
-
-
-    validatePayerAccountNumber = (payerAccountNumber) => {
-        return {
-            validateStatus: SUCCESS,
-            errorMsg: null,
-        }
     }
 
 }
