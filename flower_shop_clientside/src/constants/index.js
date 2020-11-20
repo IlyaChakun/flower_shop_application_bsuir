@@ -4,17 +4,15 @@ export const SENSOR_MODEL_MIN_LENGTH = 2
 export const SENSOR_MODEL_MAX_LENGTH = 15
 export const SENSOR_LOCATION_MAX_LENGTH = 40
 export const SENSOR_DESCRIPTION_MAX_LENGTH = 200
-export const SENSOR_RANGE_MIN = -5000
-export const SENSOR_RANGE_MAX = 5000
 
 export const NAME_MIN_LENGTH = 5
 export const NAME_MAX_LENGTH = 30
 
 export const COMPANY_NAME_MAX_LENGTH = 48
-export const COMPANY_DESCRIPTION_MAX_LENGTH = 48
-export const COMPANY_LICENCE_NUM_MAX_LENGTH = 48
+export const COMPANY_DESCRIPTION_MAX_LENGTH = 512
+export const COMPANY_LICENCE_NUM_MAX_LENGTH = 20
 
-export const EMAIL_MAX_LENGTH = 30
+export const EMAIL_MAX_LENGTH = 48
 
 export const PASSWORD_MIN_LENGTH = 6
 export const PASSWORD_MAX_LENGTH = 20
@@ -31,7 +29,6 @@ export const ACCESS_TOKEN = 'accessToken'
 export const REFRESH_TOKEN = 'refreshToken'
 
 export const TOKEN = 'token'
-
 
 export const USER_ID = 'id'
 export const LANGUAGE = 'language'
