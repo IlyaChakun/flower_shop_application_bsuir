@@ -2,7 +2,11 @@ package by.bsuir.controller;
 
 import by.bsuir.dto.model.PageWrapper;
 import by.bsuir.dto.model.company.ShopDTO;
+import by.bsuir.dto.model.user.ShopAdminDTO;
 import by.bsuir.dto.validation.annotation.PositiveLong;
+import by.bsuir.security.core.CurrentUser;
+import by.bsuir.security.core.UserPrincipal;
+import by.bsuir.service.api.ShopAdminService;
 import by.bsuir.service.api.ShopService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -21,11 +25,12 @@ import static by.bsuir.controller.ControllerHelper.isIdInsideDtoOrThrowException
 
 @Validated
 @RestController
-@RequestMapping("/users/admin/company/{name}/shops")
+@RequestMapping("/users/admin/company/shops")
 @AllArgsConstructor
 @CrossOrigin(origins = "*")
 public class ShopController {
 
+    private final ShopAdminService shopAdminService;
     private final ShopService shopService;
 
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
@@ -46,12 +51,14 @@ public class ShopController {
 
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     @PostMapping
-    public ResponseEntity<ShopDTO> saveShopToCompany(@PathVariable("name") String name,
+    public ResponseEntity<ShopDTO> saveShopToCompany(@CurrentUser UserPrincipal userPrincipal,
                                                      @RequestBody @Valid ShopDTO shopDTO,
                                                      BindingResult bindingResult) {
         checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
 
-        ShopDTO shop = shopService.save(shopDTO, name);
+        ShopAdminDTO shopAdminDTO = shopAdminService.findByEmail(userPrincipal.getEmail());
+
+        ShopDTO shop = shopService.save(shopDTO, shopAdminDTO.getCompany().getId());
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(shop.getId()).toUri());
@@ -74,9 +81,11 @@ public class ShopController {
 
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("name") String name,
-                                       @PathVariable("id") @PositiveLong String id) {
-        shopService.delete(Long.valueOf(id), name);
+    public ResponseEntity<Void> delete(@PathVariable("id") @PositiveLong String id,
+                                       @CurrentUser UserPrincipal userPrincipal) {
+        ShopAdminDTO shopAdminDTO = shopAdminService.findByEmail(userPrincipal.getEmail());
+
+        shopService.delete(Long.valueOf(id), shopAdminDTO.getCompany().getId());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

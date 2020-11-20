@@ -8,17 +8,14 @@ import by.bsuir.dto.model.product.common.FlowerColorDTO;
 import by.bsuir.dto.model.product.common.FlowerSortDTO;
 import by.bsuir.dto.model.product.flower.FlowerDTO;
 import by.bsuir.entity.common.Country;
+import by.bsuir.entity.company.Shop;
 import by.bsuir.entity.product.common.FlowerColor;
 import by.bsuir.entity.product.common.FlowerSort;
 import by.bsuir.entity.product.flower.Flower;
 import by.bsuir.payload.exception.ResourceNotFoundException;
 import by.bsuir.payload.exception.ServiceException;
-import by.bsuir.repository.api.CountryRepository;
-import by.bsuir.repository.api.FlowerColorRepository;
-import by.bsuir.repository.api.FlowerRepository;
-import by.bsuir.repository.api.FlowerSortRepository;
+import by.bsuir.repository.api.*;
 import by.bsuir.service.api.FlowerService;
-import by.bsuir.service.api.ProductCommonService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +27,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,12 +38,11 @@ public class FlowerServiceImpl implements FlowerService {
 
     private final FlowerRepository flowerRepository;
     private final FlowerMapperDTO flowerMapper;
-    private final ProductCommonService productCommonService;
 
     private final FlowerColorRepository flowerColorRepository;
     private final FlowerSortRepository flowerSortRepository;
     private final CountryRepository countryRepository;
-
+    private final ShopRepository shopRepository;
 
     @Override
     public FlowerDTO findById(Long id) {
@@ -62,25 +59,24 @@ public class FlowerServiceImpl implements FlowerService {
     @Override
     @Transactional
     public FlowerDTO save(FlowerDTO flowerDTO) {
-        if (isFlowerExistById(flowerDTO.getId())) {
-            logger.error("Flower with id={} exist. Just Update it!", flowerDTO.getId());
-            throw new ServiceException(HttpStatus.CONFLICT.value(),
-                    "flower_already_exist",
-                    "Flower with id=" + flowerDTO.getId() + " exist. Just Update it!");
+
+        if (Objects.isNull(flowerDTO.getShop()) || Objects.isNull(flowerDTO.getShop().getId())) {
+            throw new ServiceException(HttpStatus.BAD_REQUEST.value(),
+                    "absent_shop_error",
+                    "Shop id must be specified!");
         }
 
+        Shop shop = shopRepository.findById(flowerDTO.getShop().getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Shop with id=" + flowerDTO.getShop().getId() + " not found!"));
 
         Flower flower = flowerMapper.toEntity(flowerDTO);
         flower.setFlowerColors(resolveFlowerColors(flowerDTO.getFlowerColors()));
         flower.setFlowerSorts(resolveFlowerSorts(flowerDTO.getFlowerSorts()));
         flower.setCountry(resolveCountry(flowerDTO.getCountry()));
-
-        //TODO проверяем все цвета , если ид есть ок, если нет, то добавляем в базу и возвращаем ид
-        //TODO проверяем все сорта , если ид есть ок, если нет, то добавляем в базу и возвращаем ид
-        //TODO проверяем страну , если ид есть ок, если нет, то эксепшен
-
-        //TODO  в базу хардкодом пишем все цвета, все страны, сорта
-
+        //
+        flower.setShop(shop);
+        shop.getShopProducts().add(flower);
+        //
         Flower savedFlower = flowerRepository.save(flower);
 
         logger.info("Saved Flower with id={} and type={}", flower.getId(), flower.getFlowerType());
@@ -91,18 +87,62 @@ public class FlowerServiceImpl implements FlowerService {
     private List<FlowerColor> resolveFlowerColors(List<FlowerColorDTO> flowerColorDTOList) {
 
         return flowerColorDTOList.stream()
-                .map(flowerColorDTO -> flowerColorRepository.findById(flowerColorDTO.getId())
-                        .orElseGet(() -> flowerColorRepository.save(new FlowerColor(flowerColorDTO.getColorName()))))
+                .map(flowerColorDTO -> {
+                            if (Objects.isNull(flowerColorDTO.getId())) {
+                                throw new ServiceException(HttpStatus.BAD_REQUEST.value(),
+                                        "flower_color_empty_id_error",
+                                        "Color id can`t be empty");
+                            }
+                            return flowerColorRepository.findById(flowerColorDTO.getId())
+                                    .orElseThrow(() ->
+                                            new ResourceNotFoundException("Color with id=" + flowerColorDTO.getId() + " not found!"));
+                        }
+                )
                 .collect(Collectors.toList());
+
+//        return flowerColorDTOList.stream()
+//                .map(flowerColorDTO -> flowerColorRepository.findById(flowerColorDTO.getId())
+//                        .orElseGet(() -> flowerColorRepository.save(new FlowerColor(flowerColorDTO.getColorName()))))
+//                .collect(Collectors.toList());
     }
 
     private List<FlowerSort> resolveFlowerSorts(List<FlowerSortDTO> flowerSortDTOList) {
 
         return flowerSortDTOList.stream()
-                .map(flowerSortDTO -> flowerSortRepository.findById(flowerSortDTO.getId())
-                        .orElseGet(() -> flowerSortRepository.save(new FlowerSort(flowerSortDTO.getSortNameRu(), flowerSortDTO.getSortNameEn()))))
+                .map(flowerSortDTO -> {
+                    if (Objects.isNull(flowerSortDTO.getId())) {
+                        throw new ServiceException(HttpStatus.BAD_REQUEST.value(),
+                                "flower_sort_empty_id_error",
+                                "Sort id can`t be empty");
+                    }
+                    return flowerSortRepository.findById(flowerSortDTO.getId())
+                            .orElseThrow(() ->
+                                    new ResourceNotFoundException("Flower sort with id=" + flowerSortDTO.getId() + " not found!"));
+                })
                 .collect(Collectors.toList());
+
+//        return flowerSortDTOList.stream()
+//                .map(flowerSortDTO -> flowerSortRepository.findById(flowerSortDTO.getId())
+//                        .orElseGet(() -> flowerSortRepository.save(new FlowerSort(flowerSortDTO.getSortNameRu(), flowerSortDTO.getSortNameEn()))))
+//                .collect(Collectors.toList());
     }
+
+//    private List<FlowerLengthCost> resolveFlowerLengthCost(List<FlowerLengthCostDTO> flowerLengthCostDTOS) {
+//
+//        return flowerLengthCostDTOS.stream()
+//                .map(flowerLengthCostDTO -> {
+//
+//                    return flowerLengthCostRepository.findById(flowerLengthCostDTO.getId())
+//                            .orElseThrow(() ->
+//                                    new ResourceNotFoundException("Flower length cost with id=" + flowerLengthCostDTO.getId() + " not found!"));
+//                })
+//                .collect(Collectors.toList());
+//
+////        return flowerSortDTOList.stream()
+////                .map(flowerSortDTO -> flowerSortRepository.findById(flowerSortDTO.getId())
+////                        .orElseGet(() -> flowerSortRepository.save(new FlowerSort(flowerSortDTO.getSortNameRu(), flowerSortDTO.getSortNameEn()))))
+////                .collect(Collectors.toList());
+//    }
 
 
     private Country resolveCountry(CountryDTO countryDTO) {
@@ -129,6 +169,7 @@ public class FlowerServiceImpl implements FlowerService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
 
         Flower flower = flowerRepository.findById(id)

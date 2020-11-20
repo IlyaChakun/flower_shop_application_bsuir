@@ -1,7 +1,10 @@
 package by.bsuir.controller;
 
 
+import by.bsuir.dto.model.common.CountryDTO;
 import by.bsuir.dto.model.product.bouquet.BouquetTypeDTO;
+import by.bsuir.dto.model.product.common.FlowerColorDTO;
+import by.bsuir.dto.model.product.common.FlowerSortDTO;
 import by.bsuir.dto.model.product.flower.FlowerTypeDTO;
 import by.bsuir.service.api.ProductCommonService;
 import lombok.AllArgsConstructor;
@@ -26,13 +29,33 @@ public class FlowerCommonController {
 
     @GetMapping("/flower-types")
     public ResponseEntity<?> findAllFlowerTypes() {
-        List<FlowerTypeDTO> flowerTypes = productCommonService.findAllFlowerTypes();
-        return ResponseEntity.ok(flowerTypes);
+        List<FlowerTypeDTO> list = productCommonService.findAllFlowerTypes();
+        return ResponseEntity.ok(list);
     }
 
     @GetMapping("/flower-bouquet-types")
     public ResponseEntity<?> findAllFlowerBouquetTypes() {
-        List<BouquetTypeDTO> flowerBouquetTypes = productCommonService.findAllFlowerBouquetTypes();
-        return ResponseEntity.ok(flowerBouquetTypes);
+        List<BouquetTypeDTO> list = productCommonService.findAllFlowerBouquetTypes();
+        return ResponseEntity.ok(list);
     }
+
+    @GetMapping("/flower-colors")
+    public ResponseEntity<?> findAllFlowerColors() {
+        List<FlowerColorDTO> list = productCommonService.findAllFlowerColors();
+        return ResponseEntity.ok(list);
+    }
+
+    @GetMapping("/flower-sorts")
+    public ResponseEntity<?> findAllFlowerSorts() {
+        List<FlowerSortDTO> list = productCommonService.findAllFlowerSorts();
+        return ResponseEntity.ok(list);
+    }
+
+    @GetMapping("/countries")
+    public ResponseEntity<?> findAllCountries() {
+        List<CountryDTO> list = productCommonService.findAllCountries();
+        return ResponseEntity.ok(list);
+    }
+
+
 }

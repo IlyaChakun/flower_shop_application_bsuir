@@ -1,6 +1,6 @@
 package by.bsuir.entity.product.common;
 
-import by.bsuir.entity.AbstractEntity;
+import by.bsuir.entity.BaseAbstractEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +16,7 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @Getter
 @Setter
-public class FlowerSort extends AbstractEntity {
+public class FlowerSort extends BaseAbstractEntity {
 
     @Column(name = "sort_name_ru", nullable = false)
     private String sortNameRu;

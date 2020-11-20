@@ -2,6 +2,7 @@ package by.bsuir.entity.product;
 
 import by.bsuir.entity.AbstractEntity;
 import by.bsuir.entity.common.Country;
+import by.bsuir.entity.company.Shop;
 import by.bsuir.entity.product.common.FlowerColor;
 import by.bsuir.entity.product.common.FlowerLengthCost;
 import by.bsuir.entity.product.common.FlowerSort;
@@ -33,7 +34,7 @@ public class AbstractFlowerProduct extends AbstractEntity {
                     referencedColumnName = "id")})
     private List<FlowerColor> flowerColors = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "flower_length_costs",
             joinColumns =
                     {
@@ -67,8 +68,11 @@ public class AbstractFlowerProduct extends AbstractEntity {
     private String description;
 
 
-    @Column(name="available_amount_on_stock")
+    @Column(name = "available_amount_on_stock")
     private Integer availableAmountOnStock;
 
+
+    @ManyToOne
+    private Shop shop;
 
 }

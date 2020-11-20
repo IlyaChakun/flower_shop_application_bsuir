@@ -1,6 +1,6 @@
 package by.bsuir.entity.product.flower;
 
-import by.bsuir.entity.AbstractEntity;
+import by.bsuir.entity.BaseAbstractEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +16,7 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @Getter
 @Setter
-public class FlowerType extends AbstractEntity {
+public class FlowerType extends BaseAbstractEntity {
 
     @Column(name = "flower_type")
     private String flowerType;

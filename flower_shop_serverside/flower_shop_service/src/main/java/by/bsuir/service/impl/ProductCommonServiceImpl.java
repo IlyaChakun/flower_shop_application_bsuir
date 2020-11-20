@@ -1,8 +1,14 @@
 package by.bsuir.service.impl;
 
 import by.bsuir.dto.mapper.common.CountryMapperDTO;
-import by.bsuir.dto.mapper.product.*;
+import by.bsuir.dto.mapper.product.BouquetTypeMapperDTO;
+import by.bsuir.dto.mapper.product.FlowerColorMapperDTO;
+import by.bsuir.dto.mapper.product.FlowerSortMapperDTO;
+import by.bsuir.dto.mapper.product.FlowerTypeMapperDTO;
+import by.bsuir.dto.model.common.CountryDTO;
 import by.bsuir.dto.model.product.bouquet.BouquetTypeDTO;
+import by.bsuir.dto.model.product.common.FlowerColorDTO;
+import by.bsuir.dto.model.product.common.FlowerSortDTO;
 import by.bsuir.dto.model.product.flower.FlowerTypeDTO;
 import by.bsuir.repository.api.*;
 import by.bsuir.service.api.ProductCommonService;
@@ -21,17 +27,16 @@ public class ProductCommonServiceImpl implements ProductCommonService {
 
     private final FlowerTypeRepository flowerTypeRepository;
     private final BouquetTypeRepository bouquetTypeRepository;
+
     private final FlowerTypeMapperDTO flowerTypeMapperDTO;
     private final BouquetTypeMapperDTO bouquetTypeMapperDTO;
 
     private final FlowerColorRepository flowerColorRepository;
     private final FlowerSortRepository flowerSortRepository;
-    private final FlowerLengthCostRepository flowerLengthCostRepository;
     private final CountryRepository countryRepository;
 
     private final FlowerColorMapperDTO flowerColorMapperDTO;
     private final FlowerSortMapperDTO flowerSortMapperDTO;
-    private final FlowerLengthCostMapperDTO flowerLengthCostMapperDTO;
     private final CountryMapperDTO countryMapperDTO;
 
 
@@ -48,17 +53,23 @@ public class ProductCommonServiceImpl implements ProductCommonService {
         return bouquetTypeMapperDTO.toDtoList(bouquetTypeRepository.findAll());
     }
 
-//    @Override
-//    public Optional<FlowerColorDTO> findFlowerColorById(Long id) {
-//        logger.info("Searching flower color by id={}", id);
-//        return flowerColorRepository.findById(id).map(flowerColorMapperDTO::toDto);
-//    }
-//
-//    @Override
-//    public FlowerColorDTO addFlowerColor(String colorName) {
-//        logger.info("Creating new flower color={}", colorName);
-//        FlowerColor flowerColor = new FlowerColor();
-//        flowerColor.setColorName(colorName);
-//        return flowerColorMapperDTO.toDto(flowerColorRepository.save(flowerColor));
-//    }
+    @Override
+    public List<CountryDTO> findAllCountries() {
+        logger.info("Searching all countries types");
+        return countryMapperDTO.toDtoList(countryRepository.findAll());
+    }
+
+    @Override
+    public List<FlowerSortDTO> findAllFlowerSorts() {
+        logger.info("Searching all flower sort types");
+        return flowerSortMapperDTO.toDtoList(flowerSortRepository.findAll());
+    }
+
+    @Override
+    public List<FlowerColorDTO> findAllFlowerColors() {
+        logger.info("Searching all flower sort types");
+        return flowerColorMapperDTO.toDtoList(flowerColorRepository.findAll());
+    }
+
+
 }

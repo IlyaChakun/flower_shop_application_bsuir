@@ -11,19 +11,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 
-import java.util.List;
-
 import static by.bsuir.controller.ControllerHelper.checkBindingResultAndThrowExceptionIfInvalid;
 import static by.bsuir.controller.ControllerHelper.isIdInsideDtoOrThrowException;
 
 @RestController
-@RequestMapping("/users/admin/company/{name}/shops/{id}/flowers")
+@RequestMapping("/users/admin/company/shops/{id}/flowers")
 @AllArgsConstructor
 @CrossOrigin(origins = "*")
 public class FlowerController {

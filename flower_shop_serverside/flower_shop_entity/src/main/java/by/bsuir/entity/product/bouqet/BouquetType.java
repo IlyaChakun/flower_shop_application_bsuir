@@ -1,6 +1,6 @@
 package by.bsuir.entity.product.bouqet;
 
-import by.bsuir.entity.AbstractEntity;
+import by.bsuir.entity.BaseAbstractEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +16,7 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @Getter
 @Setter
-public class BouquetType extends AbstractEntity {
+public class BouquetType extends BaseAbstractEntity {
 
     @Column(name = "bouquet_type")
     private String bouquetType;

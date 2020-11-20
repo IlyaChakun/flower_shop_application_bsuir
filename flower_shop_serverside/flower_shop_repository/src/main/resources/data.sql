@@ -50,3 +50,11 @@ insert ignore into sorts(id, date_of_creation, date_of_last_update, sort_name_en
 VALUES (2, now(), now(), 'Avalanche Peach', 'Аваланш Пич');
 insert ignore into sorts(id, date_of_creation, date_of_last_update, sort_name_en, sort_name_ru)
 VALUES (3, now(), now(), 'Red Naomi', 'Красная Наоми');
+
+
+/** countries **/
+insert ignore into countries(id, date_of_creation, date_of_last_update, country_name_en, country_name_ru)
+VALUES (1, now(), now(), 'Belarus', 'Беларусь');
+insert ignore into countries(id, date_of_creation, date_of_last_update, country_name_en, country_name_ru)
+VALUES (2, now(), now(), 'Russia', 'Россия');
+

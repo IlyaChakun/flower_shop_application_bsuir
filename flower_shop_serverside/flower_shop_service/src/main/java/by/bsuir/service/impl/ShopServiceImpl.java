@@ -53,9 +53,9 @@ public class ShopServiceImpl implements ShopService {
 
         return
                 new PageWrapper<>(
-                shopMapper.toDtoList(shops.toList()),
-                shops.getTotalPages(),
-                shops.getTotalElements());
+                        shopMapper.toDtoList(shops.toList()),
+                        shops.getTotalPages(),
+                        shops.getTotalElements());
     }
 
     private Pageable getPageable(int page, int size) {
@@ -65,7 +65,7 @@ public class ShopServiceImpl implements ShopService {
 
     @Override
     @Transactional
-    public ShopDTO save(ShopDTO shopDTO, String companyName) {
+    public ShopDTO save(ShopDTO shopDTO, Long companyId) {
         if (isShopExistsByAddress(shopDTO.getContacts().getCity(), shopDTO.getContacts().getAddress())) {
             logger.error("Shop with address={},{} exist. Just Update it!",
                     shopDTO.getContacts().getCity(),
@@ -76,7 +76,7 @@ public class ShopServiceImpl implements ShopService {
                             + shopDTO.getContacts().getAddress() + " exist. Just Update it!");
         }
 
-        Company company = companyRepository.getByName(companyName);
+        Company company = companyRepository.getOne(companyId);
 
         Shop shop = shopMapper.toEntity(shopDTO);
         shop.setCompany(company);
@@ -120,9 +120,9 @@ public class ShopServiceImpl implements ShopService {
 
     @Override
     @Transactional
-    public void delete(Long shopId, String companyName) {
+    public void delete(Long shopId, Long companyId) {
         Shop shop = getShopByIdOrThrowException(shopId);
-        Company company = companyRepository.getByName(companyName);
+        Company company = companyRepository.getOne(companyId);
         company.getShops().remove(shop);
         shopRepository.delete(shop);
     }

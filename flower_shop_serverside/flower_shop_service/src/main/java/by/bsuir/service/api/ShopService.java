@@ -8,9 +8,9 @@ import by.bsuir.service.core.base.UpdateOperationService;
 
 public interface ShopService extends UpdateOperationService<ShopDTO>, FindOperationService<ShopDTO> {
 
-    ShopDTO save(ShopDTO shopDTO, String companyName);
+    ShopDTO save(ShopDTO shopDTO, Long companyId);
 
-    void delete(Long shopId, String companyName);
+    void delete(Long shopId, Long companyId);
 
     PageWrapper<ShopDTO> findAll(int page, int size);
 

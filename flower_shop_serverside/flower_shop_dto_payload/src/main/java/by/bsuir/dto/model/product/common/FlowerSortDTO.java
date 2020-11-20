@@ -13,10 +13,10 @@ import javax.validation.constraints.Size;
 @Setter
 public class FlowerSortDTO extends AbstractDTO {
 
-    @NotBlank(message = "Название сорта не может быть пустым")
+    //@NotBlank(message = "Название сорта не может быть пустым")
     private String sortNameRu;
 
-    @Size(max = 64, message = "Название сорта на английском не может быть более 64 символов")
+   // @Size(max = 64, message = "Название сорта на английском не может быть более 64 символов")
     private String sortNameEn;
 
 }
