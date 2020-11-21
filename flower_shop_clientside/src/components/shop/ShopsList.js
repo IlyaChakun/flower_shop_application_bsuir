@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import ShopCard from './ShopCard'
 import {withRouter} from 'react-router-dom'
 import MapContainer from "../common/map/MapContainer";
-import ShopAdd from "../company/ShopAdd";
+import ShopAdd from "./ShopAdd";
 
 class ShopsList extends Component {
 
@@ -51,7 +51,7 @@ class ShopsList extends Component {
             .map(shop => (<ShopCard key={shop.id} shop={shop}/>))
 
         return (
-            <div className="container">
+            <div className="container-fluid">
                 <div className="contacts_map mb-5">
                     <div id="map-block" style={{height: '550px', width: '100%'}}>
                         <MapContainer
@@ -65,16 +65,15 @@ class ShopsList extends Component {
 
                 <h1 className="text-center mb-3">Наши магазины</h1>
 
-                <div className="wrapper_inner">
-                    <div className="stores-list">
-                        <div className="items">
-                            {shopElements}
-                        </div>
-                    </div>
-                    <div>
-                        <ShopAdd/>
+                <div className="stores-list">
+                    <div className="items">
+                        {shopElements}
                     </div>
                 </div>
+                <div>
+                    <ShopAdd/>
+                </div>
+
             </div>
         )
     }

@@ -3,7 +3,7 @@ import {withRouter} from 'react-router-dom'
 
 import '../../index.css'
 import {Button, Form, Input, notification} from "antd";
-import s from "./Company.module.css";
+import s from "../company/Company.module.css";
 import {localizedStrings} from "../util/localization";
 import {
     validateAddress,

@@ -2,9 +2,10 @@ import React, {Component} from 'react'
 import {Link, withRouter} from 'react-router-dom'
 import {Avatar, Button, Dropdown, Layout, Menu} from 'antd'
 import {getAvatarColor} from '../../util/colors'
+import './AppHeader.css'
 
 import {localizedStrings} from '../../util/localization'
-import './AppHeader.css'
+
 import HomeOutlined from '@ant-design/icons/lib/icons/HomeOutlined'
 import UserOutlined from '@ant-design/icons/lib/icons/UserOutlined'
 import CaretDownOutlined from '@ant-design/icons/lib/icons/CaretDownOutlined'
@@ -89,12 +90,6 @@ class AppHeader extends Component {
         ]
     }
 
-    updateLanguage = lang => {
-        this.setState({
-            language: lang
-        })
-        this.props.handleLanguageChange(lang)
-    }
 
     render() {
         let menuItems
@@ -112,39 +107,33 @@ class AppHeader extends Component {
         return (
 
             <>
-                <div>
+                <div className="row">
 
-                    <div>
+                    <div className="col-4">
 
                     </div>
 
-                    <div>
+                    <div className="col-4">
 
                         <img alt="logo"
-                             width="20%"
-                             height="20%"
+                             width="50%"
+                             height="35%"
                              className="img-fluid"
                              src="https://atlanticcityflorist.com/wp-content/uploads/2019/10/logoacfstransparentbg.png"/>
 
                     </div>
 
-                    <div>
-
-                    </div>
-
+                    <div className="col-4"></div>
                 </div>
 
-                <Header>
-                    <div>
-
-                    </div>
+                {/*<Header style={{ position: 'fixed', zIndex: 1, width: '100%'}}>*/}
+                <Header >
                     <Menu
-                        className=""
+                        theme={"dark"}
                         mode="horizontal"
                         selectedKeys={[this.props.location.pathname]}
                         style={{lineHeight: '60px'}}>
-                        <Menu.Item key="/"
-                                   className="">
+                        <Menu.Item key="/">
                             <Link to="/">
                                 Главная страница
                             </Link>
