@@ -13,19 +13,19 @@ export default function CarouselComponent () {
     <div className="carousel-wrapper">
       <Carousel infiniteLoop useKeyboardArrows autoPlay showThumbs={false}>
         <div>
-          <img className="carousel-img" src={image1}/>
+          <img className="img-fluid" src={image1}/>
         </div>
         <div>
-          <img className="carousel-img" src={image2}/>
+          <img className="img-fluid" src={image2}/>
         </div>
         <div>
-          <img className="carousel-img" src={image3}/>
+          <img className="img-fluid" src={image3}/>
         </div>
         <div>
-          <img className="carousel-img" src={image4}/>
+          <img className="img-fluid" src={image4}/>
         </div>
         <div>
-          <img className="carousel-img" src={image5}/>
+          <img className="img-fluid" src={image5}/>
         </div>
 
       </Carousel>

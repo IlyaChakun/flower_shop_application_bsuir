@@ -182,13 +182,10 @@ class App extends Component {
                                           component={Profile}/>
 
 
-                            {/*<Route path="/company/shops"*/}
-                            {/*       currentCompany={this.state.currentCompany}*/}
-                            {/*       component={ShopsList}/>*/}
-
                             <Route path="/company/shops"
                                    currentCompany={this.state.currentCompany}
-                                   component={ShopAdd}/>
+                                   component={ShopsList}/>
+
 
                             <Route path="/company"
                                    currentCompany={this.state.currentCompany}
