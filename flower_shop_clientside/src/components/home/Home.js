@@ -57,7 +57,7 @@ class Home extends Component {
 
 
         return (
-            <div className="container">
+            <div className="container-fluid">
 
                 <div className="col-12">
                     <div className="row">

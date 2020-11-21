@@ -48,9 +48,7 @@ class FlowersList extends Component {
                         <div>
                             <div className="flex-viewport" style={{overflow: 'hidden', position: 'relative'}}>
                                 <ul className="items slides flexbox row" style={{width: '600%', marginLeft: '0px'}}>
-
                                     {flowers}
-
                                 </ul>
                             </div>
                         </div>

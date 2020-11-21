@@ -35,7 +35,7 @@ html, body, #root {
 
 
 /**************************************/
-body, body div.bx-yandex-map, body .ymaps-map .ymaps-b-balloon, .fancybox-title {
+body, .fancybox-title {
     font: 17px/25px "Montserrat", Arial, sans-serif;
 }
 

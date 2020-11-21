@@ -25,13 +25,11 @@ import SignUp from '../components/user/signup/SignUp'
 import Login from '../components/user/login/Login'
 import Company from '../components/company/Company'
 
-import ruRU from 'antd/es/locale/ru_RU'
-import enEn from 'antd/es/locale/en_US'
 
 import {getCurrentCompanyRequest, getCurrentUserRequest} from '../components/util/utilsAPI'
 import ShopsList from "../components/shop/ShopsList";
 import Home from "../components/home/Home";
-import ShopAdd from "../components/company/ShopAdd";
+import ShopAdd from "../components/shop/ShopAdd";
 
 const {Content} = Layout
 
@@ -147,16 +145,16 @@ class App extends Component {
         localizedStrings.setLanguage(this.state.language)
 
         return (
-            <ConfigProvider locale={this.state.language === "ru" ? ruRU : enEn}>
+            <>
+            <Layout className="app-wrapper">
+                <AppHeader isAuthenticated={this.state.isAuthenticated}
+                           currentUser={this.state.currentUser}
+                           handleLogout={this.handleLogout}
+                />
 
-                <Layout className="app-wrapper">
-                    <AppHeader isAuthenticated={this.state.isAuthenticated}
-                               currentUser={this.state.currentUser}
-                               handleLogout={this.handleLogout}
-                               language={this.state.language}
-                               handleLanguageChange={this.handleLanguageChange}/>
 
-                    <Content className="app-content">
+                <Content className="app-content">
+                    <div className="site-layout-background" style={{ minHeight: 380}}>
                         <Switch>
 
 
@@ -197,12 +195,12 @@ class App extends Component {
                             <Route component={NotFound}/>
 
                         </Switch>
-                    </Content>
-                </Layout>
-                <AppFooter/>
+                    </div>
 
-
-            </ConfigProvider>
+                </Content>
+            </Layout>
+        <AppFooter/>
+        </>
         )
     }
 }

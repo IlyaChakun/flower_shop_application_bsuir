@@ -6,35 +6,7 @@ import AddReviewModal from "./AddReviewModal";
 
 class ReviewsBlock extends Component {
     state = {
-        reviews: [
-            // {
-            //     "id": 11,
-            //     "dateOfCreation": "2020-11-19 00.20",
-            //     "name": "Александр",
-            //     "phoneNumber": "+37574529656",
-            //     "email": "shop2@hu.lu",
-            //     "text": "Просто замечательный магазин!",
-            //     "rating": 5
-            // },
-            // {
-            //     "id": 11,
-            //     "dateOfCreation": "2020-05-19 00.20",
-            //     "name": "Петя",
-            //     "phoneNumber": "+37574529656",
-            //     "email": "shop2@hu.lu",
-            //     "text": "Просто магазин!",
-            //     "rating": 5
-            // },
-            // {
-            //     "id": 11,
-            //     "dateOfCreation": "2020-08-19 00.20",
-            //     "name": "Слон",
-            //     "phoneNumber": "+37574529656",
-            //     "email": "shop2@hu.lu",
-            //     "text": "Доволен как слон!",
-            //     "rating": 5
-            // }
-        ],
+        reviews: [],
 
         isLoading: false
     }
@@ -89,9 +61,9 @@ class ReviewsBlock extends Component {
                 </div>
             </div>
 
-    )
+        )
     }
-    }
+}
 
-    export default ReviewsBlock
+export default ReviewsBlock
 

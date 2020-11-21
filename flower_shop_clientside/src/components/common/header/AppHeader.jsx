@@ -2,9 +2,10 @@ import React, {Component} from 'react'
 import {Link, withRouter} from 'react-router-dom'
 import {Avatar, Button, Dropdown, Layout, Menu} from 'antd'
 import {getAvatarColor} from '../../util/colors'
+import './AppHeader.css'
 
 import {localizedStrings} from '../../util/localization'
-import './AppHeader.css'
+
 import HomeOutlined from '@ant-design/icons/lib/icons/HomeOutlined'
 import UserOutlined from '@ant-design/icons/lib/icons/UserOutlined'
 import CaretDownOutlined from '@ant-design/icons/lib/icons/CaretDownOutlined'
@@ -67,26 +68,28 @@ class AppHeader extends Component {
     makeMenuForShopAdmin = () => {
 
         return [
-            <Menu.Item key="/company">
+            <Menu.Item key="/company" className="">
                 <Link to="/company">
                     Компания
                 </Link>
             </Menu.Item>,
 
-            <Menu.Item key="/company/shops">
+            <Menu.Item key="/company/shops" className="">
                 <Link to="/company/shops">
                     Магазины
                 </Link>
+            </Menu.Item>,
+
+            <Menu.Item key="/profile"
+                       className="profile-menu">
+                <ProfileDropdownMenu
+                    currentUser={this.props.currentUser}
+                    handleMenuClick={this.handleMenuClick}
+                />
             </Menu.Item>
         ]
     }
 
-    updateLanguage = lang => {
-        this.setState({
-            language: lang
-        })
-        this.props.handleLanguageChange(lang)
-    }
 
     render() {
         let menuItems
@@ -103,21 +106,43 @@ class AppHeader extends Component {
 
         return (
 
+            <>
 
-            <Header>
-                <div className='logo'>
-                    <Link to="/"> {localizedStrings.appName}</Link>
+                <div className="row">
+
+                    <div className="col-4">
+
+                    </div>
+
+                    <div className="col-4">
+
+                        <img alt="logo"
+                             width="50%"
+                             height="35%"
+                             className="img-fluid"
+                             src="https://atlanticcityflorist.com/wp-content/uploads/2019/10/logoacfstransparentbg.png"/>
+
+                    </div>
+
+                    <div className="col-4"></div>
                 </div>
 
-                <Menu
-                    className="app_menu"
-                    mode="horizontal"
-                    selectedKeys={[this.props.location.pathname]}
-                    style={{lineHeight: '60px'}}>
-                    {menuItems}
-                </Menu>
-            </Header>
-
+                {/*<Header style={{ position: 'fixed', zIndex: 1, width: '100%'}}>*/}
+                <Header >
+                    <Menu
+                        theme={"dark"}
+                        mode="horizontal"
+                        selectedKeys={[this.props.location.pathname]}
+                        style={{lineHeight: '60px'}}>
+                        <Menu.Item key="/">
+                            <Link to="/">
+                                Главная страница
+                            </Link>
+                        </Menu.Item>
+                        {menuItems}
+                    </Menu>
+                </Header>
+            </>
 
         )
     };

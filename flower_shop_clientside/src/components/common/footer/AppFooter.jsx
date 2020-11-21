@@ -5,28 +5,21 @@ import { localizedStrings } from '../../util/localization'
 import '../../../index.css'
 import AboutUsComponent from './AboutUsComponent'
 
-// const Footer = Layout.Footer
+const Footer = Layout.Footer
 
 const AppFooter = () => {
   return (
-    <footer id="footer">
+
+      <Footer style={{ textAlign: 'center' }}>
+
+    {/*<footer id="footer">*/}
       <div className="footer-v2">
         <div className="footer-inner light">
           <div className="footer_top">
             <div className="maxwidth-theme">
               <div className="row">
                 <div className="col-md-2 col-sm-3">
-                  {/* <div className="fourth_bottom_menu"> */}
-                  {/*  <div className="bottom-menu second"> */}
-                  {/*    <div className="items"> */}
-                  {/*      <div className="item"> */}
-                  {/*        <div className="title"> */}
-                  {/*          <a href="/blog/">Блог</a> */}
-                  {/*        </div> */}
-                  {/*      </div> */}
-                  {/*    </div> */}
-                  {/*  </div> */}
-                  {/* </div> */}
+
                 </div>
                 <div className="col-md-2 col-sm-3">
                   <div className="first_bottom_menu">
@@ -249,7 +242,6 @@ const AppFooter = () => {
                                         Интернет-магазин зарегистрирован в торговом реестре 30.12.2019 под номером
                                         469671
 
-                    {/* {localizedStrings.footerText} */}
                   </div>
                   <div id="bx-composite-banner" className="pull-left"></div>
                 </div>
@@ -258,8 +250,8 @@ const AppFooter = () => {
           </div>
         </div>
       </div>
-    </footer>
-
+    {/*</footer>*/}
+      </Footer>
   )
 }
 
