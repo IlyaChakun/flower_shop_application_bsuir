@@ -53,10 +53,10 @@ VALUES (3, 'Red Naomi', 'Красная Наоми');
 
 
 /** countries **/
-insert ignore into countries(id, date_of_creation, date_of_last_update, country_name_en, country_name_ru)
-VALUES (1, now(), now(), 'Belarus', 'Беларусь');
-insert ignore into countries(id, date_of_creation, date_of_last_update, country_name_en, country_name_ru)
-VALUES (2, now(), now(), 'Russia', 'Россия');
+insert ignore into countries(id, country_name_en, country_name_ru)
+VALUES (1, 'Belarus', 'Беларусь');
+insert ignore into countries(id, country_name_en, country_name_ru)
+VALUES (2, 'Russia', 'Россия');
 
 
 /** типы букетов**/

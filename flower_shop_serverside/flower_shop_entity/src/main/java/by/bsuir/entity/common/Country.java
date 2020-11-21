@@ -1,6 +1,6 @@
 package by.bsuir.entity.common;
 
-import by.bsuir.entity.AbstractEntity;
+import by.bsuir.entity.BaseAbstractEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +16,7 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Country extends AbstractEntity {
+public class Country extends BaseAbstractEntity {
 
     @Column(name = "country_name_ru", nullable = false, length = 48)
     private String countryNameRu;
