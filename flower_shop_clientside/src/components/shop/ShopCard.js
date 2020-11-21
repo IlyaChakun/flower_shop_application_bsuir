@@ -1,7 +1,14 @@
 import React, { Component } from 'react'
+import { Card } from 'antd'
+
+import magaz1 from '../../img/shops/magaz1.jpg'
+
+const { Meta } = Card
 
 class ShopCard extends Component {
   render () {
+    const { image, dateOfCreation, dateOfLastUpdate, contacts, workingHours } = this.props.shop
+
     return (
 
       <div className="item border border-light box-shadow">
@@ -9,15 +16,12 @@ class ShopCard extends Component {
           <div className="col-md-6 col-sm-8 col-xs-12 left-block-contacts">
             <div className="image pull-left">
               <a href="#">
-                <img src="/upload/iblock/aa1/Bedy_ma.png"
-                  data-src="/upload/iblock/aa1/Bedy_ma.png" alt="ул. Беды, 2Б"
-                  title="ул. Беды, 2Б" className="img-responsive lazyloaded"/>
+                <img src={magaz1} className="img-fluid" data-src={magaz1} alt={contacts.address} title={contacts.address}/>
               </a>
             </div>
             <div className="top-wrap">
               <div className="title font_mxs darken">
-                <a href="/contacts/stores/bedy/" className="darken">
-                                    ул. Беды, 2Б </a>
+                <a href="#" className="darken">{contacts.city} {contacts.address}</a>
               </div>
               <div className="middle-prop">
                 <div className="show_on_map font_upper colored_theme_text">
@@ -35,7 +39,7 @@ class ShopCard extends Component {
               <div className="schedule">
                 <i className="far fa-clock"></i>
                 <span
-                  className="text font_xs muted777">ежедневно с 09.00 до 20.00 без обеда и выходных</span>
+                  className="text font_xs muted777">{workingHours.hours}</span>
               </div>
             </div>
           </div>
@@ -45,7 +49,7 @@ class ShopCard extends Component {
                 <div className="phones col-md-6 col-sm-12 col-xs-12">
                   <div className="phone font_sm darken">
                     <a href="tel:+375445670197" className="black">
-                                            +375 (44) 567-01-97</a>
+                      {contacts.firstPhoneNumber}</a>
                   </div>
                 </div>
               </div>
@@ -53,6 +57,7 @@ class ShopCard extends Component {
           </div>
         </div>
       </div>
+
     )
   }
 }

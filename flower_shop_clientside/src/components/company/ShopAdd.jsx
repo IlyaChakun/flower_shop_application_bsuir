@@ -177,167 +177,162 @@ class ShopAdd extends Component {
     render() {
         return (
             <div className="container">
-                <div className="col-sm-12">
+                <Form {...layout}
+                      onFinish={this.handleSubmit} className={s.form}>
+                    <div className="col-sm-12">
+                        <div className="row">
+                            <div className="col-sm-6">здесь место для добавления фотки</div>
 
-                    <div className="row">
-                        <Form {...layout}
-                              onFinish={this.handleSubmit} className={s.form}>
+                            <div className="col-sm-6">
 
-                            <div className="row">
-                                <div className="col-sm-6">
+                                <Form.Item
+                                    className={s.formItem}
+                                    label={'Город'}
+                                    validateStatus={this.state.city.validateStatus}
+                                    onChange={(event) => this.handleInputChange(event, validateCity)}
+                                    help={this.state.city.errorMsg}
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Пожалуйста, введите город магазина!',
+                                        },
+                                    ]}
+                                >
+                                    <Input
+                                        name="city"
+                                        size="middle"
+                                        disabled={!this.state.isEditing}
+                                        value={this.state.city.value}>
+                                    </Input>
+                                </Form.Item>
 
-                                    <Form.Item
-                                        className={s.formItem}
-                                        label={'Город'}
-                                        validateStatus={this.state.city.validateStatus}
-                                        onChange={(event) => this.handleInputChange(event, validateCity)}
-                                        help={this.state.city.errorMsg}
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message: 'Пожалуйста, введите город магазина!',
-                                            },
-                                        ]}
-                                    >
-                                        <Input
-                                            name="city"
-                                            size="middle"
-                                            disabled={!this.state.isEditing}
-                                            value={this.state.city.value}>
-                                        </Input>
-                                    </Form.Item>
+                                <Form.Item
+                                    className={s.formItem}
+                                    label={'Адрес магазина'}
+                                    validateStatus={this.state.address.validateStatus}
+                                    onChange={(event) => this.handleInputChange(event, validateAddress)}
+                                    help={this.state.address.errorMsg}
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Пожалуйста, введите адрес магазина!',
+                                        },
+                                    ]}
+                                >
+                                    <Input
+                                        name="address"
+                                        size="middle"
+                                        disabled={!this.state.isEditing}
+                                        value={this.state.address.value}>
+                                    </Input>
+                                </Form.Item>
 
-                                    <Form.Item
-                                        className={s.formItem}
-                                        label={'Адрес магазина'}
-                                        validateStatus={this.state.address.validateStatus}
-                                        onChange={(event) => this.handleInputChange(event, validateAddress)}
-                                        help={this.state.address.errorMsg}
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message: 'Пожалуйста, введите адрес магазина!',
-                                            },
-                                        ]}
-                                    >
-                                        <Input
-                                            name="address"
-                                            size="middle"
-                                            disabled={!this.state.isEditing}
-                                            value={this.state.address.value}>
-                                        </Input>
-                                    </Form.Item>
+                                <Form.Item
+                                    className={s.formItem}
+                                    label={'Номер телефона'}
+                                    validateStatus={this.state.firstPhoneNumber.validateStatus}
+                                    hasFeedback
+                                    onChange={(event) => this.handleInputChange(event, validatePhoneNumber)}
+                                    help={this.state.firstPhoneNumber.errorMsg}
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Пожалуйста, введите контакный номер!',
+                                        },
+                                    ]}
+                                >
+                                    <Input
+                                        name="firstPhoneNumber"
+                                        size="middle"
+                                        disabled={!this.state.isEditing}
+                                        value={this.state.firstPhoneNumber.value}>
+                                    </Input>
+                                </Form.Item>
 
-                                    <Form.Item
-                                        className={s.formItem}
-                                        label={'Номер телефона'}
-                                        validateStatus={this.state.firstPhoneNumber.validateStatus}
-                                        hasFeedback
-                                        onChange={(event) => this.handleInputChange(event, validatePhoneNumber)}
-                                        help={this.state.firstPhoneNumber.errorMsg}
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message: 'Пожалуйста, введите контакный номер!',
-                                            },
-                                        ]}
-                                    >
-                                        <Input
-                                            name="firstPhoneNumber"
-                                            size="middle"
-                                            disabled={!this.state.isEditing}
-                                            value={this.state.firstPhoneNumber.value}>
-                                        </Input>
-                                    </Form.Item>
+                                <Form.Item
+                                    className={s.formItem}
+                                    label={'Второй номер телефона'}
+                                    validateStatus={this.state.secondPhoneNumber.validateStatus}
+                                    hasFeedback
+                                    onChange={(event) => this.handleInputChange(event, validatePhoneNumber)}
+                                    help={this.state.secondPhoneNumber.errorMsg}
+                                >
+                                    <Input
+                                        name="secondPhoneNumber"
+                                        size="middle"
+                                        disabled={!this.state.isEditing}
+                                        value={this.state.secondPhoneNumber.value}>
+                                    </Input>
+                                </Form.Item>
 
-                                    <Form.Item
-                                        className={s.formItem}
-                                        label={'Второй номер телефона'}
-                                        validateStatus={this.state.secondPhoneNumber.validateStatus}
-                                        hasFeedback
-                                        onChange={(event) => this.handleInputChange(event, validatePhoneNumber)}
-                                        help={this.state.secondPhoneNumber.errorMsg}
-                                    >
-                                        <Input
-                                            name="secondPhoneNumber"
-                                            size="middle"
-                                            disabled={!this.state.isEditing}
-                                            value={this.state.secondPhoneNumber.value}>
-                                        </Input>
-                                    </Form.Item>
+                                <Form.Item
+                                    className={s.formItem}
+                                    label={'Емаил магазина'}
+                                    validateStatus={this.state.email.validateStatus}
+                                    hasFeedback
+                                    onChange={(event) => this.handleInputChange(event, validateEmail)}
+                                    help={this.state.email.errorMsg}
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Пожалуйста, введите электронную почту!',
+                                        },
+                                    ]}
+                                >
+                                    <Input
+                                        name="email"
+                                        size="middle"
+                                        disabled={!this.state.isEditing}
+                                        value={this.state.email.value}>
+                                    </Input>
+                                </Form.Item>
 
-                                    <Form.Item
-                                        className={s.formItem}
-                                        label={'Емаил магазина'}
-                                        validateStatus={this.state.email.validateStatus}
-                                        hasFeedback
-                                        onChange={(event) => this.handleInputChange(event, validateEmail)}
-                                        help={this.state.email.errorMsg}
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message: 'Пожалуйста, введите электронную почту!',
-                                            },
-                                        ]}
-                                    >
-                                        <Input
-                                            name="email"
-                                            size="middle"
-                                            disabled={!this.state.isEditing}
-                                            value={this.state.email.value}>
-                                        </Input>
-                                    </Form.Item>
+                                <Form.Item
+                                    className={s.formItem}
+                                    label={'Рабочее время магазина'}
+                                    validateStatus={this.state.address.validateStatus}
+                                    onChange={(event) => this.handleInputChange(event, this.validateWorkingHours)}
+                                    help={this.state.address.errorMsg}
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Пожалуйста, введите рабочее время магазина!',
+                                        },
+                                    ]}
+                                >
+                                    <Input
+                                        name="workingHours"
+                                        size="middle"
+                                        disabled={!this.state.isEditing}
+                                        value={this.state.address.value}>
+                                    </Input>
+                                </Form.Item>
 
-                                    <Form.Item
-                                        className={s.formItem}
-                                        label={'Рабочее время магазина'}
-                                        validateStatus={this.state.address.validateStatus}
-                                        onChange={(event) => this.handleInputChange(event, this.validateWorkingHours)}
-                                        help={this.state.address.errorMsg}
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message: 'Пожалуйста, введите рабочее время магазина!',
-                                            },
-                                        ]}
-                                    >
-                                        <Input
-                                            name="workingHours"
-                                            size="middle"
-                                            disabled={!this.state.isEditing}
-                                            value={this.state.address.value}>
-                                        </Input>
-                                    </Form.Item>
-
-                                </div>
                             </div>
-
-                            <div className="row">
-                                <div className="col-8"></div>
-                                <div className="col-4">
-                                    <Form.Item className={s.formItem}>
-                                        <Button
-                                            onClick={this.editShop}
-                                            size="large"
-                                            className={s.button}>
-                                            Изменить магазин
-                                        </Button>
-                                        <Button
-                                            type="primary"
-                                            htmlType="submit"
-                                            size="large"
-                                            className={s.button}
-                                            disabled={this.isFormInvalid()}>
-                                            Сохранить магазин
-                                        </Button>
-                                    </Form.Item>
-                                </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-8"></div>
+                            <div className="col-4">
+                                <Form.Item className={s.formItem}>
+                                    <Button
+                                        onClick={this.editShop}
+                                        size="large"
+                                        className={s.button}>
+                                        Изменить магазин
+                                    </Button>
+                                    <Button
+                                        type="primary"
+                                        htmlType="submit"
+                                        size="large"
+                                        className={s.button}
+                                        disabled={this.isFormInvalid()}>
+                                        Сохранить магазин
+                                    </Button>
+                                </Form.Item>
                             </div>
-                        </Form>
-
+                        </div>
                     </div>
-
-                </div>
+                </Form>
             </div>
         )
     }
