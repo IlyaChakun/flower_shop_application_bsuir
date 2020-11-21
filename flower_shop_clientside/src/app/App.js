@@ -31,6 +31,7 @@ import enEn from 'antd/es/locale/en_US'
 import {getCurrentCompanyRequest, getCurrentUserRequest} from '../components/util/utilsAPI'
 import ShopsList from "../components/shop/ShopsList";
 import Home from "../components/home/Home";
+import ShopAdd from "../components/company/ShopAdd";
 
 const {Content} = Layout
 
@@ -181,9 +182,13 @@ class App extends Component {
                                           component={Profile}/>
 
 
+                            {/*<Route path="/company/shops"*/}
+                            {/*       currentCompany={this.state.currentCompany}*/}
+                            {/*       component={ShopsList}/>*/}
+
                             <Route path="/company/shops"
                                    currentCompany={this.state.currentCompany}
-                                   component={ShopsList}/>
+                                   component={ShopAdd}/>
 
                             <Route path="/company"
                                    currentCompany={this.state.currentCompany}

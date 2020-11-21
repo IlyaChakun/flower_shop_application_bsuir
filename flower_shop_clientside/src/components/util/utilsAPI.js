@@ -59,7 +59,7 @@ const request = (options, grantType) => {
         // return response.json()
       }
 
-      if (response.status === 400 || response.status === 409 || response.status === 404 ) { // если совсем пиздец
+      if (response.status === 400 || response.status === 409 || response.status === 404) { // если совсем пиздец
         console.log('throw exception: ' + response)
         throw response
       }
@@ -167,5 +167,22 @@ export function saveReviewRequest (reviewRequest) {
     url: url,
     method: 'POST',
     body: JSON.stringify(reviewRequest)
+  })
+}
+
+export function getCurrentShopRequest (id) {
+  return request({
+    url: BASE_URL + '/users/admin/company/shops/' + id,
+    method: 'GET'
+  })
+}
+
+export function saveShopRequest (shopRequest) {
+  const url = BASE_URL + 'users/admin/company/shops'
+
+  return request({
+    url: url,
+    method: 'POST',
+    body: JSON.stringify(shopRequest)
   })
 }
