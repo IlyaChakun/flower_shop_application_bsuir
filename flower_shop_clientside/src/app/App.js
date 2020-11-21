@@ -157,7 +157,6 @@ class App extends Component {
                     <div className="site-layout-background" style={{ minHeight: 380}}>
                         <Switch>
 
-
                             <Route exact path="/login"
                                    render={(props) =>
                                        <Login onLogin={this.handleLogin}
@@ -198,8 +197,9 @@ class App extends Component {
                     </div>
 
                 </Content>
+                <AppFooter/>
             </Layout>
-        <AppFooter/>
+
         </>
         )
     }
