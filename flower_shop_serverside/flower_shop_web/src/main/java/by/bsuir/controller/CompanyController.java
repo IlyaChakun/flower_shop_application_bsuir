@@ -69,13 +69,13 @@ public class CompanyController {
     }
 
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
-    @PutMapping("/{name}")
-    public ResponseEntity<CompanyDTO> updateCompany(@PathVariable("name") String name,
+    @PutMapping("/{id}")
+    public ResponseEntity<CompanyDTO> updateCompany(@PathVariable("id") Long id,
                                                     @RequestBody @Valid CompanyDTO companyDTO,
                                                     BindingResult bindingResult) {
         checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
 
-        CompanyDTO company = companyService.update(companyDTO, name);
+        CompanyDTO company = companyService.update(companyDTO, id);
         return ResponseEntity.ok(company);
     }
 
