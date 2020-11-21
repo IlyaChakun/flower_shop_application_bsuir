@@ -26,10 +26,10 @@ public class CompanyDTO extends AbstractDTO {
     private String name;
 
     @NotBlank
-    @Size(max = 48, message = "Описание для организации не более 48 символов!")
+    @Size(max = 512, message = "Описание для организации не более 48 символов!")
     private String description;
 
-    @Size(max = 48, message = "Номер лицензии организации не более 48 символов!")
+    @Size(max = 20, message = "Номер лицензии организации не более 48 символов!")
     private String licenceNumber;
 
     @Valid

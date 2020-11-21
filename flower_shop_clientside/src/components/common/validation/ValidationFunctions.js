@@ -49,7 +49,7 @@ export function validatePhoneNumber (phoneNumber) {
     }
   }
 
-  if (phoneNumber.length > 12) {
+  if (phoneNumber.length > 15) {
     return {
       validateStatus: ERROR,
       errorMsg: 'Телефон слишком длинный'
@@ -62,7 +62,7 @@ export function validatePhoneNumber (phoneNumber) {
   }
 }
 
-export function validateTextReviewText (text) {
+export function validateText (text) {
   if (!text) {
     return {
       validateStatus: ERROR,
@@ -74,6 +74,52 @@ export function validateTextReviewText (text) {
     return {
       validateStatus: ERROR,
       errorMsg: 'Текст слишком длинный'
+    }
+  }
+
+  return {
+    validateStatus: SUCCESS,
+    errorMsg: null
+  }
+}
+
+export function validateAddress (address) {
+  console.log('address for validation: ' + address)
+
+  if (!address) {
+    return {
+      validateStatus: ERROR,
+      errorMsg: 'Нужно ввести адрес'
+    }
+  }
+
+  if (address.length > 48) {
+    return {
+      validateStatus: ERROR,
+      errorMsg: 'Адрес неверный!'
+    }
+  }
+
+  return {
+    validateStatus: SUCCESS,
+    errorMsg: null
+  }
+}
+
+export function validateCity (city) {
+  console.log('city for validation: ' + city)
+
+  if (!city) {
+    return {
+      validateStatus: ERROR,
+      errorMsg: 'Нужно ввести город'
+    }
+  }
+
+  if (city.length > 48) {
+    return {
+      validateStatus: ERROR,
+      errorMsg: 'Адрес неверный!'
     }
   }
 

@@ -11,7 +11,7 @@ import MessageOutlined from "@ant-design/icons/lib/icons/MessageOutlined";
 import {
     validateEmail,
     validatePhoneNumber,
-    validateTextReviewText,
+    validateText,
     validateUserName
 } from "../../common/validation/ValidationFunctions";
 
@@ -196,7 +196,7 @@ class AddReviewModal extends Component {
                                     },
                                 ]}
                                 value={this.state.text.value}
-                                onChange={(event) => this.handleInputChange(event, validateTextReviewText)}/>
+                                onChange={(event) => this.handleInputChange(event, validateText)}/>
                         </Form.Item>
                         <Form.Item className={s.formItem} wrapperCol={{...layout.wrapperCol, offset: 8}}>
                             <Button

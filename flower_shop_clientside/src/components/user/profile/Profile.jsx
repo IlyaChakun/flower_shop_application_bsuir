@@ -1,7 +1,5 @@
 import React, {Component} from 'react'
-// import './Profile.module.css'
 import {localizedStrings} from '../../util/localization'
-// import s from "../login/Login.module.css";
 import s from "../profile/Profile.module.css";
 import "../../../index.css";
 import {Button, Form, Input, notification} from "antd";

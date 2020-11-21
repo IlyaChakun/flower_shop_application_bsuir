@@ -59,7 +59,7 @@ const request = (options, grantType) => {
         // return response.json()
       }
 
-      if (response.status === 400 || response.status === 409) { // если совсем пиздец
+      if (response.status === 400 || response.status === 409 || response.status === 404 ) { // если совсем пиздец
         console.log('throw exception: ' + response)
         throw response
       }

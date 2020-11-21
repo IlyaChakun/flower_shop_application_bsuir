@@ -16,9 +16,11 @@ import javax.validation.constraints.Size;
 public class CompanyLegalAddressDTO {
 
     @NotBlank(message = "Учетный номер плательщика не может быть пустым")
+    @Size(max = 9, message = "Учетный номер плательщика не может более 9 символов!")
     private String payerAccountNumber;
 
-    @Size(max = 28, message = "Расчетный счет должен быть не более 28 символов!")
+    @NotBlank(message = "Расчетный счет не может быть пустым")
+    @Size(max = 20, message = "Расчетный счет должен быть не более 20 символов!")
     private String checkingAccount;
 
     @Valid
