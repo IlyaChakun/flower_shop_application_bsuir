@@ -33,7 +33,7 @@ class ReviewsBlock extends Component {
 
         return (
             <div className="content_wrapper_block front_review">
-                <div className="maxwidth-theme only-on-front">
+                <div className=" only-on-front">
                     <div className="top_block">
                         <h3>Отзывы</h3>
                         <a href="/about/reviews" className="pull-right font_upper muted">Все</a>

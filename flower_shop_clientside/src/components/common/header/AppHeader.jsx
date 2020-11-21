@@ -107,7 +107,6 @@ class AppHeader extends Component {
         return (
 
             <>
-
                 <div className="row">
 
                     <div className="col-4">
@@ -143,7 +142,6 @@ class AppHeader extends Component {
                     </Menu>
                 </Header>
             </>
-
         )
     };
 }
@@ -159,7 +157,9 @@ function ProfileDropdownMenu(props) {
 
     const dropdownMenu = (
         <Menu onClick={props.handleMenuClick} className="profile-dropdown-menu">
-            <Menu.Item key="user-info" className="dropdown-item" disabled>
+            <Menu.Item key="user-info"
+                       className="dropdown-item"
+                       disabled>
                 <Avatar className="user-avatar-circle"
                         icon={image}
                         style={{backgroundColor: getAvatarColor(props.currentUser.name)}}>
