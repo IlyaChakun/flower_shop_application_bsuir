@@ -64,17 +64,19 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     @Transactional
-    public CompanyDTO update(CompanyDTO companyDTO, String name) {
+    public CompanyDTO update(CompanyDTO companyDTO, Long id) {
 
-        Company company = companyRepository.findByName(name)
+        Company company = companyRepository.findById(id)
                 .orElseThrow(() -> {
                     throw new ServiceException(HttpStatus.NOT_FOUND.value(),
                             "company_not_found",
-                            "Company with name=" + name + " doesn't exist!");
+                            "Company with id=" + id + " doesn't exist!");
                 });
 
         Company companyToSave = companyMapper.toEntity(companyDTO);
         companyToSave.setId(company.getId());
+        companyToSave.setDateOfCreation(company.getDateOfCreation());
+        companyToSave.setShopAdmin(company.getShopAdmin());
 
         return companyMapper.toDto(companyRepository.save(companyToSave));
 
