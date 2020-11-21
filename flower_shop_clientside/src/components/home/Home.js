@@ -5,7 +5,7 @@ import MapContainer from '../common/map/MapContainer'
 import ShopCard from "../shop/ShopCard";
 import ReviewsBlock from "../company/review/ReviewsBlock";
 import FlowersList from "../company/FlowersList";
-import CarouselComponent from "../common/CarouselComponent";
+import CarouselComponent from "../common/carousel/CarouselComponent";
 
 
 class Home extends Component {
