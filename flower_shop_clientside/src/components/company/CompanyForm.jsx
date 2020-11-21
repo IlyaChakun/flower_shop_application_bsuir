@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {localizedStrings} from '../util/localization'
 
 import s from "./Company.module.css";
-import  {Button, Form, Input, notification} from "antd";
+import {Button, Form, Input, notification} from "antd";
 
 
 import {
@@ -30,7 +30,7 @@ import {
     validatePostalCode
 } from "./CompanyValidationFunctions";
 
-const { TextArea } = Input;
+const {TextArea} = Input;
 
 const layout = {
     labelCol: {
@@ -46,21 +46,50 @@ class CompanyForm extends Component {
     state = {
         shopAdmin: "",
 
-        name: {value: ""},
-        description: {value: ""},
-        licenceNumber: {value: ""},
+        id: "",
+        name: {
+            value: ""
+        },
+        description: {
+            value: ""
+        },
+        licenceNumber: {
+            value: ""
+        },
 
-        firstPhoneNumber: {value: ""},
-        secondPhoneNumber: {value: ""},
-        email: {value: ""},
-        city: {value: ""},
-        address: {value: ""},
-        payerAccountNumber: {value: ""},
-        checkingAccount: {value: ""},
-        bankName: {value: ""},
-        bankCode: {value: ""},
-        postalCode: {value: ""},
-        bankAddress: {value: ""},
+        firstPhoneNumber: {
+            value: ""
+        },
+        secondPhoneNumber: {
+            value: ""
+        },
+        email: {
+            value: ""
+        },
+        city: {
+            value: ""
+        },
+        address: {
+            value: ""
+        },
+        payerAccountNumber: {
+            value: ""
+        },
+        checkingAccount: {
+            value: ""
+        },
+        bankName: {
+            value: ""
+        },
+        bankCode: {
+            value: ""
+        },
+        postalCode: {
+            value: ""
+        },
+        bankAddress: {
+            value: ""
+        },
         shops: [],
 
         isEditing: false
@@ -76,24 +105,92 @@ class CompanyForm extends Component {
         company
             .then(response => {
                 this.setState({
-                    name: {value: response.name,},
-                    description: {value: response.description},
-                    licenceNumber: {value: response.licenceNumber},
+                    id: response.id,
+                    name: {
+                        value: response.name,
+                        validateStatus: SUCCESS,
+                        errorMsg: null
+                    },
+                    description: {
+                        value: response.description,
+                        validateStatus: SUCCESS,
+                        errorMsg: null
+                    },
+                    licenceNumber: {
+                        value: response.licenceNumber,
+                        validateStatus: SUCCESS,
+                        errorMsg: null
+                    },
 
-                    firstPhoneNumber: {value: response.contacts.firstPhoneNumber},
-                    secondPhoneNumber: {value: response.contacts.secondPhoneNumber},
-                    email: {value: response.contacts.email},
-                    city: {value: response.contacts.city},
-                    address: {value: response.contacts.address},
-                    payerAccountNumber: {value: response.companyLegalAddress.payerAccountNumber},
-                    checkingAccount: {value: response.companyLegalAddress.checkingAccount},
-                    bankName: {value: response.companyLegalAddress.bankInformation.bankName},
-                    bankCode: {value: response.companyLegalAddress.bankInformation.bankCode},
-                    postalCode: {value: response.companyLegalAddress.bankInformation.postalCode},
-                    bankAddress: {value: response.companyLegalAddress.bankInformation.address},
-                    shops: {...response.shops}
+                    firstPhoneNumber: {
+                        value: response.contacts.firstPhoneNumber,
+                        validateStatus: SUCCESS,
+                        errorMsg: null
+                    },
+                    secondPhoneNumber: {
+                        value: response.contacts.secondPhoneNumber,
+                        validateStatus: SUCCESS,
+                        errorMsg: null
+                    },
+                    email: {
+                        value: response.contacts.email,
+                        validateStatus: SUCCESS,
+                        errorMsg: null
+                    },
+                    city: {
+                        value: response.contacts.city,
+                        validateStatus: SUCCESS,
+                        errorMsg: null
+                    },
+                    address: {
+                        value: response.contacts.address,
+                        validateStatus: SUCCESS,
+                        errorMsg: null
+                    },
+                    payerAccountNumber: {
+                        value: response.companyLegalAddress.payerAccountNumber,
+                        validateStatus: SUCCESS,
+                        errorMsg: null
+                    },
+                    checkingAccount: {
+                        value: response.companyLegalAddress.checkingAccount,
+                        validateStatus: SUCCESS,
+                        errorMsg: null
+                    },
+                    bankName: {
+                        value: response.companyLegalAddress.bankInformation.bankName,
+                        validateStatus: SUCCESS,
+                        errorMsg: null
+                    },
+                    bankCode: {
+                        value: response.companyLegalAddress.bankInformation.bankCode,
+                        validateStatus: SUCCESS,
+                        errorMsg: null
+                    },
+                    postalCode: {
+                        value: response.companyLegalAddress.bankInformation.postalCode,
+                        validateStatus: SUCCESS,
+                        errorMsg: null
+                    },
+                    bankAddress: {
+                        value: response.companyLegalAddress.bankInformation.address,
+                        validateStatus: SUCCESS,
+                        errorMsg: null
+                    },
+                    shops: {...response.shops},
+
+                    isEditing: false
                 })
+            }).catch(error => {
+
+            this.setState({
+                isEditing: false
             })
+            notification.error({
+                message: localizedStrings.alertAppName,
+                description: 'У вас еще нет компании! А ну ка создайте!'
+            })
+        })
     }
 
     handleInputChange = (event, validationFun) => {
@@ -120,40 +217,11 @@ class CompanyForm extends Component {
             this.setState({
                 isEditing: true
             })
-
         } else {
-
             this.setState({
                 isEditing: false
             })
-            /*  console.log('Save Edited company')
-              this.setState({
-                  isEditing: false
-              })
-
-              const updateCompanyRequest = {
-                  // id: this.state.currentUser.id,
-                  // name: this.state.name.value,
-                  // email: this.state.email.value,
-              }
-
-              console.log(updateCompanyRequest)
-
-              updateCompanyInfoRequest(updateCompanyRequest)
-                  .then(() => {
-                      notification.success({
-                          message: localizedStrings.alertAppName,
-                          description: localizedStrings.alertSuccessfulUserUpdate,
-                      })
-                      this.props.history.push('/profile/me')
-                  }).catch(error => {
-                  notification.error({
-                      message: localizedStrings.alertAppName,
-                      description: error.message || localizedStrings.alertException
-                  })
-              })*/
         }
-
     }
 
 
@@ -183,26 +251,54 @@ class CompanyForm extends Component {
 
         console.log('company request: ' + companyRequest)
 
-        saveCompanyRequest(companyRequest)
-            .then(() => {
-                notification.success({
-                    message: localizedStrings.alertAppName,
-                    description: 'Компания сохранена!',
-                })
+        if (this.state.isEditing) {
+            updateCompanyInfoRequest(this.state.id, companyRequest)
+                .then(() => {
+                    notification.success({
+                        message: localizedStrings.alertAppName,
+                        description: 'Компания обновлена!',
+                    })
 
-            }).catch(error => {
-            notification.error({
-                message: localizedStrings.alertAppName,
-                description: 'Чет пошло не так. сорян'
+                }).catch(error => {
+                notification.error({
+                    message: localizedStrings.alertAppName,
+                    description: 'Чет пошло не так, провепрьте данные '
+                })
             })
-        })
+        } else {
+            saveCompanyRequest(companyRequest)
+                .then(() => {
+                    notification.success({
+                        message: localizedStrings.alertAppName,
+                        description: 'Компания сохранена!',
+                    })
+
+                }).catch(error => {
+                notification.error({
+                    message: localizedStrings.alertAppName,
+                    description: 'Чет пошло не так. сорян'
+                })
+            })
+        }
     }
 
 
     isFormInvalid = () => {
-        return !(this.state.name.validateStatus === SUCCESS &&
+        return !(
+            this.state.name.validateStatus === SUCCESS &&
             this.state.licenceNumber.validateStatus === SUCCESS &&
-            this.state.firstPhoneNumber.validateStatus === SUCCESS
+            this.state.firstPhoneNumber.validateStatus === SUCCESS &&
+            this.state.secondPhoneNumber.validateStatus === SUCCESS &&
+            this.state.email.validateStatus === SUCCESS &&
+            this.state.city.validateStatus === SUCCESS &&
+            this.state.address.validateStatus === SUCCESS &&
+            this.state.payerAccountNumber.validateStatus === SUCCESS &&
+            this.state.checkingAccount.validateStatus === SUCCESS &&
+            this.state.bankName.validateStatus === SUCCESS &&
+            this.state.bankCode.validateStatus === SUCCESS &&
+            this.state.postalCode.validateStatus === SUCCESS &&
+            this.state.bankAddress.validateStatus === SUCCESS &&
+            this.state.isEditing === true
         )
     }
 
@@ -524,6 +620,8 @@ class CompanyForm extends Component {
                                 className={s.button}>
                                 Изменить компанию
                             </Button>
+                            <br/>
+                            <br/>
                             <Button
                                 type="primary"
                                 htmlType="submit"
