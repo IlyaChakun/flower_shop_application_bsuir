@@ -1,13 +1,13 @@
 import {
-    BASE_URL,
-    VALID_TOKEN_TYPE_VALUE,
-    ACCESS_TOKEN_HEADER_KEY,
-    REFRESH_TOKEN_HEADER_KEY,
-    GRANT_TYPE_HEADER_KEY,
-    TOKEN_TYPE_HEADER_KEY,
+  BASE_URL,
+  VALID_TOKEN_TYPE_VALUE,
+  ACCESS_TOKEN_HEADER_KEY,
+  REFRESH_TOKEN_HEADER_KEY,
+  GRANT_TYPE_HEADER_KEY,
+  TOKEN_TYPE_HEADER_KEY,
 
-    ACCESS_TOKEN,
-    REFRESH_TOKEN
+  ACCESS_TOKEN,
+  REFRESH_TOKEN
 } from '../../constants'
 
 /**
@@ -175,4 +175,21 @@ export function saveReviewRequest(reviewRequest) {
         method: 'POST',
         body: JSON.stringify(reviewRequest)
     })
+}
+
+export function getCurrentShopRequest (id) {
+  return request({
+    url: BASE_URL + '/users/admin/company/shops/' + id,
+    method: 'GET'
+  })
+}
+
+export function saveShopRequest (shopRequest) {
+  const url = BASE_URL + 'users/admin/company/shops'
+
+  return request({
+    url: url,
+    method: 'POST',
+    body: JSON.stringify(shopRequest)
+  })
 }
