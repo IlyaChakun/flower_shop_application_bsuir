@@ -67,16 +67,24 @@ class AppHeader extends Component {
     makeMenuForShopAdmin = () => {
 
         return [
-            <Menu.Item key="/company">
+            <Menu.Item key="/company" className="">
                 <Link to="/company">
                     Компания
                 </Link>
             </Menu.Item>,
 
-            <Menu.Item key="/company/shops">
+            <Menu.Item key="/company/shops" className="">
                 <Link to="/company/shops">
                     Магазины
                 </Link>
+            </Menu.Item>,
+
+            <Menu.Item key="/profile"
+                       className="profile-menu">
+                <ProfileDropdownMenu
+                    currentUser={this.props.currentUser}
+                    handleMenuClick={this.handleMenuClick}
+                />
             </Menu.Item>
         ]
     }
@@ -103,22 +111,48 @@ class AppHeader extends Component {
 
         return (
 
+            <>
+                <div>
 
-            <Header>
-                <div className='logo'>
-                    <Link to="/"> {localizedStrings.appName}</Link>
+                    <div>
+
+                    </div>
+
+                    <div>
+
+                        <img alt="logo"
+                             width="20%"
+                             height="20%"
+                             className="img-fluid"
+                             src="https://atlanticcityflorist.com/wp-content/uploads/2019/10/logoacfstransparentbg.png"/>
+
+                    </div>
+
+                    <div>
+
+                    </div>
+
                 </div>
 
-                <Menu
-                    className="app_menu"
-                    mode="horizontal"
-                    selectedKeys={[this.props.location.pathname]}
-                    style={{lineHeight: '60px'}}>
-                    {menuItems}
-                </Menu>
-            </Header>
+                <Header>
+                    <div>
 
-
+                    </div>
+                    <Menu
+                        className=""
+                        mode="horizontal"
+                        selectedKeys={[this.props.location.pathname]}
+                        style={{lineHeight: '60px'}}>
+                        <Menu.Item key="/"
+                                   className="">
+                            <Link to="/">
+                                Главная страница
+                            </Link>
+                        </Menu.Item>
+                        {menuItems}
+                    </Menu>
+                </Header>
+            </>
         )
     };
 }
@@ -134,7 +168,9 @@ function ProfileDropdownMenu(props) {
 
     const dropdownMenu = (
         <Menu onClick={props.handleMenuClick} className="profile-dropdown-menu">
-            <Menu.Item key="user-info" className="dropdown-item" disabled>
+            <Menu.Item key="user-info"
+                       className="dropdown-item"
+                       disabled>
                 <Avatar className="user-avatar-circle"
                         icon={image}
                         style={{backgroundColor: getAvatarColor(props.currentUser.name)}}>

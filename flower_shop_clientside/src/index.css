@@ -84,7 +84,7 @@ footer .footer-inner {
 
 
 footer .light {
-    background: #fafafa;
+    background: #01060b;
 }
 
 footer .bottom-menu .item .title {
@@ -100,11 +100,11 @@ footer .light .bottom-menu .item .title a {
 }
 
 footer .light .bottom-menu .wrap .item .title a {
-    color: #999;
+    color: #01060b;
 }
 
 footer .bottom-menu .item .title a {
-    color: #fff;
+    color: #01060b;
 }
 
 footer .bottom-menu .wrap .item .title {
@@ -114,8 +114,8 @@ footer .bottom-menu .wrap .item .title {
 }
 
 footer .light .info .subscribe_button .btn {
-    background: #fff;
-    border-color: #eef0f4;
+    background: #01060b;
+    border-color: #01060b;
     color: #333;
 }
 
@@ -178,7 +178,7 @@ footer .info .subscribe_button .btn {
 .wrapper_inner, .maxwidth-theme {
     padding: 0 30px;
     margin: 0 auto;
-    background: #fff;
+    background: #01060b;
     float: none;
 }
 
@@ -199,11 +199,11 @@ ul > li {
 }
 
 .item .name {
-    color: #c8877b;
+    color: #fbffff;
 }
 
 .item .name:hover {
-    color: #c6543e
+    color: #b8c6c2
 }
 
 *, :after, :before {

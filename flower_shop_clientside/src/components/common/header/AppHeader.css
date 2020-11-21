@@ -1,9 +1,8 @@
 .ant-layout-header {
-
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
-    background-color: #85d7f3;
+    background-color: #01060b;
 }
 
 .appLanguage ul {
@@ -71,8 +70,8 @@ nav.navbar .dropdown:hover > .dropdown-menu {
     display: block;
 }
 
-@media only screen and (max-device-width: 992px){
-    nav.navbar .dropdown:hover .dropdown-menu{
+@media only screen and (max-device-width: 992px) {
+    nav.navbar .dropdown:hover .dropdown-menu {
         display: none;
     }
 }
@@ -89,13 +88,24 @@ nav.navbar .dropdown:hover > .dropdown-menu {
     background-color: #d3ada6;
 }
 
-.title{
+.title {
     color: #fff;
 }
+
 header .title a:hover {
     color: #cf978d;
 }
 
- .wrap_icon {
+.wrap_icon {
     height: 40px;
 }
+
+.header-item {
+    background-color: black;
+    color: white;
+}
+
+.header-item:hover {
+    background-color: darkgrey;
+}
+

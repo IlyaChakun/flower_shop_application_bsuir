@@ -57,20 +57,18 @@ class Home extends Component {
 
 
         return (
-            <div className="container">
+            <div className="container-fluid">
 
                 <div className="col-12">
-                    <div className="row">
-
+                    <div className="row mb-5">
                         <CarouselComponent/>
-
                     </div>
 
-                    <div className="row">
+                    <div className="row mb-2">
                         <FlowersList/>
                     </div>
 
-                    <div className="row">
+                    <div className="row mb-2">
                         <ReviewsBlock/>
                     </div>
 

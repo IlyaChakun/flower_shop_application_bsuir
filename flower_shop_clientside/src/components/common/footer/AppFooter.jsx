@@ -1,9 +1,9 @@
 import React from 'react'
-import { Layout } from 'antd'
-import { localizedStrings } from '../../util/localization'
+import {Layout} from 'antd'
+import {localizedStrings} from '../../util/localization'
 // import './AppFooter.css'
 import '../../../index.css'
-import AboutUsComponent from './AboutUsComponent'
+
 
 // const Footer = Layout.Footer
 
