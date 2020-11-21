@@ -70,10 +70,10 @@ export function validateText (text) {
     }
   }
 
-  if (text.length > 512) {
+  if (text.length > 240) {
     return {
       validateStatus: ERROR,
-      errorMsg: 'Текст слишком длинный'
+      errorMsg: 'Текст слишком длинный, не более 240 символов!'
     }
   }
 

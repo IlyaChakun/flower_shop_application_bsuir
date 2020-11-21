@@ -181,8 +181,9 @@ class AddReviewModal extends Component {
                         </Form.Item>
                         <Form.Item
                             className={s.formItem}
-                            label={'Текст отзыва'}
-                        >
+                            label={'Текст отзыва:'}
+                            validateStatus={this.state.text.validateStatus}
+                            help={this.state.text.errorMsg}>
                             <Input.TextArea
                                 prefix={<MessageOutlined/>}
                                 name="text"
@@ -222,7 +223,6 @@ class AddReviewModal extends Component {
         return !(this.state.name.validateStatus === SUCCESS &&
             this.state.email.validateStatus === SUCCESS &&
             this.state.phoneNumber.validateStatus === SUCCESS &&
-            this.state.rating.validateStatus === SUCCESS &&
             this.state.text.validateStatus === SUCCESS
         )
     }

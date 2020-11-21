@@ -16,7 +16,7 @@ class ReviewsBlock extends Component {
     }
 
 
-    fetchReviews() {
+    fetchReviews = () => {
         const reviews = getAllReviewsRequest()
         console.log('reviews: ' + reviews)
         reviews
@@ -42,7 +42,7 @@ class ReviewsBlock extends Component {
                                 className="pull-right font_upper muted dark_link animate-load" data-event="jqm"
                                 data-param-form_id="REVIEW" data-name="send_review">
                             <span>
-                                <AddReviewModal/>
+                                <AddReviewModal />
                             </span>
                         </span>
                         </span>
