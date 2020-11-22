@@ -63,7 +63,6 @@ body {
 
 .button {
     width: 50%;
-    /*margin: 10px;*/
     padding: 0;
     font-size: 16px;
     background-color: #dbbdb8;
@@ -71,58 +70,6 @@ body {
     color: #ffffff;
 }
 
-footer .footer_top {
-    padding-bottom: 70px;
-}
-
-footer .footer-inner {
-    position: relative;
-    margin: 0;
-    padding: 59px 0 64px;
-    background: #333;
-}
-
-
-footer .light {
-    background: #01060b;
-}
-
-footer .bottom-menu .item .title {
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 24px;
-    text-transform: uppercase;
-    letter-spacing: .8px;
-}
-
-footer .light .bottom-menu .item .title a {
-    color: #333;
-}
-
-footer .light .bottom-menu .wrap .item .title a {
-    color: #01060b;
-}
-
-footer .bottom-menu .item .title a {
-    color: #01060b;
-}
-
-footer .bottom-menu .wrap .item .title {
-    font-weight: 400;
-    text-transform: none;
-    letter-spacing: 0;
-}
-
-footer .light .info .subscribe_button .btn {
-    background: #01060b;
-    border-color: #01060b;
-    color: #333;
-}
-
-
-footer .copy {
-    color: #999;
-}
 
 .font_xs {
     font-size: 16px;
@@ -158,17 +105,6 @@ ul {
     -moz-transition: background-color 0.3s ease;
     -o-transition: background-color 0.3s ease;
     -webkit-transition: background-color 0.3s ease;
-}
-
-footer .info .subscribe_button .btn {
-    position: relative;
-    display: block;
-    padding: 15px 45px 14px 18px;
-    white-space: normal;
-    background: #494949;
-    border-color: #494949;
-    text-align: left;
-    letter-spacing: .8px;
 }
 
 .wrapper_inner {
@@ -226,9 +162,7 @@ a, .link, .button.transparent, .button.transparent:hover, .specials_slider_wrapp
     color: #d3ada6;
 }
 
-footer .light .bottom-menu .item .title a:hover, footer .light .bottom-menu .wrap .item .title a:hover, footer .light .info .email a:hover {
-    color: #c8877b;
-}
+
 
 .left_block {
     width: 244px;
@@ -266,63 +200,6 @@ header .menu_top_block li .dropdown > li > a, .menu_top_block.catalog_block .dro
     transition: padding 0.2s ease;
 }
 
-/*footer .light .social-icons ul li.vk a:not(:hover) {*/
-/*    background-position: 0 -565px;*/
-/*}*/
-
-/*footer .light .social-icons ul li a {*/
-/*    border-color: rgba(51, 51, 51, .2);*/
-/*}*/
-
-/*footer .social-icons ul li a {*/
-/*    display: block;*/
-/*    width: 43px;*/
-/*    height: 43px;*/
-/*    margin: 0;*/
-/*    border-radius: 3px;*/
-/*    opacity: .5;*/
-/*    border: 1px solid rgba(255, 255, 255, .2);*/
-/*    background: url(/img/social.svg) no-repeat;*/
-/*    transition: opacity .3s;*/
-/*    -moz-transition: opacity .3s;*/
-/*    -ms-transition: opacity .3s ease;*/
-/*    -o-transition: opacity .3s;*/
-/*    -webkit-transition: opacity .3s;*/
-/*}*/
-/*footer .light .social-icons ul {*/
-/*    background: #fafafa;*/
-/*}*/
-/*footer .social-icons ul {*/
-/*    position: relative;*/
-/*    display: inline-block;*/
-/*    padding: 0 32px;*/
-/*    background: #333;*/
-/*    z-index: 1;*/
-/*}*/
-
-/*footer .social-icons {*/
-/*    position: relative;*/
-/*    text-align: center;*/
-/*    font-size: 0;*/
-/*    line-height: 0;*/
-/*}*/
-
-/*footer .social-icons ul li.vk a:hover {*/
-/*    background-position: 0 -188px;*/
-/*}*/
-/*footer .light .social-icons ul li a {*/
-/*    border-color: rgba(51,51,51,.2);*/
-/*}*/
-/*footer .social-icons ul li a:hover {*/
-/*    opacity: 1;*/
-/*    border: none;*/
-/*}*/
-/*footer .social-icons ul li.instagram a:hover {*/
-/*    background-position: -141px -329px;*/
-/*}*/
-/*.social-icons ul {*/
-/*    margin: 0;*/
-/*    padding: 0;*/
-/*    width: auto;*/
-/*    font-size: 0;*/
-/*}*/
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, .popup-window {
+    font-family: "Montserrat", Arial, sans-serif;
+}
