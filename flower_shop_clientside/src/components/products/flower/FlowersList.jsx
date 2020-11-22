@@ -2,31 +2,51 @@ import React, {Component} from 'react'
 
 import ReviewCard from "../../company/review/ReviewCard";
 import FlowerCard from "./FlowerCard";
+import {getAllReviewsRequest, getFlowersRequest} from "../../util/utilsAPI";
 
 class FlowersList extends Component {
     state = {
         flowers: [
-            {
-                id: 41,
-                flowerType: "роза аваланш",
-                cost: 25
-            },
-            {
-                id: 31,
-                flowerType: "роза аваланш пинч",
-                cost: 30
-            },
-            {
-                id: 21,
-                flowerType: "роза ноктюрн",
-                cost: 14
-            }
+            // {
+            //     id: 41,
+            //     flowerType: "роза аваланш",
+            //     cost: 25
+            // },
+            // {
+            //     id: 31,
+            //     flowerType: "роза аваланш пинч",
+            //     cost: 30
+            // },
+            // {
+            //     id: 21,
+            //     flowerType: "роза ноктюрн",
+            //     cost: 14
+            // }
         ],
 
         isLoading: false
     }
 
+    componentDidMount() {
+        this.fetchFlowers()
+    }
+
+    fetchFlowers = () => {
+        const flowers = getFlowersRequest()
+        console.log('flowers did mount: ' + flowers)
+        flowers
+            .then(response => {
+                this.setState({
+                    flowers: response.objects
+                })
+            })
+    }
+
+
     render() {
+
+        console.log(this.state.flowers)
+
         const flowers = this.state.flowers
             .map(flower => (<FlowerCard key={flower.id} flower={flower}/>))
 
