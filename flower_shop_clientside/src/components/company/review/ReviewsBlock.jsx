@@ -34,7 +34,7 @@ class ReviewsBlock extends Component {
             .map(review => (<ReviewCard key={review.id} review={review}/>))
 
         return (
-            <div className="review-front">
+            <div className="review-front my-0">
                 <div className="review-block col-10 mx-auto">
                     <div className="top_block d-flex flex-row justify-content-between">
                         <div className="col-4">
