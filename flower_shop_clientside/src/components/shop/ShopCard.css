@@ -20,3 +20,32 @@
     background-color: #fff;
 }
 
+.grey {
+    color: #999;
+}
+
+.top-prop a {
+    font-size: 1.333rem;
+    text-decoration: none;
+}
+
+.top-prop a:hover, .text-wrap .text {
+    color: #d3ada6;
+}
+
+ .schedule .text{
+     color: #777;
+ }
+
+.black {
+    color: #222;
+    text-decoration: none;
+}
+
+a.black:hover, .text-wrap .text:hover {
+    color: #222;
+}
+
+.ant-card-body:hover .top-prop a{
+    color: #d3ada6;
+}

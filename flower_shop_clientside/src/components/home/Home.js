@@ -10,22 +10,14 @@ class Home extends Component {
   render () {
     return (
       <div className="container-fluid">
-
-        <div className="col-12">
-          <div className="row mb-5">
-            <CarouselComponent/>
-          </div>
+        <div className="col">
+          <CarouselComponent/>
 
           <div className="row mb-2">
             <FlowersList/>
           </div>
-
-          <div className="row">
-            <ReviewsBlock/>
-          </div>
-
+          <ReviewsBlock/>
           <ShopsBlock/>
-
         </div>
       </div>
     )

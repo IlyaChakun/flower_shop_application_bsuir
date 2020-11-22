@@ -1,6 +1,7 @@
 import React from 'react'
-import {Layout} from 'antd'
+import {Layout, Menu} from 'antd'
 import './AppFooter.css'
+import {Link, NavLink} from 'react-router-dom'
 
 const Footer = Layout.Footer
 
@@ -17,27 +18,21 @@ const AppFooter = () => {
                                 <a href="/about/">О нас</a>
                             </div>
                             <div className="item">
-                                <a href="/about/index.php">О компании</a>
-
+                                <Link to="/company/about">О компании</Link>
                             </div>
                             <div className="item">
-                                <a href="/about/help/">Как оформить заказ</a>
+                                <Link to="/about/help">Как оформить заказ</Link>
                             </div>
                             <div className="item">
-                                <a href="/about/reviews/">Отзывы</a>
-
+                                <Link to="/company/reviews">Отзывы</Link>
                             </div>
                             <div className="item">
-                                <a href="/contacts/stores/">Магазины</a>
-
+                                <Link to="/company/shops">Магазины</Link>
                             </div>
                             <div className="item">
-                                <a href="/about/legal/">Юридическим лицам</a>
-
+                                <Link to="/about/legal">Юридическим лицам</Link>
                             </div>
-                            <div className="item">
-                                <a href="/about/licenses/">Документы</a>
-
+                            <div className="item"><Link to="/about/documents">Документы</Link>
                             </div>
                         </div>
 
@@ -104,7 +99,7 @@ const AppFooter = () => {
                 <div className="row footer_middle">
                     <div className="col-md-12 col-sm-12">
                         <div className="social-block">
-                            <ul class="list-group list-group-horizontal justify-content-center pb-2">
+                            <ul className="list-group list-group-horizontal justify-content-center pb-2">
                                 <li className="vk">
                                     <a href="#" target="_blank" rel="nofollow" title="Вконтакте">
                                         <i className="fa fa-vk" aria-hidden="true"></i>

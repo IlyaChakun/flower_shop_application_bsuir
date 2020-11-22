@@ -17,10 +17,6 @@ const Header = Layout.Header
 
 class AppHeader extends Component {
 
-    state = {
-        language: this.props.language
-    }
-
     handleMenuClick = ({key}) => {
         if (key === 'logout') {
             this.props.handleLogout()
