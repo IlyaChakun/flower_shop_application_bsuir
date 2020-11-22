@@ -9,7 +9,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -23,14 +22,14 @@ import static by.bsuir.controller.ControllerHelper.isIdInsideDtoOrThrowException
 
 
 @RestController
-@RequestMapping("/users/admin/company/shops/{id}/bouquets")
+@RequestMapping("/bouquets")
 @AllArgsConstructor
 @CrossOrigin(origins = "*")
 public class BouquetController {
 
     private final FlowerBouquetService flowerBouquetService;
 
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
+
     @GetMapping("/{id}")
     public ResponseEntity<FlowerBouquetDTO> findById(@PathVariable("id") @PositiveLong String id) {
 
@@ -38,7 +37,7 @@ public class BouquetController {
         return ResponseEntity.ok(flowerBouquet);
     }
 
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
+
     @GetMapping()
     public ResponseEntity<?> findAllBySearchString(
             @RequestParam(defaultValue = "1", required = false) Integer page,
