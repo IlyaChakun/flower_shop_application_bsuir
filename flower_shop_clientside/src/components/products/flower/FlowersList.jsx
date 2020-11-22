@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 
-import ReviewCard from "./review/ReviewCard";
+import ReviewCard from "../../company/review/ReviewCard";
 import FlowerCard from "./FlowerCard";
 
 class FlowersList extends Component {
