@@ -1,13 +1,13 @@
 import React, {Component} from 'react'
 
 import {List, Card} from 'antd'
-import {getFlowersRequest} from "../../util/utilsAPI";
-import FlowerCard from "./FlowerCard";
+import {getBouquetsRequest, getFlowersRequest} from "../../util/utilsAPI";
+import BouquetCard from "./BouquetCard";
 
-class FlowersList extends Component {
+class BouquetList extends Component {
 
     state = {
-        flowers: [],
+        bouquets: [],
 
         page: 1,
         size: 6,
@@ -46,7 +46,7 @@ class FlowersList extends Component {
             sortType: sortType
         };
 
-        const promise = getFlowersRequest(searchCriteria);
+        const promise = getBouquetsRequest(searchCriteria);
         if (!promise) {
             return;
         }
@@ -64,7 +64,7 @@ class FlowersList extends Component {
             .then(response => {
 
                 this.setState({
-                    flowers: response.objects.slice(),
+                    bouquets: response.objects.slice(),
                     totalPages: response.totalPages,
                     totalElements: response.totalElements,
                 });
@@ -79,8 +79,8 @@ class FlowersList extends Component {
 
     render() {
 
-        const flowers = this.state.flowers
-            .map(product => (<FlowerCard key={product.id} product={product}/>))
+        const flowers = this.state.bouquets
+            .map(product => (<BouquetCard key={product.id} product={product}/>))
 
         return (
             <div className="container-fluid">
@@ -159,4 +159,4 @@ class FlowersList extends Component {
 
 }
 
-export default FlowersList
+export default BouquetList

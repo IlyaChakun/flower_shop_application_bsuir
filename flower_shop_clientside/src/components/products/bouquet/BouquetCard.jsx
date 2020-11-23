@@ -1,10 +1,10 @@
 import React, {Component} from 'react'
 import {Card} from 'antd'
-import './FlowerCard.css'
+import './BouquetCard.css'
 import DownOutlined from "@ant-design/icons/lib/icons/DownOutlined";
 
 
-import {Menu, Dropdown, Button, message, Tooltip} from 'antd';
+import {Menu, Dropdown, Button, message} from 'antd';
 
 const {Meta} = Card
 
@@ -13,11 +13,14 @@ function handleMenuClick(e) {
     console.log('click', e);
 }
 
-class FlowerCard extends Component {
+class BouquetCard extends Component {
 
     state = {
         dateOfLastUpdate: this.props.product.dateOfLastUpdate,
-        flowerType: this.props.product.flowerType.flowerType,
+
+        title: this.props.product.title,
+        bouquetType: this.props.product.bouquetType.bouquetType,
+
         flowerColors: this.props.product.flowerColors,
         flowerLengthCosts: this.props.product.flowerLengthCosts,
         flowerSorts: this.props.product.flowerSorts,
@@ -74,7 +77,9 @@ class FlowerCard extends Component {
                 }
                 title={
                     <span>
-                        {this.state.flowerType}
+                        {this.state.title}
+                        <br/>
+                        {this.state.bouquetType}
                     </span>
                 }
             >
@@ -128,4 +133,4 @@ class FlowerCard extends Component {
     }
 }
 
-export default FlowerCard
+export default BouquetCard

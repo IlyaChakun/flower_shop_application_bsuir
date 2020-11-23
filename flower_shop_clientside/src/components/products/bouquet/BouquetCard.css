@@ -1,0 +1,14 @@
+.product-content-body {
+    /*text-indent: 20px;*/
+    /*padding-left: 15px;*/
+    /*padding-right: 15px;*/
+    height: 90px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+}
+
+.product-rating-footer {
+    margin-top: 5%;
+}
+

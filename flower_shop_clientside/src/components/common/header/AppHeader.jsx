@@ -133,7 +133,7 @@ class AppHeader extends Component {
                 </div>
 
                 {/*<Header style={{ position: 'fixed', zIndex: 1, width: '100%'}}>*/}
-                <Header >
+                <Header>
                     <Menu
                         theme={"dark"}
                         mode="horizontal"
@@ -144,6 +144,22 @@ class AppHeader extends Component {
                                 Главная страница
                             </Link>
                         </Menu.Item>
+                        <Menu.Item key="/flowers">
+                            <Link to="/flowers">
+                                Цветы
+                            </Link>
+                        </Menu.Item>
+                        <Menu.Item key="/bouquets">
+                            <Link to="/bouquets">
+                                Букеты
+                            </Link>
+                        </Menu.Item>
+                        <Menu.Item key="/reviews">
+                            <Link to="/reviews">
+                                Отзывы
+                            </Link>
+                        </Menu.Item>
+
                         {menuItems}
                     </Menu>
                 </Header>

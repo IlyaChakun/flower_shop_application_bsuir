@@ -1,6 +1,9 @@
 import React from 'react'
 import {Layout} from 'antd'
-import './AppFooter.css'
+import {localizedStrings} from '../../util/localization'
+// import './AppFooter.css'
+import '../../../index.css'
+
 
 const Footer = Layout.Footer
 
@@ -142,4 +145,5 @@ const AppFooter = () => {
         </Footer>
     )
 }
+
 export default AppFooter

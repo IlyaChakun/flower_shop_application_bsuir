@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 
 import { withRouter } from 'react-router-dom'
-import ReviewsBlock from '../company/review/ReviewsBlock'
-import FlowersList from '../products/flower/FlowersList'
+import ReviewsList from '../company/review/ReviewsList'
 import CarouselComponent from '../common/carousel/CarouselComponent'
 import ShopsBlock from '../company/shops/ShopsBlock'
+import FlowersList from '../products/flower/FlowersList'
+import BouquetList from "../products/bouquet/BouquetList";
 
 class Home extends Component {
   render () {
@@ -20,8 +21,12 @@ class Home extends Component {
             <FlowersList/>
           </div>
 
+          <div className="row mb-2">
+            <BouquetList/>
+          </div>
+
           <div className="row">
-            <ReviewsBlock/>
+            <ReviewsList/>
           </div>
 
           <ShopsBlock/>

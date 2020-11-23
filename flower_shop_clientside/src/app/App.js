@@ -30,6 +30,9 @@ import {getCurrentCompanyRequest, getCurrentUserRequest} from '../components/uti
 import ShopsList from "../components/shop/ShopsList";
 import Home from "../components/home/Home";
 import ShopAdd from "../components/shop/ShopAdd";
+import FlowersList from "../components/products/flower/FlowersList";
+import ReviewsList from "../components/company/review/ReviewsList";
+import BouquetList from "../components/products/bouquet/BouquetList";
 
 const {Content} = Layout
 
@@ -146,61 +149,70 @@ class App extends Component {
 
         return (
             <>
-            <Layout className="app-wrapper">
-                <AppHeader isAuthenticated={this.state.isAuthenticated}
-                           currentUser={this.state.currentUser}
-                           handleLogout={this.handleLogout}
-                />
+                <Layout className="app-wrapper">
+                    <AppHeader isAuthenticated={this.state.isAuthenticated}
+                               currentUser={this.state.currentUser}
+                               handleLogout={this.handleLogout}
+                    />
 
 
-                <Content className="app-content">
-                    <div className="site-layout-background" style={{ minHeight: 380}}>
-                        <Switch>
+                    <Content className="app-content">
+                        <div className="site-layout-background" style={{minHeight: 380}}>
+                            <Switch>
 
-                            <Route exact path="/login"
-                                   render={(props) =>
-                                       <Login onLogin={this.handleLogin}
-                                              {...props} />}/>
+                                <Route exact path="/login"
+                                       render={(props) =>
+                                           <Login onLogin={this.handleLogin}
+                                                  {...props} />}/>
 
-                            <Route path="/sign-up"
-                                   render={(props) =>
-                                       <SignUp
-                                           isAuthenticated={this.state.isAuthenticated}
-                                           {...props} />}/>
+                                <Route path="/sign-up"
+                                       render={(props) =>
+                                           <SignUp
+                                               isAuthenticated={this.state.isAuthenticated}
+                                               {...props} />}/>
 
-                            <Route path="/oauth2/redirect"
-                                   render={(props) =>
-                                       <OAuth2RedirectHandler onLogin={this.handleLogin}
-                                                              {...props} />}/>
+                                <Route path="/oauth2/redirect"
+                                       render={(props) =>
+                                           <OAuth2RedirectHandler onLogin={this.handleLogin}
+                                                                  {...props} />}/>
 
-                            <PrivateRoute path="/profile"
-                                          isAuthenticated={this.state.isAuthenticated}
-                                          currentUser={this.state.currentUser}
-                                          component={Profile}/>
-
-
-                            <Route path="/company/shops"
-                                   currentCompany={this.state.currentCompany}
-                                   component={ShopsList}/>
+                                <PrivateRoute path="/profile"
+                                              isAuthenticated={this.state.isAuthenticated}
+                                              currentUser={this.state.currentUser}
+                                              component={Profile}/>
 
 
-                            <Route path="/company"
-                                   currentCompany={this.state.currentCompany}
-                                   component={Company}/>
+                                <Route path="/company/shops"
+                                       currentCompany={this.state.currentCompany}
+                                       component={ShopsList}/>
 
-                            <Route path="/"
-                                   component={Home}/>
 
-                            <Route component={NotFound}/>
+                                <Route path="/company"
+                                       currentCompany={this.state.currentCompany}
+                                       component={Company}/>
 
-                        </Switch>
-                    </div>
+                                <Route path="/flowers"
+                                       component={FlowersList}/>
 
-                </Content>
-                <AppFooter/>
-            </Layout>
+                                <Route path="/bouquets"
+                                       component={BouquetList}/>
 
-        </>
+                                <Route path="/reviews"
+                                       component={ReviewsList}/>
+
+                                <Route path="/"
+                                       component={Home}/>
+
+                                <Route component={NotFound}/>
+
+                            </Switch>
+                        </div>
+
+                    </Content>
+                    <AppFooter/>
+                </Layout>
+
+            </>
         )
     }
 }
