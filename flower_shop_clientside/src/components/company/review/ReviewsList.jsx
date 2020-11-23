@@ -4,7 +4,6 @@ import ReviewCard from "./ReviewCard";
 import {getAllReviewsRequest} from "../../util/utilsAPI";
 import AddReviewModal from "./AddReviewModal";
 import './ReviewsBlock.css'
-import {Link} from "react-router-dom";
 import {List} from "antd";
 
 class ReviewsList extends Component {

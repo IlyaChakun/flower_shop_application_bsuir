@@ -1,4 +1,4 @@
-import {Component} from 'react'
+import React, {Component} from 'react'
 import './App.css'
 import PrivateRoute from './util/PrivateRoute'
 
@@ -75,7 +75,7 @@ class App extends Component {
         })
         getCurrentCompanyRequest()
             .then(response => {
-                console.log('RESPONCE' + response)
+                console.log('RESPONSE' + response)
                 this.setState({
                     currentCompany: response,
                     isLoading: false
@@ -95,6 +95,7 @@ class App extends Component {
         })
         getCurrentUserRequest()
             .then(response => {
+                console.log(response)
                 this.setState({
                     currentUser: response,
                     isAuthenticated: true,
@@ -196,6 +197,7 @@ class App extends Component {
                                               isAuthenticated={this.state.isAuthenticated}
                                               currentUser={this.state.currentUser}
                                               component={Profile}/>
+
                                 <PrivateRoute path="/profile"
                                               isAuthenticated={this.state.isAuthenticated}
                                               currentUser={this.state.currentUser}
@@ -207,10 +209,10 @@ class App extends Component {
                                 <Route path="/company/shops"
                                        currentCompany={this.state.currentCompany}
                                        component={ShopsList}/>
+
                                 <Route path="/company/shops"
                                        currentCompany={this.state.currentCompany}
                                        component={ShopsList}/>
-
 
                                 <Route path="/company"
                                        currentCompany={this.state.currentCompany}

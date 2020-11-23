@@ -79,8 +79,8 @@ class ChangePasswordModal extends React.Component {
     render() {
         return (
             <>
-                <Button type="primary" onClick={this.showModal} className={s.button}>
-                    {localizedStrings.changePassword}
+                <Button type="primary" onClick={this.showModal} className={s.button + " " + s.danger}>
+                    Изменить пароль
                 </Button>
 
                 <Modal

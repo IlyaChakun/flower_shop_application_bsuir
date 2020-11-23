@@ -49,16 +49,21 @@ export function validatePhoneNumber (phoneNumber) {
     }
   }
 
-  if (phoneNumber.length > 15) {
+  if (phoneNumber.length < 11) {
+    return {
+      validateStatus: ERROR,
+      errorMsg: 'Номер телефона не может быть меньше 11 символов'
+    }
+  } else if (phoneNumber.length > 15) {
     return {
       validateStatus: ERROR,
       errorMsg: 'Телефон слишком длинный'
     }
-  }
-
-  return {
-    validateStatus: SUCCESS,
-    errorMsg: null
+  } else {
+    return {
+      validateStatus: SUCCESS,
+      errorMsg: null
+    }
   }
 }
 
