@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import ShopCard from './ShopCard'
 import {withRouter} from 'react-router-dom'
 import MapContainer from "../common/map/MapContainer";
-import ShopAdd from "./ShopAdd";
+import AddShopModal from "./AddShopModal";
 
 class ShopsList extends Component {
 
@@ -71,7 +71,7 @@ class ShopsList extends Component {
                     </div>
                 </div>
                 <div>
-                    <ShopAdd/>
+                    <AddShopModal/>
                 </div>
 
             </div>

@@ -250,8 +250,8 @@ class MapContainer extends Component {
                                 width: '100%',
                                 height: '40px',
                                 paddingLeft: '16px',
-                                marginTop: '2px',
-                                marginBottom: '500px'
+                                marginTop: '10px',
+                                marginBottom: '50px'
                             }}
 
                             onPlaceSelected={this.onPlaceSelected}

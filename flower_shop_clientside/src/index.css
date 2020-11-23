@@ -19,6 +19,14 @@ body {
     }
 }
 
+a {
+    text-decoration: none;
+    font-size: 16px;
+}
+
+a:hover {
+}
+
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
@@ -150,33 +158,6 @@ ul > li {
 }
 
 
-/*************************/
-a, .link, .button.transparent, .button.transparent:hover, .specials_slider_wrapp ul.tabs > li span,
-.basket_wrapp .basket_block .link:hover + .wraps_icon_block + .text .title, .stores .stores_list .item a span,
-.phones .order_wrap_btn, .footer_bottom .all_menu_block ul li a:hover, .footer_bottom .submenu_top .menu_item a:hover,
-.avtorization-call.enter:hover span, .top-h-row .h-user-block a:hover, ul.menu .child li.menu_item a, #header .catalog_menu ul.menu > li.current > a, ul.menu .child .depth3 a, ul.menu .child li.menu_title a:hover,
-#header ul.menu li .child.submenu .child_wrapp a:not(.title), .img_block_capcha .reload, .h_color_white .center_block .menu.full > li:hover > a, .m_color_white #header .wrapper_middle_menu .menu.bottom > li:hover > a, .m_color_white #header .wrapper_middle_menu .menu.bottom > li.hover > a, body #header ul.menu li .child.line .child_wrapp > a:hover,
-.basket_sort ul.tabs li .wrap_li > span *, .basket_sort ul.tabs li .wrap_li > span, .left_block .internal_sections_list .child_wrapp .child li.cur > a, .left_block .internal_sections_list .child_wrapp .child li.depth3 a.menu_item.cur,
-.left_block .internal_sections_list .child_wrapp a:hover, .breadcrumbs a:hover span, .tabs-head li.current span,
-.reviews-post-reply-buttons a:hover, h4.hover, .button.transparent.white:hover, .button.white_bg, .item .child_container .child_wrapp .menu_item.current a, .item .child_container .child_wrapp .menu_item:hover a {
-    color: #d3ada6;
-}
-
-
-
-.left_block {
-    width: 244px;
-    float: left;
-    position: relative;
-    zoom: 1;
-    z-index: 390;
-    padding-top: 0;
-}
-
-.left_block .sticky-sidebar__inner > div:first-of-type {
-    margin-top: 0;
-}
-
 .menu_top_block {
     margin: 0;
     padding: 0;
@@ -184,12 +165,6 @@ a, .link, .button.transparent, .button.transparent:hover, .specials_slider_wrapp
     white-space: nowrap;
 }
 
-
-.sticky-sidebar__inner {
-    transform: translate(0, 0);
-    will-change: position, transform;
-    padding-bottom: 32px;
-}
 
 header .menu_top_block li .dropdown > li > a, .menu_top_block.catalog_block .dropdown > li.full > a, .left_menu > li > a {
     display: block;
@@ -203,3 +178,5 @@ header .menu_top_block li .dropdown > li > a, .menu_top_block.catalog_block .dro
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, .popup-window {
     font-family: "Montserrat", Arial, sans-serif;
 }
+
+

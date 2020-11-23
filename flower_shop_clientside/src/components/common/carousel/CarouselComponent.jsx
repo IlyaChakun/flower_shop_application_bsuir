@@ -8,25 +8,26 @@ import image3 from '../../../img/carousel/rose-1687884_1920.jpg'
 import image4 from '../../../img/carousel/rose-2101475_1920.jpg'
 import image5 from '../../../img/carousel/sparkler-677774_1920.jpg'
 
+import './CarouselComponent.css'
+
 export default function CarouselComponent () {
+  const contentStyle = {
+    height: '600px'
+  }
+
   return (
-    <div className="carousel-wrapper">
-      <Carousel infiniteLoop useKeyboardArrows autoPlay showThumbs={false}>
-        <div>
-          <img className="img-fluid" src={image1}/>
-        </div>
-        <div>
-          <img className="img-fluid" src={image2}/>
-        </div>
-        <div>
-          <img className="img-fluid" src={image3}/>
-        </div>
-        <div>
-          <img className="img-fluid" src={image4}/>
-        </div>
-        <div>
-          <img className="img-fluid" src={image5}/>
-        </div>
+    <div className="row slider-container mb-5">
+      <Carousel infiniteLoop autoPlay showArrows={false} showThumbs={false}>
+
+        <img style={contentStyle} src={image1}/>
+
+        <img style={contentStyle} src={image2}/>
+
+        <img style={contentStyle}src={image3}/>
+
+        <img style={contentStyle} src={image4}/>
+
+        <img style={contentStyle} src={image5}/>
 
       </Carousel>
     </div>
