@@ -22,7 +22,6 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.JOINED)
 public class AbstractFlowerProduct extends AbstractEntity {
 
-
     @ManyToMany
     @JoinTable(name = "flower_colors",
             joinColumns =

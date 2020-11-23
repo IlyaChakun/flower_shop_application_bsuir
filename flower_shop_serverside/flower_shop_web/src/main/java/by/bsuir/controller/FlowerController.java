@@ -20,7 +20,7 @@ import static by.bsuir.controller.ControllerHelper.checkBindingResultAndThrowExc
 import static by.bsuir.controller.ControllerHelper.isIdInsideDtoOrThrowException;
 
 @RestController
-@RequestMapping("/users/admin/company/shops/{id}/flowers")
+@RequestMapping("/flowers")
 @AllArgsConstructor
 @CrossOrigin(origins = "*")
 public class FlowerController {
@@ -28,7 +28,7 @@ public class FlowerController {
 
     private final FlowerService flowerService;
 
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
+
     @GetMapping("/{id}")
     public ResponseEntity<FlowerDTO> findById(@PathVariable("id") @PositiveLong String id) {
 
@@ -37,7 +37,7 @@ public class FlowerController {
         return ResponseEntity.ok(flower);
     }
 
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
+
     @GetMapping()
     public ResponseEntity<?> findAllBySearchString(
             @RequestParam(defaultValue = "1", required = false) Integer page,
