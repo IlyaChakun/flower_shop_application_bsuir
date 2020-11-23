@@ -22,7 +22,7 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.JOINED)
 public class AbstractFlowerProduct extends AbstractEntity {
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(name = "flower_colors",
             joinColumns =
                     {
@@ -33,7 +33,7 @@ public class AbstractFlowerProduct extends AbstractEntity {
                     referencedColumnName = "id")})
     private List<FlowerColor> flowerColors = new ArrayList<>();
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "flower_length_costs",
             joinColumns =
                     {
@@ -44,7 +44,7 @@ public class AbstractFlowerProduct extends AbstractEntity {
                     referencedColumnName = "id")})
     private List<FlowerLengthCost> flowerLengthCosts = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(name = "flower_sorts",
             joinColumns =
                     {
@@ -58,7 +58,7 @@ public class AbstractFlowerProduct extends AbstractEntity {
     //TODO у многих цветов много сортов??...может всеже многие-к-одному
 
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL)
     private Country country;  // страна происхождения
 
 //    private Image image;
