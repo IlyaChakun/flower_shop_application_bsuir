@@ -14,7 +14,7 @@ class ShopCard extends Component {
 
       <Card
         hoverable
-        style={{ width: 1000, marginTop: 16 }}
+        style={{ marginTop: 16 }}
         extra={
           ''
         }
