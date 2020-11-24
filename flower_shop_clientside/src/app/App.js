@@ -7,7 +7,7 @@ import {Route, Switch, withRouter} from 'react-router-dom'
 
 import {localizedStrings} from '../components/util/localization'
 import {
-    ACCESS_TOKEN,
+    ACCESS_TOKEN, REFRESH_TOKEN,
     ROLE_ADMIN,
     ROLE_USER,
     SUCCESS,
@@ -109,8 +109,8 @@ class App extends Component {
     handleLogout =
         (redirectTo = '/', notificationType = SUCCESS, description = localizedStrings.alertSuccessLogOut) => {
 
-            // localStorage.removeItem(ACCESS_TOKEN)
-            // localStorage.removeItem(REFRESH_TOKEN)
+            localStorage.removeItem(ACCESS_TOKEN)
+            localStorage.removeItem(REFRESH_TOKEN)
 
             localStorage.removeItem(USER_ID)
 

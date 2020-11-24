@@ -7,6 +7,7 @@ import {
 } from "../../util/utilsAPI";
 import AddBouquetModal from "./AddBouquetModal";
 import BouquetCardProxy from "./BouquetCardProxy";
+import AddFlowerModal from "../flower/AddFlowerModal";
 
 
 class BouquetList extends Component {
@@ -113,49 +114,47 @@ class BouquetList extends Component {
 
         return (
             <div className="container-fluid">
-
-                <div>
-                    <AddBouquetModal shopId={this.props.shopId}/>
+                <div className="row justify-content-between">
+                    <div className="col-2"><h1>Букеты</h1></div>
+                    <div className="col-2"><AddBouquetModal shopId={this.props.shopId}/></div>
                 </div>
 
-                <h1>букеты</h1>
+                <div className="row">
+                    <List
+                        grid={{
+                            gutter: 70,
+                            column: 3,
+                        }}
 
-                <List
-                    grid={{
-                        gutter: 70,
-                        column: 3,
+                        pagination={{
 
-                    }}
+                            loading: this.state.isLoading,
+                            showSizeChanger: true,
 
-                    pagination={{
+                            defaultCurrent: Number(this.state.page),
+                            defaultPageSize: Number(this.state.size),
 
-                        loading: this.state.isLoading,
-                        showSizeChanger: true,
+                            pageSizeOptions: ["6", "9", "12"],
+                            position: "bottom",
 
-                        defaultCurrent: Number(this.state.page),
-                        defaultPageSize: Number(this.state.size),
+                            total: this.state.totalElements,
 
-                        pageSizeOptions: ["6", "9", "12"],
-                        position: "bottom",
+                            showQuickJumper: true,
+                            onShowSizeChange: this.onSizeChangeHandler,
+                            onChange: this.onPageChangeHandler,
 
-                        total: this.state.totalElements,
+                            loadMore: this.loadMore
+                        }}
 
-                        showQuickJumper: true,
-                        onShowSizeChange: this.onSizeChangeHandler,
-                        onChange: this.onPageChangeHandler,
+                        dataSource={flowers}
 
-                        loadMore: this.loadMore
-                    }}
-
-                    dataSource={flowers}
-
-                    renderItem={item => (
-                        <List.Item>
-                            {item}
-                        </List.Item>
-                    )}
-                />
-
+                        renderItem={item => (
+                            <List.Item>
+                                {item}
+                            </List.Item>
+                        )}
+                    />
+                </div>
             </div>
         )
     }

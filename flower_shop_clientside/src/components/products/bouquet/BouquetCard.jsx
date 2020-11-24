@@ -73,13 +73,11 @@ class BouquetCard extends Component {
                 hoverable
                 style={{width: 600, marginTop: 16}}
                 extra={
-                    'Производитель:  ' + this.state.country
+                    'Страна поставщик: ' + this.state.country
                 }
                 title={
                     <span>
-                        {this.state.title}
-                        <br/>
-                        {this.state.bouquetType}
+                       {this.state.bouquetType} - <span className="font-italic">{this.state.title}</span>
                     </span>
                 }
                 actions={[
@@ -87,7 +85,7 @@ class BouquetCard extends Component {
                     this.props.secondAction,
                     this.state.availableAmountOnStock > 0 ? 'тут кнопка в корзину' : ''
                 ]}>
-            >
+                >
 
                 <Meta
                     avatar={
@@ -102,12 +100,15 @@ class BouquetCard extends Component {
                     }
 
                     title={
+
                         <div>
-                            <p>
-                                {flowerSorts}
-                                <br/>
-                                {flowerColors}
-                            </p>
+                            <div className="row">
+
+                                <p>{flowerSorts}</p>
+                                    <br/>
+                                <p>{flowerColors}</p>
+
+                            </div>
                             <p>
                                 {flowerLengthCostsDropdown}
                             </p>
@@ -118,14 +119,14 @@ class BouquetCard extends Component {
                     description={
                         <div>
                             <div className="product-content-body">
-                                Количества в наличии: {this.state.availableAmountOnStock} штук в
-                                магазине по адресу: {this.state.shopCity}
-                                {this.state.shopAddress},
-                                номер: {this.state.shopFirstPhoneNumber}
+                                <p>В наличии: {this.state.availableAmountOnStock} штук
+                                    <br/>
+                                    В магазине по адресу: {this.state.shopCity}, {this.state.shopAddress}
+                                    <br/>
+                                    телефон: {this.state.shopFirstPhoneNumber}</p>
                             </div>
 
-
-                            <div className="product-rating-footer">
+                            <div className="product-rating-footer mb-4">
                                 Последнее обновление: {this.state.dateOfLastUpdate}
                             </div>
                         </div>
@@ -133,7 +134,6 @@ class BouquetCard extends Component {
                 />
 
             </Card>
-
         )
     }
 }

@@ -63,8 +63,11 @@ class AddBouquetModal extends Component {
     render() {
 
         return (
-            <div className='mt-3 mb-5 float-right'>
-                <Button type="primary" onClick={this.showModal}>
+            <div className='pt-3 float-right'>
+                <Button type="primary"
+                        style={{background: "black", color: "white"}}
+                        onClick={this.showModal}
+                >
                     Добавить букет
                 </Button>
 

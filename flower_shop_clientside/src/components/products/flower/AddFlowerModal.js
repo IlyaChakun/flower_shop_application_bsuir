@@ -61,9 +61,9 @@ class AddFlowerModal extends Component {
     render() {
 
         return (
-            <div className='align-baseline '>
+            <div className='pt-3 float-right'>
                 <Button type="primary"
-                        style={{ background: "black", color:"white" }}
+                        style={{ background: "black", color:"white"}}
                         onClick={this.showModal}
                 >
                     Добавить цветок
