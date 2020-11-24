@@ -8,6 +8,7 @@ import ChangePasswordModal from "../modal/ChangePasswordModal";
 import {SUCCESS} from "../../../constants";
 import {updateUserProfileRequest} from "../../util/utilsAPI";
 import {validatePhoneNumber, validateUserName} from "../../common/validation/ValidationFunctions";
+import ImageLoader from "../../common/image/ImageLoader";
 
 const {TabPane} = Tabs;
 
@@ -44,7 +45,7 @@ class Profile extends Component {
             errorMsg: null
         },
 
-        // imageUrl: this.props.currentUser.imageUrl,
+        imageUrl: this.props.currentUser.image === null ? '' : this.props.currentUser.image.imageUrl,
     }
 
 
@@ -53,6 +54,9 @@ class Profile extends Component {
             id: this.state.currentUser.id,
             name: this.state.name.value,
             phoneNumber: this.state.phoneNumber.value,
+            image: {
+                imageUrl: this.state.imageUrl
+            }
         }
 
         console.log(updateUserRequest)
@@ -76,17 +80,20 @@ class Profile extends Component {
     render() {
 
         return (
-            <div className="container py-5 px-3">
+            <div className="container py-5 px-3 mb-5">
                 <Tabs defaultActiveKey="1" onChange={callback}>
                     <TabPane tab="Личный кабинет" key="1">
-                        <div className="col-sm-12">
+                        <div className="col-sm-12 mb-5">
                             <div className="row">
                                 <Form {...layout}
                                       onFinish={this.handleSubmit} className={s.form}>
 
-                                    <div className="row mb-5">
+                                    <div className="row">
                                         <div className="col-sm-6">
-                                            здесь может быть фото
+                                            <ImageLoader
+                                                imageUrl={this.state.imageUrl}
+                                                handleImageUrlChange={this.handleImageUrlChange}
+                                            />
                                         </div>
                                         <div className="col-sm-6">
                                             <Form.Item
@@ -147,10 +154,11 @@ class Profile extends Component {
                                                 </Input>
                                             </Form.Item>
                                         </div>
+
                                     </div>
 
-                                    <div className="row">
-                                        <div className="col-4"></div>
+                                    <div className="row mb-5">
+
                                         <div className="col-4">
                                             <Form.Item className={s.formItem}>
                                                 <Button
@@ -165,6 +173,7 @@ class Profile extends Component {
                                         <div className="col-4">
                                             <ChangePasswordModal currentUserId={this.state.currentUser.id}/>
                                         </div>
+
                                     </div>
                                 </Form>
                             </div>
@@ -203,6 +212,12 @@ class Profile extends Component {
         )
     }
 
+
+    handleImageUrlChange = (imageUrl) => {
+        this.setState({
+            imageUrl: imageUrl
+        })
+    }
 
 }
 

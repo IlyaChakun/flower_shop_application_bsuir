@@ -1,6 +1,7 @@
 package by.bsuir.entity.user;
 
 import by.bsuir.entity.AbstractEntity;
+import by.bsuir.entity.common.Image;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -47,4 +48,5 @@ public class AbstractUser extends AbstractEntity {
     @Column(name = "phone_number", length = 48)
     private String phoneNumber;
 
+    private Image image;
 }
