@@ -162,9 +162,7 @@ export default class FlowerForm extends Component {
 
     handleSubmit = () => {
 
-        console.log(this.state.flowerColors.values)
-
-        console.log(this.state.flowerSorts.values)
+        console.log('this.state.shopId   ' + this.state.shopId)
 
 
         const flowerRequest = {
@@ -207,10 +205,12 @@ export default class FlowerForm extends Component {
                 </Option>
         )
 
-
         const flowerColorsOptions = this.state.flowerColorsValues.map(
             element =>
-                <Option key={element.id} value={element.colorName}>
+                <Option key={element.id}
+                        value={element.colorName}
+                        label={element.colorName}
+                >
                     {element.colorName}
                 </Option>
         )
@@ -255,7 +255,7 @@ export default class FlowerForm extends Component {
                                             validateStatus={this.state.country.validateStatus}
                                             hasFeedback
                                             help={this.state.country.errorMsg}
-                                            name="country"
+                                            // name="country"
                                         >
 
 
@@ -279,7 +279,7 @@ export default class FlowerForm extends Component {
                                             validateStatus={this.state.flowerType.validateStatus}
                                             hasFeedback
                                             help={this.state.flowerType.errorMsg}
-                                            name="flowerType"
+                                            // name="flowerType"
                                         >
 
                                             <Select
@@ -302,13 +302,14 @@ export default class FlowerForm extends Component {
                                             validateStatus={this.state.flowerColors.validateStatus}
                                             hasFeedback
                                             help={this.state.flowerColors.errorMsg}
-                                            name="flowerColors"
+                                            // name="flowerColors"
                                         >
 
                                             <Select
                                                 mode="multiple"
                                                 allowClear
-                                                value={this.state.flowerColors.value}
+                                                // value={this.state.flowerColors.values}
+                                                // defaultValue={this.state.flowerColors.values}
                                                 showSearch
                                                 style={{width: 200}}
                                                 placeholder="Выберите цвета"
@@ -326,13 +327,13 @@ export default class FlowerForm extends Component {
                                             validateStatus={this.state.flowerSorts.validateStatus}
                                             hasFeedback
                                             help={this.state.flowerSorts.errorMsg}
-                                            name="flowerSorts"
+                                            // name="flowerSorts"
                                         >
 
                                             <Select
                                                 mode="multiple"
                                                 allowClear
-                                                value={this.state.flowerSorts.value}
+                                                // value={this.state.flowerSorts.values}
                                                 showSearch
                                                 style={{width: 200}}
                                                 placeholder="Выберите сорт"
@@ -357,10 +358,11 @@ export default class FlowerForm extends Component {
                                                     message: 'Пожалуйста, введите описание!',
                                                 },
                                             ]}
-                                            name="description"
+                                            // name="description"
                                         >
                                             <Input.TextArea
                                                 name="description"
+                                                value={this.state.description.value}
                                                 placeholder={'описание'}
                                                 style={{fontSize: '16px'}}
                                                 autosize={{minRows: 3, maxRows: 6}}/>
@@ -380,7 +382,7 @@ export default class FlowerForm extends Component {
                                                     message: 'Пожалуйста, введите описание!',
                                                 },
                                             ]}
-                                            name="availableAmountOnStock"
+                                            // name="availableAmountOnStock"
                                         >
                                             <Input
                                                 type={"number"}
@@ -389,6 +391,7 @@ export default class FlowerForm extends Component {
                                                 name="availableAmountOnStock"
                                                 placeholder={'колво на складе'}
                                                 style={{fontSize: '16px'}}
+                                                value={this.state.availableAmountOnStock.value}
                                                 autosize={{minRows: 3, maxRows: 6}}/>
                                         </Form.Item>
 

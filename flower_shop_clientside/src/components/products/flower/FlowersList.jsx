@@ -2,15 +2,12 @@ import React, {Component} from 'react'
 
 import {List, Card} from 'antd'
 import {getBouquetsByShopIdRequest, getFlowersByShopIdRequest, getFlowersRequest} from "../../util/utilsAPI";
-import FlowerCard from "./FlowerCard";
-import AddShopModal from "../../shop/AddShopModal";
 import AddFlowerModal from "./AddFlowerModal";
+import FlowerCardProxy from "./FlowerCardProxy";
 
 class FlowersList extends Component {
 
     state = {
-
-        shopId: this.props.shopId,
 
         flowers: [],
 
@@ -93,7 +90,20 @@ class FlowersList extends Component {
     render() {
 
         const flowers = this.state.flowers
-            .map(product => (<FlowerCard key={product.id} product={product}/>))
+            .map(product => (
+                    <FlowerCardProxy
+                        history={this.props.history}
+                        currentUser={this.props.currentUser}
+                        isAuthenticated={this.props.isAuthenticated}
+                        key={product.id}
+
+                        product={product}
+                        productId={product.id}
+                        shopId={product.shop.id}
+                    />
+                )
+            )
+
 
         return (
             <div className="container-fluid">

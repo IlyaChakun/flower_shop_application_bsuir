@@ -77,7 +77,11 @@ class FlowerCard extends Component {
                         {this.state.flowerType}
                     </span>
                 }
-            >
+                actions={[
+                    this.props.firstAction,
+                    this.props.secondAction,
+                    this.state.availableAmountOnStock > 0 ? 'тут кнопка в корзину' : ''
+                ]}>
 
                 <Meta
                     avatar={

@@ -218,6 +218,32 @@ export function getShopByIdRequest (id) {
   })
 }
 
+export function getFlowersByIdRequest (id) {
+  return request({
+    url: BASE_URL + 'flowers/' + id,
+    method: 'GET'
+  })
+}
+
+export function updateFlowerRequest (flowerId, updateFlowerRequest) {
+  const url = BASE_URL + 'flowers/' + flowerId
+
+  return request({
+    url: url,
+    method: 'PUT',
+    body: JSON.stringify(updateFlowerRequest)
+  })
+}
+
+export function deleteFlowerRequest (flowerId) {
+  const url = BASE_URL + 'flowers/' + flowerId
+
+  return request({
+    url: url,
+    method: 'DELETE'
+  })
+}
+
 export function getFlowersRequest (searchCriteria) {
   const page = 'page=' + Number(searchCriteria.page === 0 ? searchCriteria.page : searchCriteria.page)
   const size = '&size=' + Number(searchCriteria.size)
