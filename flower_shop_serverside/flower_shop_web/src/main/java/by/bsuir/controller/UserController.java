@@ -2,12 +2,10 @@ package by.bsuir.controller;
 
 import by.bsuir.dto.model.user.AbstractUserDTO;
 import by.bsuir.dto.model.user.ClientDTO;
-import by.bsuir.dto.model.user.ShopAdminDTO;
 import by.bsuir.dto.validation.annotation.PositiveLong;
 import by.bsuir.security.core.CurrentUser;
 import by.bsuir.security.core.UserPrincipal;
 import by.bsuir.security.dto.ApiResponse;
-import by.bsuir.security.dto.AuthTokenResponse;
 import by.bsuir.service.api.ClientService;
 import by.bsuir.service.api.ShopAdminService;
 import lombok.AllArgsConstructor;
@@ -50,9 +48,9 @@ public class UserController {
     @PreAuthorize("isAuthenticated()")
     @PutMapping("/{id}")
     public ResponseEntity<?> updateProfile(@PathVariable("id") @PositiveLong String id,
-                                                         @CurrentUser UserPrincipal userPrincipal,
-                                                         @RequestBody @Valid AbstractUserDTO userDTO,
-                                                         BindingResult bindingResult) {
+                                           @CurrentUser UserPrincipal userPrincipal,
+                                           @RequestBody @Valid AbstractUserDTO userDTO,
+                                           BindingResult bindingResult) {
         checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
 
 
@@ -61,11 +59,11 @@ public class UserController {
         userDTO.setEmail(userEmail);
 
         if (clientService.existsByEmail(userEmail)) {
-            ResponseEntity.ok(clientService.update((ClientDTO) userDTO, id));
+            return ResponseEntity.ok(clientService.update((ClientDTO) userDTO, id));
         }
 
         if (shopAdminService.existsByEmail(userEmail)) {
-            ResponseEntity.ok(shopAdminService.update(userDTO));
+            return ResponseEntity.ok(shopAdminService.update(userDTO));
         }
 
         return ResponseEntity.ok(new ApiResponse(false, "user does not exist!"));
