@@ -89,6 +89,9 @@ class ShopForm extends Component {
             },
             "workingHours": {
                 "hours": this.state.workingHours.value
+            },
+            "image": {
+                "imageUrl": this.state.imageUrl
             }
         }
 
@@ -104,7 +107,6 @@ class ShopForm extends Component {
 
             <div>
                 <div>
-
                     <div>
                         <Form {...layout}
                               onFinish={this.handleSubmit}
@@ -121,7 +123,10 @@ class ShopForm extends Component {
                             <div className="col-sm-12">
                                 <div className="row">
                                     <div className="col-sm-6">
-                                        <ImageLoader/>
+                                        <ImageLoader
+                                            imageUrl={this.state.imageUrl}
+                                            handleImageUrlChange={this.handleImageUrlChange}
+                                        />
                                     </div>
 
                                     <div className="col-sm-6">
@@ -300,6 +305,11 @@ class ShopForm extends Component {
         })
     }
 
+    handleImageUrlChange = (imageUrl) => {
+        this.setState({
+            imageUrl: imageUrl
+        })
+    }
 
     validateWorkingHours = (hours) => {
 

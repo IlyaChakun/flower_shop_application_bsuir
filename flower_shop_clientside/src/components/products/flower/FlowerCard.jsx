@@ -27,7 +27,7 @@ class FlowerCard extends Component {
         shopAddress: this.props.product.shop.contacts.address,
         shopCity: this.props.product.shop.contacts.city,
         shopFirstPhoneNumber: this.props.product.shop.contacts.firstPhoneNumber,
-        imageUrl: this.props.product.image === undefined ? '' : this.props.product.image.imageUrl
+        imageUrl: this.props.product.image === null ? '' : this.props.product.image.imageUrl
 
     }
 
