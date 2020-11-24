@@ -29,7 +29,9 @@ class BouquetCard extends Component {
         availableAmountOnStock: this.props.product.availableAmountOnStock,
         shopAddress: this.props.product.shop.contacts.address,
         shopCity: this.props.product.shop.contacts.city,
-        shopFirstPhoneNumber: this.props.product.shop.contacts.firstPhoneNumber
+        shopFirstPhoneNumber: this.props.product.shop.contacts.firstPhoneNumber,
+        imageUrl: this.props.product.image === undefined ? '' : this.props.product.image.imageUrl
+
     }
 
     render() {
@@ -85,14 +87,13 @@ class BouquetCard extends Component {
                     this.props.secondAction,
                     this.state.availableAmountOnStock > 0 ? 'тут кнопка в корзину' : ''
                 ]}>
-                >
 
                 <Meta
                     avatar={
                         <span>
                               <img alt="picture"
                                    className="img-fluid"
-                                   src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+                                   src={this.state.imageUrl}
                                    width={'200px'}
                                    height={'400px'}
                               />
@@ -102,7 +103,7 @@ class BouquetCard extends Component {
                     title={
 
                         <div>
-                            <div className="row">
+                            <div className="preview-text text-justify">
 
                                 <p>{flowerSorts}</p>
                                     <br/>

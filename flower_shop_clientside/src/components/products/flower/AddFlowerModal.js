@@ -63,7 +63,7 @@ class AddFlowerModal extends Component {
         return (
             <div className='pt-3 float-right'>
                 <Button type="primary"
-                        style={{ background: "black", color:"white", }}
+                        style={{ background: "black", color:"white"}}
                         shape="round"
                         onClick={this.showModal}
                 >

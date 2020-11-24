@@ -26,7 +26,9 @@ class FlowerCard extends Component {
         availableAmountOnStock: this.props.product.availableAmountOnStock,
         shopAddress: this.props.product.shop.contacts.address,
         shopCity: this.props.product.shop.contacts.city,
-        shopFirstPhoneNumber: this.props.product.shop.contacts.firstPhoneNumber
+        shopFirstPhoneNumber: this.props.product.shop.contacts.firstPhoneNumber,
+        imageUrl: this.props.product.image === undefined ? '' : this.props.product.image.imageUrl
+
     }
 
     render() {
@@ -88,7 +90,7 @@ class FlowerCard extends Component {
                         <span>
                               <img alt="picture"
                                    className="img-fluid"
-                                   src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+                                   src={this.state.imageUrl}
                                    width={'200px'}
                                    height={'400px'}
                               />

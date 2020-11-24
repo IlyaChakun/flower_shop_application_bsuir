@@ -45,7 +45,7 @@ class Profile extends Component {
             errorMsg: null
         },
 
-        imageUrl: this.props.currentUser.image === null ? '' : this.props.currentUser.image.imageUrl,
+        imageUrl: this.props.currentUser.image === null ? '' : this.props.currentUser.image.imageUrl
     }
 
 

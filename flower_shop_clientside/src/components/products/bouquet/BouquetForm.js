@@ -188,7 +188,10 @@ export default class BouquetForm extends Component {
             },
             "title": this.state.title.value,
             "description": this.state.description.value,
-            "availableAmountOnStock": this.state.availableAmountOnStock.value
+            "availableAmountOnStock": this.state.availableAmountOnStock.value,
+            "image": {
+                "imageUrl": this.state.imageUrl
+            }
         }
 
         console.log('flowerRequest request: ' + flowerRequest)
@@ -243,18 +246,21 @@ export default class BouquetForm extends Component {
                             <div className="col-sm-12">
                                 <div className="row">
                                     <div className="col-sm-6">
-                                        <ImageLoader/>
+                                        <ImageLoader
+                                            imageUrl={this.state.imageUrl}
+                                            handleImageUrlChange={this.handleImageUrlChange}
+                                        />
                                     </div>
 
                                     <div className="col-sm-6">
 
                                         <Form.Item
                                             className={s.formItem}
-                                            label={'Страна производитель'}
+                                            label={'Страна поставщик'}
                                             validateStatus={this.state.country.validateStatus}
                                             hasFeedback
                                             help={this.state.country.errorMsg}
-                                            // name="country"
+                                            name="country"
                                         >
 
 
@@ -461,6 +467,13 @@ export default class BouquetForm extends Component {
                 value: inputValue,
                 ...validationFun(inputValue)
             }
+        })
+    }
+
+
+    handleImageUrlChange = (imageUrl) => {
+        this.setState({
+            imageUrl: imageUrl
         })
     }
 
