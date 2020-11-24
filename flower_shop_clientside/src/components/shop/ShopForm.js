@@ -56,7 +56,7 @@ class ShopForm extends Component {
 
         },
         workingHours: {
-            value: this.props.shop.workingHours,
+            value: this.props.shop.workingHours.hours,
             validateStatus: this.props.validateStatus
         },
 

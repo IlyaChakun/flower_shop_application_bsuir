@@ -8,7 +8,6 @@
     word-wrap: break-word;
 }
 
-.product-rating-footer {
-    margin-top: 5%;
+.ant-card-meta-description{
+ color: black;
 }
-

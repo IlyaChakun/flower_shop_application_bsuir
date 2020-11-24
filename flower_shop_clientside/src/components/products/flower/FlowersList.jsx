@@ -107,48 +107,47 @@ class FlowersList extends Component {
 
         return (
             <div className="container-fluid">
-
-                <div>
-                    <AddFlowerModal shopId={this.props.shopId}/>
+                <div className="row justify-content-between">
+                    <div className="col-2"><h1>Цветы</h1></div>
+                    <div className="col-2 align-middle"><AddFlowerModal shopId={this.props.shopId}/></div>
                 </div>
 
-                <h1>Цветы</h1>
+                <div className="row">
+                    <List
+                        grid={{
+                            gutter: 70,
+                            column: 3,
+                        }}
 
-                <List
-                    grid={{
-                        gutter: 70,
-                        column: 3,
-                    }}
+                        pagination={{
 
-                    pagination={{
+                            loading: this.state.isLoading,
+                            showSizeChanger: true,
 
-                        loading: this.state.isLoading,
-                        showSizeChanger: true,
+                            defaultCurrent: Number(this.state.page),
+                            defaultPageSize: Number(this.state.size),
 
-                        defaultCurrent: Number(this.state.page),
-                        defaultPageSize: Number(this.state.size),
+                            pageSizeOptions: ["6", "9", "12"],
+                            position: "bottom",
 
-                        pageSizeOptions: ["6", "9", "12"],
-                        position: "bottom",
+                            total: this.state.totalElements,
 
-                        total: this.state.totalElements,
+                            showQuickJumper: true,
+                            onShowSizeChange: this.onSizeChangeHandler,
+                            onChange: this.onPageChangeHandler,
 
-                        showQuickJumper: true,
-                        onShowSizeChange: this.onSizeChangeHandler,
-                        onChange: this.onPageChangeHandler,
+                            loadMore: this.loadMore
+                        }}
 
-                        loadMore: this.loadMore
-                    }}
+                        dataSource={flowers}
 
-                    dataSource={flowers}
-
-                    renderItem={item => (
-                        <List.Item>
-                            {item}
-                        </List.Item>
-                    )}
-                />
-
+                        renderItem={item => (
+                            <List.Item>
+                                {item}
+                            </List.Item>
+                        )}
+                    />
+                </div>
             </div>
         )
     }

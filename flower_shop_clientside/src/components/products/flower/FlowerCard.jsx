@@ -70,7 +70,7 @@ class FlowerCard extends Component {
                 hoverable
                 style={{width: 600, marginTop: 16}}
                 extra={
-                    'Производитель:  ' + this.state.country
+                    'Страна поставщик: ' + this.state.country
                 }
                 title={
                     <span>
@@ -105,21 +105,21 @@ class FlowerCard extends Component {
                             <p>
                                 {flowerLengthCostsDropdown}
                             </p>
-
                         </div>
                     }
 
                     description={
                         <div>
                             <div className="product-content-body">
-                                Количества в наличии: {this.state.availableAmountOnStock} штук в
-                                магазине по адресу: {this.state.shopCity}
-                                {this.state.shopAddress},
-                                номер: {this.state.shopFirstPhoneNumber}
+                                <p>В наличии: {this.state.availableAmountOnStock} штук
+                                    <br/>
+                                    В магазине по адресу: {this.state.shopCity}, {this.state.shopAddress}
+                                    <br/>
+                                    телефон: {this.state.shopFirstPhoneNumber}</p>
                             </div>
 
 
-                            <div className="product-rating-footer">
+                            <div className="product-rating-footer mb-4">
                                 Последнее обновление: {this.state.dateOfLastUpdate}
                             </div>
                         </div>
