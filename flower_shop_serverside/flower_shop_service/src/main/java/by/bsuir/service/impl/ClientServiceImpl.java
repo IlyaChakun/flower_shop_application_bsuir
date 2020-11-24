@@ -2,6 +2,7 @@ package by.bsuir.service.impl;
 
 import by.bsuir.dto.mapper.user.ClientMapperDTO;
 import by.bsuir.dto.model.user.ClientDTO;
+import by.bsuir.entity.common.Image;
 import by.bsuir.entity.user.Client;
 import by.bsuir.payload.exception.ResourceNotFoundException;
 import by.bsuir.payload.exception.ServiceException;
@@ -56,6 +57,7 @@ public class ClientServiceImpl implements ClientService {
 
         Client clientToSave = clientMapper.toEntity(clientDTO);
         clientToSave.setId(client.getId());
+        clientToSave.setImage(new Image(clientDTO.getImage().getImageUrl()));
 
         return clientMapper.toDto(clientRepository.save(clientToSave));
     }

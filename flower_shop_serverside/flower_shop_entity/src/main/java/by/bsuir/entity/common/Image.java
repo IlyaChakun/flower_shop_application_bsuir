@@ -1,12 +1,12 @@
 package by.bsuir.entity.common;
 
-import by.bsuir.entity.AbstractEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 
 @Embeddable
 //@Table(name = "images")
@@ -14,17 +14,9 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Image extends AbstractEntity {
+public class Image {
 
-    @Lob
-    @Basic(fetch = FetchType.LAZY)
-    @Column(name = "image")
-    private byte[] image;
-
-    @Column(name = "content_type")
-    private String contentType;
-
-    @Column(name = "content_length")
-    private Long contentLength;
+    @Column(name = "image_url", length = 90_00_000)
+    private String imageUrl;
 
 }

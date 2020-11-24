@@ -11,7 +11,8 @@ export default class ImageLoader extends Component {
 
 
     state = {
-        imageUrl: ""
+        imageUrl: this.props.imageUrl,
+        loading: false
     }
 
     render() {
@@ -38,9 +39,9 @@ export default class ImageLoader extends Component {
                         beforeUpload={beforeUpload}
                         onChange={this.handleUploadImageChange}>
 
-                        {this.state.imageUrl
-                            ? <img src={this.state.imageUrl} alt="avatar" style={{width: '100%'}}/>
-                            : uploadButton
+                        {
+                            this.state.imageUrl ?
+                                <img src={this.state.imageUrl} alt="avatar" style={{width: '100%'}}/> : uploadButton
                         }
 
                         <p className="ant-upload-text">
@@ -63,11 +64,14 @@ export default class ImageLoader extends Component {
         if (info.file.status === 'done') {
             // Get this url from response in real world.
             getBase64(info.file.originFileObj, imageUrl =>
+
                 this.setState({
                     imageUrl: imageUrl,
                     loading: false,
-                }),
-            );
+                }, () => {
+                    this.props.handleImageUrlChange(this.state.imageUrl);
+                })
+            )
         }
-    };
+    }
 }

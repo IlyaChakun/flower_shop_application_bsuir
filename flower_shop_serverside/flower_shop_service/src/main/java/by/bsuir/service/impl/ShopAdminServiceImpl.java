@@ -4,6 +4,7 @@ import by.bsuir.dto.mapper.user.ShopAdminMapperDTO;
 import by.bsuir.dto.model.user.AbstractUserDTO;
 import by.bsuir.dto.model.user.ClientDTO;
 import by.bsuir.dto.model.user.ShopAdminDTO;
+import by.bsuir.entity.common.Image;
 import by.bsuir.entity.user.Client;
 import by.bsuir.entity.user.ShopAdmin;
 import by.bsuir.payload.exception.ResourceNotFoundException;
@@ -57,6 +58,7 @@ public class ShopAdminServiceImpl implements ShopAdminService {
 
         shopAdmin.setName(userDTO.getName());
         shopAdmin.setPhoneNumber(userDTO.getPhoneNumber());
+        shopAdmin.setImage(new Image(userDTO.getImage().getImageUrl()));
 
         return shopAdminMapper.toDto(shopAdmin);
     }
