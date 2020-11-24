@@ -96,6 +96,10 @@ class BouquetList extends Component {
 
 
     render() {
+        const addProductButton = this.props.shopId === undefined ? '' :
+            (
+                <AddBouquetModal shopId={this.props.shopId}/>
+            )
 
         const flowers = this.state.bouquets
             .map(product => (
@@ -113,10 +117,10 @@ class BouquetList extends Component {
             )
 
         return (
-            <div className="container-fluid">
+            <div className="container-fluid pt-4">
                 <div className="row d-flex flex-row justify-content-between">
                     <div className="col-2"><h1>Букеты</h1></div>
-                    <div className="col-2"><AddBouquetModal shopId={this.props.shopId}/></div>
+                    <div className="col-2">{addProductButton}</div>
                 </div>
 
                 <div className="row">

@@ -89,6 +89,11 @@ class FlowersList extends Component {
 
     render() {
 
+        const addProductButton = this.props.shopId === undefined ? '' :
+            (
+                <AddFlowerModal shopId={this.props.shopId}/>
+            )
+
         const flowers = this.state.flowers
             .map(product => (
                     <FlowerCardProxy
@@ -109,7 +114,8 @@ class FlowersList extends Component {
             <div className="container-fluid">
                 <div className="row justify-content-between">
                     <div className="col-2"><h1>Цветы</h1></div>
-                    <div className="col-2"><AddFlowerModal shopId={this.props.shopId}/></div>
+
+                    <div className="col-2">{addProductButton}</div>
                 </div>
 
                 <div className="row">

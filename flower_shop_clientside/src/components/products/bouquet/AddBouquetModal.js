@@ -66,6 +66,7 @@ class AddBouquetModal extends Component {
             <div>
                 <Button type="primary"
                         style={{background: "black", color: "white"}}
+                        shape="round"
                         onClick={this.showModal}
                 >
                     Добавить букет

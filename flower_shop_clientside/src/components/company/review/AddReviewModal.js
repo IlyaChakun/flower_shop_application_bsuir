@@ -90,6 +90,7 @@ class AddReviewModal extends Component {
             <div>
                 <Button type="primary"
                         style={{background: "black", color: "white"}}
+                        shape="round"
                         onClick={this.showModal}
                 >
                     Оставить отзыв
