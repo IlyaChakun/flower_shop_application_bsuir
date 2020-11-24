@@ -1,12 +1,19 @@
 import React, {Component} from 'react'
 
 import {List, Card} from 'antd'
-import {getBouquetsRequest, getFlowersRequest} from "../../util/utilsAPI";
+import {
+    getBouquetsByShopIdRequest,
+    getBouquetsRequest
+} from "../../util/utilsAPI";
 import BouquetCard from "./BouquetCard";
+import AddBouquetModal from "./AddBouquetModal";
 
 class BouquetList extends Component {
 
     state = {
+
+        shopId: this.props.shopId,
+
         bouquets: [],
 
         page: 1,
@@ -36,6 +43,7 @@ class BouquetList extends Component {
 
     loadList = (page, size, minPrice, maxPrice, sortBy, sortType) => {
 
+
         const searchCriteria = {
             page: page,
             size: size,
@@ -46,11 +54,19 @@ class BouquetList extends Component {
             sortType: sortType
         };
 
-        const promise = getBouquetsRequest(searchCriteria);
-        if (!promise) {
-            return;
+        if (!this.state.shopId) {
+            const promise = getBouquetsRequest(searchCriteria);
+            if (!promise) {
+                return;
+            }
+            this.extractPromise(promise);
+        } else {
+            const promise = getBouquetsByShopIdRequest(searchCriteria, this.state.shopId);
+            if (!promise) {
+                return;
+            }
+            this.extractPromise(promise);
         }
-        this.extractPromise(promise);
     };
 
 
@@ -84,6 +100,12 @@ class BouquetList extends Component {
 
         return (
             <div className="container-fluid">
+
+                <div>
+                    <AddBouquetModal shopId={this.props.shopId}/>
+                </div>
+
+                <h1>букеты</h1>
 
                 <List
                     grid={{

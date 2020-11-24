@@ -92,7 +92,8 @@ class CompanyForm extends Component {
         },
         shops: [],
 
-        isEditing: false
+        isEditing: false,
+        isExist: false
     }
 
 
@@ -104,6 +105,9 @@ class CompanyForm extends Component {
         const company = getCurrentCompanyRequest()
         company
             .then(response => {
+
+                console.log(response.name)
+
                 this.setState({
                     id: response.id,
                     name: {
@@ -179,7 +183,8 @@ class CompanyForm extends Component {
                     },
                     shops: {...response.shops},
 
-                    isEditing: false
+                    isEditing: false,
+                    isExist: true
                 })
             }).catch(error => {
 
@@ -194,6 +199,10 @@ class CompanyForm extends Component {
     }
 
     handleInputChange = (event, validationFun) => {
+
+        console.log('event ' + event)
+        console.log('event ' + event.target.name)
+
         const target = event.target
         const inputName = target.name
         const inputValue = target.value
@@ -251,7 +260,7 @@ class CompanyForm extends Component {
 
         console.log('company request: ' + companyRequest)
 
-        if (this.state.isEditing) {
+        if (this.state.isExist) {
             updateCompanyInfoRequest(this.state.id, companyRequest)
                 .then(() => {
                     notification.success({
@@ -307,13 +316,29 @@ class CompanyForm extends Component {
         return (
 
             <Form {...layout}
-                  onFinish={this.handleSubmit} className={s.form}>
+                  onFinish={this.handleSubmit} className={s.form}
+                  initialValues={{
+                      'name': this.state.name.value,
+                      'description': this.state.description.value,
+                      'city': this.state.city.value,
+                      'address': this.state.address.value,
+                      'firstPhoneNumber': this.state.firstPhoneNumber.value,
+                      'secondPhoneNumber': this.state.secondPhoneNumber.value,
+                      'email': this.state.email.value,
+                      'bankName': this.state.bankName.value,
+                      'bankCode': this.state.bankCode.value,
+                      'checkingAccount': this.state.checkingAccount.value,
+                      'bankAddress': this.state.bankAddress.value,
+                      'postalCode': this.state.postalCode.value,
+
+                  }}
+            >
 
                 <div className="row mb-5">
                     <div className="col-sm-6">
                         <Form.Item
                             className={s.formItem}
-                            label={localizedStrings.companyName}
+                            label={'Название компании'}
                             validateStatus={this.state.name.validateStatus}
                             hasFeedback
                             onChange={(event) => this.handleInputChange(event, validateName)}
@@ -324,6 +349,7 @@ class CompanyForm extends Component {
                                     message: 'Пожалуйста, введите название компании!',
                                 },
                             ]}
+                            // name="name"
                         >
                             <Input
                                 name="name"
@@ -364,7 +390,7 @@ class CompanyForm extends Component {
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Пожалуйста, введите номер вашей лецензии!',
+                                    message: 'Пожалуйста, введите номер вашей лицензии!',
                                 },
                             ]}
                         >
@@ -383,7 +409,9 @@ class CompanyForm extends Component {
                             validateStatus={this.state.description.validateStatus}
                             hasFeedback
                             onChange={(event) => this.handleInputChange(event, validateText)}
-                            help={this.state.description.errorMsg}>
+                            help={this.state.description.errorMsg}
+                            // name="description"
+                        >
                             <TextArea
                                 rows={5}
                                 name="description"
@@ -409,6 +437,7 @@ class CompanyForm extends Component {
                                     message: 'Пожалуйста, введите город компании!',
                                 },
                             ]}
+                            // name="city"
                         >
                             <Input
                                 name="city"
@@ -430,6 +459,7 @@ class CompanyForm extends Component {
                                     message: 'Пожалуйста, введите адрес компании!',
                                 },
                             ]}
+                            // name="address"
                         >
                             <Input
                                 name="address"
@@ -452,6 +482,7 @@ class CompanyForm extends Component {
                                     message: 'Пожалуйста, введите контакный номер!',
                                 },
                             ]}
+                            // name="firstPhoneNumber"
                         >
                             <Input
                                 name="firstPhoneNumber"
@@ -468,6 +499,7 @@ class CompanyForm extends Component {
                             hasFeedback
                             onChange={(event) => this.handleInputChange(event, validatePhoneNumber)}
                             help={this.state.secondPhoneNumber.errorMsg}
+                            // name="secondPhoneNumber"
                         >
                             <Input
                                 name="secondPhoneNumber"
@@ -491,6 +523,7 @@ class CompanyForm extends Component {
                                     message: 'Пожалуйста, введите электронную почту!',
                                 },
                             ]}
+                            // name="email"
                         >
                             <Input
                                 name="email"
@@ -514,6 +547,7 @@ class CompanyForm extends Component {
                                     message: 'Пожалуйста, введите полное название банка!',
                                 },
                             ]}
+                            // name="bankName"
                         >
                             <Input
                                 name="bankName"
@@ -535,6 +569,7 @@ class CompanyForm extends Component {
                                     message: 'Пожалуйста, введите IBAN!',
                                 },
                             ]}
+                            // name="bankCode"
                         >
                             <Input
                                 name="bankCode"
@@ -556,6 +591,7 @@ class CompanyForm extends Component {
                                     message: 'Пожалуйста, введите расчетный счет!',
                                 },
                             ]}
+                            // name="checkingAccount"
                         >
                             <Input
                                 name="checkingAccount"
@@ -578,6 +614,7 @@ class CompanyForm extends Component {
                                     message: 'Пожалуйста, введите адрес банка!',
                                 },
                             ]}
+                            // name="bankAddress"
                         >
                             <Input
                                 name="bankAddress"
@@ -599,6 +636,7 @@ class CompanyForm extends Component {
                                     message: 'Пожалуйста, введите почтовый индекс банка!',
                                 },
                             ]}
+                            // name="postalCode"
                         >
                             <Input
                                 name="postalCode"

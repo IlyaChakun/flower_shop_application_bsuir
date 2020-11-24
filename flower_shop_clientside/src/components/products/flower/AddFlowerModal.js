@@ -1,24 +1,24 @@
 import React, {Component} from 'react'
 import {withRouter} from 'react-router-dom'
+import Modal from "antd/es/modal";
+import FlowerForm from "./FlowerForm";
+import {saveFlowerRequest} from "../../util/utilsAPI";
+import {localizedStrings} from "../../util/localization";
+import {Button, notification} from "antd";
 
-import {Button, Form, Input, Modal, notification, Upload} from "antd";
-import {localizedStrings} from "../util/localization";
-import {saveShopRequest} from "../util/utilsAPI";
-import ShopForm from "./ShopForm";
-import {SUCCESS} from "../../constants";
+class AddFlowerModal extends Component {
 
-
-class AddShopModal extends Component {
     state = {
-        shop: {
-            contacts: {
-                firstPhoneNumber: "",
-                secondPhoneNumber: "",
-                email: "",
-                city: "",
-                address: "",
-            },
-            workingHours: "",
+        flower: {
+            id: "",
+            dateOfLastUpdate: "",
+            flowerType: "",
+            flowerColors: [],
+            flowerLengthCosts: [],
+            flowerSorts: [],
+            country: "",
+            description: "",
+            availableAmountOnStock: ""
         }
     }
 
@@ -37,18 +37,18 @@ class AddShopModal extends Component {
     };
 
 
-    handleSubmitButton = (shopRequest) => {
+    handleSubmitButton = (flowerRequest) => {
 
-        console.log('shop request: ' + shopRequest)
+        console.log('flower request: ' + flowerRequest)
 
-        saveShopRequest(shopRequest)
+        saveFlowerRequest(flowerRequest)
             .then(() => {
                 notification.success({
                     message: localizedStrings.alertAppName,
-                    description: 'Магазин сохранен!',
+                    description: 'Цветок сохранен!',
                 })
                 this.handleCancel()
-                this.props.history.push("/company/shops");
+
             }).catch(error => {
             notification.error({
                 message: localizedStrings.alertAppName,
@@ -63,11 +63,11 @@ class AddShopModal extends Component {
         return (
             <div className='mt-3 mb-5 float-right'>
                 <Button type="primary" onClick={this.showModal}>
-                    Добавить магазин
+                    Добавить цветок
                 </Button>
 
                 <Modal
-                    title="Добавить магазин"
+                    title="Добавить цветок"
                     visible={this.state.visible}
                     okButtonProps={{style: {display: 'none'}}}
                     onCancel={this.handleCancel}
@@ -75,10 +75,11 @@ class AddShopModal extends Component {
                     width={1200}
                 >
 
-                    <ShopForm
-                        shop={this.state.shop}
+                    <FlowerForm
+                        flower={this.state.flower}
                         action={'Добавить'}
                         validateStatus={''}
+                        shopId={this.props.shopId}
                         handleSubmitButton={this.handleSubmitButton}
                     />
 
@@ -90,4 +91,4 @@ class AddShopModal extends Component {
 
 }
 
-export default withRouter(AddShopModal)
+export default withRouter(AddFlowerModal)

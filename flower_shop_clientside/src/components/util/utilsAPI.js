@@ -178,13 +178,6 @@ export function saveReviewRequest (reviewRequest) {
   })
 }
 
-export function getCurrentShopRequest (id) {
-  return request({
-    url: BASE_URL + 'users/admin/company/shops/' + id,
-    method: 'GET'
-  })
-}
-
 export function saveShopRequest (shopRequest) {
   const url = BASE_URL + 'users/admin/company/shops'
 
@@ -192,6 +185,36 @@ export function saveShopRequest (shopRequest) {
     url: url,
     method: 'POST',
     body: JSON.stringify(shopRequest)
+  })
+}
+
+export function updateShopRequest (shopRequest, shopId) {
+  const url = BASE_URL + 'users/admin/company/shops/' + shopId
+
+  return request({
+    url: url,
+    method: 'PUT',
+    body: JSON.stringify(shopRequest)
+  })
+}
+
+export function getAllShopsRequest (searchCriteria) {
+  const page = 'page=' + Number(searchCriteria.page === 0 ? searchCriteria.page : searchCriteria.page)
+  const size = '&size=' + Number(searchCriteria.size)
+  // const searchString = searchCriteria.searchString === undefined ? '' : '&searchString=' + searchCriteria.searchString
+
+  const url = BASE_URL + 'users/admin/company/shops?' + page + size
+
+  return request({
+    url: url,
+    method: 'GET'
+  })
+}
+
+export function getShopByIdRequest (id) {
+  return request({
+    url: BASE_URL + 'users/admin/company/shops/' + id,
+    method: 'GET'
   })
 }
 
@@ -218,5 +241,84 @@ export function getBouquetsRequest (searchCriteria) {
   return request({
     url: url,
     method: 'GET'
+  })
+}
+
+export function getFlowersByShopIdRequest (searchCriteria, shopId) {
+  const page = 'page=' + Number(searchCriteria.page === 0 ? searchCriteria.page : searchCriteria.page)
+  const size = '&size=' + Number(searchCriteria.size)
+
+  const url = BASE_URL + 'users/admin/company/shops/' + shopId + '/flowers?' + page + size
+
+  return request({
+    url: url,
+    method: 'GET'
+  })
+}
+
+export function getBouquetsByShopIdRequest (searchCriteria, shopId) {
+  const page = 'page=' + Number(searchCriteria.page === 0 ? searchCriteria.page : searchCriteria.page)
+  const size = '&size=' + Number(searchCriteria.size)
+
+  const url = BASE_URL + 'users/admin/company/shops/' + shopId + '/bouquets?' + page + size
+
+  return request({
+    url: url,
+    method: 'GET'
+  })
+}
+
+export function getCountriesRequest () {
+  return request({
+    url: BASE_URL + 'common/countries',
+    method: 'GET'
+  })
+}
+
+export function getFlowerSortsRequest () {
+  return request({
+    url: BASE_URL + 'common/flower-sorts',
+    method: 'GET'
+  })
+}
+
+export function getFlowerBouquetTypesRequest () {
+  return request({
+    url: BASE_URL + 'common/flower-bouquet-types',
+    method: 'GET'
+  })
+}
+
+export function getFlowerTypesRequest () {
+  return request({
+    url: BASE_URL + 'common/flower-types',
+    method: 'GET'
+  })
+}
+
+export function getFlowerColorsRequest () {
+  return request({
+    url: BASE_URL + 'common/flower-colors',
+    method: 'GET'
+  })
+}
+
+export function saveFlowerRequest (flowerRequest) {
+  const url = BASE_URL + 'flowers'
+
+  return request({
+    url: url,
+    method: 'POST',
+    body: JSON.stringify(flowerRequest)
+  })
+}
+
+export function saveBouquetRequest (bouquetRequest) {
+  const url = BASE_URL + 'bouquets'
+
+  return request({
+    url: url,
+    method: 'POST',
+    body: JSON.stringify(bouquetRequest)
   })
 }

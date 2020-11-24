@@ -128,6 +128,8 @@ export function validateCity (city) {
     }
   }
 
+  console.log('city for validation return  SUCCESS')
+
   return {
     validateStatus: SUCCESS,
     errorMsg: null

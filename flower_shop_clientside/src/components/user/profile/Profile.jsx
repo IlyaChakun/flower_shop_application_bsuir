@@ -116,6 +116,7 @@ class Profile extends Component {
                                     validateStatus={this.state.email.validateStatus}
                                 >
                                     <Input
+                                        type="email"
                                         name="email"
                                         size="middle"
                                         disabled={true}
@@ -140,7 +141,6 @@ class Profile extends Component {
 
                                     <Input
                                         name="phoneNumber"
-                                        type="phoneNumber"
                                         size="middle"
                                         value={this.state.phoneNumber.value}>
                                     </Input>

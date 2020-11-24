@@ -7,9 +7,7 @@ import {Route, Switch, withRouter} from 'react-router-dom'
 
 import {localizedStrings} from '../components/util/localization'
 import {
-    ACCESS_TOKEN_HEADER_KEY,
-    LANGUAGE,
-    REFRESH_TOKEN_HEADER_KEY,
+    ACCESS_TOKEN,
     ROLE_ADMIN,
     ROLE_USER,
     SUCCESS,
@@ -36,6 +34,7 @@ import LegalPage from "../components/common/pages/LegalPage";
 import DocumentsPage from "../components/common/pages/DocumentsPage";
 import HelpPage from "../components/common/pages/HelpPage";
 import AboutPage from "../components/common/pages/AboutPage";
+import ShopDetail from "../components/shop/ShopDetail";
 
 const {Content} = Layout
 
@@ -51,7 +50,6 @@ class App extends Component {
             isAuthenticated: false,
             isLoading: false,
 
-            language: localStorage.getItem(LANGUAGE) === null ? "en" : localStorage.getItem(LANGUAGE)
         }
 
         notification.config({
@@ -59,13 +57,6 @@ class App extends Component {
             top: 70,
             duration: 2,
         })
-    }
-
-    handleLanguageChange = (lang) => {
-        localStorage.setItem(LANGUAGE, lang)
-        this.setState(() => ({
-            language: lang
-        }))
     }
 
     loadCurrentCompany = () => {
@@ -110,6 +101,7 @@ class App extends Component {
     }
 
     componentDidMount() {
+
         this.loadCurrentUser()
         this.loadCurrentCompany()
     }
@@ -117,8 +109,8 @@ class App extends Component {
     handleLogout =
         (redirectTo = '/', notificationType = SUCCESS, description = localizedStrings.alertSuccessLogOut) => {
 
-            localStorage.removeItem(ACCESS_TOKEN_HEADER_KEY)
-            localStorage.removeItem(REFRESH_TOKEN_HEADER_KEY)
+            // localStorage.removeItem(ACCESS_TOKEN)
+            // localStorage.removeItem(REFRESH_TOKEN)
 
             localStorage.removeItem(USER_ID)
 
@@ -145,11 +137,11 @@ class App extends Component {
     }
 
     render() {
+
+
         if (this.state.isLoading) {
             return <LoadingIndicator/>
         }
-
-        localizedStrings.setLanguage(this.state.language)
 
         return (
             <>
@@ -160,7 +152,7 @@ class App extends Component {
                     />
 
 
-                    <Content className="app-content">
+                    <Content className="app-content mb-5">
                         <div className="site-layout-background" style={{minHeight: 380}}>
                             <Switch>
 
@@ -206,9 +198,9 @@ class App extends Component {
                                 <Route exact path="/about/documents"
                                        component={DocumentsPage}/>
 
-                                <Route path="/company/shops"
+                                <Route path="/company/shops/:id"
                                        currentCompany={this.state.currentCompany}
-                                       component={ShopsList}/>
+                                       component={ShopDetail}/>
 
                                 <Route path="/company/shops"
                                        currentCompany={this.state.currentCompany}

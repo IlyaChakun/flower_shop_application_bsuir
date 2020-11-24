@@ -51,12 +51,6 @@ class AddReviewModal extends Component {
         });
     };
 
-    handleOk = e => {
-        console.log(e);
-        this.setState({
-            visible: false,
-        });
-    };
 
     handleCancel = e => {
         console.log(e);
@@ -101,8 +95,8 @@ class AddReviewModal extends Component {
                 <Modal
                     title="Оставить отзыв"
                     visible={this.state.visible}
-                    onOk={this.handleOk}
                     onCancel={this.handleCancel}
+                    okButtonProps={{style: {display: 'none'}}}
                 >
 
                     <Form {...layout}

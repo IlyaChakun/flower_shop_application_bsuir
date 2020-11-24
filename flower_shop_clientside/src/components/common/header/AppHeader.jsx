@@ -129,7 +129,7 @@ class AppHeader extends Component {
                 </div>
 
                 {/*<Header style={{ position: 'fixed', zIndex: 1, width: '100%'}}>*/}
-                <Header>
+                <Header className="mb-5">
                     <Menu
                         theme={"dark"}
                         mode="horizontal"

@@ -1,12 +1,17 @@
 import React, {Component} from 'react'
 
 import {List, Card} from 'antd'
-import {getFlowersRequest} from "../../util/utilsAPI";
+import {getBouquetsByShopIdRequest, getFlowersByShopIdRequest, getFlowersRequest} from "../../util/utilsAPI";
 import FlowerCard from "./FlowerCard";
+import AddShopModal from "../../shop/AddShopModal";
+import AddFlowerModal from "./AddFlowerModal";
 
 class FlowersList extends Component {
 
     state = {
+
+        shopId: this.props.shopId,
+
         flowers: [],
 
         page: 1,
@@ -46,11 +51,19 @@ class FlowersList extends Component {
             sortType: sortType
         };
 
-        const promise = getFlowersRequest(searchCriteria);
-        if (!promise) {
-            return;
+        if (!this.state.shopId) {
+            const promise = getFlowersRequest(searchCriteria);
+            if (!promise) {
+                return;
+            }
+            this.extractPromise(promise);
+        } else {
+            const promise = getFlowersByShopIdRequest(searchCriteria, this.state.shopId);
+            if (!promise) {
+                return;
+            }
+            this.extractPromise(promise);
         }
-        this.extractPromise(promise);
     };
 
 
@@ -85,11 +98,16 @@ class FlowersList extends Component {
         return (
             <div className="container-fluid">
 
+                <div>
+                    <AddFlowerModal shopId={this.props.shopId}/>
+                </div>
+
+                <h1>Цветы</h1>
+
                 <List
                     grid={{
                         gutter: 70,
                         column: 3,
-
                     }}
 
                     pagination={{
