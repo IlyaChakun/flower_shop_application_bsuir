@@ -2,6 +2,7 @@ package by.bsuir.dto.model.product;
 
 import by.bsuir.dto.model.AbstractDTO;
 import by.bsuir.dto.model.common.CountryDTO;
+import by.bsuir.dto.model.common.ImageDTO;
 import by.bsuir.dto.model.company.ShopDTO;
 import by.bsuir.dto.model.product.common.FlowerColorDTO;
 import by.bsuir.dto.model.product.common.FlowerLengthCostDTO;
@@ -41,7 +42,7 @@ public class AbstractFlowerProductDTO extends AbstractDTO {
     @Valid
     private CountryDTO country;  // страна происхождения
 
-//    private Image image;
+    private ImageDTO image;
 
     @Size(min = 0, max = 512, message = "Описание для цветов не более 512 символов!")
     private String description;

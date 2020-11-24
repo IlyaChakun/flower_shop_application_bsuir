@@ -2,6 +2,7 @@ package by.bsuir.entity.product;
 
 import by.bsuir.entity.AbstractEntity;
 import by.bsuir.entity.common.Country;
+import by.bsuir.entity.common.Image;
 import by.bsuir.entity.company.Shop;
 import by.bsuir.entity.product.common.FlowerColor;
 import by.bsuir.entity.product.common.FlowerLengthCost;
@@ -55,13 +56,12 @@ public class AbstractFlowerProduct extends AbstractEntity {
                     referencedColumnName = "id")})
     private List<FlowerSort> flowerSorts = new ArrayList<>();
 
-    //TODO у многих цветов много сортов??...может всеже многие-к-одному
 
 
     @ManyToOne(cascade = CascadeType.ALL)
     private Country country;  // страна происхождения
 
-//    private Image image;
+    private Image image;
 
     @Column(name = "description", length = 512)
     private String description;

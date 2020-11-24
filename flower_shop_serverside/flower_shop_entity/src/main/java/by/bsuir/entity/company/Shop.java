@@ -1,6 +1,7 @@
 package by.bsuir.entity.company;
 
 import by.bsuir.entity.AbstractEntity;
+import by.bsuir.entity.common.Image;
 import by.bsuir.entity.product.AbstractFlowerProduct;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,5 +30,6 @@ public class Shop extends AbstractEntity {
     @OneToMany(cascade = CascadeType.ALL)
     private List<AbstractFlowerProduct> shopProducts = new ArrayList<>();
 
+    private Image image;
 
 }
