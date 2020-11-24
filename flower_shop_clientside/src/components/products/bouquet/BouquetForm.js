@@ -254,7 +254,7 @@ export default class BouquetForm extends Component {
                                             validateStatus={this.state.country.validateStatus}
                                             hasFeedback
                                             help={this.state.country.errorMsg}
-                                            name="country"
+                                            // name="country"
                                         >
 
 
@@ -278,7 +278,7 @@ export default class BouquetForm extends Component {
                                             validateStatus={this.state.bouquetType.validateStatus}
                                             hasFeedback
                                             help={this.state.bouquetType.errorMsg}
-                                            name="bouquetType"
+                                            // name="bouquetType"
                                         >
 
                                             <Select
@@ -301,7 +301,7 @@ export default class BouquetForm extends Component {
                                             validateStatus={this.state.flowerColors.validateStatus}
                                             hasFeedback
                                             help={this.state.flowerColors.errorMsg}
-                                            name="flowerColors"
+                                            // name="flowerColors"
                                         >
 
                                             <Select
@@ -356,10 +356,11 @@ export default class BouquetForm extends Component {
                                                     message: 'Пожалуйста, введите описание!',
                                                 },
                                             ]}
-                                            name="description"
+                                            // name="description"
                                         >
                                             <Input.TextArea
                                                 name="description"
+                                                value={this.state.description.value}
                                                 placeholder={'описание'}
                                                 style={{fontSize: '16px'}}
                                                 autosize={{minRows: 3, maxRows: 6}}/>
@@ -378,11 +379,12 @@ export default class BouquetForm extends Component {
                                                     message: 'Пожалуйста, введите описание!',
                                                 },
                                             ]}
-                                            name="title"
+                                            // name="title"
                                         >
                                             <Input
                                                 type={"text"}
                                                 name="title"
+                                                value={this.state.title.value}
                                                 placeholder={'название'}
                                                 style={{fontSize: '16px'}}
                                                 autosize={{minRows: 3, maxRows: 6}}/>
@@ -402,13 +404,14 @@ export default class BouquetForm extends Component {
                                                     message: 'Пожалуйста, введите описание!',
                                                 },
                                             ]}
-                                            name="availableAmountOnStock"
+                                            // name="availableAmountOnStock"
                                         >
                                             <Input
                                                 type={"number"}
                                                 min={0}
                                                 max={10_000}
                                                 name="availableAmountOnStock"
+                                                value={this.state.availableAmountOnStock.value}
                                                 placeholder={'колво на складе'}
                                                 style={{fontSize: '16px'}}
                                                 autosize={{minRows: 3, maxRows: 6}}/>

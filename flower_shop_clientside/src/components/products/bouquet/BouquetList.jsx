@@ -5,8 +5,9 @@ import {
     getBouquetsByShopIdRequest,
     getBouquetsRequest
 } from "../../util/utilsAPI";
-import BouquetCard from "./BouquetCard";
 import AddBouquetModal from "./AddBouquetModal";
+import BouquetCardProxy from "./BouquetCardProxy";
+
 
 class BouquetList extends Component {
 
@@ -96,7 +97,19 @@ class BouquetList extends Component {
     render() {
 
         const flowers = this.state.bouquets
-            .map(product => (<BouquetCard key={product.id} product={product}/>))
+            .map(product => (
+                    <BouquetCardProxy
+                        history={this.props.history}
+                        currentUser={this.props.currentUser}
+                        isAuthenticated={this.props.isAuthenticated}
+                        key={product.id}
+
+                        product={product}
+                        productId={product.id}
+                        shopId={product.shop.id}
+                    />
+                )
+            )
 
         return (
             <div className="container-fluid">

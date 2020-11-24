@@ -82,6 +82,11 @@ class BouquetCard extends Component {
                         {this.state.bouquetType}
                     </span>
                 }
+                actions={[
+                    this.props.firstAction,
+                    this.props.secondAction,
+                    this.state.availableAmountOnStock > 0 ? 'тут кнопка в корзину' : ''
+                ]}>
             >
 
                 <Meta

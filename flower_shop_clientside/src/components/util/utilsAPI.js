@@ -244,6 +244,32 @@ export function deleteFlowerRequest (flowerId) {
   })
 }
 
+export function getBouquetByIdRequest (id) {
+  return request({
+    url: BASE_URL + 'bouquets/' + id,
+    method: 'GET'
+  })
+}
+
+export function updateBouquetRequest (id, udpateRequest) {
+  const url = BASE_URL + 'bouquets/' + id
+
+  return request({
+    url: url,
+    method: 'PUT',
+    body: JSON.stringify(udpateRequest)
+  })
+}
+
+export function deleteBouquetRequest (id) {
+  const url = BASE_URL + 'bouquets/' + id
+
+  return request({
+    url: url,
+    method: 'DELETE'
+  })
+}
+
 export function getFlowersRequest (searchCriteria) {
   const page = 'page=' + Number(searchCriteria.page === 0 ? searchCriteria.page : searchCriteria.page)
   const size = '&size=' + Number(searchCriteria.size)
