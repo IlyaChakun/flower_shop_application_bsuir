@@ -84,27 +84,8 @@ export const localizedStrings = new LocalizedStrings({
     alertBadPasswordTooLong: `Password is too long (Maximum ${PASSWORD_MAX_LENGTH} characters allowed.)`,
     alertBadConfirmedPasswordNotEqual: ' Conf not equals pass',
 
-    // sensor
-    alertBadSensorNameTooShort: `Sensor name is too short (Minimum ${SENSOR_NAME_MIN_LENGTH} and maximum ${SENSOR_NAME_MAX_LENGTH} characters allowed )`,
-    alertBadSensorNameTooLong: `Sensor name is too long (Minimum ${SENSOR_NAME_MIN_LENGTH} and maximum ${SENSOR_NAME_MAX_LENGTH} characters allowed )`,
-
-    alertBadSensorModelTooShort: `Sensor model is too short (Minimum ${SENSOR_MODEL_MIN_LENGTH} and maximum ${SENSOR_MODEL_MAX_LENGTH} characters allowed )`,
-    alertBadSensorModelTooLong: `Sensor model is too long (Minimum ${SENSOR_MODEL_MIN_LENGTH} and maximum ${SENSOR_MODEL_MAX_LENGTH} characters allowed )`,
-
-    alertBadSensorRangeFromBiggerThanRangeTo: 'RangeFrom is higher than rangeTo',
-    alertBadSensorRangeToSmallerThanRangeFrom: 'RangeTo is lower than rangeFrom',
-
-    alertBadSensorTypeAbsent: 'Type should be not null',
-    alertBadSensorUnitAbsent: 'Unit should be not null',
-
-    alertBadSensorLocationText: `Sensor location is too long (Maximum ${SENSOR_LOCATION_MAX_LENGTH} characters allowed)`,
-    alertBadSensorDescriptionText: `Sensor description is too long (Maximum ${SENSOR_DESCRIPTION_MAX_LENGTH} characters allowed )`,
-
-    alertDeleteSensorSuccessfully: 'Sensor deleted successfully!',
-    alertEditSensorSuccessfully: 'Sensor edited successfully!',
-    alertAddSensorSuccessfully: 'Sensor added successfully!',
-
-    alertAppName: 'Sensor Portal',
+    //
+    alertAppName: 'Flower shop',
     alertLoggedOut: 'You have been logged out. Please login to create sensor.',
 
     alertWrongEmailOrPassword: 'Your Username or Password is incorrect. Please try again!',
@@ -124,32 +105,19 @@ export const localizedStrings = new LocalizedStrings({
     helpForPass: 'A password between 6 to 20 characters',
     helpForEmail: 'Your email',
 
-    helpForSensorName: 'Enter sensor name',
-    helpForSensorModel: 'Enter sensor model',
-    helpForSensorRangeFrom: 'Enter sensor rangeFrom',
-    helpForSensorRangeTo: 'Enter sensor rangeTo',
-    helpForSensorLocation: 'Enter sensor location',
-    helpForSensorDescription: 'Enter sensor description',
     helpSearch: 'Search...',
     chooseValue: 'Choose value',
 
-    helpDeleteModal: 'Do you want to delete sensor?',
     helpCancel: 'Cancel',
     helpOk: 'Ok',
 
     helpForChooseProfileColor: 'Please pick your profile color: ',
-
-    // footer
-    footerText: '2020 © ЗАО "Андрусерра Агро" УНП № 690557753\n' +
-        ' Интернет-магазин зарегистрирован в торговом реестре ___ под номером\n' +
-        ' 469671',
 
     // buttons
     save: 'Save',
     delete: 'Delete',
     search: 'Search',
     cancel: 'Cancel',
-    chooseColor: 'Choose color',
     edit: 'Edit',
     changePassword: 'Change password',
 
@@ -177,15 +145,6 @@ export const localizedStrings = new LocalizedStrings({
     addSensor: 'Добавить сенсор',
 
     // sensors
-    sensorName: 'Назание',
-    model: 'Модель',
-    type: 'Тип',
-    range: 'Диапазон',
-    rangeFrom: 'Ниж. граница',
-    rangeTo: 'Верх. граница',
-    unit: 'Ед. изм',
-    location: 'Расположение',
-    description: 'Описание',
     found: 'Всего: ',
 
     // company
@@ -232,7 +191,7 @@ export const localizedStrings = new LocalizedStrings({
     alertCompanyBadNameEmpty: 'Название компании не может быть пустым!',
     alertCompanyBadNameTooLong: `Название слишком длинное (Более ${COMPANY_NAME_MAX_LENGTH} символов )`,
 
-    alertCompanyDescrTooLong: `Описание слишком длинное (Более ${COMPANY_DESCRIPTION_MAX_LENGTH} символов )`,
+    alertCompanyDescriptionTooLong: `Описание слишком длинное (Более ${COMPANY_DESCRIPTION_MAX_LENGTH} символов )`,
 
     alertCompanyLicenceNumberTooLong: `Номер лицензии слишком длинный (Более ${COMPANY_LICENCE_NUM_MAX_LENGTH} символов )`,
 
@@ -242,26 +201,7 @@ export const localizedStrings = new LocalizedStrings({
 
     // sensors
 
-    alertBadSensorNameTooShort: `Название очень короткое (Минимум ${SENSOR_NAME_MIN_LENGTH}  символов;\nМаксимум ${SENSOR_NAME_MAX_LENGTH} символов)`,
-    alertBadSensorNameTooLong: `Название очень длинное (Минимум ${SENSOR_NAME_MIN_LENGTH} символов;\nМаксимум ${SENSOR_NAME_MAX_LENGTH} символов)`,
-
-    alertBadSensorModelTooShort: `Модель очень короткая(Minimum ${SENSOR_MODEL_MIN_LENGTH} символов;\nМаксимум ${SENSOR_MODEL_MAX_LENGTH} символов )`,
-    alertBadSensorModelTooLong: `Модель очень длинная (Минимум ${SENSOR_MODEL_MIN_LENGTH} символов;\nМаксимум ${SENSOR_MODEL_MAX_LENGTH} символов)`,
-
-    alertBadSensorRangeFromBiggerThanRangeTo: 'Нижняя граница диапазона выше верхней границы диапазона',
-    alertBadSensorRangeToSmallerThanRangeFrom: 'Верхняя граница диапазона ниже нижней границы диапазона',
-
-    alertBadSensorTypeAbsent: 'Тип не должен быть пустым',
-    alertBadSensorUnitAbsent: 'Еденица измерения не должена быть пустой',
-
-    alertBadSensorLocationText: `Локация очень длинная (Максимум ${SENSOR_LOCATION_MAX_LENGTH} символов)`,
-    alertBadSensorDescriptionText: `Описание очень длинное (Максимум ${SENSOR_DESCRIPTION_MAX_LENGTH} символов )`,
-
-    alertDeleteSensorSuccessfully: 'Сенсор удален успешно!',
-    alertEditSensorSuccessfully: 'Сенсор изменен успешно!',
-    alertAddSensorSuccessfully: 'Сенсор добавлен успешно!',
-
-    alertAppName: 'Мониторинг сенсоров',
+    alertAppName: 'Магазин цветов',
     alertLoggedOut: 'Вы вышли из системы. Пожалуйста, залогиньтесь для этого действия.',
 
     alertWrongEmailOrPassword: 'Ваш логин или пароль неверны. Пожалуйста, попробуйте еще раз!',
@@ -281,12 +221,6 @@ export const localizedStrings = new LocalizedStrings({
     helpForPass: 'Пароль должен быть от 6 до 20 символов',
     helpForEmail: 'Ваша электронная почта',
 
-    helpForSensorName: 'Введите назание сенсора',
-    helpForSensorModel: 'Введите модель сенсора',
-    helpForSensorRangeFrom: 'Введите нижний диапазон сенсора',
-    helpForSensorRangeTo: 'Введите верхний диапазон сенсора',
-    helpForSensorLocation: 'Введите локацию сенсора',
-    helpForSensorDescription: 'Введите описание сенсора',
     helpSearch: 'Поиск...',
     chooseValue: 'Выберите значение',
 
@@ -296,17 +230,11 @@ export const localizedStrings = new LocalizedStrings({
 
     helpForChooseProfileColor: 'Выберите цвет для вашего профиля: ',
 
-    // footer
-    footerText: '2020 © ЗАО "Андрусерра Агро" УНП № 690557753\n' +
-        ' Интернет-магазин зарегистрирован в торговом реестре ___ под номером\n' +
-        ' 469671',
-
     // buttons
     save: 'Сохранить',
     delete: 'Удалить',
     search: 'Поиск',
     cancel: 'Отменить',
-    chooseColor: 'Выбрать цвет',
     edit: 'Изменить',
 
     // Social

@@ -47,27 +47,28 @@ public class UserController {
         return ResponseEntity.ok(new ApiResponse(false, "user does not exist!"));
     }
 
-
-    @PostMapping("/{id}")
-    public ResponseEntity<AbstractUserDTO> updateProfile(@PathVariable("id") @PositiveLong String id,
+    @PreAuthorize("isAuthenticated()")
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateProfile(@PathVariable("id") @PositiveLong String id,
                                                          @CurrentUser UserPrincipal userPrincipal,
-                                                         @Valid AbstractUserDTO userDTO,
+                                                         @RequestBody @Valid AbstractUserDTO userDTO,
                                                          BindingResult bindingResult) {
         checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
 
-        final String userEmail = userPrincipal.getEmail();
 
-        AbstractUserDTO user = null;
+        //TODO ничрена не работает нужен созвон
+        final String userEmail = userPrincipal.getEmail();
+        userDTO.setEmail(userEmail);
 
         if (clientService.existsByEmail(userEmail)) {
-            user = clientService.update((ClientDTO) userDTO, id);
+            ResponseEntity.ok(clientService.update((ClientDTO) userDTO, id));
         }
 
-//        if (shopAdminService.existsByEmail(userEmail)) {
-//            user = shopAdminService.update((ShopAdminDTO) userDTO);
-//        }
+        if (shopAdminService.existsByEmail(userEmail)) {
+            ResponseEntity.ok(shopAdminService.update(userDTO));
+        }
 
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(new ApiResponse(false, "user does not exist!"));
     }
 
 }

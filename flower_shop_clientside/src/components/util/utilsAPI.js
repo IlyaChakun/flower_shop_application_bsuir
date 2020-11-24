@@ -97,6 +97,8 @@ export function signUpRequest (signupRequest) {
 }
 
 export function updateUserProfileRequest (editUserRequest) {
+  console.log('editUserRequest')
+  console.log(editUserRequest)
   return request({
     url: BASE_URL + 'users/' + Number(editUserRequest.id),
     method: 'PUT',
@@ -205,7 +207,6 @@ export function getFlowersRequest (searchCriteria) {
     method: 'GET'
   })
 }
-
 
 export function getBouquetsRequest (searchCriteria) {
   const page = 'page=' + Number(searchCriteria.page === 0 ? searchCriteria.page : searchCriteria.page)
