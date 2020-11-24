@@ -63,7 +63,7 @@ class AddBouquetModal extends Component {
     render() {
 
         return (
-            <div className='pt-3 float-right'>
+            <div>
                 <Button type="primary"
                         style={{background: "black", color: "white"}}
                         onClick={this.showModal}
