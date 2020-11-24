@@ -76,7 +76,7 @@ export default class FlowerForm extends Component {
             validateStatus: this.props.validateStatus
         },
 
-        imageUrl: this.props.flower.imageUrl
+        imageUrl: this.props.flower.image.imageUrl
     }
 
     componentDidMount() {

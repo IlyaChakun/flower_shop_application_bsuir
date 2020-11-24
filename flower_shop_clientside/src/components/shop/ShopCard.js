@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 
-import magaz1 from '../../img/shops/magaz1.jpg'
 import './ShopCard.css'
 import {Card} from 'antd'
 
@@ -13,7 +12,7 @@ class ShopCard extends Component {
         dateOfLastUpdate: this.props.shop.dateOfLastUpdate,
         contacts: this.props.shop.contacts,
         workingHours: this.props.shop.workingHours,
-        imageUrl: this.props.shop.image === null ? '' : this.props.shop.image.imageUrl
+        imageUrl: this.props.shop.image === undefined ? '' : this.props.shop.image.imageUrl
     }
 
     render() {

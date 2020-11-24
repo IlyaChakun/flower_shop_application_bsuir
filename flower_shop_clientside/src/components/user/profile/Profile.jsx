@@ -163,7 +163,9 @@ class Profile extends Component {
                                             <Form.Item className={s.formItem}>
                                                 <Button
                                                     htmlType="submit"
-                                                    className={s.button}
+                                                    type="primary"
+                                                    style={{background: "black", color: "white"}}
+                                                    shape="round"
                                                     disabled={this.isFormInvalid()}
                                                 >
                                                     Изменить профиль

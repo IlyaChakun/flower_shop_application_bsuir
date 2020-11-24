@@ -78,8 +78,13 @@ class ChangePasswordModal extends React.Component {
 
     render() {
         return (
-            <>
-                <Button type="primary" onClick={this.showModal} className={s.button + " " + s.danger}>
+            <div>
+                <Button
+                    type="primary"
+                    style={{background: "black", color: "white"}}
+                    shape="round"
+                    onClick={this.showModal}
+                >
                     Изменить пароль
                 </Button>
 
@@ -132,7 +137,7 @@ class ChangePasswordModal extends React.Component {
                     </Form>
 
                 </Modal>
-            </>
+            </div>
         );
     }
 

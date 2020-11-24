@@ -60,7 +60,7 @@ class ShopForm extends Component {
             validateStatus: this.props.validateStatus
         },
 
-        imageUrl: this.props.shop.imageUrl
+        imageUrl: this.props.shop.image.imageUrl
     }
 
 

@@ -41,7 +41,12 @@ export default class ImageLoader extends Component {
 
                         {
                             this.state.imageUrl ?
-                                <img src={this.state.imageUrl} alt="avatar" style={{width: '100%'}}/> : uploadButton
+                                <img src={this.state.imageUrl}
+                                     alt="image"
+                                     style={{paddingLeft:"10px", height:"100%"}}
+                                />
+                                :
+                                uploadButton
                         }
 
                         <p className="ant-upload-text">

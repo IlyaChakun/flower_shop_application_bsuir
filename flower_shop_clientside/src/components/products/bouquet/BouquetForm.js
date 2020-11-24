@@ -78,7 +78,7 @@ export default class BouquetForm extends Component {
             validateStatus: this.props.validateStatus
         },
 
-        imageUrl: this.props.bouquet.imageUrl
+        imageUrl: this.props.bouquet.image.imageUrl
     }
 
     componentDidMount() {
@@ -260,7 +260,7 @@ export default class BouquetForm extends Component {
                                             validateStatus={this.state.country.validateStatus}
                                             hasFeedback
                                             help={this.state.country.errorMsg}
-                                            name="country"
+                                            // name="country"
                                         >
 
 
@@ -321,7 +321,6 @@ export default class BouquetForm extends Component {
                                             >
                                                 {flowerColorsOptions}
                                             </Select>
-
                                         </Form.Item>
 
 
@@ -331,7 +330,7 @@ export default class BouquetForm extends Component {
                                             validateStatus={this.state.flowerSorts.validateStatus}
                                             hasFeedback
                                             help={this.state.flowerSorts.errorMsg}
-                                            name="flowerSorts"
+                                            // name="flowerSorts"
                                         >
 
                                             <Select
