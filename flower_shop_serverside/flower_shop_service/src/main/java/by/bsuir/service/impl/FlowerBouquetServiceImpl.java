@@ -47,6 +47,19 @@ public class FlowerBouquetServiceImpl implements FlowerBouquetService {
                         flowerBouquets.getTotalElements());
     }
 
+    @Override
+    public PageWrapper<FlowerBouquetDTO> findAllByShopId(int page, int size, Long shopId) {
+        Pageable pageable = getPageable(page, size);
+
+        Page<FlowerBouquet> flowerBouquets = flowerBouquetRepository.findAllByShopId(shopId, pageable);
+
+        return
+                new PageWrapper<>(
+                        flowerBouquetMapperDTO.toDtoList(flowerBouquets.toList()),
+                        flowerBouquets.getTotalPages(),
+                        flowerBouquets.getTotalElements());
+    }
+
 
     private Pageable getPageable(int page, int size) {
         return PageRequest.of(page, size);

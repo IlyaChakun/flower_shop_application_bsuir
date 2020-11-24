@@ -31,7 +31,6 @@ public class Company extends AbstractEntity {
     @Column(name = "licence_number", length = 20)
     private String licenceNumber;
 
-    @OneToOne(cascade = CascadeType.ALL)
     private Contacts contacts;
 
     private CompanyLegalAddress companyLegalAddress;

@@ -12,4 +12,6 @@ import org.springframework.stereotype.Repository;
 public interface FlowerBouquetRepository extends AbstractRepository<FlowerBouquet> {
 
     Page<FlowerBouquet> findAll(Specification<Flower> specification, Pageable pageable);
+
+    Page<FlowerBouquet> findAllByShopId(Long shopId, Pageable pageable);
 }

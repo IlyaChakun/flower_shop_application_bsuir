@@ -18,8 +18,7 @@ import java.util.List;
 @Getter
 @Setter
 public class Shop extends AbstractEntity {
-
-    @OneToOne(cascade = CascadeType.ALL)
+    
     private Contacts contacts;
 
     private WorkingHours workingHours;

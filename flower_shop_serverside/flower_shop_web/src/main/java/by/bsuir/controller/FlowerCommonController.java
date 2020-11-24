@@ -19,7 +19,7 @@ import java.util.List;
 
 @Validated
 @RestController
-@RequestMapping("/company")
+@RequestMapping("/common")
 @AllArgsConstructor
 @CrossOrigin(origins = "*")
 public class FlowerCommonController {

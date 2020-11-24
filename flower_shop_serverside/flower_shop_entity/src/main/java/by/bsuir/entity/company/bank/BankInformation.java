@@ -22,7 +22,7 @@ public class BankInformation {
     @Column(name = "postal_code", length = 7)
     private String postalCode;
 
-    @Column(name = "address", length = 48)
+    @Column(name = "bank_address", length = 48)
     private String address;
 
 }

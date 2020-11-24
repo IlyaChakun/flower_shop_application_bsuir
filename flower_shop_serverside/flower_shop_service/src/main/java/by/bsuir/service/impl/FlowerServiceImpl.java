@@ -135,6 +135,19 @@ public class FlowerServiceImpl implements FlowerService {
                         flowers.getTotalElements());
     }
 
+    @Override
+    public PageWrapper<FlowerDTO> findAllByShopId(int page, int size, Long shopId) {
+        Pageable pageable = getPageable(page, size);
+
+        Page<Flower> flowers = flowerRepository.findAllByShopId(shopId, pageable);
+
+        return
+                new PageWrapper<>(
+                        flowerMapper.toDtoList(flowers.toList()),
+                        flowers.getTotalPages(),
+                        flowers.getTotalElements());
+    }
+
     private Pageable getPageable(int page, int size) {
 //        Sort sort = sortType.equalsIgnoreCase("ASC") ?
 //                Sort.by(sortBy).ascending() :

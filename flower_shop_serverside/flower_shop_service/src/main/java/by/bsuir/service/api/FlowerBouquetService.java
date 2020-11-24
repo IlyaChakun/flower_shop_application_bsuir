@@ -10,4 +10,6 @@ public interface FlowerBouquetService extends CustomCrudService<FlowerBouquetDTO
 
     PageWrapper<FlowerBouquetDTO> findAll(int page, int size, SearchAndSortParamDto searchAndSortParamDto);
 
+    PageWrapper<FlowerBouquetDTO> findAllByShopId(int page, int size, Long shopId);
+
 }

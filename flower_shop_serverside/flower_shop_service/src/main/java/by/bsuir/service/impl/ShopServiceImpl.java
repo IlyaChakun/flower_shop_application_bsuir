@@ -5,12 +5,10 @@ import by.bsuir.dto.mapper.company.ShopMapperDTO;
 import by.bsuir.dto.model.PageWrapper;
 import by.bsuir.dto.model.company.ShopDTO;
 import by.bsuir.entity.company.Company;
-import by.bsuir.entity.company.Contacts;
 import by.bsuir.entity.company.Shop;
 import by.bsuir.payload.exception.ResourceNotFoundException;
 import by.bsuir.payload.exception.ServiceException;
 import by.bsuir.repository.api.CompanyRepository;
-import by.bsuir.repository.api.ContactsRepository;
 import by.bsuir.repository.api.ShopRepository;
 import by.bsuir.service.api.CompanyService;
 import by.bsuir.service.api.ShopService;
@@ -33,7 +31,6 @@ public class ShopServiceImpl implements ShopService {
 
     private final ShopRepository shopRepository;
     private final CompanyRepository companyRepository;
-    private final ContactsRepository contactsRepository;
     private final CompanyService companyService;
     private final ShopMapperDTO shopMapper;
     private final CompanyMapperDTO companyMapperDTO;
@@ -96,25 +93,11 @@ public class ShopServiceImpl implements ShopService {
 
         Shop shopForUpdate = shopMapper.toEntity(shopDTO);
 
-        shopFromDb.setContacts(resolveContacts(shopForUpdate));
+        shopFromDb.setContacts(shopForUpdate.getContacts());
         shopFromDb.setWorkingHours(shopForUpdate.getWorkingHours());
         shopFromDb.setShopProducts(shopForUpdate.getShopProducts());
 
         return shopMapper.toDto(shopRepository.save(shopFromDb));
-    }
-
-    private Contacts resolveContacts(Shop shopForUpdate) {
-
-        Contacts contacts;
-        if (contactsRepository.findByCityAndAddress(shopForUpdate.getContacts().getCity(), shopForUpdate.getContacts().getAddress()).isPresent()) {
-            contacts = contactsRepository.findByCityAndAddress(shopForUpdate.getContacts().getCity(), shopForUpdate.getContacts().getAddress()).get();
-            contacts.setEmail(shopForUpdate.getContacts().getEmail());
-            contacts.setFirstPhoneNumber(shopForUpdate.getContacts().getFirstPhoneNumber());
-            contacts.setSecondPhoneNumber(shopForUpdate.getContacts().getSecondPhoneNumber());
-        } else {
-            contacts = shopForUpdate.getContacts();
-        }
-        return contacts;
     }
 
 

@@ -1,22 +1,19 @@
 package by.bsuir.entity.company;
 
-import by.bsuir.entity.BaseAbstractEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.Embeddable;
 
-@Entity
-@Table(name = "contacts")
+@Embeddable
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class Contacts extends BaseAbstractEntity {
+public class Contacts {
 
     //first phone number
     @Column(name = "first_phone_number", length = 15)
