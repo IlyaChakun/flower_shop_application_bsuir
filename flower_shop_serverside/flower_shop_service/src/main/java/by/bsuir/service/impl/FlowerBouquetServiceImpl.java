@@ -70,6 +70,8 @@ public class FlowerBouquetServiceImpl implements FlowerBouquetService {
     public void delete(Long id) {
         FlowerBouquet flowerBouquet = getFlowerBouquetByIdOrThrowException(id);
 
+        flowerBouquet.getShop().getShopProducts().remove(flowerBouquet);
+
         flowerBouquetRepository.delete(flowerBouquet);
     }
 
@@ -120,7 +122,10 @@ public class FlowerBouquetServiceImpl implements FlowerBouquetService {
                     "Flower Bouquet with id=" + flowerBouquetDTO.getId() + " doesn't exist!");
         }
 
+        Shop shop = productCommonServiceHelper.resolveShop(flowerBouquetDTO);
+
         FlowerBouquet flowerBouquet = flowerBouquetMapperDTO.toEntity(flowerBouquetDTO);
+
         flowerBouquet.setFlowerColors(
                 productCommonServiceHelper.resolveFlowerColors(
                         flowerBouquetDTO.getFlowerColors())
@@ -133,7 +138,7 @@ public class FlowerBouquetServiceImpl implements FlowerBouquetService {
                 productCommonServiceHelper.resolveCountry(
                         flowerBouquetDTO.getCountry())
         );
-
+        flowerBouquet.setShop(shop);
 
         return flowerBouquetMapperDTO.toDto(flowerBouquetRepository.save(flowerBouquet));
     }

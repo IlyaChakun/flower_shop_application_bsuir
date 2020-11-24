@@ -83,6 +83,8 @@ public class FlowerServiceImpl implements FlowerService {
                     "Flower with id=" + flowerDTO.getId() + " doesn't exist!");
         }
 
+        Shop shop = productCommonServiceHelper.resolveShop(flowerDTO);
+
         Flower flowerToSave = flowerMapper.toEntity(flowerDTO);
 
         flowerToSave.setFlowerColors(
@@ -97,6 +99,7 @@ public class FlowerServiceImpl implements FlowerService {
                 productCommonServiceHelper.resolveCountry(
                         flowerDTO.getCountry())
         );
+        flowerToSave.setShop(shop);
 
         return flowerMapper.toDto(flowerRepository.save(flowerToSave));
     }
@@ -111,6 +114,8 @@ public class FlowerServiceImpl implements FlowerService {
                             return new ResourceNotFoundException("Flower with id=" + id + " not found!");
                         }
                 );
+
+        flower.getShop().getShopProducts().remove(flower);
 
         flowerRepository.delete(flower);
     }
