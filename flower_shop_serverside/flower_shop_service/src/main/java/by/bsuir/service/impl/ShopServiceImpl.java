@@ -4,6 +4,7 @@ import by.bsuir.dto.mapper.company.CompanyMapperDTO;
 import by.bsuir.dto.mapper.company.ShopMapperDTO;
 import by.bsuir.dto.model.PageWrapper;
 import by.bsuir.dto.model.company.ShopDTO;
+import by.bsuir.entity.common.Image;
 import by.bsuir.entity.company.Company;
 import by.bsuir.entity.company.Shop;
 import by.bsuir.payload.exception.ResourceNotFoundException;
@@ -96,6 +97,7 @@ public class ShopServiceImpl implements ShopService {
         shopFromDb.setContacts(shopForUpdate.getContacts());
         shopFromDb.setWorkingHours(shopForUpdate.getWorkingHours());
         shopFromDb.setShopProducts(shopForUpdate.getShopProducts());
+        shopFromDb.setImage(new Image(shopDTO.getImage().getImageUrl()));
 
         return shopMapper.toDto(shopRepository.save(shopFromDb));
     }
