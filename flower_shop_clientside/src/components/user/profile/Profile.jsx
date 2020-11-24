@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {localizedStrings} from '../../util/localization'
-import {Button, Form, Input, notification} from "antd";
+import {Tabs, Button, Form, Input, notification} from "antd";
 import s from './Profile.module.css'
 
 import ChangePasswordModal from "../modal/ChangePasswordModal";
@@ -9,6 +9,11 @@ import {SUCCESS} from "../../../constants";
 import {updateUserProfileRequest} from "../../util/utilsAPI";
 import {validatePhoneNumber, validateUserName} from "../../common/validation/ValidationFunctions";
 
+const { TabPane } = Tabs;
+
+function callback(key) {
+    console.log(key);
+}
 
 const layout = {
     labelCol: {
@@ -70,100 +75,109 @@ class Profile extends Component {
 
     render() {
         return (
-            <div className="container py-5 px-3">
-                <div className="col-sm-12">
-                    <h1>Личный кабинет</h1>
-                    <div className="row">
-                        <Form {...layout}
-                              onFinish={this.handleSubmit} className={s.form}>
+<div className="container py-5 px-3">
+    <Tabs defaultActiveKey="1" onChange={callback}>
+        <TabPane tab="Личный кабинет" key="1">
+            <div className="col-sm-12">
+                <div className="row">
+                    <Form {...layout}
+                          onFinish={this.handleSubmit} className={s.form}>
 
-                            <div className="row mb-5">
-                                <div className="col-sm-6">
-                                    здесь может быть фото
-                                </div>
-                                <div className="col-sm-6">
-                                    <Form.Item
-                                        className={s.formItem}
-                                        label='Ваше имя'
-                                        validateStatus={this.state.name.validateStatus}
-                                        hasFeedback ={!this.isFormInvalid()}
-                                        onChange={(event) => this.handleInputChange(event, validateUserName)}
-                                        help={this.state.name.errorMsg}
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message: 'Пожалуйста, введите ваше имя!',
-                                            },
-                                        ]}
-                                    >
-                                        <Input
-                                            name="name"
-                                            type=""
-                                            size="middle"
-                                            value={this.state.name.value}>
-                                        </Input>
-                                    </Form.Item>
-
-                                    <Form.Item
-                                        className={s.formItem}
-                                        label='Email'
-                                        validateStatus={this.state.email.validateStatus}
-                                    >
-                                        <Input
-                                            name="email"
-                                            size="middle"
-                                            disabled={true}
-                                            value={this.state.email.value}>
-                                        </Input>
-                                    </Form.Item>
-
-                                    <Form.Item
-                                        className={s.formItem}
-                                        label='Номер телефона'
-                                        validateStatus={this.state.phoneNumber.validateStatus}
-                                        hasFeedback ={!this.isFormInvalid()}
-                                        onChange={(event) => this.handleInputChange(event, validatePhoneNumber)}
-                                        help={this.state.phoneNumber.errorMsg}
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message: 'Пожалуйста, введите ваш телефон!',
-                                            },
-                                        ]}
-                                    >
-
-                                        <Input
-                                            name="phoneNumber"
-                                            type="phoneNumber"
-                                            size="middle"
-                                            value={this.state.phoneNumber.value}>
-                                        </Input>
-                                    </Form.Item>
-                                </div>
+                        <div className="row mb-5">
+                            <div className="col-sm-6">
+                                здесь может быть фото
                             </div>
+                            <div className="col-sm-6">
+                                <Form.Item
+                                    className={s.formItem}
+                                    label='Ваше имя'
+                                    validateStatus={this.state.name.validateStatus}
+                                    hasFeedback ={!this.isFormInvalid()}
+                                    onChange={(event) => this.handleInputChange(event, validateUserName)}
+                                    help={this.state.name.errorMsg}
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Пожалуйста, введите ваше имя!',
+                                        },
+                                    ]}
+                                >
+                                    <Input
+                                        name="name"
+                                        type=""
+                                        size="middle"
+                                        value={this.state.name.value}>
+                                    </Input>
+                                </Form.Item>
 
-                            <div className="row">
-                                <div className="col-4"></div>
-                                <div className="col-4">
-                                    <Form.Item className={s.formItem}>
-                                        <Button
-                                            htmlType="submit"
-                                            className={s.button}
-                                            disabled={this.isFormInvalid()}
-                                        >
-                                            Изменить профиль
-                                        </Button>
-                                    </Form.Item>
-                                </div>
-                                <div className="col-4">
-                                    <ChangePasswordModal currentUserId={this.state.currentUser.id}/>
-                                </div>
+                                <Form.Item
+                                    className={s.formItem}
+                                    label='Email'
+                                    validateStatus={this.state.email.validateStatus}
+                                >
+                                    <Input
+                                        name="email"
+                                        size="middle"
+                                        disabled={true}
+                                        value={this.state.email.value}>
+                                    </Input>
+                                </Form.Item>
+
+                                <Form.Item
+                                    className={s.formItem}
+                                    label='Номер телефона'
+                                    validateStatus={this.state.phoneNumber.validateStatus}
+                                    hasFeedback ={!this.isFormInvalid()}
+                                    onChange={(event) => this.handleInputChange(event, validatePhoneNumber)}
+                                    help={this.state.phoneNumber.errorMsg}
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Пожалуйста, введите ваш телефон!',
+                                        },
+                                    ]}
+                                >
+
+                                    <Input
+                                        name="phoneNumber"
+                                        type="phoneNumber"
+                                        size="middle"
+                                        value={this.state.phoneNumber.value}>
+                                    </Input>
+                                </Form.Item>
                             </div>
-                        </Form>
-                    </div>
+                        </div>
 
+                        <div className="row">
+                            <div className="col-4"></div>
+                            <div className="col-4">
+                                <Form.Item className={s.formItem}>
+                                    <Button
+                                        htmlType="submit"
+                                        className={s.button}
+                                        disabled={this.isFormInvalid()}
+                                    >
+                                        Изменить профиль
+                                    </Button>
+                                </Form.Item>
+                            </div>
+                            <div className="col-4">
+                                <ChangePasswordModal currentUserId={this.state.currentUser.id}/>
+                            </div>
+                        </div>
+                    </Form>
                 </div>
+
             </div>
+        </TabPane>
+        <TabPane tab="Ваши заказы" key="2">
+            .... Заказы
+        </TabPane>
+
+    </Tabs>
+</div>
+
+
         )
     }
 
