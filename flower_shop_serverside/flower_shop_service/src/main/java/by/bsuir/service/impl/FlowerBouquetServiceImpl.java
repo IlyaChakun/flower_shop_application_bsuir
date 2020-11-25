@@ -5,7 +5,7 @@ import by.bsuir.dto.model.PageWrapper;
 import by.bsuir.dto.model.SearchAndSortParamDto;
 import by.bsuir.dto.model.product.bouquet.FlowerBouquetDTO;
 import by.bsuir.entity.common.Image;
-import by.bsuir.entity.company.Shop;
+import by.bsuir.entity.company.bank.Shop;
 import by.bsuir.entity.product.bouqet.FlowerBouquet;
 import by.bsuir.payload.exception.ResourceNotFoundException;
 import by.bsuir.payload.exception.ServiceException;
@@ -99,8 +99,8 @@ public class FlowerBouquetServiceImpl implements FlowerBouquetService {
         Shop shop = productCommonServiceHelper.resolveShop(flowerBouquetDTO);
 
         FlowerBouquet flowerBouquet = flowerBouquetMapperDTO.toEntity(flowerBouquetDTO);
-        flowerBouquet.setFlowerColors(productCommonServiceHelper.resolveFlowerColors(flowerBouquetDTO.getFlowerColors()));
-        flowerBouquet.setFlowerSorts(productCommonServiceHelper.resolveFlowerSorts(flowerBouquetDTO.getFlowerSorts()));
+//        flowerBouquet.setFlowerColors(productCommonServiceHelper.resolveFlowerColors(flowerBouquetDTO.getFlowerColors()));
+//        flowerBouquet.setFlowerSorts(productCommonServiceHelper.resolveFlowerSorts(flowerBouquetDTO.getFlowerSorts()));
         flowerBouquet.setCountry(productCommonServiceHelper.resolveCountry(flowerBouquetDTO.getCountry()));
         //
         flowerBouquet.setShop(shop);
@@ -127,14 +127,14 @@ public class FlowerBouquetServiceImpl implements FlowerBouquetService {
 
         FlowerBouquet flowerBouquet = flowerBouquetMapperDTO.toEntity(flowerBouquetDTO);
 
-        flowerBouquet.setFlowerColors(
-                productCommonServiceHelper.resolveFlowerColors(
-                        flowerBouquetDTO.getFlowerColors())
-        );
-        flowerBouquet.setFlowerSorts(
-                productCommonServiceHelper.resolveFlowerSorts(
-                        flowerBouquetDTO.getFlowerSorts())
-        );
+//        flowerBouquet.setFlowerColors(
+//                productCommonServiceHelper.resolveFlowerColors(
+//                        flowerBouquetDTO.getFlowerColors())
+//        );
+//        flowerBouquet.setFlowerSorts(
+//                productCommonServiceHelper.resolveFlowerSorts(
+//                        flowerBouquetDTO.getFlowerSorts())
+//        );
         flowerBouquet.setCountry(
                 productCommonServiceHelper.resolveCountry(
                         flowerBouquetDTO.getCountry())

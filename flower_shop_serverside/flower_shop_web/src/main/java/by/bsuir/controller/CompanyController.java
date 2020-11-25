@@ -38,14 +38,23 @@ public class CompanyController {
 //        return ResponseEntity.ok(company);
 //    }
 
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
+//    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
+//    @GetMapping
+//    public ResponseEntity<CompanyDTO> findCompanyByName(@CurrentUser UserPrincipal userPrincipal) {
+//        ShopAdminDTO shopAdminDTO = shopAdminService.findByEmail(userPrincipal.getEmail());
+//
+//        CompanyDTO company = companyService.findByShopAdminId(shopAdminDTO.getId());
+//        return ResponseEntity.ok(company);
+//    }
+
+
     @GetMapping
     public ResponseEntity<CompanyDTO> findCompanyByName(@CurrentUser UserPrincipal userPrincipal) {
-        ShopAdminDTO shopAdminDTO = shopAdminService.findByEmail(userPrincipal.getEmail());
 
-        CompanyDTO company = companyService.findByShopAdminId(shopAdminDTO.getId());
+        CompanyDTO company = companyService.findById(0L);
         return ResponseEntity.ok(company);
     }
+
 
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     @PostMapping

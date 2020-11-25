@@ -12,8 +12,8 @@ import java.util.Optional;
 @Repository
 public interface OrderRepository extends AbstractRepository<Order> {
 
-    Page<Order> findAllByOrderInfoClient(Pageable pageable, Client client);
+    Page<Order> findAllByClient(Pageable pageable, Client client);
 
-    Optional<Order> findByIdAndOrderInfoClientId(Long orderId, Long clientId);
+    Optional<Order> findByIdAndClientId(Long orderId, Long clientId);
 
 }

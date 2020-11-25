@@ -63,10 +63,6 @@ public class FlowerController {
                                           BindingResult bindingResult) {
         checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
 
-        flowerDTO.getFlowerColors().forEach(flowerColorDTO ->
-                System.out.println(flowerColorDTO.getId()));
-
-        
         FlowerDTO flower = flowerService.save(flowerDTO);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")

@@ -3,7 +3,7 @@ package by.bsuir.entity.product;
 import by.bsuir.entity.AbstractEntity;
 import by.bsuir.entity.common.Country;
 import by.bsuir.entity.common.Image;
-import by.bsuir.entity.company.Shop;
+import by.bsuir.entity.company.bank.Shop;
 import by.bsuir.entity.product.common.FlowerColor;
 import by.bsuir.entity.product.common.FlowerLengthCost;
 import by.bsuir.entity.product.common.FlowerSort;
@@ -23,16 +23,16 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.JOINED)
 public class AbstractFlowerProduct extends AbstractEntity {
 
-    @ManyToMany
-    @JoinTable(name = "flower_colors",
-            joinColumns =
-                    {
-                            @JoinColumn(
-                                    name = "flower_id",
-                                    referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "color_id",
-                    referencedColumnName = "id")})
-    private List<FlowerColor> flowerColors = new ArrayList<>();
+//    @ManyToMany
+//    @JoinTable(name = "flower_colors",
+//            joinColumns =
+//                    {
+//                            @JoinColumn(
+//                                    name = "flower_id",
+//                                    referencedColumnName = "id")},
+//            inverseJoinColumns = {@JoinColumn(name = "color_id",
+//                    referencedColumnName = "id")})
+//    private List<FlowerColor> flowerColors = new ArrayList<>();
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "flower_length_costs",
@@ -45,18 +45,23 @@ public class AbstractFlowerProduct extends AbstractEntity {
                     referencedColumnName = "id")})
     private List<FlowerLengthCost> flowerLengthCosts = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(name = "flower_sorts",
-            joinColumns =
-                    {
-                            @JoinColumn(
-                                    name = "flower_id",
-                                    referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "flower_sort_id",
-                    referencedColumnName = "id")})
-    private List<FlowerSort> flowerSorts = new ArrayList<>();
+//    @ManyToMany
+//    @JoinTable(name = "flower_sorts",
+//            joinColumns =
+//                    {
+//                            @JoinColumn(
+//                                    name = "flower_id",
+//                                    referencedColumnName = "id")},
+//            inverseJoinColumns = {@JoinColumn(name = "flower_sort_id",
+//                    referencedColumnName = "id")})
+//    private List<FlowerSort> flowerSorts = new ArrayList<>();
 
 
+    @ManyToOne
+    private FlowerSort flowerSort;
+
+    @ManyToOne
+    private FlowerColor flowerColor;
 
     @ManyToOne(cascade = CascadeType.ALL)
     private Country country;  // страна происхождения

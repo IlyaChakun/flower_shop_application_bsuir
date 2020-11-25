@@ -1,15 +1,16 @@
 package by.bsuir.service.api;
 
-import by.bsuir.dto.model.cart.CartItemDTO;
+import by.bsuir.dto.model.cart.DeleteCartItemDTO;
+import by.bsuir.dto.model.cart.RequestCartItemDTO;
 import by.bsuir.dto.model.cart.CartDTO;
 
 public interface CartService {
 
-    CartDTO addItem(CartItemDTO cartItemDTO);
+    CartDTO addItem(RequestCartItemDTO requestCartItemDTO);
 
-    CartDTO updateItem(CartItemDTO updateProductBasketDTO);
+    CartDTO updateItem(RequestCartItemDTO updateProductBasketDTO);
 
-    CartDTO deleteItem(CartItemDTO cartItemDTO);
+    CartDTO deleteItem(DeleteCartItemDTO deleteCartItemDTO);
 
     CartDTO findCart(Long userId);
 }

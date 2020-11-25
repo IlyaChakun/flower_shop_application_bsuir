@@ -2,6 +2,7 @@ package by.bsuir.controller;
 
 import by.bsuir.dto.model.PageWrapper;
 import by.bsuir.dto.model.order.OrderDTO;
+import by.bsuir.dto.model.order.OrderRequestDTO;
 import by.bsuir.dto.model.user.ClientDTO;
 import by.bsuir.dto.validation.annotation.PositiveLong;
 import by.bsuir.security.core.CurrentUser;
@@ -21,13 +22,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 
 import static by.bsuir.controller.ControllerHelper.checkBindingResultAndThrowExceptionIfInvalid;
-import static by.bsuir.controller.ControllerHelper.isIdInsideDtoOrThrowException;
 
 @Validated
-@RestController//users/clients/
-@RequestMapping("/user/clients/order")//TODO так просто  не получится.. Да и не забываем писать во множ числе
-//тут ты должден понимать что под клиентом не нужно указывать ид ( то есть я смотрю свои заказы и у меня урл user/client/orders+ {id} если конкртный
-//или если он смотрти заказы в конкретном магазине там user/admin/company/{name}/shops/{id}/orders + {id} если конкретный
+@RestController
+@RequestMapping("/orders")
 @AllArgsConstructor
 @CrossOrigin(origins = "*")
 public class OrderController {
@@ -49,16 +47,14 @@ public class OrderController {
 
     @PreAuthorize("hasAnyAuthority('ROLE_CLIENT')")
     @PostMapping
-    public ResponseEntity<OrderDTO> saveOrder(@RequestBody @Valid OrderDTO orderDTO,
+    public ResponseEntity<OrderDTO> saveOrder(@RequestBody @Valid OrderRequestDTO orderRequest,
                                               @CurrentUser UserPrincipal userPrincipal,
                                               BindingResult bindingResult) {
         checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
 
-        ClientDTO clientDTO = getClient(userPrincipal);
+        orderRequest.setClientId(userPrincipal.getId());
 
-        orderDTO.getOrderInfo().setClient(clientDTO);
-
-        OrderDTO order = orderService.save(orderDTO);
+        OrderDTO order = orderService.saveOrder(orderRequest);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(order.getId()).toUri());
@@ -66,22 +62,22 @@ public class OrderController {
         return new ResponseEntity<>(order, httpHeaders, HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasAnyAuthority('ROLE_CLIENT')")
-    @PutMapping("/{id}")
-    public ResponseEntity<OrderDTO> update(@PathVariable("id") @PositiveLong String id,
-                                           @RequestBody @Valid OrderDTO orderDTO,
-                                           @CurrentUser UserPrincipal userPrincipal,
-                                           BindingResult bindingResult) {
-        checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
-        isIdInsideDtoOrThrowException(orderDTO);
-
-        ClientDTO clientDTO = getClient(userPrincipal);
-
-        orderDTO.getOrderInfo().setClient(clientDTO);
-        OrderDTO order = orderService.update(orderDTO);
-
-        return ResponseEntity.ok(order);
-    }
+//    @PreAuthorize("hasAnyAuthority('ROLE_CLIENT')")
+//    @PutMapping("/{id}")
+//    public ResponseEntity<OrderDTO> update(@PathVariable("id") @PositiveLong String id,
+//                                           @RequestBody @Valid OrderDTO orderDTO,
+//                                           @CurrentUser UserPrincipal userPrincipal,
+//                                           BindingResult bindingResult) {
+//        checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
+//        isIdInsideDtoOrThrowException(orderDTO);
+//
+//        ClientDTO clientDTO = getClient(userPrincipal);
+//
+//        orderDTO.getOrderInfo().setClient(clientDTO);
+//        OrderDTO order = orderService.update(orderDTO);
+//
+//        return ResponseEntity.ok(order);
+//    }
 
     @PreAuthorize("hasAnyAuthority('ROLE_CLIENT')")
     @GetMapping()

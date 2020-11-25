@@ -1,6 +1,5 @@
 package by.bsuir.dto.model.company;
 
-import by.bsuir.dto.model.BaseAbstractDTO;
 import by.bsuir.dto.validation.annotation.EmptyOrValidPhone;
 import by.bsuir.dto.validation.annotation.ValidEmail;
 import by.bsuir.dto.validation.annotation.ValidPhone;
@@ -16,7 +15,7 @@ import javax.validation.constraints.Size;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ContactsDTO extends BaseAbstractDTO {
+public class ContactsDTO {
 
     @NotNull
     @ValidPhone

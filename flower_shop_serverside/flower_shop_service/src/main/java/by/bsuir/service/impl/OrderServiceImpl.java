@@ -3,6 +3,7 @@ package by.bsuir.service.impl;
 import by.bsuir.dto.mapper.order.OrderMapperDTO;
 import by.bsuir.dto.model.PageWrapper;
 import by.bsuir.dto.model.order.OrderDTO;
+import by.bsuir.dto.model.order.OrderRequestDTO;
 import by.bsuir.entity.cart.Cart;
 import by.bsuir.entity.cart.CartItem;
 import by.bsuir.entity.order.Order;
@@ -12,10 +13,10 @@ import by.bsuir.entity.product.AbstractFlowerProduct;
 import by.bsuir.entity.user.Client;
 import by.bsuir.payload.exception.ResourceNotFoundException;
 import by.bsuir.payload.exception.ServiceException;
-import by.bsuir.repository.api.CartRepository;
 import by.bsuir.repository.api.FlowerBouquetRepository;
 import by.bsuir.repository.api.FlowerRepository;
 import by.bsuir.repository.api.OrderRepository;
+import by.bsuir.repository.api.cart.CartRepository;
 import by.bsuir.repository.api.user.ClientRepository;
 import by.bsuir.service.api.OrderService;
 import lombok.AllArgsConstructor;
@@ -27,7 +28,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -45,11 +46,14 @@ public class OrderServiceImpl implements OrderService {
     private final FlowerRepository flowerRepository;
     private final FlowerBouquetRepository flowerBouquetRepository;
 
+
     @Override
-    public OrderDTO save(OrderDTO orderDTO) {
-        Client client = resolveClient(orderDTO.getOrderInfo().getClient().getId());
+    @Transactional
+    public OrderDTO saveOrder(OrderRequestDTO orderRequest) {
+
+        Client client = resolveClient(orderRequest.getClientId());
         Cart cart = client.getCart();
-        Order newOrder = createOrder(cart.getCartItems(), orderDTO);
+        Order newOrder = createOrder(cart, orderRequest);
         Order savedOrder = orderRepository.save(newOrder);
         clearCart(cart);
 
@@ -57,26 +61,40 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
-    private Order createOrder(List<CartItem> cartItems, OrderDTO orderDTO) {
-        if (cartItems.isEmpty()) {
+    private Order createOrder(Cart cart, OrderRequestDTO orderRequest) {
+        if (cart.getCartItems().isEmpty()) {
             logger.error("Order creation with empty cart!");
             throw new ServiceException(HttpStatus.CONFLICT.value(),
                     "cart_is_empty",
                     "Your cart is empty!");
         }
 
-        Order orderFromUI = orderMapperDTO.toEntity(orderDTO);
+        //Order orderFromUI = orderMapperDTO.toEntity(orderDTO);
 
         Order newOrder = new Order();
-        newOrder.setOrderInfo(orderFromUI.getOrderInfo());
-        newOrder.setOrderStatus(OrderStatus.NEW);//TODO на скок понимаю заказ в draft только пока в корзине а тут он уже в роли нового но хз хз
-        newOrder.setOrderProducts(resolveProducts(cartItems));
+
+        newOrder.setComment(orderRequest.getComment());
+        newOrder.setAddress(orderRequest.getAddress());
+        newOrder.setFloorNumber(orderRequest.getFloorNumber());
+        newOrder.setEntranceNumber(orderRequest.getEntranceNumber());
+
+        newOrder.setTotalAmount(cart.getTotalPrice());
+        newOrder.setClient(resolveClient(orderRequest));
+
+
+        newOrder.setOrderStatus(OrderStatus.NEW);
+        newOrder.setOrderProducts(resolveProducts(cart.getCartItems()));
         return newOrder;
+    }
+
+
+    private Client resolveClient(OrderRequestDTO orderRequest) {
+        return clientRepository.getOne(orderRequest.getClientId());
     }
 
     private void clearCart(Cart cart) {
         cart.setCartItems(null);
-        cart.setTotalPrice(BigDecimal.ZERO);
+        cart.setTotalPrice(0D);
         cartRepository.save(cart);
     }
 
@@ -92,6 +110,7 @@ public class OrderServiceImpl implements OrderService {
                             OrderProduct orderProduct = new OrderProduct();
                             orderProduct.setProduct(product);
                             orderProduct.setQuantity(cartItem.getQuantity());
+                            orderProduct.setFlowerLengthCost(cartItem.getFlowerLengthCost());
 
                             return orderProduct;
                         })
@@ -124,7 +143,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDTO findByIdAndClientId(Long orderId, Long clientId) {
-        Order order = orderRepository.findByIdAndOrderInfoClientId(orderId, clientId)
+        Order order = orderRepository.findByIdAndClientId(orderId, clientId)
                 .orElseThrow(() -> {
                             logger.error("No order with id={} for client with id={}", orderId, clientId);
                             return new ResourceNotFoundException("No order with id=" + orderId + " for client with id=" + clientId);
@@ -146,7 +165,7 @@ public class OrderServiceImpl implements OrderService {
 
         Pageable pageable = PageRequest.of(page, size);
 
-        Page<Order> orders = orderRepository.findAllByOrderInfoClient(pageable, client);
+        Page<Order> orders = orderRepository.findAllByClient(pageable, client);
 
         return
                 new PageWrapper<>(
@@ -157,8 +176,4 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
-    @Override//TODO охуенно придумал)))) но кстать по логике может и пригодится но хз, типо обновлять за админа заказ мб
-    public OrderDTO update(OrderDTO orderDTO) {
-        return null;
-    }
 }

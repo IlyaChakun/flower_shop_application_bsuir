@@ -7,6 +7,24 @@ insert ignore into roles(id, name, display_name, is_displayed)
 values (3, 'ROLE_ANONYMOUS', 'Аноним', 1);
 /************/
 
+insert ignore into users(id, date_of_creation, date_of_last_update, email, is_mail_confirmed, name, password,
+                         phone_number, provider)
+VALUES (0, now(), now(), 'admin@mail.ru', true, 'Store admin',
+        '$2a$10$s3JeXzkxv2D5BCS5VqMPi.5ZpXYN60ICvH0.yPRXgbPy/oIp3r.AS', '375295555555', 'local');#pass 11111
+
+insert ignore into shop_admins(id)
+values (0);
+insert ignore into companies(id, date_of_creation, date_of_last_update, bank_address, bank_code, bank_name, postal_code,
+                             checking_account, payer_account_number, address, city, email, first_phone_number,
+                             second_phone_number, description, licence_number, name, shop_admin_id)
+values (0, now(), now(), '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0);
+
+update shop_admins
+set company_id = 0
+where id = 0;
+
+insert ignore into users_roles(user_id, role_id)
+VALUES (0, 1);
 
 /************/
 /* Типы цветов */

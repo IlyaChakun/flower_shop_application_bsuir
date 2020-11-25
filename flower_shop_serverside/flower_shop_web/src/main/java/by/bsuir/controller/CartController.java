@@ -1,6 +1,7 @@
 package by.bsuir.controller;
 
-import by.bsuir.dto.model.cart.CartItemDTO;
+import by.bsuir.dto.model.cart.DeleteCartItemDTO;
+import by.bsuir.dto.model.cart.RequestCartItemDTO;
 import by.bsuir.dto.model.cart.CartDTO;
 import by.bsuir.dto.model.user.ClientDTO;
 import by.bsuir.security.core.CurrentUser;
@@ -18,7 +19,7 @@ import javax.validation.Valid;
 import static by.bsuir.controller.ControllerHelper.checkBindingResultAndThrowExceptionIfInvalid;
 
 @RestController
-@RequestMapping("/users/{id}/cart")
+@RequestMapping("/cart")
 @AllArgsConstructor
 @CrossOrigin(origins = "*")
 public class CartController {
@@ -29,26 +30,26 @@ public class CartController {
 
     @PreAuthorize("hasAnyAuthority('ROLE_CLIENT')")
     @PostMapping
-    public ResponseEntity<CartDTO> addProduct(@RequestBody @Valid CartItemDTO cartItemDTO,
+    public ResponseEntity<CartDTO> addProduct(@RequestBody @Valid RequestCartItemDTO requestCartItemDTO,
                                               @CurrentUser UserPrincipal userPrincipal,
                                               BindingResult bindingResult) {
         checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
 
-        cartItemDTO.setClientId(getClientDTO(userPrincipal).getId());
-        CartDTO cartDto = cartService.addItem(cartItemDTO);
+        requestCartItemDTO.setClientId(getClientDTO(userPrincipal).getId());
+        CartDTO cartDto = cartService.addItem(requestCartItemDTO);
 
         return ResponseEntity.ok(cartDto);
     }
 
     @PreAuthorize("hasAnyAuthority('ROLE_CLIENT')")
     @PutMapping
-    public ResponseEntity<CartDTO> updateProduct(@RequestBody @Valid CartItemDTO cartItemDTO,
+    public ResponseEntity<CartDTO> updateProduct(@RequestBody @Valid RequestCartItemDTO requestCartItemDTO,
                                                  @CurrentUser UserPrincipal userPrincipal,
                                                  BindingResult bindingResult) {
         checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
 
-        cartItemDTO.setClientId(getClientDTO(userPrincipal).getId());
-        CartDTO cartDto = cartService.updateItem(cartItemDTO);
+        requestCartItemDTO.setClientId(getClientDTO(userPrincipal).getId());
+        CartDTO cartDto = cartService.updateItem(requestCartItemDTO);
 
         return ResponseEntity.ok(cartDto);
     }
@@ -56,13 +57,13 @@ public class CartController {
 
     @PreAuthorize("hasAnyAuthority('ROLE_CLIENT')")
     @DeleteMapping
-    public ResponseEntity<CartDTO> deleteProduct(@RequestBody @Valid CartItemDTO cartItemDTO,
+    public ResponseEntity<CartDTO> deleteProduct(@RequestBody @Valid DeleteCartItemDTO deleteCartItem,
                                                  @CurrentUser UserPrincipal userPrincipal,
                                                  BindingResult result) {
         checkBindingResultAndThrowExceptionIfInvalid(result);
 
-        cartItemDTO.setClientId(getClientDTO(userPrincipal).getId());
-        CartDTO cartDto = cartService.deleteItem(cartItemDTO);
+        deleteCartItem.setClientId(getClientDTO(userPrincipal).getId());
+        CartDTO cartDto = cartService.deleteItem(deleteCartItem);
 
         return ResponseEntity.ok(cartDto);
     }

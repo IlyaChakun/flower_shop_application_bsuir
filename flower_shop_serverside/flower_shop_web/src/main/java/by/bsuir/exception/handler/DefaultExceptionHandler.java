@@ -47,6 +47,8 @@ public class DefaultExceptionHandler {
         /*
          * Exception occurs when passed id is null. Status 400.
          */
+        e.printStackTrace();
+
         logger.error(e.getMessage());
         return new ResponseEntity<>(
                 new ErrorMessage(HttpStatus.BAD_REQUEST.value(), "bad_request", "Request parameters are not valid!"),
@@ -72,6 +74,8 @@ public class DefaultExceptionHandler {
         /*
          * Validation exceptions handling. Status code 400.
          */
+        e.printStackTrace();
+
         List<String> errors = new ArrayList<>();
         e.getErrors().forEach(er -> errors.add(String.format("Incorrect value for field %s : '%s'. %s.", er.getField(),
                 er.getRejectedValue(), er.getDefaultMessage())));
@@ -84,6 +88,8 @@ public class DefaultExceptionHandler {
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ErrorMessage> handleConstraintViolationException(ConstraintViolationException e) {
         logger.error(e.getMessage());
+        e.printStackTrace();
+
         List<ErrorMessage> errors = new ArrayList<>();
 
         StringBuilder stringBuilder = new StringBuilder();
@@ -113,6 +119,7 @@ public class DefaultExceptionHandler {
         /*
          * Handles ConfirmationTokeBrokenLinkException exceptions. Status code 400.
          */
+        ex.printStackTrace();
         System.out.println("ConfirmationTokeBrokenLinkException  InvalidEmailException handler");
         return
                 new ResponseEntity<>(
@@ -126,6 +133,7 @@ public class DefaultExceptionHandler {
         /*
          * Handles ExpiredAccessTokenException exceptions. Status code 401.
          */
+        ex.printStackTrace();
         System.out.println("ExpiredAccessTokenException handler");
         return
                 new ResponseEntity<>(
@@ -140,6 +148,7 @@ public class DefaultExceptionHandler {
         /*
          * Handles AccessDeniedException exceptions. Status code 403.
          */
+        ex.printStackTrace();
         logger.error(ex.getMessage());
         httpServletResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "You do not have permissions!");
     }
@@ -149,6 +158,7 @@ public class DefaultExceptionHandler {
         /*
          * Handles AccessDeniedException exceptions. Status code 403.
          */
+        ex.printStackTrace();
         return new ResponseEntity<>(
                 new ErrorMessage(HttpStatus.FORBIDDEN.value(),
                         "forbidden",

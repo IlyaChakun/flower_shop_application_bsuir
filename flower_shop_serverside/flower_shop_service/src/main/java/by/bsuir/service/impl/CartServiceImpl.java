@@ -2,7 +2,8 @@ package by.bsuir.service.impl;
 
 import by.bsuir.dto.mapper.cart.CartMapperDTO;
 import by.bsuir.dto.model.cart.CartDTO;
-import by.bsuir.dto.model.cart.CartItemDTO;
+import by.bsuir.dto.model.cart.DeleteCartItemDTO;
+import by.bsuir.dto.model.cart.RequestCartItemDTO;
 import by.bsuir.entity.cart.Cart;
 import by.bsuir.entity.cart.CartItem;
 import by.bsuir.entity.product.AbstractFlowerProduct;
@@ -12,9 +13,10 @@ import by.bsuir.entity.product.flower.Flower;
 import by.bsuir.entity.user.Client;
 import by.bsuir.payload.exception.ResourceNotFoundException;
 import by.bsuir.payload.exception.ServiceException;
-import by.bsuir.repository.api.CartRepository;
 import by.bsuir.repository.api.FlowerBouquetRepository;
+import by.bsuir.repository.api.FlowerLengthCostRepository;
 import by.bsuir.repository.api.FlowerRepository;
+import by.bsuir.repository.api.cart.CartRepository;
 import by.bsuir.repository.api.user.ClientRepository;
 import by.bsuir.service.api.CartService;
 import lombok.AllArgsConstructor;
@@ -24,7 +26,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -38,42 +39,49 @@ public class CartServiceImpl implements CartService {
     private final FlowerRepository flowerRepository;
     private final FlowerBouquetRepository flowerBouquetRepository;
     private final CartMapperDTO cartMapperDTO;
-
+    private final FlowerLengthCostRepository flowerLengthCostRepository;
 
     @Override
     @Transactional
-    public CartDTO addItem(CartItemDTO cartItemDTO) {
-        Client client = findClientById(cartItemDTO.getClientId());
-        AbstractFlowerProduct product = findAbstractFlowerProductById(cartItemDTO.getProductId());
+    public CartDTO addItem(RequestCartItemDTO requestCartItemDTO) {
+        Client client = findClientById(requestCartItemDTO.getClientId());
+        AbstractFlowerProduct product = findAbstractFlowerProductById(requestCartItemDTO.getProductId());
 
-        checkAvailableAmountOnStockOrException(product, cartItemDTO.getQuantity());
+        checkAvailableAmountOnStockOrException(product, requestCartItemDTO.getQuantity());
 
         CartItem cartItem = new CartItem();
         cartItem.setClient(client);
         cartItem.setProduct(product);
-        cartItem.setQuantity(cartItemDTO.getQuantity());
+
+        cartItem.setFlowerLengthCost(resolveLengthCost(requestCartItemDTO.getFlowerLengthCostId()));
+        cartItem.setQuantity(requestCartItemDTO.getQuantity());
 
         Cart cart = client.getCart();
-        cart.getCartItems().add(cartItem);
+        cart.getCartItems().add((cartItem));
 
         return buildCart(cart);
     }
 
+    private FlowerLengthCost resolveLengthCost(Long id) {
+        return flowerLengthCostRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Flower length cost with id=" + id + " not found"));
+    }
 
     @Override
     @Transactional
-    public CartDTO updateItem(CartItemDTO cartItemDTO) {
-        Client client = findClientById(cartItemDTO.getClientId());
-        AbstractFlowerProduct product = findAbstractFlowerProductById(cartItemDTO.getProductId());
+    public CartDTO updateItem(RequestCartItemDTO requestCartItemDTO) {
+        Client client = findClientById(requestCartItemDTO.getClientId());
+        AbstractFlowerProduct product = findAbstractFlowerProductById(requestCartItemDTO.getProductId());
 
-        checkAvailableAmountOnStockOrException(product, cartItemDTO.getQuantity());
+        checkAvailableAmountOnStockOrException(product, requestCartItemDTO.getQuantity());
 
         Cart cart = client.getCart();
         List<CartItem> cartItems = cart.getCartItems();
 
         for (CartItem item : cartItems) {
             if (item.getProduct().equals(product)) {
-                item.setQuantity(cartItemDTO.getQuantity());
+                item.setQuantity(requestCartItemDTO.getQuantity());
+                item.setFlowerLengthCost(resolveLengthCost(requestCartItemDTO.getFlowerLengthCostId()));
             }
         }
 
@@ -82,9 +90,9 @@ public class CartServiceImpl implements CartService {
 
     @Override
     @Transactional
-    public CartDTO deleteItem(CartItemDTO cartItemDTO) {
-        Client client = findClientById(cartItemDTO.getClientId());
-        AbstractFlowerProduct product = findAbstractFlowerProductById(cartItemDTO.getProductId());
+    public CartDTO deleteItem(DeleteCartItemDTO deleteCartItemDTO) {
+        Client client = findClientById(deleteCartItemDTO.getClientId());
+        AbstractFlowerProduct product = findAbstractFlowerProductById(deleteCartItemDTO.getProductId());
 
         Cart cart = client.getCart();
         List<CartItem> cartItems = cart.getCartItems();
@@ -103,41 +111,34 @@ public class CartServiceImpl implements CartService {
 
     private CartDTO buildCart(Cart cart) {
 
-        BigDecimal totalPrice = calculateTotalPrice(cart.getCartItems());
+        Double totalPrice = calculateTotalPrice(cart.getCartItems());
         cart.setTotalPrice(totalPrice);
 
         int totalElements = cart.getCartItems().size();
 
         CartDTO cartDTO = cartMapperDTO.toDto(cart);
         cartDTO.setTotalElements(totalElements);
+        cartDTO.setTotalPrice(cart.getTotalPrice());
+
 
         cartRepository.save(cart);
 
         return cartDTO;
     }
 
-    private BigDecimal calculateTotalPrice(List<CartItem> cartItems) {
+    private Double calculateTotalPrice(List<CartItem> cartItems) {
 
         double totalSum = 0.0;
 
         for (CartItem item : cartItems) {
-            Double price = getPriceByLength(item, item.getFlowerLengthCostId());
+            Double price = item.getFlowerLengthCost().getPrice();
             double total = price * item.getQuantity();
             totalSum += total;
         }
 
-        return BigDecimal.valueOf(totalSum);
+        return totalSum;
     }
 
-    private Double getPriceByLength(CartItem item, Long flowerLengthCostId) {
-        double price = 0.0;
-        for (FlowerLengthCost itemFlowerLengthCost : item.getProduct().getFlowerLengthCosts()) {
-            if (itemFlowerLengthCost.getId() == flowerLengthCostId) {
-                price = itemFlowerLengthCost.getPrice();
-            }
-        }
-        return price;
-    }
 
     private AbstractFlowerProduct findAbstractFlowerProductById(Long productId) {
 
@@ -158,7 +159,7 @@ public class CartServiceImpl implements CartService {
     private void checkAvailableAmountOnStockOrException(AbstractFlowerProduct product, Integer orderedAmount) {
 
         Integer availableOnStock = product.getAvailableAmountOnStock();
-        boolean isEnoughToOrder = (availableOnStock - orderedAmount) > 0;
+        boolean isEnoughToOrder = (availableOnStock - orderedAmount) >= 0;
 
         if (availableOnStock == 0 || !isEnoughToOrder) {
             if (product instanceof Flower) {

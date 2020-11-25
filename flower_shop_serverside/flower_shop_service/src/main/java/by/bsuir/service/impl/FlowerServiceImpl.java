@@ -5,7 +5,7 @@ import by.bsuir.dto.model.PageWrapper;
 import by.bsuir.dto.model.SearchAndSortParamDto;
 import by.bsuir.dto.model.product.flower.FlowerDTO;
 import by.bsuir.entity.common.Image;
-import by.bsuir.entity.company.Shop;
+import by.bsuir.entity.company.bank.Shop;
 import by.bsuir.entity.product.flower.Flower;
 import by.bsuir.payload.exception.ResourceNotFoundException;
 import by.bsuir.payload.exception.ServiceException;
@@ -59,8 +59,9 @@ public class FlowerServiceImpl implements FlowerService {
         Shop shop = productCommonServiceHelper.resolveShop(flowerDTO);
 
         Flower flower = flowerMapper.toEntity(flowerDTO);
-        flower.setFlowerColors(productCommonServiceHelper.resolveFlowerColors(flowerDTO.getFlowerColors()));
-        flower.setFlowerSorts(productCommonServiceHelper.resolveFlowerSorts(flowerDTO.getFlowerSorts()));
+//        flower.setFlowerColors(productCommonServiceHelper.resolveFlowerColors(flowerDTO.getFlowerColors()));
+//        flower.setFlowerSorts(productCommonServiceHelper.resolveFlowerSorts(flowerDTO.getFlowerSorts()));
+       // flower.setFlowerColor();
         flower.setCountry(productCommonServiceHelper.resolveCountry(flowerDTO.getCountry()));
         //
         flower.setShop(shop);
@@ -88,14 +89,14 @@ public class FlowerServiceImpl implements FlowerService {
 
         Flower flowerToSave = flowerMapper.toEntity(flowerDTO);
 
-        flowerToSave.setFlowerColors(
-                productCommonServiceHelper.resolveFlowerColors(
-                        flowerDTO.getFlowerColors())
-        );
-        flowerToSave.setFlowerSorts(
-                productCommonServiceHelper.resolveFlowerSorts(
-                        flowerDTO.getFlowerSorts())
-        );
+//        flowerToSave.setFlowerColors(
+//                productCommonServiceHelper.resolveFlowerColors(
+//                        flowerDTO.getFlowerColors())
+//        );
+//        flowerToSave.setFlowerSorts(
+//                productCommonServiceHelper.resolveFlowerSorts(
+//                        flowerDTO.getFlowerSorts())
+//        );
         flowerToSave.setCountry(
                 productCommonServiceHelper.resolveCountry(
                         flowerDTO.getCountry())

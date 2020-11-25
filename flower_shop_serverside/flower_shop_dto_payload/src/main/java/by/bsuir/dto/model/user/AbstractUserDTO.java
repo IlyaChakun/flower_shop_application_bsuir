@@ -29,7 +29,6 @@ public class AbstractUserDTO extends AbstractDTO {
 
     private SupportedAuthProvider provider;
 
-
     private Set<RoleDTO> roles = new HashSet<>();
 
 

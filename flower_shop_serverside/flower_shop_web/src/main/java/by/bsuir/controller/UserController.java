@@ -53,8 +53,6 @@ public class UserController {
                                            BindingResult bindingResult) {
         checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
 
-
-        //TODO ничрена не работает нужен созвон
         final String userEmail = userPrincipal.getEmail();
         userDTO.setEmail(userEmail);
 

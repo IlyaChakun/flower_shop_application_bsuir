@@ -1,6 +1,6 @@
 package by.bsuir.repository.api;
 
-import by.bsuir.entity.company.Shop;
+import by.bsuir.entity.company.bank.Shop;
 import by.bsuir.repository.api.core.AbstractRepository;
 import org.springframework.stereotype.Repository;
 

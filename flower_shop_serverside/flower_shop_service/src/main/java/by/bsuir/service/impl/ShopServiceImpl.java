@@ -6,7 +6,7 @@ import by.bsuir.dto.model.PageWrapper;
 import by.bsuir.dto.model.company.ShopDTO;
 import by.bsuir.entity.common.Image;
 import by.bsuir.entity.company.Company;
-import by.bsuir.entity.company.Shop;
+import by.bsuir.entity.company.bank.Shop;
 import by.bsuir.payload.exception.ResourceNotFoundException;
 import by.bsuir.payload.exception.ServiceException;
 import by.bsuir.repository.api.CompanyRepository;

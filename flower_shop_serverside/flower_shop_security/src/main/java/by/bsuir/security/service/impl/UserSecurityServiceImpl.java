@@ -42,7 +42,7 @@ public class UserSecurityServiceImpl implements UserSecurityService {
     @Transactional
     public AbstractUserDTO registerClient(ClientSignUpRequest signUpRequest) {
 
-        clientRepository.findByEmail(signUpRequest.getEmail())
+        userRepository.findByEmail(signUpRequest.getEmail())
                 .ifPresent(value -> {
                             throw new DuplicateEmailException("Email address " + value.getEmail() + " already in use.");
                         }

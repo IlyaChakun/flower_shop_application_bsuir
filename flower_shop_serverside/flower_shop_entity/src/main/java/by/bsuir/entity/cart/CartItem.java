@@ -23,9 +23,10 @@ public class CartItem extends BaseAbstractEntity {
     @OneToOne(cascade = CascadeType.ALL)
     private AbstractFlowerProduct product;
 
-    @Column(name = "flower_length_cost_id")
-    private Long flowerLengthCostId;
+    @OneToOne(cascade = CascadeType.ALL)
+    private FlowerLengthCost flowerLengthCost;
 
     @Column(name = "quantity")
     private Integer quantity;
+
 }

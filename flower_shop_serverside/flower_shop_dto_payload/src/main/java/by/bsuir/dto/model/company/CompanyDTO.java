@@ -2,6 +2,7 @@ package by.bsuir.dto.model.company;
 
 import by.bsuir.dto.model.AbstractDTO;
 import by.bsuir.dto.model.user.ShopAdminDTO;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -41,6 +42,7 @@ public class CompanyDTO extends AbstractDTO {
     // private Image logo;
 
     @Valid
+    @JsonBackReference
     private List<ShopDTO> shops = new ArrayList<>();
 
 }

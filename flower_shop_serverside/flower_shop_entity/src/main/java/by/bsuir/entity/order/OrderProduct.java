@@ -1,33 +1,26 @@
 package by.bsuir.entity.order;
 
-import by.bsuir.entity.AbstractEntity;
+import by.bsuir.entity.BaseAbstractEntity;
 import by.bsuir.entity.product.AbstractFlowerProduct;
+import by.bsuir.entity.product.common.FlowerLengthCost;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
 
 @Entity
 @Table(name = "order_products")
 @NoArgsConstructor
 @Getter
 @Setter
-public class OrderProduct extends AbstractEntity {
+public class OrderProduct extends BaseAbstractEntity {
 
-//    @Column(name = "unique_id")
-//    private String uniqueId;//для понтов типо униклаьный ид хз зачем пригодиться
-
-//    @Column(name = "comment", length = 512)
-//    private String comment;
-
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private AbstractFlowerProduct product;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private FlowerLengthCost flowerLengthCost;
 
     @Column(name = "quantity")
     private Integer quantity;

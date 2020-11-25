@@ -24,20 +24,25 @@ import java.util.List;
 @NoArgsConstructor
 public class AbstractFlowerProductDTO extends AbstractDTO {
 
-    @Valid
-    @NotNull(message = "flowerColors must be defined")
-    @Size(min = 1, message = "Min one flower color")
-    private List<FlowerColorDTO> flowerColors = new ArrayList<>();
+//    @Valid
+//    @NotNull(message = "flowerColors must be defined")
+//    @Size(min = 1, message = "Min one flower color")
+//    private List<FlowerColorDTO> flowerColors = new ArrayList<>();
 
     @Valid
     @NotNull(message = "flowerLengthCosts must be defined")
     @Size(min = 1, message = "Min one lenght cost")
     private List<FlowerLengthCostDTO> flowerLengthCosts = new ArrayList<>();
 
-    @Valid
-    @NotNull(message = "flowerSorts must be defined")
-    @Size(min = 1, message = "Min one flower sort")
-    private List<FlowerSortDTO> flowerSorts = new ArrayList<>();
+//    @Valid
+//    @NotNull(message = "flowerSorts must be defined")
+//    @Size(min = 1, message = "Min one flower sort")
+//    private List<FlowerSortDTO> flowerSorts = new ArrayList<>();
+
+
+    private FlowerSortDTO flowerSort;
+
+    private FlowerColorDTO flowerColor;
 
     @Valid
     private CountryDTO country;  // страна происхождения
