@@ -69,13 +69,18 @@ body {
     color: #ffffff;
 }
 
-.button {
-    width: 50%;
-    padding: 0;
-    font-size: 16px;
-    background-color: #dbbdb8;
-    border-color: #dbbdb8;
-    color: #ffffff;
+/*.button {*/
+/*    width: 50%;*/
+/*    padding: 0;*/
+/*    font-size: 16px;*/
+/*    background-color: #dbbdb8;*/
+/*    border-color: #dbbdb8;*/
+/*    color: #ffffff;*/
+/*}*/
+
+.ant-btn:hover {
+    background-color: white;
+    color: black;
 }
 
 

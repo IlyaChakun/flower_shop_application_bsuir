@@ -76,7 +76,7 @@ export default class FlowerForm extends Component {
             validateStatus: this.props.validateStatus
         },
 
-        imageUrl: this.props.flower.imageUrl
+        imageUrl: this.props.flower.image.imageUrl
     }
 
     componentDidMount() {
@@ -187,7 +187,10 @@ export default class FlowerForm extends Component {
                 "id": this.state.country.id
             },
             "description": this.state.description.value,
-            "availableAmountOnStock": this.state.availableAmountOnStock.value
+            "availableAmountOnStock": this.state.availableAmountOnStock.value,
+            "image": {
+                "imageUrl": this.state.imageUrl
+            }
         }
 
         console.log('flowerRequest request: ' + flowerRequest)
@@ -244,14 +247,17 @@ export default class FlowerForm extends Component {
                             <div className="col-sm-12">
                                 <div className="row">
                                     <div className="col-sm-6">
-                                        <ImageLoader/>
+                                        <ImageLoader
+                                            imageUrl={this.state.imageUrl}
+                                            handleImageUrlChange={this.handleImageUrlChange}
+                                        />
                                     </div>
 
                                     <div className="col-sm-6">
 
                                         <Form.Item
                                             className={s.formItem}
-                                            label={'Страна производитель'}
+                                            label={'Страна поставщик'}
                                             validateStatus={this.state.country.validateStatus}
                                             hasFeedback
                                             help={this.state.country.errorMsg}
@@ -439,6 +445,13 @@ export default class FlowerForm extends Component {
                 value: inputValue,
                 ...validationFun(inputValue)
             }
+        })
+    }
+
+
+    handleImageUrlChange = (imageUrl) => {
+        this.setState({
+            imageUrl: imageUrl
         })
     }
 

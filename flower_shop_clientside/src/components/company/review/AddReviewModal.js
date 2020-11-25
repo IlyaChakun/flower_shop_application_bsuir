@@ -88,7 +88,11 @@ class AddReviewModal extends Component {
     render() {
         return (
             <div>
-                <Button type="primary" onClick={this.showModal}>
+                <Button type="primary"
+                        style={{background: "black", color: "white"}}
+                        shape="round"
+                        onClick={this.showModal}
+                >
                     Оставить отзыв
                 </Button>
 

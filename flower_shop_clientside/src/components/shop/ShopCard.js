@@ -1,19 +1,18 @@
 import React, {Component} from 'react'
 
-import magaz1 from '../../img/shops/magaz1.jpg'
 import './ShopCard.css'
-import {Card, Rate} from 'antd'
+import {Card} from 'antd'
 
 const {Meta} = Card
 
 class ShopCard extends Component {
 
     state = {
-        image: this.props.shop.image,
         dateOfCreation: this.props.shop.dateOfCreation,
         dateOfLastUpdate: this.props.shop.dateOfLastUpdate,
         contacts: this.props.shop.contacts,
         workingHours: this.props.shop.workingHours,
+        imageUrl: this.props.shop.image === undefined ? '' : this.props.shop.image.imageUrl
     }
 
     render() {
@@ -39,13 +38,13 @@ class ShopCard extends Component {
                 <Meta
                     avatar={
                         <span>
-              <img alt="picture"
-                   className="img-fluid"
-                   src={magaz1}
-                   width={'200px'}
-                   height={'400px'}
-              />
-            </span>
+                              <img alt="picture"
+                                   className="img-fluid"
+                                   src={this.state.imageUrl}
+                                   width={'200px'}
+                                   height={'400px'}
+                              />
+                        </span>
                     }
 
                     title={

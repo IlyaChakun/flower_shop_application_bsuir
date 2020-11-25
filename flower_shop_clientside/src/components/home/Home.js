@@ -3,9 +3,9 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import ReviewsList from '../company/review/ReviewsList'
 import CarouselComponent from '../common/carousel/CarouselComponent'
-import ShopsBlock from '../company/shops/ShopsBlock'
+import ShopsBlock from '../shop/ShopsBlock'
 import FlowersList from '../products/flower/FlowersList'
-import BouquetList from "../products/bouquet/BouquetList";
+import BouquetList from '../products/bouquet/BouquetList'
 
 class Home extends Component {
   render () {

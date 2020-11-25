@@ -5,6 +5,7 @@ import {getAllReviewsRequest} from "../../util/utilsAPI";
 import AddReviewModal from "./AddReviewModal";
 import './ReviewsBlock.css'
 import {List} from "antd";
+import AddBouquetModal from "../../products/bouquet/AddBouquetModal";
 
 class ReviewsList extends Component {
     state = {
@@ -74,13 +75,9 @@ class ReviewsList extends Component {
         return (
             <div className="container-fluid">
                 <div className="review-block col-10 mx-auto">
-                    <div className="top_block d-flex flex-row justify-content-between">
-                        <div className="col-4">
-                            <h3>Отзывы</h3>
-                        </div>
-                        <div>
-                            <AddReviewModal/>
-                        </div>
+                    <div className="row d-flex flex-row justify-content-between">
+                        <div className="col-2"><h1>Отзывы</h1></div>
+                        <div className="col-2"><AddReviewModal/></div>
                     </div>
                     <div className="reviews">
                         <div className="flex-viewport" style={{overflow: 'hidden', position: 'relative'}}>

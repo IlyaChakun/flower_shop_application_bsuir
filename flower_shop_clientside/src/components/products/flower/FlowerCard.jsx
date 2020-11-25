@@ -26,7 +26,9 @@ class FlowerCard extends Component {
         availableAmountOnStock: this.props.product.availableAmountOnStock,
         shopAddress: this.props.product.shop.contacts.address,
         shopCity: this.props.product.shop.contacts.city,
-        shopFirstPhoneNumber: this.props.product.shop.contacts.firstPhoneNumber
+        shopFirstPhoneNumber: this.props.product.shop.contacts.firstPhoneNumber,
+        imageUrl: this.props.product.image === null ? '' : this.props.product.image.imageUrl
+
     }
 
     render() {
@@ -70,7 +72,7 @@ class FlowerCard extends Component {
                 hoverable
                 style={{width: 600, marginTop: 16}}
                 extra={
-                    'Производитель:  ' + this.state.country
+                    'Страна поставщик: ' + this.state.country
                 }
                 title={
                     <span>
@@ -88,7 +90,7 @@ class FlowerCard extends Component {
                         <span>
                               <img alt="picture"
                                    className="img-fluid"
-                                   src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+                                   src={this.state.imageUrl}
                                    width={'200px'}
                                    height={'400px'}
                               />
@@ -105,21 +107,21 @@ class FlowerCard extends Component {
                             <p>
                                 {flowerLengthCostsDropdown}
                             </p>
-
                         </div>
                     }
 
                     description={
                         <div>
                             <div className="product-content-body">
-                                Количества в наличии: {this.state.availableAmountOnStock} штук в
-                                магазине по адресу: {this.state.shopCity}
-                                {this.state.shopAddress},
-                                номер: {this.state.shopFirstPhoneNumber}
+                                <p>В наличии: {this.state.availableAmountOnStock} штук
+                                    <br/>
+                                    В магазине по адресу: {this.state.shopCity}, {this.state.shopAddress}
+                                    <br/>
+                                    телефон: {this.state.shopFirstPhoneNumber}</p>
                             </div>
 
 
-                            <div className="product-rating-footer">
+                            <div className="product-rating-footer mb-4">
                                 Последнее обновление: {this.state.dateOfLastUpdate}
                             </div>
                         </div>

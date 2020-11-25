@@ -23,7 +23,7 @@ export default function CarouselComponent () {
 
         <img style={contentStyle} src={image2}/>
 
-        <img style={contentStyle}src={image3}/>
+        <img style={contentStyle} src={image3}/>
 
         <img style={contentStyle} src={image4}/>
 

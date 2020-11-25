@@ -116,8 +116,7 @@ class EditFlowerModal extends Component {
 
 
         return (
-            <div className='mt-3 mb-5 float-right'>
-
+            <div>
                 <span className={isAdmin(this.props.currentUser) ? '' : 'custom-hidden'}>
                       <SettingOutlined style={{fontSize: '25px'}} onClick={this.showModal}/>
                 </span>

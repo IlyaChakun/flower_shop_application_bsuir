@@ -4,6 +4,7 @@ import by.bsuir.dto.mapper.product.FlowerMapperDTO;
 import by.bsuir.dto.model.PageWrapper;
 import by.bsuir.dto.model.SearchAndSortParamDto;
 import by.bsuir.dto.model.product.flower.FlowerDTO;
+import by.bsuir.entity.common.Image;
 import by.bsuir.entity.company.Shop;
 import by.bsuir.entity.product.flower.Flower;
 import by.bsuir.payload.exception.ResourceNotFoundException;
@@ -100,6 +101,7 @@ public class FlowerServiceImpl implements FlowerService {
                         flowerDTO.getCountry())
         );
         flowerToSave.setShop(shop);
+        flowerToSave.setImage(new Image(flowerDTO.getImage().getImageUrl()));
 
         return flowerMapper.toDto(flowerRepository.save(flowerToSave));
     }

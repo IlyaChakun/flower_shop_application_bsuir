@@ -12,3 +12,12 @@
     margin-top: 5%;
 }
 
+
+.preview-text {
+    margin-top: 5%;
+    font-size: 14px;
+    font-family: 'Times New Roman', serif;
+    height: 100%;
+    width: 100%;
+    overflow-wrap: break-word;
+}

@@ -45,7 +45,7 @@ class Profile extends Component {
             errorMsg: null
         },
 
-        imageUrl: this.props.currentUser.image === null ? '' : this.props.currentUser.image.imageUrl,
+        imageUrl: this.props.currentUser.image === null ? '' : this.props.currentUser.image.imageUrl
     }
 
 
@@ -163,7 +163,9 @@ class Profile extends Component {
                                             <Form.Item className={s.formItem}>
                                                 <Button
                                                     htmlType="submit"
-                                                    className={s.button}
+                                                    type="primary"
+                                                    style={{background: "black", color: "white"}}
+                                                    shape="round"
                                                     disabled={this.isFormInvalid()}
                                                 >
                                                     Изменить профиль
