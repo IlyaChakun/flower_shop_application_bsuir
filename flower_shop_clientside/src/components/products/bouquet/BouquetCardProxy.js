@@ -55,7 +55,8 @@ class BouquetCardProxy extends Component {
         const buyAction = (
             <span className={this.props.isAuthenticated ? '' : 'custom-hidden'}
                   onClick={() => this.addToBasket()}>
-            <PlusCircleOutlined style={{fontSize: '27px', color: '#cc3242'}}/>
+                <i className="fas fa-shopping-cart"></i>
+            {/*<PlusCircleOutlined style={{fontSize: '27px', color: '#cc3242'}}/>*/}
           </span>
         )
 
