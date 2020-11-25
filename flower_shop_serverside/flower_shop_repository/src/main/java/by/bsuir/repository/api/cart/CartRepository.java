@@ -1,4 +1,4 @@
-package by.bsuir.repository.api;
+package by.bsuir.repository.api.cart;
 
 import by.bsuir.entity.cart.Cart;
 import by.bsuir.repository.api.core.AbstractRepository;
