@@ -59,7 +59,7 @@ const request = (options, grantType) => {
         // return response.json()
       }
 
-      if (response.status === 400 || response.status === 409 || response.status === 404) { // если совсем пиздец
+      if (response.status === 400 || response.status === 409 || response.status === 403 || response.status === 404) { // если совсем пиздец
         console.log('throw exception: ' + response)
         console.log('throw exception: ' + response.json())
 
@@ -372,5 +372,43 @@ export function saveBouquetRequest (bouquetRequest) {
     url: url,
     method: 'POST',
     body: JSON.stringify(bouquetRequest)
+  })
+}
+
+export function getBasketRequest () {
+  return request({
+    url: BASE_URL + 'cart',
+    method: 'GET'
+  })
+}
+export function addProductToBasketRequest (productCartRequest) {
+  const url = BASE_URL + 'cart'
+
+  return request({
+    url: url,
+    method: 'POST',
+    body: JSON.stringify(productCartRequest)
+  })
+}
+
+export function updateProductToBasketRequest (productCartRequest) {
+  const url = BASE_URL + 'cart'
+
+  return request({
+    url: url,
+    method: 'PUT',
+    body: JSON.stringify(productCartRequest)
+  })
+}
+
+
+
+export function deleteProductToBasketRequest (productCartRequest) {
+  const url = BASE_URL + 'cart'
+
+  return request({
+    url: url,
+    method: 'DELETE',
+    body: JSON.stringify(productCartRequest)
   })
 }

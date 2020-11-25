@@ -14,6 +14,7 @@ import {
     validateText,
     validateUserName
 } from "../../common/validation/ValidationFunctions";
+import ReviewCard from "./ReviewCard";
 
 
 const layout = {
@@ -76,6 +77,9 @@ class AddReviewModal extends Component {
                     message: localizedStrings.alertAppName,
                     description: 'Отзыв сохранен! Пасиба большое!',
                 })
+
+                this.props.loadMore()
+
                 this.handleCancel()
             }).catch(error => {
             notification.error({

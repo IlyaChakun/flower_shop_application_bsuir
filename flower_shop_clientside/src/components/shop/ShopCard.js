@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 
 import './ShopCard.css'
 import {Card} from 'antd'
+import {withRouter} from "react-router-dom";
 
 const {Meta} = Card
 
@@ -87,5 +88,5 @@ class ShopCard extends Component {
         )
     }
 }
+export default withRouter(ShopCard)
 
-export default ShopCard

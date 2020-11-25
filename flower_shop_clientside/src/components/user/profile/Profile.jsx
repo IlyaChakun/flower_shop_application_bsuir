@@ -9,6 +9,7 @@ import {SUCCESS} from "../../../constants";
 import {updateUserProfileRequest} from "../../util/utilsAPI";
 import {validatePhoneNumber, validateUserName} from "../../common/validation/ValidationFunctions";
 import ImageLoader from "../../common/image/ImageLoader";
+import {withRouter} from "react-router-dom";
 
 const {TabPane} = Tabs;
 
@@ -67,7 +68,7 @@ class Profile extends Component {
                     message: localizedStrings.alertAppName,
                     description: localizedStrings.alertSuccessfulUserUpdate,
                 })
-                this.props.history.push('/profile/me')
+                // this.props.history.push('/profile')
             }).catch(error => {
             notification.error({
                 message: localizedStrings.alertAppName,
@@ -222,5 +223,5 @@ class Profile extends Component {
     }
 
 }
+export default withRouter(Profile)
 
-export default Profile

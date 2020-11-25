@@ -1,11 +1,13 @@
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 
 import {List, Card} from 'antd'
 import {getBouquetsByShopIdRequest, getFlowersByShopIdRequest, getFlowersRequest} from "../../util/utilsAPI";
 import AddFlowerModal from "./AddFlowerModal";
 import FlowerCardProxy from "./FlowerCardProxy";
+import AddShopModal from "../../shop/AddShopModal";
+import {withRouter} from "react-router-dom";
 
-class FlowersList extends Component {
+class FlowersList extends PureComponent {
 
     state = {
 
@@ -21,12 +23,16 @@ class FlowersList extends Component {
         totalElements: 0,
 
 
-        isLoading: false
+        isLoading: false,
+
     }
 
 
     componentDidMount() {
-        //load list
+        this.updateList()
+    }
+
+    updateList = () => {
         this.loadList(this.state.page, this.state.size)
     }
 
@@ -91,7 +97,9 @@ class FlowersList extends Component {
 
         const addProductButton = this.props.shopId === undefined ? '' :
             (
-                <AddFlowerModal shopId={this.props.shopId}/>
+                <AddFlowerModal shopId={this.props.shopId}
+                                updateList={this.updateList}
+                />
             )
 
         const flowers = this.state.flowers
@@ -192,4 +200,4 @@ class FlowersList extends Component {
 
 }
 
-export default FlowersList
+export default withRouter(FlowersList)

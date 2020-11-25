@@ -19,6 +19,7 @@ class AddShopModal extends Component {
                 address: "",
             },
             workingHours: "",
+            image: null
         }
     }
 
@@ -47,8 +48,11 @@ class AddShopModal extends Component {
                     message: localizedStrings.alertAppName,
                     description: 'Магазин сохранен!',
                 })
+
+                this.props.updateList()
+
                 this.handleCancel()
-                this.props.history.push("/company/shops");
+
             }).catch(error => {
             notification.error({
                 message: localizedStrings.alertAppName,

@@ -11,7 +11,7 @@ class Company extends Component {
         <div className="col-sm-12">
 
           <div className="row">
-            <CompanyForm/>
+            <CompanyForm />
           </div>
 
           <div className="row">

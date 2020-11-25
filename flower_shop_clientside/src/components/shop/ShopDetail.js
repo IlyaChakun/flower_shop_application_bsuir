@@ -12,10 +12,11 @@ import {SUCCESS} from "../../constants";
 import {localizedStrings} from "../util/localization";
 import FlowersList from "../products/flower/FlowersList";
 import BouquetList from "../products/bouquet/BouquetList";
+import {withRouter} from "react-router-dom";
 
 const {TabPane} = Tabs;
 
-export default class ShopDetail extends Component {
+class ShopDetail extends Component {
 
     state = {
         shop: null
@@ -62,6 +63,7 @@ export default class ShopDetail extends Component {
                 <LoadingIndicator/>
             ) : (
                 <ShopForm
+                    currentUser={this.props.currentUser}
                     shop={this.state.shop}
                     action={'Изменить'}
                     validateStatus={SUCCESS}
@@ -73,7 +75,9 @@ export default class ShopDetail extends Component {
             (
                 <LoadingIndicator/>
             ) : (
-                <FlowersList shopId={this.state.shop.id}/>
+                <FlowersList
+                    currentUser={this.props.currentUser}
+                    shopId={this.state.shop.id}/>
             );
 
 
@@ -81,7 +85,9 @@ export default class ShopDetail extends Component {
             (
                 <LoadingIndicator/>
             ) : (
-                <BouquetList shopId={this.state.shop.id}/>
+                <BouquetList
+                    currentUser={this.props.currentUser}
+                    shopId={this.state.shop.id}/>
             );
 
         return (
@@ -117,3 +123,5 @@ export default class ShopDetail extends Component {
 
 }
 
+
+export default withRouter(ShopDetail)

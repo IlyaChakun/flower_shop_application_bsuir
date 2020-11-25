@@ -14,13 +14,16 @@ class AddBouquetModal extends Component {
             id: "",
             dateOfLastUpdate: "",
             bouquetType: "",
-            flowerColors: [],
             flowerLengthCosts: [],
-            flowerSorts: [],
+
+            flowerColor: "",
+            flowerSort: "",
+
             country: "",
             title: "",
             description: "",
-            availableAmountOnStock: ""
+            availableAmountOnStock: "",
+            image: null
         }
     }
 
@@ -49,6 +52,9 @@ class AddBouquetModal extends Component {
                     message: localizedStrings.alertAppName,
                     description: 'Букет сохранен!',
                 })
+
+                this.props.updateList()
+
                 this.handleCancel()
 
             }).catch(error => {

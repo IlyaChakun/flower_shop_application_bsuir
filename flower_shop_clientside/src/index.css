@@ -42,6 +42,10 @@ html, body, #root {
 }
 
 
+.custom-hidden {
+    display: none;
+}
+
 /**************************************/
 body, .fancybox-title {
     font: 17px/25px "Montserrat", Arial, sans-serif;

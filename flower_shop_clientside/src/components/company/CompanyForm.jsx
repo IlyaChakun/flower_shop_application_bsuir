@@ -605,9 +605,9 @@ class CompanyForm extends Component {
                         <Form.Item
                             className={s.formItem}
                             label={'Адрес банка'}
-                            validateStatus={this.state.address.validateStatus}
+                            validateStatus={this.state.bankAddress.validateStatus}
                             onChange={(event) => this.handleInputChange(event, validateAddress)}
-                            help={this.state.address.errorMsg}
+                            help={this.state.bankAddress.errorMsg}
                             rules={[
                                 {
                                     required: true,
@@ -620,7 +620,7 @@ class CompanyForm extends Component {
                                 name="bankAddress"
                                 size="middle"
                                 disabled={!this.state.isEditing}
-                                value={this.state.address.value}>
+                                value={this.state.bankAddress.value}>
                             </Input>
                         </Form.Item>
 

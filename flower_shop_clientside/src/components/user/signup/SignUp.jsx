@@ -49,28 +49,37 @@ class Signup extends Component {
     }
 
     handleSubmit = () => {
-        const signupRequest = {
-            name: this.state.name.value,
-            email: this.state.email.value,
-            password: this.state.password.value,
-            confirmedPassword: this.state.confirmedPassword.value
-        }
 
-        console.log(signupRequest)
-
-        signUpRequest(signupRequest)
-            .then(() => {
-                notification.success({
-                    message: localizedStrings.alertAppName,
-                    description: localizedStrings.alertSuccessRegister,
-                })
-                this.props.history.push('/profile/me')
-            }).catch(error => {
+        if (this.state.password.value !== this.state.confirmedPassword.value) {
             notification.error({
                 message: localizedStrings.alertAppName,
-                description: error.message || localizedStrings.alertException
+                description: 'Введенный пароль не совпал с подтверждающим'
             })
-        })
+        } else {
+
+            const signupRequest = {
+                name: this.state.name.value,
+                email: this.state.email.value,
+                password: this.state.password.value,
+                confirmedPassword: this.state.confirmedPassword.value
+            }
+
+            console.log(signupRequest)
+
+            signUpRequest(signupRequest)
+                .then(() => {
+                    notification.success({
+                        message: localizedStrings.alertAppName,
+                        description: localizedStrings.alertSuccessRegister,
+                    })
+                    this.props.history.push('/profile/me')
+                }).catch(error => {
+                notification.error({
+                    message: localizedStrings.alertAppName,
+                    description: error.message || localizedStrings.alertException
+                })
+            })
+        }
     }
 
     isFormInvalid = () => {
@@ -158,7 +167,7 @@ class Signup extends Component {
                             <br/>
                             {localizedStrings.alreadyRegister}
                             <Link
-                                to="/">{localizedStrings.signUpFromLoginNow}
+                                to="/login">{localizedStrings.signUpFromLoginNow}
                             </Link>
                         </Form.Item>
                     </Form>

@@ -6,6 +6,7 @@ import DeleteOutlined from '@ant-design/icons/lib/icons/DeleteOutlined'
 import DeleteBouquetModal from "./DeleteBouquetModal";
 import EditBouquetModal from "./EditBouquetModal";
 import BouquetCard from "./BouquetCard";
+import PlusCircleOutlined from "@ant-design/icons/lib/icons/PlusCircleOutlined";
 
 class BouquetCardProxy extends Component {
     state = {}
@@ -31,21 +32,16 @@ class BouquetCardProxy extends Component {
     // };
 
     render() {
-        /*
-          <Link
-                to={'/company/shops/' + this.props.product.id}>
-                    <span className={isAdmin(this.props.currentUser) ? '' : 'custom-hidden'}>
-                      <SettingOutlined style={{fontSize: '25px'}}/>
-                    </span>
-            </Link>
-         */
 
         const editAction = (
-            <EditBouquetModal
-                shopId={this.props.shopId}
-                productId={this.props.productId}
-            />
+            <div className={isAdmin(this.props.currentUser) ? '' : 'custom-hidden'}>
+                <EditBouquetModal
+                    shopId={this.props.shopId}
+                    productId={this.props.productId}
+                />
+            </div>
         )
+
         const deleteAction = (
 
             <div className={isAdmin(this.props.currentUser) ? '' : 'custom-hidden'}>
@@ -56,12 +52,20 @@ class BouquetCardProxy extends Component {
                     }/>
             </div>)
 
+        const buyAction = (
+            <span className={this.props.isAuthenticated ? '' : 'custom-hidden'}
+                  onClick={() => this.addToBasket()}>
+            <PlusCircleOutlined style={{fontSize: '27px', color: '#cc3242'}}/>
+          </span>
+        )
+
         return (
             <BouquetCard
                 key={this.props.productId}
                 product={this.props.product}
                 firstAction={editAction}
                 secondAction={deleteAction}
+                thirdAction={buyAction}
             />
         )
     }

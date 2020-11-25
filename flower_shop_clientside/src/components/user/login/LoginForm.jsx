@@ -8,6 +8,7 @@ import s from './Login.module.css'
 import {ACCESS_TOKEN, REFRESH_TOKEN} from '../../../constants'
 import {loginRequest} from '../../util/utilsAPI'
 import SocialLogin from './SocialLogin'
+import "./Login.module.css"
 
 class LoginForm extends Component {
     state = {
@@ -60,6 +61,7 @@ class LoginForm extends Component {
 
                     <Input prefix={<UserOutlined/>}
                            size="large"
+                           type={"email"}
                            name="email"
                            placeholder={localizedStrings.email}/>
                 </Form.Item>
@@ -81,17 +83,15 @@ class LoginForm extends Component {
                 <SocialLogin/>
 
                 <Form.Item>
-                    <Button type="primary" htmlType="submit" className={s.button}>
+                    <Button type="primary" htmlType="submit" size="large" className="login-form-button">
                         {localizedStrings.login}
                     </Button>
-
-                    <span className={s.text}>
-                        {localizedStrings.or}
-                        <span>
-                            <Link to="/sign-up">{localizedStrings.loginFormRegisterNow}</Link>
-                        </span>
-                    </span>
+                    {localizedStrings.or}
+                    <Link to="/sign-up">
+                        {localizedStrings.loginFormRegisterNow}
+                    </Link>
                 </Form.Item>
+
             </Form>
 
         )

@@ -13,7 +13,7 @@ class Home extends Component {
       <div className="container-fluid">
         <div className="col-12">
           <div className="row mb-5">
-            <CarouselComponent/>
+            {/*<CarouselComponent/>*/}
           </div>
 
           <div className="row mb-2">

@@ -18,9 +18,9 @@ class FlowerCard extends Component {
     state = {
         dateOfLastUpdate: this.props.product.dateOfLastUpdate,
         flowerType: this.props.product.flowerType.flowerType,
-        flowerColors: this.props.product.flowerColors,
+        flowerColor: this.props.product.flowerColor,
+        flowerSort: this.props.product.flowerSort,
         flowerLengthCosts: this.props.product.flowerLengthCosts,
-        flowerSorts: this.props.product.flowerSorts,
         country: this.props.product.country.countryNameRu,
         description: this.props.product.description,
         availableAmountOnStock: this.props.product.availableAmountOnStock,
@@ -33,11 +33,6 @@ class FlowerCard extends Component {
 
     render() {
 
-        const flowerSorts = 'Сорт: ' + this.state.flowerSorts
-            .map(sort => (
-                    sort.sortNameRu + ' '
-                )
-            )
 
         const flowerLengthCosts = this.state.flowerLengthCosts
             .map(lengthCost => (
@@ -62,8 +57,6 @@ class FlowerCard extends Component {
             </Dropdown>
         )
 
-        const flowerColors = 'Цвета: ' + this.state.flowerColors
-            .map(color => (color.colorName + ' '))
 
         return (
 
@@ -82,7 +75,7 @@ class FlowerCard extends Component {
                 actions={[
                     this.props.firstAction,
                     this.props.secondAction,
-                    this.state.availableAmountOnStock > 0 ? 'тут кнопка в корзину' : ''
+                    this.state.availableAmountOnStock > 0 ? this.props.thirdAction : ''
                 ]}>
 
                 <Meta
@@ -100,9 +93,9 @@ class FlowerCard extends Component {
                     title={
                         <div>
                             <p>
-                                {flowerSorts}
+                                {this.state.flowerColor.colorName}
                                 <br/>
-                                {flowerColors}
+                                {this.state.flowerSort.sortName}
                             </p>
                             <p>
                                 {flowerLengthCostsDropdown}

@@ -12,6 +12,7 @@ import CaretDownOutlined from '@ant-design/icons/lib/icons/CaretDownOutlined'
 import LoginOutlined from "@ant-design/icons/lib/icons/LoginOutlined";
 import UserAddOutlined from "@ant-design/icons/lib/icons/UserAddOutlined";
 import {isAdmin} from "../../../app/App";
+import ShoppingCartOutlined from "@ant-design/icons/lib/icons/ShoppingCartOutlined";
 
 const Header = Layout.Header
 
@@ -31,6 +32,13 @@ class AppHeader extends Component {
             <Menu.Item key="/">
                 <Link to="/">
                     <HomeOutlined style={{fontSize: '20px'}}/>
+                </Link>
+            </Menu.Item>,
+
+            <Menu.Item key="/basket">
+                <Link
+                    to={'/basket'}>
+                    <ShoppingCartOutlined style={{fontSize: '20px'}}/>
                 </Link>
             </Menu.Item>,
 

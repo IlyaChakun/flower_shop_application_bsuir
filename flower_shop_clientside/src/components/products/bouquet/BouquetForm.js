@@ -48,16 +48,28 @@ export default class BouquetForm extends Component {
             value: this.props.bouquet.bouquetType.bouquetType,
             validateStatus: this.props.validateStatus
         },
-        flowerColors: {
-            values: this.props.bouquet.flowerColors,
+        // flowerColors: {
+        //     // values: this.props.bouquet.flowerColors,
+        //     value: this.props.bouquet.flowerColors[0],
+        //     validateStatus: this.props.validateStatus
+        // },
+        flowerColor: {
+            // values: this.props.bouquet.flowerColors,
+            value: this.props.bouquet.flowerColor,
             validateStatus: this.props.validateStatus
         },
         flowerLengthCosts: {
             value: this.props.bouquet.flowerLengthCosts,
             validateStatus: this.props.validateStatus
         },
-        flowerSorts: {
-            values: this.props.bouquet.flowerSorts,
+        // flowerSorts: {
+        //     // values: this.props.bouquet.flowerSorts,
+        //     value: this.props.bouquet.flowerSorts[0],
+        //     validateStatus: this.props.validateStatus
+        // },
+        flowerSort: {
+            // values: this.props.bouquet.flowerSorts,
+            value: this.props.bouquet.flowerSort,
             validateStatus: this.props.validateStatus
         },
         country: {
@@ -78,7 +90,7 @@ export default class BouquetForm extends Component {
             validateStatus: this.props.validateStatus
         },
 
-        imageUrl: this.props.bouquet.image.imageUrl
+        imageUrl: this.props.bouquet.image === null ? '' : this.props.bouquet.image.imageUrl
     }
 
     componentDidMount() {
@@ -175,22 +187,33 @@ export default class BouquetForm extends Component {
             "bouquetType": {
                 "id": this.state.bouquetType.id
             },
-            "flowerColors": this.state.flowerColors.values,
+            // "flowerColors": this.state.flowerColors.values,
+            "flowerColor": {
+
+                "id": this.state.flowerColor.id
+            },
+            "flowerSort": {
+                "id": this.state.flowerSort.id,
+            },
             "flowerLengthCosts": [
                 {
                     "stemLength": 70.5,
                     "price": 25.3
                 }
             ],
-            "flowerSorts": this.state.flowerSorts.values,
-            "country": {
-                "id": this.state.country.id
-            },
+            // "flowerSorts": this.state.flowerSorts.values,
+
+            "country":
+                {
+                    "id": this.state.country.id
+                }
+            ,
             "title": this.state.title.value,
             "description": this.state.description.value,
             "availableAmountOnStock": this.state.availableAmountOnStock.value,
             "image": {
-                "imageUrl": this.state.imageUrl
+                "imageUrl":
+                this.state.imageUrl
             }
         }
 
@@ -304,19 +327,17 @@ export default class BouquetForm extends Component {
                                         <Form.Item
                                             className={s.formItem}
                                             label={'Цвета'}
-                                            validateStatus={this.state.flowerColors.validateStatus}
+                                            validateStatus={this.state.flowerColor.validateStatus}
                                             hasFeedback
-                                            help={this.state.flowerColors.errorMsg}
-                                            // name="flowerColors"
-                                        >
+                                            help={this.state.flowerColor.errorMsg}
 
+                                        >
                                             <Select
-                                                mode="multiple"
-                                                allowClear
-                                                value={this.state.flowerColors.value}
+                                                name="flowerType"
+                                                value={this.state.flowerColor.value}
                                                 showSearch
                                                 style={{width: 200}}
-                                                placeholder="Выберите цвета"
+                                                placeholder="Выберите тип букета"
                                                 onChange={this.onChangeColorsSelect}
                                             >
                                                 {flowerColorsOptions}
@@ -327,16 +348,15 @@ export default class BouquetForm extends Component {
                                         <Form.Item
                                             className={s.formItem}
                                             label={'Сорта'}
-                                            validateStatus={this.state.flowerSorts.validateStatus}
+                                            validateStatus={this.state.flowerSort.validateStatus}
                                             hasFeedback
-                                            help={this.state.flowerSorts.errorMsg}
+                                            help={this.state.flowerSort.errorMsg}
                                             // name="flowerSorts"
                                         >
 
                                             <Select
-                                                mode="multiple"
-                                                allowClear
-                                                value={this.state.flowerSorts.value}
+                                                name={"flowerSort"}
+                                                value={this.state.flowerSort.value}
                                                 showSearch
                                                 style={{width: 200}}
                                                 placeholder="Выберите сорт"
@@ -497,27 +517,48 @@ export default class BouquetForm extends Component {
         })
     }
 
-    onChangeColorsSelect = (keys, value) => {
-        console.log(value)
-        value.map(item => {
-            this.state.flowerColors.values.push({
-                "id": item.key
-            });
+
+    onChangeColorsSelect = (input, option) => {
+        this.setState({
+            flowerColor: {
+                id: option.props.key,
+                value: option.props.value,
+                ...validateId(option.props.key)
+            }
         })
     }
 
-
-    onChangeFlowerSortsSelect = (keys, value) => {
-        console.log(value)
-
-
-        value.map(item => {
-            this.state.flowerSorts.values.push({
-                "id": item.key
-            });
+    onChangeFlowerSortsSelect = (input, option) => {
+        this.setState({
+            flowerSort: {
+                id: option.props.key,
+                value: option.props.value,
+                ...validateId(option.props.key)
+            }
         })
-
     }
+
+    // onChangeColorsSelect = (keys, value) => {
+    //     console.log(value)
+    //     value.map(item => {
+    //         this.state.flowerColors.values.push({
+    //             "id": item.key
+    //         });
+    //     })
+    // }
+    //
+    //
+    // onChangeFlowerSortsSelect = (keys, value) => {
+    //     console.log(value)
+    //
+    //
+    //     value.map(item => {
+    //         this.state.flowerSorts.values.push({
+    //             "id": item.key
+    //         });
+    //     })
+    //
+    // }
 
 
     validateDescription = (description) => {

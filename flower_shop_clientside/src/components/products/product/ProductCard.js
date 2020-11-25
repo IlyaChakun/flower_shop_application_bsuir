@@ -1,10 +1,10 @@
 import React, {Component} from 'react'
 import {Card} from 'antd'
-import './BouquetCard.css'
+import '../flower/FlowerCard.css'
 import DownOutlined from "@ant-design/icons/lib/icons/DownOutlined";
 
 
-import {Menu, Dropdown, Button, message} from 'antd';
+import {Menu, Dropdown, Button, message, Tooltip} from 'antd';
 
 const {Meta} = Card
 
@@ -13,13 +13,13 @@ function handleMenuClick(e) {
     console.log('click', e);
 }
 
-class BouquetCard extends Component {
+class ProductCard extends Component {
 
     state = {
         dateOfLastUpdate: this.props.product.dateOfLastUpdate,
 
-        title: this.props.product.title,
-        bouquetType: this.props.product.bouquetType.bouquetType,
+        flowerType: this.props.product.flowerType === undefined ? '' : this.props.product.flowerType.flowerType,
+
 
         flowerColor: this.props.product.flowerColor,
         flowerLengthCosts: this.props.product.flowerLengthCosts,
@@ -35,8 +35,6 @@ class BouquetCard extends Component {
     }
 
     render() {
-
-
 
         const flowerLengthCosts = this.state.flowerLengthCosts
             .map(lengthCost => (
@@ -61,25 +59,24 @@ class BouquetCard extends Component {
             </Dropdown>
         )
 
-
         return (
 
 
             <Card
                 hoverable
-                style={{width: 600, marginTop: 16}}
+                style={{width: 800, marginTop: 16}}
                 extra={
                     'Страна поставщик: ' + this.state.country
                 }
                 title={
                     <span>
-                       {this.state.bouquetType} - <span className="font-italic">{this.state.title}</span>
+                        {this.state.flowerType}
                     </span>
                 }
                 actions={[
                     this.props.firstAction,
                     this.props.secondAction,
-                    this.state.availableAmountOnStock > 0 ? '' : this.props.thirdAction
+                    this.state.availableAmountOnStock > 0 ? this.props.thirdAction : ''
                 ]}>
 
                 <Meta
@@ -95,19 +92,15 @@ class BouquetCard extends Component {
                     }
 
                     title={
-
                         <div>
-                            <div className="preview-text text-justify">
-
-                                <p>{this.state.flowerColor.colorName}</p>
-                                    <br/>
-                                <p>{this.state.flowerSort.sortName}</p>
-
-                            </div>
+                            <p>
+                                {this.state.flowerSort.sortName}
+                                <br/>
+                                {this.state.flowerColor.colorName}
+                            </p>
                             <p>
                                 {flowerLengthCostsDropdown}
                             </p>
-
                         </div>
                     }
 
@@ -121,6 +114,7 @@ class BouquetCard extends Component {
                                     телефон: {this.state.shopFirstPhoneNumber}</p>
                             </div>
 
+
                             <div className="product-rating-footer mb-4">
                                 Последнее обновление: {this.state.dateOfLastUpdate}
                             </div>
@@ -129,8 +123,9 @@ class BouquetCard extends Component {
                 />
 
             </Card>
+
         )
     }
 }
 
-export default BouquetCard
+export default ProductCard

@@ -13,12 +13,13 @@ class AddFlowerModal extends Component {
             id: "",
             dateOfLastUpdate: "",
             flowerType: "",
-            flowerColors: [],
+            flowerColor: "",
             flowerLengthCosts: [],
-            flowerSorts: [],
+            flowerSort: "",
             country: "",
             description: "",
-            availableAmountOnStock: ""
+            availableAmountOnStock: "",
+            image: null
         }
     }
 
@@ -47,6 +48,9 @@ class AddFlowerModal extends Component {
                     message: localizedStrings.alertAppName,
                     description: 'Цветок сохранен!',
                 })
+
+                this.props.updateList()
+
                 this.handleCancel()
 
             }).catch(error => {

@@ -50,16 +50,18 @@ export default class FlowerForm extends Component {
             value: this.props.flower.flowerType.flowerType,
             validateStatus: this.props.validateStatus
         },
-        flowerColors: {
-            values: this.props.flower.flowerColors,
+        flowerColor: {
+            // values: this.props.bouquet.flowerColors,
+            value: this.props.flower.flowerColor,
             validateStatus: this.props.validateStatus
         },
         flowerLengthCosts: {
             value: this.props.flower.flowerLengthCosts,
             validateStatus: this.props.validateStatus
         },
-        flowerSorts: {
-            values: this.props.flower.flowerSorts,
+        flowerSort: {
+            // values: this.props.bouquet.flowerSorts,
+            value: this.props.flower.flowerSort,
             validateStatus: this.props.validateStatus
         },
         country: {
@@ -76,7 +78,7 @@ export default class FlowerForm extends Component {
             validateStatus: this.props.validateStatus
         },
 
-        imageUrl: this.props.flower.image.imageUrl
+        imageUrl: this.props.flower.image === null ? '' : this.props.flower.image.imageUrl
     }
 
     componentDidMount() {
@@ -175,14 +177,19 @@ export default class FlowerForm extends Component {
             "flowerType": {
                 "id": this.state.flowerType.id
             },
-            "flowerColors": this.state.flowerColors.values,
+            "flowerColor": {
+
+                "id": this.state.flowerColor.id
+            },
+            "flowerSort": {
+                "id": this.state.flowerSort.id,
+            },
             "flowerLengthCosts": [
                 {
                     "stemLength": 70.5,
                     "price": 25.3
                 }
             ],
-            "flowerSorts": this.state.flowerSorts.values,
             "country": {
                 "id": this.state.country.id
             },
@@ -305,41 +312,36 @@ export default class FlowerForm extends Component {
                                         <Form.Item
                                             className={s.formItem}
                                             label={'Цвета'}
-                                            validateStatus={this.state.flowerColors.validateStatus}
+                                            validateStatus={this.state.flowerColor.validateStatus}
                                             hasFeedback
-                                            help={this.state.flowerColors.errorMsg}
-                                            // name="flowerColors"
-                                        >
+                                            help={this.state.flowerColor.errorMsg}
 
+                                        >
                                             <Select
-                                                mode="multiple"
-                                                allowClear
-                                                // value={this.state.flowerColors.values}
-                                                // defaultValue={this.state.flowerColors.values}
+                                                name="flowerType"
+                                                value={this.state.flowerColor.value}
                                                 showSearch
                                                 style={{width: 200}}
-                                                placeholder="Выберите цвета"
+                                                placeholder="Выберите тип букета"
                                                 onChange={this.onChangeColorsSelect}
                                             >
                                                 {flowerColorsOptions}
                                             </Select>
-
                                         </Form.Item>
 
 
                                         <Form.Item
                                             className={s.formItem}
                                             label={'Сорта'}
-                                            validateStatus={this.state.flowerSorts.validateStatus}
+                                            validateStatus={this.state.flowerSort.validateStatus}
                                             hasFeedback
-                                            help={this.state.flowerSorts.errorMsg}
+                                            help={this.state.flowerSort.errorMsg}
                                             // name="flowerSorts"
                                         >
 
                                             <Select
-                                                mode="multiple"
-                                                allowClear
-                                                // value={this.state.flowerSorts.values}
+                                                name={"flowerSort"}
+                                                value={this.state.flowerSort.value}
                                                 showSearch
                                                 style={{width: 200}}
                                                 placeholder="Выберите сорт"
@@ -476,26 +478,24 @@ export default class FlowerForm extends Component {
         })
     }
 
-    onChangeColorsSelect = (keys, value) => {
-        console.log(value)
-        value.map(item => {
-            this.state.flowerColors.values.push({
-                "id": item.key
-            });
+    onChangeColorsSelect = (input, option) => {
+        this.setState({
+            flowerColor: {
+                id: option.props.key,
+                value: option.props.value,
+                ...validateId(option.props.key)
+            }
         })
     }
 
-
-    onChangeFlowerSortsSelect = (keys, value) => {
-        console.log(value)
-
-
-        value.map(item => {
-            this.state.flowerSorts.values.push({
-                "id": item.key
-            });
+    onChangeFlowerSortsSelect = (input, option) => {
+        this.setState({
+            flowerSort: {
+                id: option.props.key,
+                value: option.props.value,
+                ...validateId(option.props.key)
+            }
         })
-
     }
 
 

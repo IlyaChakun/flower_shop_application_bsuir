@@ -8,6 +8,7 @@ import {List} from "antd";
 import Link from "react-router-dom/Link";
 import {isAdmin} from "../../app/App";
 import SettingOutlined from "@ant-design/icons/lib/icons/SettingOutlined";
+import FlowersList from "../products/flower/FlowersList";
 
 class ShopsList extends Component {
 
@@ -29,6 +30,10 @@ class ShopsList extends Component {
     }
 
     componentDidMount() {
+        this.updateList()
+    }
+
+    updateList = () => {
         this.loadList(this.state.page, this.state.size)
     }
 
@@ -42,7 +47,10 @@ class ShopsList extends Component {
             minPrice: minPrice,
             maxPrice: maxPrice,
             sortBy: sortBy,
-            sortType: sortType
+            sortType: sortType,
+
+
+            currentUser: this.props.currentUser
         };
 
         const promise = getAllShopsRequest(searchCriteria);
@@ -82,12 +90,13 @@ class ShopsList extends Component {
             .map(shop => (
                     <ShopCard key={shop.id}
                               shop={shop}
+                              currentUser={this.state.currentUser}
                               firstAction={
                                   <Link
                                       to={'/company/shops/' + shop.id}>
-                                        <span className={isAdmin(this.props.currentUser) ? '' : 'custom-hidden'}>
-                                             <SettingOutlined style={{fontSize: '25px'}}/>
-                                        </span>
+                                      {/*<span className={isAdmin(this.state.currentUser) ? '' : 'custom-hidden'}>*/}
+                                      <SettingOutlined style={{fontSize: '25px'}}/>
+                                      {/*</span>*/}
                                   </Link>
                               }
                     />
@@ -108,10 +117,9 @@ class ShopsList extends Component {
                 </div>
 
                 <div>
-                    <AddShopModal/>
+                    <AddShopModal updateList={this.updateList}/>
                 </div>
                 <h1 className="text-center mb-3">Наши магазины</h1>
-
 
 
                 <div className="container-fluid">

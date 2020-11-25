@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-
+import {withRouter} from 'react-router-dom'
 import {List, Card} from 'antd'
 import {
     getBouquetsByShopIdRequest,
@@ -8,6 +8,7 @@ import {
 import AddBouquetModal from "./AddBouquetModal";
 import BouquetCardProxy from "./BouquetCardProxy";
 import AddFlowerModal from "../flower/AddFlowerModal";
+import AddShopModal from "../../shop/AddShopModal";
 
 
 class BouquetList extends Component {
@@ -33,7 +34,10 @@ class BouquetList extends Component {
 
 
     componentDidMount() {
-        //load list
+        this.updateList()
+    }
+
+    updateList = () => {
         this.loadList(this.state.page, this.state.size)
     }
 
@@ -98,7 +102,10 @@ class BouquetList extends Component {
     render() {
         const addProductButton = this.props.shopId === undefined ? '' :
             (
-                <AddBouquetModal shopId={this.props.shopId}/>
+                <AddBouquetModal shopId={this.props.shopId}
+                                 updateList={this.updateList}
+                />
+
             )
 
         const flowers = this.state.bouquets
@@ -197,4 +204,5 @@ class BouquetList extends Component {
 
 }
 
-export default BouquetList
+export default withRouter(BouquetList)
+

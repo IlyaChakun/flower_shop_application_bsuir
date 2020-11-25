@@ -5,7 +5,7 @@ import {getAllReviewsRequest} from "../../util/utilsAPI";
 import AddReviewModal from "./AddReviewModal";
 import './ReviewsBlock.css'
 import {List} from "antd";
-import AddBouquetModal from "../../products/bouquet/AddBouquetModal";
+
 
 class ReviewsList extends Component {
     state = {
@@ -70,14 +70,21 @@ class ReviewsList extends Component {
 
     render() {
         const reviews = this.state.reviews
-            .map(review => (<ReviewCard key={review.id} review={review}/>))
+            .map(review => (
+                    <ReviewCard key={review.id}
+                                review={review}
+                    />
+                )
+            )
 
         return (
             <div className="container-fluid">
                 <div className="review-block col-10 mx-auto">
                     <div className="row d-flex flex-row justify-content-between">
                         <div className="col-2"><h1>Отзывы</h1></div>
-                        <div className="col-2"><AddReviewModal/></div>
+                        <div className="col-2">
+                            <AddReviewModal loadMore={this.loadMore}/>
+                        </div>
                     </div>
                     <div className="reviews">
                         <div className="flex-viewport" style={{overflow: 'hidden', position: 'relative'}}>
