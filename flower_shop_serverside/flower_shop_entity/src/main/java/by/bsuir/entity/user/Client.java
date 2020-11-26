@@ -20,4 +20,9 @@ public class Client extends AbstractUser {
 
     @Column(name = "unique_id")
     private String uniqueId;//для понтов типо униклаьный ид хз зачем пригодиться
+
+    @PrePersist
+    protected void clientPreInit() {
+        this.uniqueId = java.util.UUID.randomUUID().toString();
+    }
 }

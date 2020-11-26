@@ -175,5 +175,12 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
+    @Override
+    public PageWrapper<OrderDTO> findAllByShopId(int page, int size, Long shopId) {
+
+
+        return null;
+    }
+
 
 }

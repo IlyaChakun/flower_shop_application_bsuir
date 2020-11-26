@@ -12,4 +12,5 @@ public interface OrderService {
 
     PageWrapper<OrderDTO> findAllByClientId(int page, int size, Long userId);
 
+    PageWrapper<OrderDTO> findAllByShopId(int page, int size, Long shopId);
 }

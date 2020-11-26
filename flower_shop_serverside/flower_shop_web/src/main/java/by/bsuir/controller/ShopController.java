@@ -2,16 +2,14 @@ package by.bsuir.controller;
 
 import by.bsuir.dto.model.PageWrapper;
 import by.bsuir.dto.model.company.ShopDTO;
+import by.bsuir.dto.model.order.OrderDTO;
 import by.bsuir.dto.model.product.bouquet.FlowerBouquetDTO;
 import by.bsuir.dto.model.product.flower.FlowerDTO;
 import by.bsuir.dto.model.user.ShopAdminDTO;
 import by.bsuir.dto.validation.annotation.PositiveLong;
 import by.bsuir.security.core.CurrentUser;
 import by.bsuir.security.core.UserPrincipal;
-import by.bsuir.service.api.FlowerBouquetService;
-import by.bsuir.service.api.FlowerService;
-import by.bsuir.service.api.ShopAdminService;
-import by.bsuir.service.api.ShopService;
+import by.bsuir.service.api.*;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -38,6 +36,7 @@ public class ShopController {
     private final ShopService shopService;
     private final FlowerService flowerService;
     private final FlowerBouquetService bouquetService;
+    private final OrderService orderService;
 
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     @GetMapping("/{id}")
@@ -119,6 +118,19 @@ public class ShopController {
 
 
         PageWrapper<FlowerBouquetDTO> wrapper = bouquetService.findAllByShopId(page - 1, size, Long.valueOf(id));
+
+
+        return ResponseEntity.ok(wrapper);
+    }
+
+
+    @GetMapping("/{id}/orders")
+    public ResponseEntity<?> findAllOrders(@PathVariable("id") @PositiveLong String id,
+                                           @RequestParam(defaultValue = "1", required = false) Integer page,
+                                           @RequestParam(defaultValue = "10", required = false) Integer size) {
+
+
+        PageWrapper<OrderDTO> wrapper = orderService.findAllByShopId(page - 1, size, Long.valueOf(id));
 
 
         return ResponseEntity.ok(wrapper);
