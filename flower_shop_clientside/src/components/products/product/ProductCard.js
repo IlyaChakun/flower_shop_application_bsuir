@@ -64,7 +64,7 @@ class ProductCard extends Component {
 
             <Card
                 hoverable
-                style={{width: 800, marginTop: 16}}
+                style={{width: 600, marginTop: 16}}
                 extra={
                     'Страна поставщик: ' + this.state.country
                 }

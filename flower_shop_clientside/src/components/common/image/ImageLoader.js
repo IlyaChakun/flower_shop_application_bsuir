@@ -43,7 +43,7 @@ export default class ImageLoader extends Component {
                             this.state.imageUrl ?
                                 <img src={this.state.imageUrl}
                                      alt="image"
-                                     style={{paddingLeft:"10px", height:"100%"}}
+                                     style={{paddingLeft:"10px", height:"100%", maxWidth:"300px"}}
                                 />
                                 :
                                 uploadButton

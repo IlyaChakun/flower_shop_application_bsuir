@@ -13,6 +13,7 @@ import {localizedStrings} from "../util/localization";
 import FlowersList from "../products/flower/FlowersList";
 import BouquetList from "../products/bouquet/BouquetList";
 import {withRouter} from "react-router-dom";
+import OrderList from "../order/OrderList";
 
 const {TabPane} = Tabs;
 
@@ -90,6 +91,15 @@ class ShopDetail extends Component {
                     shopId={this.state.shop.id}/>
             );
 
+        const loadingIndicatorOrReadyOrderListForm = this.state.shop === null ?
+            (
+                <LoadingIndicator/>
+            ) : (
+                <OrderList
+                    currentUser={this.props.currentUser}
+                    shopId={this.state.shop.id}/>
+            );
+
         return (
             <div className="container-fluid">
 
@@ -111,6 +121,12 @@ class ShopDetail extends Component {
                     <TabPane tab="Каталог букетов" key="3">
                         <div className="container-fluid">
                             {loadingIndicatorOrReadyBouquetListForm}
+                        </div>
+                    </TabPane>
+
+                    <TabPane tab="Список заказов" key="4">
+                        <div className="container-fluid">
+                            {loadingIndicatorOrReadyOrderListForm}
                         </div>
                     </TabPane>
 
