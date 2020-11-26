@@ -5,28 +5,23 @@ import s from "./Company.module.css";
 import {Button, Form, Input, notification} from "antd";
 
 
-import {
-    SUCCESS,
+import {SUCCESS,} from "../../constants";
 
-} from "../../constants";
-
-import {
-    getCurrentCompanyRequest,
-    saveCompanyRequest,
-    saveReviewRequest,
-    updateCompanyInfoRequest
-} from "../util/utilsAPI";
-import MapContainer from "../common/map/MapContainer";
+import {getCurrentCompanyRequest, saveCompanyRequest, updateCompanyInfoRequest} from "../util/utilsAPI";
 import {
     validateAddress,
     validateCity,
     validateEmail,
-    validatePhoneNumber, validateText
+    validatePhoneNumber,
+    validateText
 } from "../common/validation/ValidationFunctions";
 import {
     validateBankName,
     validateCheckingAccount,
-    validateIBAN, validateLicenceNumber, validateName, validatePayerAccountNumber,
+    validateIBAN,
+    validateLicenceNumber,
+    validateName,
+    validatePayerAccountNumber,
     validatePostalCode
 } from "./CompanyValidationFunctions";
 

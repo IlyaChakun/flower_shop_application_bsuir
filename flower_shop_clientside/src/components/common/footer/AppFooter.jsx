@@ -179,9 +179,12 @@ class AppFooter extends Component {
                     <div className="row footer_bottom pt-5">
                         <div className="col-md-6 col-sm-6 mx-auto">
                             <div className="copy">
-                                2020 © ЗАО "Андрусерра Агро" УНП № 690557753<br/>
-                                Интернет-магазин зарегистрирован в торговом реестре 30.12.2019 под номером
-                                469671
+                                2020 © {this.state.name} УНП № {this.state.checkingAccount}<br/>
+                                Интернет-магазин зарегистрирован в торговом реестре 30.12.2019 под номером {this.state.licenceNumber}<br/>
+                                Адрес: {this.state.city},{this.state.address}, E-mail: {this.state.email}, <br/>
+                                Тел.: {this.state.firstPhoneNumber}, Доп. тел.: {this.state.secondPhoneNumber}<br/>
+                                Р/с: {this.state.payerAccountNumber} в {this.state.bankName},
+                                {this.state.postalCode}, {this.state.bankAddress}, код банка:  {this.state.bankCode}
                             </div>
                         </div>
                     </div>

@@ -81,8 +81,6 @@ class BasketProduct extends Component {
 
 
         return (
-
-            <div>
                 <ProductCard
                     history={this.props.history}
                     currentUser={this.props.currentUser}
@@ -92,7 +90,6 @@ class BasketProduct extends Component {
                     secondAction={deleteAction}
                     thirdAction={countAction}
                 />
-            </div>
         );
     }
 }

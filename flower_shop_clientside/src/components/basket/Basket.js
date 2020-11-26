@@ -91,9 +91,10 @@ class Basket extends PureComponent {
 
     handleSubmitOrder = () => {
         const userId = this.props.match.params.id;
+        console.log("userId: " + userId)
 
         const order = {
-            userId: userId
+            userId: userId,
         };
 
         // createOrder(order)
@@ -132,13 +133,13 @@ class Basket extends PureComponent {
         });
 
         return (
-            <div className="container">
+            <div className="container-fluid">
 
-                <div className="basket-container-header">
+                <div className="row basket-container-header">
                     <h1>Корзина</h1>
                 </div>
 
-                <div className="basket-content">
+                <div className="row basket-content">
                     <List
                         loading={this.state.loading}
                         grid={{

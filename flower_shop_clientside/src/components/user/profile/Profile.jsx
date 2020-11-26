@@ -10,6 +10,7 @@ import {updateUserProfileRequest} from "../../util/utilsAPI";
 import {validatePhoneNumber, validateUserName} from "../../common/validation/ValidationFunctions";
 import ImageLoader from "../../common/image/ImageLoader";
 import {withRouter} from "react-router-dom";
+import OrderList from "../../order/OrderList";
 
 const {TabPane} = Tabs;
 
@@ -85,11 +86,10 @@ class Profile extends Component {
                 <Tabs defaultActiveKey="1" onChange={callback}>
                     <TabPane tab="Личный кабинет" key="1">
                         <div className="col-sm-12 mb-5">
-                            <div className="row">
                                 <Form {...layout}
                                       onFinish={this.handleSubmit} className={s.form}>
 
-                                    <div className="row">
+                                    <div className="row mb-5">
                                         <div className="col-sm-6">
                                             <ImageLoader
                                                 imageUrl={this.state.imageUrl}
@@ -155,12 +155,10 @@ class Profile extends Component {
                                                 </Input>
                                             </Form.Item>
                                         </div>
-
                                     </div>
 
-                                    <div className="row mb-5">
-
-                                        <div className="col-4">
+                                    <div className="row mb-5 d-flex justify-content-end">
+                                        <div className="col-3">
                                             <Form.Item className={s.formItem}>
                                                 <Button
                                                     htmlType="submit"
@@ -173,18 +171,15 @@ class Profile extends Component {
                                                 </Button>
                                             </Form.Item>
                                         </div>
-                                        <div className="col-4">
+                                        <div className="col-3">
                                             <ChangePasswordModal currentUserId={this.state.currentUser.id}/>
                                         </div>
-
                                     </div>
                                 </Form>
-                            </div>
-
                         </div>
                     </TabPane>
                     <TabPane tab="Ваши заказы" key="2">
-                        .... Заказы
+                        <OrderList/>
                     </TabPane>
 
                 </Tabs>

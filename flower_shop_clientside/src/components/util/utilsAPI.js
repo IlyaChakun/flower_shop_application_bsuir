@@ -401,8 +401,6 @@ export function updateProductToBasketRequest (productCartRequest) {
   })
 }
 
-
-
 export function deleteProductToBasketRequest (productCartRequest) {
   const url = BASE_URL + 'cart'
 
@@ -410,5 +408,40 @@ export function deleteProductToBasketRequest (productCartRequest) {
     url: url,
     method: 'DELETE',
     body: JSON.stringify(productCartRequest)
+  })
+}
+
+export function getOrdersRequest (searchCriteria) {
+  const page = 'page=' + Number(searchCriteria.page === 0 ? searchCriteria.page : searchCriteria.page)
+  const size = '&size=' + Number(searchCriteria.size)
+
+  const url = BASE_URL + 'orders?' + page + size
+
+  return request({
+    url: url,
+    method: 'GET',
+    body: JSON.stringify(searchCriteria)
+  })
+}
+
+export function getOrdersByShopIdRequest (searchCriteria, shopId) {
+  const page = 'page=' + Number(searchCriteria.page === 0 ? searchCriteria.page : searchCriteria.page)
+  const size = '&size=' + Number(searchCriteria.size)
+
+  const url = BASE_URL + 'users/admin/company/shops/' + shopId + '/orders?' + page + size
+
+  return request({
+    url: url,
+    method: 'GET'
+  })
+}
+
+export function saveOrderRequest (orderRequest) {
+  const url = BASE_URL + 'orders'
+
+  return request({
+    url: url,
+    method: 'GET',
+    body: JSON.stringify(orderRequest)
   })
 }

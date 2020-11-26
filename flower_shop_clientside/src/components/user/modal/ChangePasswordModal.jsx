@@ -78,7 +78,7 @@ class ChangePasswordModal extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className=" float-right">
                 <Button
                     type="primary"
                     style={{background: "black", color: "white"}}
