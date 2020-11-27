@@ -11,17 +11,9 @@ class Company extends Component {
         <div className="col-sm-12">
 
           <div className="row">
-            <CompanyForm />
+            <CompanyForm currentUser={this.props.currentUser}
+              currentCompany={this.props.currentCompany} />
           </div>
-
-          <div className="row">
-            <p>
-                      Наши менеджеры всегда окажут необходимую помощь по
-                      телефону: <a
-                href="tel:+375291456777">+375 (29) 1-456-777</a>.
-            </p>
-          </div>
-
         </div>
       </div>
     )

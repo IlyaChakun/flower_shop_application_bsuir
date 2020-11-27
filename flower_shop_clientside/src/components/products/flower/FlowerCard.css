@@ -11,3 +11,14 @@
 .ant-card-meta-description{
  color: black;
 }
+
+.ant-card-meta-avatar img {
+    width:150px;
+    object-fit:cover;
+    height: auto;
+}
+
+
+ .ant-card-meta-detail{
+     overflow: visible;
+ }

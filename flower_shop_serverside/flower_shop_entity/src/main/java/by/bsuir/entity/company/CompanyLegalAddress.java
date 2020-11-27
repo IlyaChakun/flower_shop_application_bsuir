@@ -17,7 +17,7 @@ public class CompanyLegalAddress {
     @Column(name = "payer_account_number", length = 9)
     private String payerAccountNumber;
 
-    @Column(name = "checking_account", length = 20)
+    @Column(name = "checking_account", length = 28)
     private String checkingAccount;
 
     private BankInformation bankInformation;

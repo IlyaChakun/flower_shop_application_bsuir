@@ -194,15 +194,12 @@ class CompanyForm extends Component {
     }
 
     handleInputChange = (event, validationFun) => {
-
-        console.log('event ' + event)
-        console.log('event ' + event.target.name)
-
         const target = event.target
         const inputName = target.name
         const inputValue = target.value
 
         console.log('handle input change')
+        console.log('event ' + event.target.name)
         console.log('inputName= ' + inputName)
         console.log('inputValue= ' + inputValue)
 
@@ -311,7 +308,7 @@ class CompanyForm extends Component {
         return (
 
             <Form {...layout}
-                  onFinish={this.handleSubmit} className={s.form}
+                  onFinish={this.handleSubmit}
                   initialValues={{
                       'name': this.state.name.value,
                       'description': this.state.description.value,
@@ -325,7 +322,6 @@ class CompanyForm extends Component {
                       'checkingAccount': this.state.checkingAccount.value,
                       'bankAddress': this.state.bankAddress.value,
                       'postalCode': this.state.postalCode.value,
-
                   }}
             >
 
@@ -335,7 +331,7 @@ class CompanyForm extends Component {
                             className={s.formItem}
                             label={'Название компании'}
                             validateStatus={this.state.name.validateStatus}
-                            hasFeedback
+                            // hasFeedback
                             onChange={(event) => this.handleInputChange(event, validateName)}
                             help={this.state.name.errorMsg}
                             rules={[
@@ -366,6 +362,7 @@ class CompanyForm extends Component {
                                     message: 'Пожалуйста, введите Учетный номер плательщика!',
                                 },
                             ]}
+                            // name="payerAccountNumber"
                         >
                             <Input
                                 name="payerAccountNumber"
@@ -379,7 +376,6 @@ class CompanyForm extends Component {
                             className={s.formItem}
                             label={localizedStrings.companyLicenceNumber}
                             validateStatus={this.state.licenceNumber.validateStatus}
-                            hasFeedback
                             onChange={(event) => this.handleInputChange(event, validateLicenceNumber)}
                             help={this.state.licenceNumber.errorMsg}
                             rules={[
@@ -388,6 +384,7 @@ class CompanyForm extends Component {
                                     message: 'Пожалуйста, введите номер вашей лицензии!',
                                 },
                             ]}
+                            // name="licenceNumber"
                         >
                             <Input
                                 name="licenceNumber"
@@ -402,10 +399,9 @@ class CompanyForm extends Component {
                             className={s.formItem}
                             label={localizedStrings.companyDescription}
                             validateStatus={this.state.description.validateStatus}
-                            hasFeedback
+                            // hasFeedback
                             onChange={(event) => this.handleInputChange(event, validateText)}
                             help={this.state.description.errorMsg}
-                            // name="description"
                         >
                             <TextArea
                                 rows={5}
@@ -418,7 +414,7 @@ class CompanyForm extends Component {
                     </div>
                 </div>
 
-                <div className="row">
+                <div className="row mb-5">
                     <div className="col-sm-6">
                         <Form.Item
                             className={s.formItem}
@@ -468,7 +464,6 @@ class CompanyForm extends Component {
                             className={s.formItem}
                             label={'Номер телефона'}
                             validateStatus={this.state.firstPhoneNumber.validateStatus}
-                            hasFeedback
                             onChange={(event) => this.handleInputChange(event, validatePhoneNumber)}
                             help={this.state.firstPhoneNumber.errorMsg}
                             rules={[
@@ -491,7 +486,7 @@ class CompanyForm extends Component {
                             className={s.formItem}
                             label={'Второй номер телефона'}
                             validateStatus={this.state.secondPhoneNumber.validateStatus}
-                            hasFeedback
+                            // hasFeedback
                             onChange={(event) => this.handleInputChange(event, validatePhoneNumber)}
                             help={this.state.secondPhoneNumber.errorMsg}
                             // name="secondPhoneNumber"
@@ -509,7 +504,6 @@ class CompanyForm extends Component {
                             className={s.formItem}
                             label={'Емаил конторы'}
                             validateStatus={this.state.email.validateStatus}
-                            hasFeedback
                             onChange={(event) => this.handleInputChange(event, validateEmail)}
                             help={this.state.email.errorMsg}
                             rules={[
@@ -554,14 +548,14 @@ class CompanyForm extends Component {
 
                         <Form.Item
                             className={s.formItem}
-                            label={'IBAN'}
+                            label={'Код банка'}
                             validateStatus={this.state.bankCode.validateStatus}
                             onChange={(event) => this.handleInputChange(event, validateIBAN)}
                             help={this.state.bankCode.errorMsg}
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Пожалуйста, введите IBAN!',
+                                    message: 'Пожалуйста, введите код банка!',
                                 },
                             ]}
                             // name="bankCode"
@@ -643,24 +637,29 @@ class CompanyForm extends Component {
                     </div>
                 </div>
 
-                <div className="row">
-                    <div className="col-8"></div>
-                    <div className="col-4">
+                <div className="row d-flex flex-row justify-content-end">
+                    <div className="col-3">
                         <Form.Item className={s.formItem}>
                             <Button
                                 onClick={this.editCompany}
                                 size="large"
-                                className={s.button}>
-                                Изменить компанию
+                                style={{background: "black", color: "white"}}
+                                shape="round"
+                            >
+                                Редактировать компанию
                             </Button>
-                            <br/>
-                            <br/>
+                        </Form.Item>
+                    </div>
+                    <div className="col-3">
+                        <Form.Item className={s.formItem}>
                             <Button
                                 type="primary"
                                 htmlType="submit"
                                 size="large"
-                                className={s.button}
-                                disabled={this.isFormInvalid()}>
+                                style={{background: "black", color: "white"}}
+                                shape="round"
+                                disabled={this.isFormInvalid()}
+                            >
                                 Сохранить компанию
                             </Button>
                         </Form.Item>

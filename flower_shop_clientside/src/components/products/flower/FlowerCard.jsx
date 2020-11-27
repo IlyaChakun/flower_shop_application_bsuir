@@ -14,7 +14,7 @@ class FlowerCard extends Component {
 
     state = {
         dateOfLastUpdate: this.props.product.dateOfLastUpdate,
-        flowerType: this.props.product.flowerType.flowerType,
+        // flowerType: this.props.product.flowerType.flowerType,
         flowerColor: this.props.product.flowerColor,
         flowerSort: this.props.product.flowerSort,
         flowerLengthCosts: this.props.product.flowerLengthCosts,
@@ -47,7 +47,8 @@ class FlowerCard extends Component {
             </Menu>
         )
         const flowerLengthCostsDropdown = (
-            <Dropdown overlay={flowerLengthCostsMenu}>
+            <Dropdown overlay={flowerLengthCostsMenu}
+                      overlayStyle={{width:'100px'}}>
                 <Button>
                     Стоимость и длина <DownOutlined/>
                 </Button>
@@ -57,69 +58,59 @@ class FlowerCard extends Component {
 
         return (
 
-
-            <Card
-                hoverable
-                style={{width: 600, marginTop: 16}}
-                extra={
-                    'Страна поставщик: ' + this.state.country
-                }
-                title={
-                    <span>
-                        {this.state.flowerType}
-                    </span>
-                }
-                actions={[
-                    this.props.firstAction,
-                    this.props.secondAction,
-                    this.state.availableAmountOnStock > 0 ? this.props.thirdAction : ''
-                ]}>
-
-                <Meta
-                    avatar={
-                        <span>
-                              <img alt={this.state.flowerSort}
-                                   className="img-fluid"
-                                   src={this.state.imageUrl}
-                                   width={'200px'}
-                                   height={'400px'}
-                              />
-                        </span>
+            <div className="site-card-wrapper">
+                <Card
+                    bodyStyle={{padding:'5px'}}
+                    hoverable
+                    extra={
+                        'Страна поставщик: ' + this.state.country
                     }
-
-                    title={
-                        <div>
-                            <p>
-                                {this.state.flowerColor.colorName}
-                                <br/>
-                                {this.state.flowerSort.sortName}
-                            </p>
-                            <p>
-                                {flowerLengthCostsDropdown}
-                            </p>
-                        </div>
+                    title={<span>{this.state.flowerType}</span>
                     }
+                    actions={[
+                        this.props.firstAction,
+                        this.props.secondAction,
+                        this.state.availableAmountOnStock > 0 ? this.props.thirdAction : ''
+                    ]}>
 
-                    description={
-                        <div>
-                            <div className="product-content-body">
-                                <p>В наличии: {this.state.availableAmountOnStock} штук
+                    <Meta
+                        style={{padding:0}}
+                        avatar={
+                            <img alt={this.state.flowerType} src={this.state.imageUrl}/>
+                        }
+
+                        title={
+                            <div className="col-10">
+                                <p>
+                                    {this.state.flowerColor.colorName}
                                     <br/>
-                                    В магазине по адресу: {this.state.shopCity}, {this.state.shopAddress}
-                                    <br/>
-                                    телефон: {this.state.shopFirstPhoneNumber}</p>
+                                    {this.state.flowerSort.sortName}
+                                </p>
+                                <div>
+                                    {flowerLengthCostsDropdown}
+                                </div>
                             </div>
+                        }
+
+                        description={
+                            <div>
+                                <div className="product-content-body">
+                                    <p>В наличии: {this.state.availableAmountOnStock} штук
+                                        <br/>
+                                        В магазине по адресу: {this.state.shopCity}, {this.state.shopAddress}
+                                        <br/>
+                                        телефон: {this.state.shopFirstPhoneNumber}</p>
+                                </div>
 
 
-                            <div className="product-rating-footer mb-4">
-                                Последнее обновление: {this.state.dateOfLastUpdate}
+                                <div className="product-rating-footer mb-4">
+                                    Последнее обновление: {this.state.dateOfLastUpdate}
+                                </div>
                             </div>
-                        </div>
-                    }
-                />
-
-            </Card>
-
+                        }
+                    />
+                </Card>
+            </div>
         )
     }
 }

@@ -26,7 +26,6 @@ public class CompanyDTO extends AbstractDTO {
     @Size(max = 48, message = "Название организации не более 48 символов!")
     private String name;
 
-    @NotBlank
     @Size(max = 512, message = "Описание для организации не более 48 символов!")
     private String description;
 
@@ -38,8 +37,6 @@ public class CompanyDTO extends AbstractDTO {
 
     @Valid
     private CompanyLegalAddressDTO companyLegalAddress;
-
-    // private Image logo;
 
     @Valid
     @JsonBackReference

@@ -118,7 +118,7 @@ class FlowersList extends PureComponent {
 
 
         return (
-            <div className="container-fluid">
+            <div>
                 <div className="row justify-content-between">
                     <div className="col-2"><h1>Цветы</h1></div>
 
@@ -128,7 +128,7 @@ class FlowersList extends PureComponent {
                 <div className="row">
                     <List
                         grid={{
-                            gutter: 70,
+                            gutter: 16,
                             column: 3,
                         }}
 

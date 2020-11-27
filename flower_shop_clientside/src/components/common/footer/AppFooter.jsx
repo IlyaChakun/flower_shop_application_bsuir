@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Layout} from 'antd'
+import {Col, Layout, Row} from 'antd'
 import './AppFooter.css'
 import {Link, withRouter} from 'react-router-dom'
 import LoadingIndicator from "../util/LoadingIndicator";
@@ -10,6 +10,7 @@ class AppFooter extends Component {
 
     state = {
 
+        currentCompany: this.props.currentCompany,
         name: ' ',
         description: ' ',
         licenceNumber: ' ',
@@ -54,12 +55,10 @@ class AppFooter extends Component {
         console.log('FOOTER ' + this.state.firstPhoneNumber)
 
         return (
-            <Footer style={{textAlign: 'center'}}>
-                <div className="footer">
-                    <div className="row footer_top pb-5">
-                        <div className="col-md-2 col-sm-3">
-                        </div>
-                        <div className="col-md-2 col-sm-3">
+            <Footer>
+                <div className="footer-top pb-5">
+                    <Row>
+                        <Col span={4} offset={4}>
                             <div className="items">
                                 <div className="item">
                                     <a href="/about/">О нас</a>
@@ -79,12 +78,12 @@ class AppFooter extends Component {
                                 <div className="item">
                                     <Link to="/about/legal">Юридическим лицам</Link>
                                 </div>
-                                <div className="item"><Link to="/about/documents">Документы</Link>
+                                <div className="item">
+                                    <Link to="/about/documents">Документы</Link>
                                 </div>
                             </div>
-
-                        </div>
-                        <div className="col-md-3 col-sm-3">
+                        </Col>
+                        <Col span={6}>
                             <div className="items">
                                 <div className="item">
                                     <a href="/info/oferta/">Информация</a>
@@ -102,10 +101,9 @@ class AppFooter extends Component {
                                 <div className="item">
                                     <a href="/contacts/">Контакты</a>
                                 </div>
-
                             </div>
-                        </div>
-                        <div className="col-md-2 col-sm-3">
+                        </Col>
+                        <Col span={4}>
                             <div className="items">
                                 <div className="item">
                                     <a href="/about/help/">Как купить</a>
@@ -120,37 +118,45 @@ class AppFooter extends Component {
                                     <a href="/about/warranty/">Гарантии</a>
                                 </div>
                             </div>
-                        </div>
-                        <div className="col-md-3 col-sm-12 contact-block">
-                            <div className="row phone mt-4">
-                                <div className="col-6 mx-auto">
-                                    <a rel="nofollow" href="tel:+375291456777">
-                                        {this.state.firstPhoneNumber}
-                                    </a>
+                        </Col>
+                        <Col span={6}>
+                            <div className="contact-block">
+                                <div className="phone mt-4">
+                                    <Row justify="center">
+                                        <Col span={12}>
+                                            <a rel="nofollow" href="tel:+375291456777">
+                                                {this.state.firstPhoneNumber}
+                                            </a>
+                                        </Col>
+                                    </Row>
                                 </div>
+                                <div className="email">
+                                    <Row justify="center">
+                                        <Col span={12}>
+                                            <a href="mailto:info@donnarosa.by"
+                                               target="_blank"
+                                               rel="noopener noreferrer"
+                                            >
+                                                {this.state.email}
+                                            </a>
+                                        </Col>
 
-                            </div>
-                            <div className="row email">
-                                <div className="col-6  mx-auto">
-                                    <a href="mailto:info@donnarosa.by"
-                                       target="_blank"
-                                       rel="noopener noreferrer"
-                                    >
-                                        {this.state.email}
-                                    </a>
+                                    </Row>
                                 </div>
-
-                            </div>
-                            <div className="row address ">
-                                <div className="col-6  mx-auto">
-                                    {this.state.city}
-                                    {this.state.address}
+                                <div className="address ">
+                                    <Row justify="center">
+                                        <Col span={12}>
+                                            {this.state.city}, {this.state.address}
+                                        </Col>
+                                    </Row>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div className="row footer_middle">
-                        <div className="col-md-12 col-sm-12">
+                        </Col>
+                    </Row>
+                </div>
+                <div className="footer-middle">
+                    <Row>
+                        <Col span={24}>
                             <div className="social-block">
                                 <ul className="list-group list-group-horizontal justify-content-center pb-2">
                                     <li className="vk">
@@ -175,10 +181,12 @@ class AppFooter extends Component {
                                     </li>
                                 </ul>
                             </div>
-                        </div>
-                    </div>
-                    <div className="row footer_bottom pt-5">
-                        <div className="col-md-6 col-sm-6 mx-auto">
+                        </Col>
+                    </Row>
+                </div>
+                <div className="footer_bottom pt-5">
+                    <Row justify="center">
+                        <Col>
                             <div className="copy">
                                 2020 © {this.state.name} УНП № {this.state.checkingAccount}<br/>
                                 Интернет-магазин зарегистрирован в торговом реестре 30.12.2019 под
@@ -188,8 +196,8 @@ class AppFooter extends Component {
                                 Р/с: {this.state.payerAccountNumber} в {this.state.bankName},
                                 {this.state.postalCode}, {this.state.bankAddress}, код банка: {this.state.bankCode}
                             </div>
-                        </div>
-                    </div>
+                        </Col>
+                    </Row>
                 </div>
             </Footer>
         )
