@@ -1,10 +1,7 @@
 import React, {Component} from 'react'
-import {Card} from 'antd'
+import {Button, Card, Dropdown, Menu, message} from 'antd'
 import '../flower/FlowerCard.css'
 import DownOutlined from "@ant-design/icons/lib/icons/DownOutlined";
-
-
-import {Menu, Dropdown, Button, message, Tooltip} from 'antd';
 
 const {Meta} = Card
 
@@ -82,7 +79,7 @@ class ProductCard extends Component {
                 <Meta
                     avatar={
                         <span>
-                              <img alt="picture"
+                              <img alt={this.state.flowerType}
                                    className="img-fluid"
                                    src={this.state.imageUrl}
                                    width={'200px'}

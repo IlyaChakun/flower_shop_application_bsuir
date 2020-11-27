@@ -4,10 +4,10 @@ import s from "../../user/profile/Profile.module.css";
 import {Button, Form, Select} from "antd";
 import ImageLoader from "../../common/image/ImageLoader";
 import {
-    getCountriesRequest, getFlowerBouquetTypesRequest,
+    getCountriesRequest,
+    getFlowerBouquetTypesRequest,
     getFlowerColorsRequest,
-    getFlowerSortsRequest,
-    getFlowerTypesRequest
+    getFlowerSortsRequest
 } from "../../util/utilsAPI";
 import {ERROR, SUCCESS} from "../../../constants";
 import Input from "antd/es/input";

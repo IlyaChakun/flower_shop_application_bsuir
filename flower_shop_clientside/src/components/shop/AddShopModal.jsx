@@ -1,11 +1,10 @@
 import React, {Component} from 'react'
 import {withRouter} from 'react-router-dom'
 
-import {Button, Form, Input, Modal, notification, Upload} from "antd";
+import {Button, Modal, notification} from "antd";
 import {localizedStrings} from "../util/localization";
 import {saveShopRequest} from "../util/utilsAPI";
 import ShopForm from "./ShopForm";
-import {SUCCESS} from "../../constants";
 
 
 class AddShopModal extends Component {

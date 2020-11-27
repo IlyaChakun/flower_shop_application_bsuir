@@ -1,15 +1,7 @@
 import React, {Component} from 'react'
 import s from './SignUp.module.css'
 import {checkLoginAvailabilityRequest, signUpRequest} from '../../util/utilsAPI'
-import {
-    ERROR,
-    EMAIL_MAX_LENGTH,
-    NAME_MAX_LENGTH,
-    NAME_MIN_LENGTH,
-    PASSWORD_MAX_LENGTH,
-    PASSWORD_MIN_LENGTH,
-    SUCCESS
-} from '../../../constants'
+import {ERROR, PASSWORD_MAX_LENGTH, PASSWORD_MIN_LENGTH, SUCCESS} from '../../../constants'
 import {Button, Form, Input, notification} from 'antd'
 import {localizedStrings} from '../../util/localization'
 import {Link} from 'react-router-dom'

@@ -2,13 +2,12 @@ import React, {Component} from 'react'
 import {withRouter} from 'react-router-dom'
 import Modal from "antd/es/modal";
 import FlowerForm from "./FlowerForm";
-import {getFlowersByIdRequest, saveFlowerRequest, updateFlowerRequest} from "../../util/utilsAPI";
+import {getFlowersByIdRequest, updateFlowerRequest} from "../../util/utilsAPI";
 import {localizedStrings} from "../../util/localization";
-import {Button, notification} from "antd";
+import {notification} from "antd";
 import {isAdmin} from "../../../app/App";
 import SettingOutlined from "@ant-design/icons/lib/icons/SettingOutlined";
 import LoadingIndicator from "../../common/util/LoadingIndicator";
-import ShopForm from "../../shop/ShopForm";
 import {SUCCESS} from "../../../constants";
 
 class EditFlowerModal extends Component {

@@ -1,10 +1,8 @@
 import React from 'react';
-import {Modal, Button, Form, Input, notification} from 'antd';
+import {Button, Form, Input, Modal, notification} from 'antd';
 import {localizedStrings} from '../../util/localization'
 import {ERROR, PASSWORD_MAX_LENGTH, PASSWORD_MIN_LENGTH, SUCCESS} from "../../../constants";
 import {changeUserPassword} from "../../util/utilsAPI";
-
-import s from "../profile/Profile.module.css";
 
 class ChangePasswordModal extends React.Component {
     state = {
@@ -156,12 +154,30 @@ class ChangePasswordModal extends React.Component {
 
         if (inputName === 'newPassword') {
             if (this.state.confirmedPassword.value !== inputValue) {
-                this.state.confirmedPassword.validateStatus = ERROR
-                this.state.confirmedPassword.errorMsg = (this.state.confirmedPassword.errorMsg ? this.state.confirmedPassword.errorMsg :
-                    localizedStrings.alertBadConfirmedPasswordNotEqual)
-            } else{
-                this.state.confirmedPassword.validateStatus = SUCCESS
-                this.state.confirmedPassword.errorMsg = null
+                this.setState({
+                    confirmedPassword: {
+                        validateStatus: ERROR,
+                        errorMsg: (this.state.confirmedPassword.errorMsg ?
+                            this.state.confirmedPassword.errorMsg
+                            :
+                            localizedStrings.alertBadConfirmedPasswordNotEqual)
+                    }
+                })
+                // this.state.confirmedPassword.validateStatus = ERROR
+                // this.state.confirmedPassword.errorMsg = (this.state.confirmedPassword.errorMsg ? this.state.confirmedPassword.errorMsg :
+                //     localizedStrings.alertBadConfirmedPasswordNotEqual)
+            } else {
+
+                this.setState({
+                    confirmedPassword: {
+                        validateStatus: SUCCESS,
+                        errorMsg: null
+                    }
+                })
+
+
+                // this.state.confirmedPassword.validateStatus = SUCCESS
+                // this.state.confirmedPassword.errorMsg = null
             }
         }
 
@@ -196,8 +212,8 @@ class ChangePasswordModal extends React.Component {
             }
         } else {
             return {
-                validateStatus: (validRes.errorMsg ?  ERROR : SUCCESS ),
-                errorMsg: (validRes.errorMsg ?  validRes.errorMsg : null ),
+                validateStatus: (validRes.errorMsg ? ERROR : SUCCESS),
+                errorMsg: (validRes.errorMsg ? validRes.errorMsg : null),
             }
         }
     }

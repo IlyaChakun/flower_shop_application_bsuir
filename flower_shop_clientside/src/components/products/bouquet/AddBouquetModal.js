@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {withRouter} from 'react-router-dom'
 import Modal from "antd/es/modal";
-import {saveBouquetRequest, saveFlowerRequest} from "../../util/utilsAPI";
+import {saveBouquetRequest} from "../../util/utilsAPI";
 import {localizedStrings} from "../../util/localization";
 import {Button, notification} from "antd";
 import BouquetForm from "./BouquetForm";

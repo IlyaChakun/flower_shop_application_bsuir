@@ -1,18 +1,12 @@
 import React, {Component} from 'react'
 import {withRouter} from 'react-router-dom'
 import Modal from "antd/es/modal";
-import {
-    getBouquetByIdRequest,
-    getFlowersByIdRequest,
-    saveFlowerRequest, updateBouquetRequest,
-    updateFlowerRequest
-} from "../../util/utilsAPI";
+import {getBouquetByIdRequest, updateBouquetRequest} from "../../util/utilsAPI";
 import {localizedStrings} from "../../util/localization";
-import {Button, notification} from "antd";
+import {notification} from "antd";
 import {isAdmin} from "../../../app/App";
 import SettingOutlined from "@ant-design/icons/lib/icons/SettingOutlined";
 import LoadingIndicator from "../../common/util/LoadingIndicator";
-import ShopForm from "../../shop/ShopForm";
 import {SUCCESS} from "../../../constants";
 import BouquetForm from "./BouquetForm";
 

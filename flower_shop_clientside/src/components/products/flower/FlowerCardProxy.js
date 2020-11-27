@@ -3,12 +3,9 @@ import React, {Component} from 'react'
 import './FlowerCard.css'
 import FlowerCard from './FlowerCard'
 import {isAdmin} from '../../../app/App'
-import SettingOutlined from '@ant-design/icons/lib/icons/SettingOutlined'
 import DeleteFlowerModal from './DeleteFlowerModal'
 import DeleteOutlined from '@ant-design/icons/lib/icons/DeleteOutlined'
 import EditFlowerModal from "./EditFlowerModal";
-import AddFlowerModal from "./AddFlowerModal";
-import PlusCircleOutlined from "@ant-design/icons/lib/icons/PlusCircleOutlined";
 import {addProductToBasketRequest} from "../../util/utilsAPI";
 import {notification} from 'antd'
 import {localizedStrings} from "../../util/localization";
