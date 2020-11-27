@@ -35,36 +35,20 @@ class AppFooter extends Component {
             return <LoadingIndicator/>
         }
 
-        this.setState({
-            name: this.props.currentCompany.name,
-            description: this.props.currentCompany.description,
-            licenceNumber: this.props.currentCompany.licenceNumber,
-            firstPhoneNumber: this.props.currentCompany.contacts.firstPhoneNumber,
-            secondPhoneNumber: this.props.currentCompany.contacts.secondPhoneNumber,
-            email: this.props.currentCompany.contacts.email,
-            city: this.props.currentCompany.contacts.city,
-            address: this.props.currentCompany.contacts.address,
-            payerAccountNumber: this.props.currentCompany.companyLegalAddress.payerAccountNumber,
-            checkingAccount: this.props.currentCompany.companyLegalAddress.checkingAccount,
-            bankName: this.props.currentCompany.companyLegalAddress.bankInformation.bankName,
-            bankCode: this.props.currentCompany.companyLegalAddress.bankInformation.bankCode,
-            postalCode: this.props.currentCompany.companyLegalAddress.bankInformation.postalCode,
-            bankAddress: this.props.currentCompany.companyLegalAddress.bankInformation.address
-        })
-        // this.state.name = this.props.currentCompany.name
-        // this.state.description = this.props.currentCompany.description
-        // this.state.licenceNumber = this.props.currentCompany.licenceNumber
-        // this.state.firstPhoneNumber = this.props.currentCompany.contacts.firstPhoneNumber
-        // this.state.secondPhoneNumber = this.props.currentCompany.contacts.secondPhoneNumber
-        // this.state.email = this.props.currentCompany.contacts.email
-        // this.state.city = this.props.currentCompany.contacts.city
-        // this.state.address = this.props.currentCompany.contacts.address
-        // this.state.payerAccountNumber = this.props.currentCompany.companyLegalAddress.payerAccountNumber
-        // this.state.checkingAccount = this.props.currentCompany.companyLegalAddress.checkingAccount
-        // this.state.bankName = this.props.currentCompany.companyLegalAddress.bankInformation.bankName
-        // this.state.bankCode = this.props.currentCompany.companyLegalAddress.bankInformation.bankCode
-        // this.state.postalCode = this.props.currentCompany.companyLegalAddress.bankInformation.postalCode
-        // this.state.bankAddress = this.props.currentCompany.companyLegalAddress.bankInformation.address
+        this.state.name = this.props.currentCompany.name
+        this.state.description = this.props.currentCompany.description
+        this.state.licenceNumber = this.props.currentCompany.licenceNumber
+        this.state.firstPhoneNumber = this.props.currentCompany.contacts.firstPhoneNumber
+        this.state.secondPhoneNumber = this.props.currentCompany.contacts.secondPhoneNumber
+        this.state.email = this.props.currentCompany.contacts.email
+        this.state.city = this.props.currentCompany.contacts.city
+        this.state.address = this.props.currentCompany.contacts.address
+        this.state.payerAccountNumber = this.props.currentCompany.companyLegalAddress.payerAccountNumber
+        this.state.checkingAccount = this.props.currentCompany.companyLegalAddress.checkingAccount
+        this.state.bankName = this.props.currentCompany.companyLegalAddress.bankInformation.bankName
+        this.state.bankCode = this.props.currentCompany.companyLegalAddress.bankInformation.bankCode
+        this.state.postalCode = this.props.currentCompany.companyLegalAddress.bankInformation.postalCode
+        this.state.bankAddress = this.props.currentCompany.companyLegalAddress.bankInformation.address
 
 
         console.log('FOOTER ' + this.state.firstPhoneNumber)
