@@ -1,8 +1,7 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 
-import { withRouter } from 'react-router-dom'
+import {withRouter} from 'react-router-dom'
 import ReviewsList from '../company/review/ReviewsList'
-import CarouselComponent from '../common/carousel/CarouselComponent'
 import ShopsBlock from '../shop/ShopsBlock'
 import FlowersList from '../products/flower/FlowersList'
 import BouquetList from '../products/bouquet/BouquetList'

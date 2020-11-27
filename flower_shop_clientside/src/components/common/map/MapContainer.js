@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {withGoogleMap, GoogleMap, withScriptjs, InfoWindow, Marker} from "react-google-maps";
+import {GoogleMap, withGoogleMap, withScriptjs} from "react-google-maps";
 import Geocode from "react-geocode";
 import {GoogleMapsAPI} from "../../../constants";
 import Autocomplete from 'react-google-autocomplete';

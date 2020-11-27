@@ -6,9 +6,7 @@ import AddShopModal from "./AddShopModal";
 import {getAllShopsRequest} from "../util/utilsAPI";
 import {List} from "antd";
 import Link from "react-router-dom/Link";
-import {isAdmin} from "../../app/App";
 import SettingOutlined from "@ant-design/icons/lib/icons/SettingOutlined";
-import FlowersList from "../products/flower/FlowersList";
 
 class ShopsList extends Component {
 

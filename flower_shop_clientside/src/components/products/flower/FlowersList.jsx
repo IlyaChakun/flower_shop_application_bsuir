@@ -1,10 +1,9 @@
 import React, {PureComponent} from 'react'
 
-import {List, Card} from 'antd'
-import {getBouquetsByShopIdRequest, getFlowersByShopIdRequest, getFlowersRequest} from "../../util/utilsAPI";
+import {List} from 'antd'
+import {getFlowersByShopIdRequest, getFlowersRequest} from "../../util/utilsAPI";
 import AddFlowerModal from "./AddFlowerModal";
 import FlowerCardProxy from "./FlowerCardProxy";
-import AddShopModal from "../../shop/AddShopModal";
 import {withRouter} from "react-router-dom";
 
 class FlowersList extends PureComponent {

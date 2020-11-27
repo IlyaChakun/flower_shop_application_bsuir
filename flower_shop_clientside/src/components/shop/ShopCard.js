@@ -39,11 +39,11 @@ class ShopCard extends Component {
                 <Meta
                     avatar={
                         <span>
-                              <img alt="picture"
-                                   className="img-fluid"
-                                   src={this.state.imageUrl}
-                                   width={'200px'}
-                                   height={'400px'}
+                              <img
+                                  className="img-fluid"
+                                  src={this.state.imageUrl}
+                                  width={'200px'}
+                                  height={'400px'}
                               />
                         </span>
                     }
@@ -88,5 +88,6 @@ class ShopCard extends Component {
         )
     }
 }
+
 export default withRouter(ShopCard)
 

@@ -19,15 +19,15 @@ export default function CarouselComponent () {
     <div className="row slider-container mb-5">
       <Carousel infiniteLoop autoPlay showArrows={false} showThumbs={false}>
 
-        <img style={contentStyle} src={image1}/>
+        <img style={contentStyle} src={image1} alt=""/>
 
-        <img style={contentStyle} src={image2}/>
+        <img style={contentStyle} src={image2} alt=""/>
 
-        <img style={contentStyle} src={image3}/>
+        <img style={contentStyle} src={image3} alt=""/>
 
-        <img style={contentStyle} src={image4}/>
+        <img style={contentStyle} src={image4} alt=""/>
 
-        <img style={contentStyle} src={image5}/>
+        <img style={contentStyle} src={image5} alt=""/>
 
       </Carousel>
     </div>

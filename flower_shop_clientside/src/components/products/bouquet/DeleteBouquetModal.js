@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import {message, notification, Popconfirm} from "antd";
+import {notification, Popconfirm} from "antd";
 
 import {withRouter} from "react-router-dom";
-import {deleteBouquetRequest, deleteFlowerRequest} from "../../util/utilsAPI";
+import {deleteBouquetRequest} from "../../util/utilsAPI";
 import {localizedStrings} from "../../util/localization";
 
 

@@ -2,17 +2,11 @@ import React, {Component} from 'react'
 import './App.css'
 import PrivateRoute from './util/PrivateRoute'
 
-import {ConfigProvider, Layout, notification} from 'antd'
+import {Layout, notification} from 'antd'
 import {Route, Switch, withRouter} from 'react-router-dom'
 
 import {localizedStrings} from '../components/util/localization'
-import {
-    ACCESS_TOKEN, REFRESH_TOKEN,
-    ROLE_ADMIN,
-    ROLE_USER,
-    SUCCESS,
-    USER_ID
-} from '../constants'
+import {ACCESS_TOKEN, REFRESH_TOKEN, ROLE_ADMIN, ROLE_USER, SUCCESS, USER_ID} from '../constants'
 import AppHeader from '../components/common/header/AppHeader'
 import LoadingIndicator from '../components/common/util/LoadingIndicator'
 import OAuth2RedirectHandler from '../components/user/oauth2/OAuth2RedirectHandler'

@@ -24,7 +24,7 @@ class OrderDetail extends Component {
             )
         return (
 
-        <Panel header="Заказ ${this.props}" key={this.props.order.uniqueId}>
+        <Panel header="Заказ ___" key={this.props.order.uniqueId}>
             <p> Заказ № {this.props.order.uniqueId}<br/>
                 Комментарий к заказу: {this.props.order.comment===undefined? "": this.props.order.comment}<br/>
                 Статус заказа: {this.props.order.orderStatus}<br/>

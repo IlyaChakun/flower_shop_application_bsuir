@@ -6,7 +6,6 @@ import DeleteOutlined from '@ant-design/icons/lib/icons/DeleteOutlined'
 import DeleteBouquetModal from "./DeleteBouquetModal";
 import EditBouquetModal from "./EditBouquetModal";
 import BouquetCard from "./BouquetCard";
-import PlusCircleOutlined from "@ant-design/icons/lib/icons/PlusCircleOutlined";
 
 class BouquetCardProxy extends Component {
     state = {}

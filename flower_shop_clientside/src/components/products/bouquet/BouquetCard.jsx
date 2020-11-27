@@ -85,7 +85,7 @@ class BouquetCard extends Component {
                 <Meta
                     avatar={
                         <span>
-                              <img alt="picture"
+                              <img alt={this.state.bouquetType}
                                    className="img-fluid"
                                    src={this.state.imageUrl}
                                    width={'200px'}

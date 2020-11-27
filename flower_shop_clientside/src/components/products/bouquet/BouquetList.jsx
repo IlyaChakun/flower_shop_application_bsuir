@@ -1,14 +1,9 @@
 import React, {Component} from 'react'
 import {withRouter} from 'react-router-dom'
-import {List, Card} from 'antd'
-import {
-    getBouquetsByShopIdRequest,
-    getBouquetsRequest
-} from "../../util/utilsAPI";
+import {List} from 'antd'
+import {getBouquetsByShopIdRequest, getBouquetsRequest} from "../../util/utilsAPI";
 import AddBouquetModal from "./AddBouquetModal";
 import BouquetCardProxy from "./BouquetCardProxy";
-import AddFlowerModal from "../flower/AddFlowerModal";
-import AddShopModal from "../../shop/AddShopModal";
 
 
 class BouquetList extends Component {

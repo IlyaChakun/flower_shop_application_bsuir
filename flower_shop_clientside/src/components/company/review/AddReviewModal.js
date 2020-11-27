@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Modal, Button, Rate, Form, Input, notification} from 'antd';
+import {Button, Form, Input, Modal, notification, Rate} from 'antd';
 import s from "../../user/signup/SignUp.module.css";
 import {localizedStrings} from "../../util/localization";
 import UserOutlined from "@ant-design/icons/lib/icons/UserOutlined";
@@ -14,7 +14,6 @@ import {
     validateText,
     validateUserName
 } from "../../common/validation/ValidationFunctions";
-import ReviewCard from "./ReviewCard";
 
 
 const layout = {

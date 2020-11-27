@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {message, notification, Popconfirm} from "antd";
+import {notification, Popconfirm} from "antd";
 
 import {withRouter} from "react-router-dom";
 import {deleteFlowerRequest} from "../../util/utilsAPI";

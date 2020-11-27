@@ -1,9 +1,8 @@
 import React, {Component} from 'react'
-import {Layout, Menu} from 'antd'
+import {Layout} from 'antd'
 import './AppFooter.css'
-import {Link, NavLink, withRouter} from 'react-router-dom'
+import {Link, withRouter} from 'react-router-dom'
 import LoadingIndicator from "../util/LoadingIndicator";
-import {SUCCESS} from "../../../constants";
 
 const Footer = Layout.Footer
 
@@ -36,20 +35,36 @@ class AppFooter extends Component {
             return <LoadingIndicator/>
         }
 
-        this.state.name = this.props.currentCompany.name
-        this.state.description = this.props.currentCompany.description
-        this.state.licenceNumber = this.props.currentCompany.licenceNumber
-        this.state.firstPhoneNumber = this.props.currentCompany.contacts.firstPhoneNumber
-        this.state.secondPhoneNumber = this.props.currentCompany.contacts.secondPhoneNumber
-        this.state.email = this.props.currentCompany.contacts.email
-        this.state.city = this.props.currentCompany.contacts.city
-        this.state.address = this.props.currentCompany.contacts.address
-        this.state.payerAccountNumber = this.props.currentCompany.companyLegalAddress.payerAccountNumber
-        this.state.checkingAccount = this.props.currentCompany.companyLegalAddress.checkingAccount
-        this.state.bankName = this.props.currentCompany.companyLegalAddress.bankInformation.bankName
-        this.state.bankCode = this.props.currentCompany.companyLegalAddress.bankInformation.bankCode
-        this.state.postalCode = this.props.currentCompany.companyLegalAddress.bankInformation.postalCode
-        this.state.bankAddress = this.props.currentCompany.companyLegalAddress.bankInformation.address
+        this.setState({
+            name: this.props.currentCompany.name,
+            description: this.props.currentCompany.description,
+            licenceNumber: this.props.currentCompany.licenceNumber,
+            firstPhoneNumber: this.props.currentCompany.contacts.firstPhoneNumber,
+            secondPhoneNumber: this.props.currentCompany.contacts.secondPhoneNumber,
+            email: this.props.currentCompany.contacts.email,
+            city: this.props.currentCompany.contacts.city,
+            address: this.props.currentCompany.contacts.address,
+            payerAccountNumber: this.props.currentCompany.companyLegalAddress.payerAccountNumber,
+            checkingAccount: this.props.currentCompany.companyLegalAddress.checkingAccount,
+            bankName: this.props.currentCompany.companyLegalAddress.bankInformation.bankName,
+            bankCode: this.props.currentCompany.companyLegalAddress.bankInformation.bankCode,
+            postalCode: this.props.currentCompany.companyLegalAddress.bankInformation.postalCode,
+            bankAddress: this.props.currentCompany.companyLegalAddress.bankInformation.address
+        })
+        // this.state.name = this.props.currentCompany.name
+        // this.state.description = this.props.currentCompany.description
+        // this.state.licenceNumber = this.props.currentCompany.licenceNumber
+        // this.state.firstPhoneNumber = this.props.currentCompany.contacts.firstPhoneNumber
+        // this.state.secondPhoneNumber = this.props.currentCompany.contacts.secondPhoneNumber
+        // this.state.email = this.props.currentCompany.contacts.email
+        // this.state.city = this.props.currentCompany.contacts.city
+        // this.state.address = this.props.currentCompany.contacts.address
+        // this.state.payerAccountNumber = this.props.currentCompany.companyLegalAddress.payerAccountNumber
+        // this.state.checkingAccount = this.props.currentCompany.companyLegalAddress.checkingAccount
+        // this.state.bankName = this.props.currentCompany.companyLegalAddress.bankInformation.bankName
+        // this.state.bankCode = this.props.currentCompany.companyLegalAddress.bankInformation.bankCode
+        // this.state.postalCode = this.props.currentCompany.companyLegalAddress.bankInformation.postalCode
+        // this.state.bankAddress = this.props.currentCompany.companyLegalAddress.bankInformation.address
 
 
         console.log('FOOTER ' + this.state.firstPhoneNumber)
@@ -134,7 +149,9 @@ class AppFooter extends Component {
                             <div className="row email">
                                 <div className="col-6  mx-auto">
                                     <a href="mailto:info@donnarosa.by"
-                                       target="_blank">
+                                       target="_blank"
+                                       rel="noopener noreferrer"
+                                    >
                                         {this.state.email}
                                     </a>
                                 </div>
@@ -142,7 +159,7 @@ class AppFooter extends Component {
                             </div>
                             <div className="row address ">
                                 <div className="col-6  mx-auto">
-                                  {this.state.city}
+                                    {this.state.city}
                                     {this.state.address}
                                 </div>
                             </div>
@@ -180,11 +197,12 @@ class AppFooter extends Component {
                         <div className="col-md-6 col-sm-6 mx-auto">
                             <div className="copy">
                                 2020 © {this.state.name} УНП № {this.state.checkingAccount}<br/>
-                                Интернет-магазин зарегистрирован в торговом реестре 30.12.2019 под номером {this.state.licenceNumber}<br/>
+                                Интернет-магазин зарегистрирован в торговом реестре 30.12.2019 под
+                                номером {this.state.licenceNumber}<br/>
                                 Адрес: {this.state.city},{this.state.address}, E-mail: {this.state.email}, <br/>
                                 Тел.: {this.state.firstPhoneNumber}, Доп. тел.: {this.state.secondPhoneNumber}<br/>
                                 Р/с: {this.state.payerAccountNumber} в {this.state.bankName},
-                                {this.state.postalCode}, {this.state.bankAddress}, код банка:  {this.state.bankCode}
+                                {this.state.postalCode}, {this.state.bankAddress}, код банка: {this.state.bankCode}
                             </div>
                         </div>
                     </div>
