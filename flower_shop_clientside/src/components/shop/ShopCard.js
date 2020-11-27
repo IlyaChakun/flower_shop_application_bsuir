@@ -17,74 +17,53 @@ class ShopCard extends Component {
     }
 
     render() {
-
         return (
+            <div className="site-card-wrapper">
+                <Card
+                    hoverable
+                    style={{marginTop: 16}}
+                    extra={''}
+                    title={<a href="#">{this.state.contacts.city} {this.state.contacts.address}</a>}
+                    actions={[this.props.firstAction]}>
 
-            <Card
-                hoverable
-                style={{marginTop: 16}}
-                extra={
-                    ''
-                }
-                title={
-                    <span>
-            <a href="#">{this.state.contacts.city} {this.state.contacts.address}</a>
-          </span>
-                }
+                    <Meta
+                        style={{padding: 0}}
+                        avatar={<img src={this.state.imageUrl} alt=""/>}
 
-                actions={[
-                    this.props.firstAction
-                ]}>
-
-                <Meta
-                    avatar={
-                        <span>
-                              <img
-                                  className="img-fluid"
-                                  src={this.state.imageUrl}
-                                  width={'200px'}
-                                  height={'400px'}
-                              />
-                        </span>
-                    }
-
-                    title={
-                        <div>
+                        title={
                             <p>
-                <span className="text_wrap" data-coordinates="53.930613,27.588529">
-                  <i className="fas fa-map-marker-alt"></i>
-                  <span className="text"> Показать на карте</span>
-                </span>
+                            <span className="text_wrap" data-coordinates="53.930613,27.588529">
+                                <i className="fas fa-map-marker-alt"/>
+                                <span className="text"> Показать на карте</span>
+                            </span>
                             </p>
-                        </div>
-                    }
+                        }
 
-                    description={
-                        <div>
-                            <div className="">
-                                <i className="far fa-clock"></i>
-                                <span className="text  muted777">{this.state.workingHours.hours}</span>
-                            </div>
-                            <div className="row phone">
-                                <a href="tel:{contacts.firstPhoneNumber}" className="black">
-                                    {this.state.contacts.firstPhoneNumber}</a>
-                            </div>
-                            <div className="row phone">
-                                <a href="tel:{contacts.firstPhoneNumber}" className="black">
-                                    {this.state.contacts.secondPhoneNumber}</a>
-                            </div>
+                        description={
+                            <div>
+                                <div>
+                                    <i className="far fa-clock"/>
+                                    <span className="text  muted777">{this.state.workingHours.hours}</span>
+                                </div>
+                                <div className="phone">
+                                    <a href="tel:{contacts.firstPhoneNumber}" className="black">
+                                        {this.state.contacts.firstPhoneNumber}</a>
+                                </div>
+                                <div className="phone">
+                                    <a href="tel:{contacts.firstPhoneNumber}" className="black">
+                                        {this.state.contacts.secondPhoneNumber}</a>
+                                </div>
 
-                            <div className="">
-                                Последнее обновление: {this.state.dateOfLastUpdate}
-                                <br/>
-                                Дата открытия: {this.state.dateOfCreation}
+                                <div>
+                                    Последнее обновление: {this.state.dateOfLastUpdate}
+                                    <br/>
+                                    Дата открытия: {this.state.dateOfCreation}
+                                </div>
                             </div>
-                        </div>
-                    }
-                />
-
-            </Card>
-
+                        }
+                    />
+                </Card>
+            </div>
         )
     }
 }

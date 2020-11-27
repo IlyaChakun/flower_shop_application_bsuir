@@ -154,96 +154,93 @@ class App extends Component {
                            handleLogout={this.handleLogout}
                 />
 
-                <Content className="app-content mb-5">
-                    <div className="site-layout-background" style={{minHeight: 380}}>
-                        <Switch>
+                <Content className="app-content">
+                    <Switch>
 
-                            <Route exact path="/login"
-                                   render={(props) =>
-                                       <Login onLogin={this.handleLogin}
-                                              {...props} />}/>
+                        <Route exact path="/login"
+                               render={(props) =>
+                                   <Login onLogin={this.handleLogin}
+                                          {...props} />}/>
 
-                            <Route path="/sign-up"
-                                   render={(props) =>
-                                       <SignUp
+                        <Route path="/sign-up"
+                               render={(props) =>
+                                   <SignUp
+                                       isAuthenticated={this.state.isAuthenticated}
+                                       {...props} />}/>
+
+
+                        <Route path="/oauth2/redirect"
+                               render={(props) =>
+                                   <OAuth2RedirectHandler onLogin={this.handleLogin}
+                                                          {...props} />}/>
+
+
+                        <PrivateRoute path="/profile"
+                                      isAuthenticated={this.state.isAuthenticated}
+                                      currentUser={this.state.currentUser}
+                                      component={Profile}
+                                      {...this.props}/>
+
+                        <PrivateRoute path="/basket"
+                                      isAuthenticated={this.state.isAuthenticated}
+                                      currentUser={this.state.currentUser}
+                                      component={Basket}/>
+
+                        <Route exact path="/about/documents"
+                               component={DocumentsPage}/>
+
+                        <Route path="/company/shops/:id"
+                               currentUser={this.state.currentUser}
+                               currentCompany={this.state.currentCompany}
+                               component={ShopDetail}/>
+
+                        <Route path="/company/shops"
+                               currentUser={this.state.currentUser}
+                               currentCompany={this.state.currentCompany}
+                               component={ShopsList}/>
+
+                        <Route path="/company"
+                               currentUser={this.state.currentUser}
+                               currentCompany={this.state.currentCompany}
+                               component={Company}/>
+
+                        <Route exact path="/about/legal"
+                               component={LegalPage}/>
+
+                        <Route path="/company/about"
+                               component={AboutPage}/>
+
+                        <PrivateAdminRoute path="/company"
                                            isAuthenticated={this.state.isAuthenticated}
-                                           {...props} />}/>
+                                           currentUser={this.state.currentUser}
+                                           currentCompany={this.state.currentCompany}
+                                           component={Company}/>
 
+                        <Route exact path="/about/help"
+                               component={HelpPage}/>
 
-                            <Route path="/oauth2/redirect"
-                                   render={(props) =>
-                                       <OAuth2RedirectHandler onLogin={this.handleLogin}
-                                                              {...props} />}/>
+                        <Route path="/flowers"
+                               loadCurrentUser={this.loadCurrentUser}
+                               isAuthenticated={this.state.isAuthenticated}
+                               currentUser={this.state.currentUser}
+                               component={FlowersList}/>
 
+                        <Route path="/bouquets"
+                               isAuthenticated={this.state.isAuthenticated}
+                               currentUser={this.state.currentUser}
+                               component={BouquetList}/>
 
-                            <PrivateRoute path="/profile"
-                                          isAuthenticated={this.state.isAuthenticated}
-                                          currentUser={this.state.currentUser}
-                                          component={Profile}
-                                          {...this.props}/>
+                        <Route path="/reviews"
+                               currentUser={this.state.currentUser}
+                               component={ReviewsList}/>
 
-                            <PrivateRoute path="/basket"
-                                          isAuthenticated={this.state.isAuthenticated}
-                                          currentUser={this.state.currentUser}
-                                          component={Basket}/>
+                        <Route path="/"
+                               currentUser={this.state.currentUser}
+                               component={Home}/>
 
-                            <Route exact path="/about/documents"
-                                   component={DocumentsPage}/>
+                        <Route component={NotFound}/>
 
-                            <Route path="/company/shops/:id"
-                                   currentUser={this.state.currentUser}
-                                   currentCompany={this.state.currentCompany}
-                                   component={ShopDetail}/>
-
-                            <Route path="/company/shops"
-                                   currentUser={this.state.currentUser}
-                                   currentCompany={this.state.currentCompany}
-                                   component={ShopsList}/>
-
-                            <Route path="/company"
-                                   currentUser={this.state.currentUser}
-                                   currentCompany={this.state.currentCompany}
-                                   component={Company}/>
-
-                            <Route exact path="/about/legal"
-                                   component={LegalPage}/>
-
-                            <Route path="/company/about"
-                                   component={AboutPage}/>
-
-                            <PrivateAdminRoute path="/company"
-                                               isAuthenticated={this.state.isAuthenticated}
-                                               currentUser={this.state.currentUser}
-                                               currentCompany={this.state.currentCompany}
-                                               component={Company}/>
-
-                            <Route exact path="/about/help"
-                                   component={HelpPage}/>
-
-                            <Route path="/flowers"
-                                   loadCurrentUser={this.loadCurrentUser}
-                                   isAuthenticated={this.state.isAuthenticated}
-                                   currentUser={this.state.currentUser}
-                                   component={FlowersList}/>
-
-                            <Route path="/bouquets"
-                                   isAuthenticated={this.state.isAuthenticated}
-                                   currentUser={this.state.currentUser}
-                                   component={BouquetList}/>
-
-                            <Route path="/reviews"
-                                   currentUser={this.state.currentUser}
-                                   component={ReviewsList}/>
-
-                            <Route path="/"
-                                   currentUser={this.state.currentUser}
-                                   component={Home}/>
-
-                            <Route component={NotFound}/>
-
-                        </Switch>
-                    </div>
-
+                    </Switch>
                 </Content>
                 <AppFooter currentCompany={this.state.currentCompany}/>
             </Layout>

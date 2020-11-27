@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react'
 
-import {List} from 'antd'
+import {Col, List, Row} from 'antd'
 import {getFlowersByShopIdRequest, getFlowersRequest} from "../../util/utilsAPI";
 import AddFlowerModal from "./AddFlowerModal";
 import FlowerCardProxy from "./FlowerCardProxy";
@@ -118,53 +118,54 @@ class FlowersList extends PureComponent {
 
 
         return (
-            <div>
-                <div className="row justify-content-between">
-                    <div className="col-2"><h1>Цветы</h1></div>
+            <div className="pb-5">
+                <Row justify="center">
+                    <Col span={22}>
+                        <Row justify="space-between">
+                            <Col span={4}>
+                                <h1>Цветы</h1>
+                            </Col>
+                            <Col span={4}>
+                                {addProductButton}
+                            </Col>
+                        </Row>
 
-                    <div className="col-2">{addProductButton}</div>
-                </div>
+                        <List
+                            grid={{
+                                gutter: 16,
+                                column: 3,
+                            }}
+                            pagination={{
 
-                <div className="row">
-                    <List
-                        grid={{
-                            gutter: 16,
-                            column: 3,
-                        }}
+                                loading: this.state.isLoading,
+                                showSizeChanger: true,
 
-                        pagination={{
+                                defaultCurrent: Number(this.state.page),
+                                defaultPageSize: Number(this.state.size),
 
-                            loading: this.state.isLoading,
-                            showSizeChanger: true,
+                                pageSizeOptions: ["6", "9", "12"],
+                                position: "bottom",
 
-                            defaultCurrent: Number(this.state.page),
-                            defaultPageSize: Number(this.state.size),
+                                total: this.state.totalElements,
 
-                            pageSizeOptions: ["6", "9", "12"],
-                            position: "bottom",
+                                showQuickJumper: true,
+                                onShowSizeChange: this.onSizeChangeHandler,
+                                onChange: this.onPageChangeHandler,
 
-                            total: this.state.totalElements,
-
-                            showQuickJumper: true,
-                            onShowSizeChange: this.onSizeChangeHandler,
-                            onChange: this.onPageChangeHandler,
-
-                            loadMore: this.loadMore
-                        }}
-
-                        dataSource={flowers}
-
-                        renderItem={item => (
-                            <List.Item>
-                                {item}
-                            </List.Item>
-                        )}
-                    />
-                </div>
+                                loadMore: this.loadMore
+                            }}
+                            dataSource={flowers}
+                            renderItem={item => (
+                                <List.Item>
+                                    {item}
+                                </List.Item>
+                            )}
+                        />
+                    </Col>
+                </Row>
             </div>
         )
     }
-
 
     onSizeChangeHandler = (page, size) => {
 

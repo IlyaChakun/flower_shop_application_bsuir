@@ -4,7 +4,7 @@ import ReviewCard from "./ReviewCard";
 import {getAllReviewsRequest} from "../../util/utilsAPI";
 import AddReviewModal from "./AddReviewModal";
 import './ReviewsBlock.css'
-import {List} from "antd";
+import {Col, List, Row} from "antd";
 
 
 class ReviewsList extends Component {
@@ -78,57 +78,58 @@ class ReviewsList extends Component {
             )
 
         return (
-            <div className="container-fluid">
-                <div className="review-block col-10 mx-auto">
-                    <div className="row d-flex flex-row justify-content-between">
-                        <div className="col-2"><h1>Отзывы</h1></div>
-                        <div className="col-2">
-                            <AddReviewModal loadMore={this.loadMore}/>
-                        </div>
-                    </div>
-                    <div className="reviews">
-                        <div className="flex-viewport" style={{overflow: 'hidden', position: 'relative'}}>
+            <div className="review-block">
+                <Row justify="center">
+                    <Col span={22}>
+                        <Row justify="space-between">
+                            <Col span={4}>
+                                <h1>Отзывы</h1>
+                            </Col>
+                            <Col span={4}>
+                                <AddReviewModal loadMore={this.loadMore}/>
+                            </Col>
+                        </Row>
+                    </Col>
+                </Row>
 
-                            <List
-                                grid={{
-                                    gutter: 70,
-                                    column: 3,
-                                }}
+                <div className="reviews">
+                    {/*<div className="flex-viewport" style={{overflow: 'hidden', position: 'relative'}}>*/}
+                    <List
+                        grid={{
+                            gutter: 16,
+                            column: 3,
+                        }}
 
-                                pagination={{
+                        pagination={{
 
-                                    loading: this.state.isLoading,
-                                    showSizeChanger: true,
+                            loading: this.state.isLoading,
+                            showSizeChanger: true,
 
-                                    defaultCurrent: Number(this.state.page),
-                                    defaultPageSize: Number(this.state.size),
+                            defaultCurrent: Number(this.state.page),
+                            defaultPageSize: Number(this.state.size),
 
-                                    pageSizeOptions: ["3", "6", "9"],
-                                    position: "bottom",
+                            pageSizeOptions: ["3", "6", "9"],
+                            position: "bottom",
 
-                                    total: this.state.totalElements,
+                            total: this.state.totalElements,
 
-                                    onShowSizeChange: this.onSizeChangeHandler,
-                                    onChange: this.onPageChangeHandler,
+                            onShowSizeChange: this.onSizeChangeHandler,
+                            onChange: this.onPageChangeHandler,
 
-                                    loadMore: this.loadMore
-                                }}
+                            loadMore: this.loadMore
+                        }}
 
-                                dataSource={reviews}
+                        dataSource={reviews}
 
-                                renderItem={item => (
-                                    <List.Item>
-                                        {item}
-                                    </List.Item>
-                                )}
-                            />
-
-                        </div>
-                    </div>
+                        renderItem={item => (
+                            <List.Item>
+                                {item}
+                            </List.Item>
+                        )}
+                    />
+                    {/*</div>*/}
                 </div>
             </div>
-
-
         )
     }
 
