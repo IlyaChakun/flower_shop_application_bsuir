@@ -1,6 +1,7 @@
-/target/
+*/target/
 /.idea/
 *.iml
+*.xml
 /flower_shop_web/target/
 /flower_shop_service/target/
 /flower_shop_security/target/
