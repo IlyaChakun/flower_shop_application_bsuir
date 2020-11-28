@@ -3,7 +3,7 @@ import {withRouter} from "react-router-dom";
 import BasketProduct from "./BasketProduct";
 import List from "antd/es/list";
 
-import {Form, notification, Popconfirm} from "antd";
+import {Col, Form, notification, Popconfirm, Row} from "antd";
 
 import FormItem from "antd/es/form/FormItem";
 import Button from "antd/es/button";
@@ -15,10 +15,10 @@ import {localizedStrings} from "../util/localization";
 
 const layout = {
     labelCol: {
-        span: 8,
+        span: 16,
     },
     wrapperCol: {
-        span: 16,
+        span: 8,
     },
 };
 
@@ -133,66 +133,72 @@ class Basket extends PureComponent {
         });
 
         return (
-            <div className="container-fluid">
+            <div className="pb-5">
+                <Row justify="center">
+                    <Col span={22}>
+                        <Row justify="start">
+                            <Col>
+                                <h1>Корзина</h1>
+                            </Col>
+                        </Row>
 
-                <div className="row basket-container-header">
-                    <h1>Корзина</h1>
-                </div>
-
-                <div className="row basket-content">
-                    <List
-                        loading={this.state.loading}
-                        grid={{
-                            gutter: 70,
-                            column: 3,
-                        }}
-                        dataSource={addedItems}
-                        renderItem={item => (
-                            <List.Item>
-                                {item}
-                            </List.Item>
-                        )}
-                    />
-                </div>
-
-                <div className="basket-container-footer">
-                    <Form {...layout}
-                          onFinish={this.handleSubmitOrder}>
-
-                        <FormItem className="certificate-form-row" wrapperCol={{...layout.wrapperCol, offset: 8}}>
-                            <Checkbox
-                                style={{
-                                    lineHeight: '32px',
+                        <div className="basket-content">
+                            <List
+                                loading={this.state.loading}
+                                grid={{
+                                    gutter: 70,
+                                    column: 3,
                                 }}
-                                onClick={this.handleShippingChange}>
-                                Доставка
-                            </Checkbox>
-                        </FormItem>
+                                dataSource={addedItems}
+                                renderItem={item => (
+                                    <List.Item>
+                                        {item}
+                                    </List.Item>
+                                )}
+                            />
+                        </div>
 
-                        <FormItem className="certificate-form-row" wrapperCol={{...layout.wrapperCol, offset: 8}}>
+                        <div className="basket-container-footer">
+                            <Form {...layout}
+                                  onFinish={this.handleSubmitOrder}>
+
+                                <FormItem wrapperCol={{span:8, offset: 8}}>
+                                    <Checkbox
+                                        style={{
+                                            lineHeight: '32px',
+                                        }}
+                                        onClick={this.handleShippingChange}>
+                                        Доставка
+                                    </Checkbox>
+                                </FormItem>
+
+                                <FormItem wrapperCol={{span:8, offset: 8}}>
                              <span className="quantity-cost-text">
                                 Общая сумма: {this.state.totalPrice} за {this.state.totalElements} товар(ов)
                             </span>
-                        </FormItem>
-                        <FormItem className="certificate-form-row" wrapperCol={{...layout.wrapperCol, offset: 8}}>
+                                </FormItem>
+                                <FormItem wrapperCol={{span:8, offset: 8}}>
 
-                            <div className="buttons-position">
-                                <Popconfirm
-                                    title="Вы уверены, что хотите сделать заказ?"
-                                    onConfirm={this.confirm}
-                                    okText="Yes"
-                                    cancelText="No">
-                                    <Button type="primary"
-                                            htmlType="submit"
-                                            size="large"
-                                            className="basic-form-button">
-                                        Оформить заказ
-                                    </Button>
-                                </Popconfirm>
-                            </div>
-                        </FormItem>
-                    </Form>
-                </div>
+                                    <div className="buttons-position">
+                                        <Popconfirm
+                                            title="Вы уверены, что хотите сделать заказ?"
+                                            onConfirm={this.confirm}
+                                            okText="Yes"
+                                            cancelText="No">
+                                            <Button type="primary"
+                                                    htmlType="submit"
+                                                    size="large"
+                                                    className="basic-form-button">
+                                                Оформить заказ
+                                            </Button>
+                                        </Popconfirm>
+                                    </div>
+                                </FormItem>
+                            </Form>
+                        </div>
+
+                    </Col>
+                </Row>
             </div>
         );
     }
@@ -237,7 +243,7 @@ class Basket extends PureComponent {
 
             notification.error({
                 message: localizedStrings.alertAppName,
-                description: 'Не удалось изменить колво в корзине!Вы выбрали больше чем доступно!',
+                description: 'Не удалось изменить кол-во в корзине!Вы выбрали больше чем доступно!',
             });
         });
     };

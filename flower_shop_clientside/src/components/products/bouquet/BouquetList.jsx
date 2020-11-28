@@ -103,17 +103,17 @@ class BouquetList extends Component {
 
             )
 
-        const flowers = this.state.bouquets
-            .map(product => (
+        const bouquets = this.state.bouquets
+            .map(bouquet => (
                     <BouquetCardProxy
                         history={this.props.history}
                         currentUser={this.props.currentUser}
                         isAuthenticated={this.props.isAuthenticated}
-                        key={product.id}
+                        key={bouquet.id}
 
-                        product={product}
-                        productId={product.id}
-                        shopId={product.shop.id}
+                        product={bouquet}
+                        productId={bouquet.id}
+                        shopId={bouquet.shop.id}
                     />
                 )
             )
@@ -156,7 +156,7 @@ class BouquetList extends Component {
                                 loadMore: this.loadMore
                             }}
 
-                            dataSource={flowers}
+                            dataSource={bouquets}
 
                             renderItem={item => (
                                 <List.Item>

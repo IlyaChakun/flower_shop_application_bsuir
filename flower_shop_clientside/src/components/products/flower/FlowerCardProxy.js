@@ -16,6 +16,7 @@ class FlowerCardProxy extends Component {
 
     addToBasket = () => {
         const productBasket = {
+            //TODO userID
             "userId": localStorage.getItem(USER_ID),
             "flowerLengthCostId": this.props.product.flowerLengthCosts[0].id,
             "productId": this.props.product.id,
@@ -40,16 +41,14 @@ class FlowerCardProxy extends Component {
     render() {
 
         const editAction = (
-            <span className={isAdmin(this.props.currentUser) ? '' : 'custom-hidden'}>
+            <div className={isAdmin(this.props.currentUser) ? '' : 'custom-hidden'}>
             <EditFlowerModal
                 shopId={this.props.shopId}
                 productId={this.props.productId}
             />
-
-            </span>
+            </div>
         )
         const deleteAction = (
-
             <div className={isAdmin(this.props.currentUser) ? '' : 'custom-hidden'}>
                 <DeleteFlowerModal
                     productId={this.props.product.id}
@@ -59,13 +58,11 @@ class FlowerCardProxy extends Component {
             </div>)
 
         const buyAction = (
-
             <div className={isAdmin(this.props.currentUser) ? 'custom-hidden' : ''}
                  onClick={() => this.addToBasket()}>
                 <i className="fas fa-shopping-cart"></i>
                 {/*<PlusCircleOutlined style={{fontSize: '27px', color: '#cc3242'}}/>*/}
             </div>
-
         )
 
         return (

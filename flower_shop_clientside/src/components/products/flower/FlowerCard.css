@@ -1,8 +1,5 @@
-.product-content-body {
-    /*text-indent: 20px;*/
-    /*padding-left: 15px;*/
-    /*padding-right: 15px;*/
-    height: 90px;
+.ant-card-meta-description div .product-content-body {
+    height: 150px;
     overflow: hidden;
     text-overflow: ellipsis;
     word-wrap: break-word;
@@ -10,6 +7,19 @@
 
 .ant-card-meta-description{
  color: black;
+}
+
+.ant-btn{
+    width: 100%;
+    padding: 4px;
+}
+
+.ant-btn > .anticon + span, .ant-btn > span + .anticon{
+    margin-left: 3px;
+}
+
+.ant-btn > span{
+    margin-right: 0;
 }
 
 .ant-card-meta-avatar img {

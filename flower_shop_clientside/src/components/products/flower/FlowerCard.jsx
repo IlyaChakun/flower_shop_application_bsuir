@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Button, Card, Dropdown, Menu, message} from 'antd'
+import {Row, Col, Button, Card, Dropdown, Menu, message} from 'antd'
 import './FlowerCard.css'
 import DownOutlined from "@ant-design/icons/lib/icons/DownOutlined";
 
@@ -24,12 +24,10 @@ class FlowerCard extends Component {
         shopAddress: this.props.product.shop.contacts.address,
         shopCity: this.props.product.shop.contacts.city,
         shopFirstPhoneNumber: this.props.product.shop.contacts.firstPhoneNumber,
-        imageUrl: this.props.product.image === null ? '' : this.props.product.image.imageUrl
-
+        imageUrl: this.props.product.image === null ? '' : this.props.product.image.imageUrl,
     }
 
     render() {
-
 
         const flowerLengthCosts = this.state.flowerLengthCosts
             .map(lengthCost => (
@@ -48,25 +46,20 @@ class FlowerCard extends Component {
         )
         const flowerLengthCostsDropdown = (
             <Dropdown overlay={flowerLengthCostsMenu}
-                      overlayStyle={{width:'100px'}}>
+                      overlayStyle={{width: '100px'}}>
                 <Button>
                     Стоимость и длина <DownOutlined/>
                 </Button>
             </Dropdown>
         )
 
-
         return (
-
             <div className="site-card-wrapper">
                 <Card
-                    bodyStyle={{padding:'5px'}}
+                    bodyStyle={{padding: '10px'}}
                     hoverable
-                    extra={
-                        'Страна поставщик: ' + this.state.country
-                    }
-                    title={<span>{this.state.flowerType}</span>
-                    }
+                    extra={'Страна поставщик: ' + this.state.country}
+                    title={<span>{this.state.flowerType}</span>}
                     actions={[
                         this.props.firstAction,
                         this.props.secondAction,
@@ -74,22 +67,21 @@ class FlowerCard extends Component {
                     ]}>
 
                     <Meta
-                        style={{padding:0}}
-                        avatar={
-                            <img alt={this.state.flowerType} src={this.state.imageUrl}/>
-                        }
-
+                        style={{padding: "5px"}}
+                        avatar={<img alt={this.state.flowerType} src={this.state.imageUrl}/>}
                         title={
-                            <div className="col-10">
-                                <p>
-                                    {this.state.flowerColor.colorName}
-                                    <br/>
-                                    {this.state.flowerSort.sortName}
-                                </p>
-                                <div>
-                                    {flowerLengthCostsDropdown}
-                                </div>
-                            </div>
+                            <Row>
+                                <Col span={24}>
+                                    <p>
+                                        {this.state.flowerColor.colorName}
+                                        <br/>
+                                        {this.state.flowerSort.sortName}
+                                    </p>
+                                    <div>
+                                        {flowerLengthCostsDropdown}
+                                    </div>
+                                </Col>
+                            </Row>
                         }
 
                         description={
@@ -99,9 +91,8 @@ class FlowerCard extends Component {
                                         <br/>
                                         В магазине по адресу: {this.state.shopCity}, {this.state.shopAddress}
                                         <br/>
-                                        телефон: {this.state.shopFirstPhoneNumber}</p>
+                                        Телефон: {this.state.shopFirstPhoneNumber}</p>
                                 </div>
-
 
                                 <div className="product-rating-footer mb-4">
                                     Последнее обновление: {this.state.dateOfLastUpdate}

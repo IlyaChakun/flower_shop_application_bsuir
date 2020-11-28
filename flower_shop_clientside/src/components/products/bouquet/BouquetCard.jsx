@@ -1,10 +1,7 @@
 import React, {Component} from 'react'
-import {Card} from 'antd'
+import {Button, Card, Col, Dropdown, Menu, message, Row} from 'antd'
 import './BouquetCard.css'
 import DownOutlined from "@ant-design/icons/lib/icons/DownOutlined";
-
-
-import {Menu, Dropdown, Button, message} from 'antd';
 
 const {Meta} = Card
 
@@ -31,12 +28,9 @@ class BouquetCard extends Component {
         shopCity: this.props.product.shop.contacts.city,
         shopFirstPhoneNumber: this.props.product.shop.contacts.firstPhoneNumber,
         imageUrl: this.props.product.image === null ? '' : this.props.product.image.imageUrl
-
     }
 
     render() {
-
-
 
         const flowerLengthCosts = this.state.flowerLengthCosts
             .map(lengthCost => (
@@ -54,81 +48,75 @@ class BouquetCard extends Component {
             </Menu>
         )
         const flowerLengthCostsDropdown = (
-            <Dropdown overlay={flowerLengthCostsMenu}>
+            <Dropdown overlay={flowerLengthCostsMenu}
+                      overlayStyle={{width: '100px'}}>
                 <Button>
                     Стоимость и длина <DownOutlined/>
                 </Button>
             </Dropdown>
         )
 
-
         return (
-
-
-            <Card
-                hoverable
-                style={{width: 600, marginTop: 16}}
-                extra={
-                    'Страна поставщик: ' + this.state.country
-                }
-                title={
-                    <span>
-                       {this.state.bouquetType} - <span className="font-italic">{this.state.title}</span>
-                    </span>
-                }
-                actions={[
-                    this.props.firstAction,
-                    this.props.secondAction,
-                    this.state.availableAmountOnStock > 0 ? '' : this.props.thirdAction
-                ]}>
-
-                <Meta
-                    avatar={
+            <div className="site-card-wrapper">
+                <Card
+                    bodyStyle={{padding: '10px'}}
+                    hoverable
+                    extra={
+                        'Страна поставщик: ' + this.state.country
+                    }
+                    title={
                         <span>
-                              <img alt={this.state.bouquetType}
-                                   className="img-fluid"
-                                   src={this.state.imageUrl}
-                                   width={'200px'}
-                                   height={'400px'}
-                              />
+                            {this.state.bouquetType}<br/>
+                            <span className="font-italic">{this.state.title}</span>
                         </span>
                     }
+                    actions={[
+                        this.props.firstAction,
+                        this.props.secondAction,
+                        this.state.availableAmountOnStock > 0 ? this.props.thirdAction : ''
+                    ]}>
 
-                    title={
+                    <Meta
+                        style={{padding: "5px"}}
+                        avatar={
+                            <img alt={this.state.bouquetType}
+                                // className="img-fluid"
+                                 src={this.state.imageUrl}
+                            />
+                        }
 
-                        <div>
-                            <div className="preview-text text-justify">
-
-                                <p>{this.state.flowerColor.colorName}</p>
+                        title={
+                            <Row>
+                                <Col span={24}>
+                                    <p>{this.state.flowerColor.colorName}</p>
                                     <br/>
-                                <p>{this.state.flowerSort.sortName}</p>
+                                    <p>{this.state.flowerSort.sortName}</p>
 
+                                    <div>
+                                        {flowerLengthCostsDropdown}
+                                    </div>
+                                </Col>
+                            </Row>
+                        }
+
+                        description={
+                            <div>
+                                <div className="product-content-body">
+                                    <p>В наличии: {this.state.availableAmountOnStock} штук
+                                        <br/>
+                                        В магазине по адресу: {this.state.shopCity}, {this.state.shopAddress}
+                                        <br/>
+                                        Телефон: {this.state.shopFirstPhoneNumber}</p>
+                                </div>
+
+                                <div className="product-rating-footer mb-4">
+                                    Последнее обновление: {this.state.dateOfLastUpdate}
+                                </div>
                             </div>
-                            <p>
-                                {flowerLengthCostsDropdown}
-                            </p>
-
-                        </div>
-                    }
-
-                    description={
-                        <div>
-                            <div className="product-content-body">
-                                <p>В наличии: {this.state.availableAmountOnStock} штук
-                                    <br/>
-                                    В магазине по адресу: {this.state.shopCity}, {this.state.shopAddress}
-                                    <br/>
-                                    телефон: {this.state.shopFirstPhoneNumber}</p>
-                            </div>
-
-                            <div className="product-rating-footer mb-4">
-                                Последнее обновление: {this.state.dateOfLastUpdate}
-                            </div>
-                        </div>
-                    }
-                />
-
-            </Card>
+                        }
+                    />
+                </Card>
+            </div>
         )
     }
 }
