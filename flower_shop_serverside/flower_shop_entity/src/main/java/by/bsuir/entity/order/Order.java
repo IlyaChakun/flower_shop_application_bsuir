@@ -2,6 +2,8 @@ package by.bsuir.entity.order;
 
 import by.bsuir.entity.AbstractEntity;
 import by.bsuir.entity.user.Client;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,7 +22,7 @@ public class Order extends AbstractEntity {
 
 
     @OneToMany(cascade = CascadeType.ALL)
-    private Set<OrderProduct> orderProducts = new HashSet<>();
+    private List<OrderProduct> orderProducts = new ArrayList<>();
 
 
     @Column(name = "unique_id")

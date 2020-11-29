@@ -23,7 +23,7 @@ public class OrderRequestDTO {
     @NotBlank(message = "Адресс не может быть пустым")
     private String address;
 
-    @Min(value = 1, message = "Этаж должен быть больше 1")
+    @Min(value = 1, message = "Этаж должен быть  больше 1")
     @Max(value = 100, message = "Этаж должен быть меньше 100")
     private Integer floorNumber;
 
