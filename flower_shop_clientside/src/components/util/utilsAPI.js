@@ -436,12 +436,12 @@ export function getOrdersByShopIdRequest (searchCriteria, shopId) {
   })
 }
 
-export function saveOrderRequest (orderRequest) {
+export function createOrder (orderRequest) {
   const url = BASE_URL + 'orders'
 
   return request({
     url: url,
-    method: 'GET',
+    method: 'POST',
     body: JSON.stringify(orderRequest)
   })
 }

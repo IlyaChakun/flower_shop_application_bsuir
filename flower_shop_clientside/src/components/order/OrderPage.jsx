@@ -1,16 +1,10 @@
 import React, {Component} from 'react'
 import {withRouter} from 'react-router-dom'
-import {Button, Collapse, Form, Input, List, notification} from 'antd'
+import {Button, Form, Input, List, notification} from 'antd'
 import OrderProduct from "./OrderProduct";
-import s from "../company/Company.module.css";
 import {localizedStrings} from "../util/localization";
 import {validateEmail, validateText} from "../common/validation/ValidationFunctions";
-import {
-    getCurrentCompanyRequest,
-    saveCompanyRequest,
-    saveOrderRequest,
-    updateCompanyInfoRequest
-} from "../util/utilsAPI";
+import {getCurrentCompanyRequest, saveOrderRequest} from "../util/utilsAPI";
 import {SUCCESS} from "../../constants";
 
 

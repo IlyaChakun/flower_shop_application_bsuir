@@ -29,11 +29,11 @@ class AppHeader extends Component {
 
     makeMenuForUser = () => {
         return [
-            <Menu.Item key="/">
-                <Link to="/">
-                    <HomeOutlined style={{fontSize: '20px'}}/>
-                </Link>
-            </Menu.Item>,
+            // <Menu.Item key="/">
+            //     <Link to="/">
+            //         <HomeOutlined style={{fontSize: '20px'}}/>
+            //     </Link>
+            // </Menu.Item>,
 
             <Menu.Item key="/basket">
                 <Link

@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {withRouter} from 'react-router-dom'
 
 import {getOrdersByShopIdRequest, getOrdersRequest} from "../util/utilsAPI";
-import {Collapse} from 'antd';
+import {List, Collapse, Row} from 'antd';
 import OrderDetail from "./OrderDetail";
 
 
@@ -12,26 +12,11 @@ class OrderList extends Component {
 
         shopId: this.props.shopId,
 
-        orders: [
-            {
-                orderProducts: [{id:1}, {id:2}],
-                id: 1
-            },
-            {
-                orderProducts: [{id:1}, {id:2}],
-                id: 2
-            },
-            {
-                orderProducts: [{id:1}, {id:2}],
-                id: 3
-            }
-        ],
+        orders: [],
 
         page: 1,
         size: 6,
         pagesCount: 0,
-
-        searchString: '',
 
         totalPages: 0,
         totalElements: 0,
@@ -42,11 +27,12 @@ class OrderList extends Component {
 
 
     componentDidMount() {
+        console.log('load works')
         this.updateList()
     }
 
     updateList = () => {
-        this.loadList(this.state.page, this.state.size, this.state.shopId)
+        this.loadList(this.state.page, this.state.size)
     }
 
     loadList = (page, size) => {
@@ -87,6 +73,9 @@ class OrderList extends Component {
                     totalElements: response.totalElements,
                 });
 
+                console.log('orders:' + {...response.objects})
+                debugger
+
             }).catch(() => {
             this.setState({
                 isLoading: false
@@ -106,12 +95,7 @@ class OrderList extends Component {
             )
 
         return (
-            // <Collapse accordion>
-            //     {orders}
-            // </Collapse>
-
-
-            <div className="row">
+            <Row>
                 <Collapse accordion>
 
                     {orders}
@@ -153,7 +137,7 @@ class OrderList extends Component {
                     {/*/>*/}
 
                 </Collapse>
-            </div>
+            </Row>
         )
     }
 

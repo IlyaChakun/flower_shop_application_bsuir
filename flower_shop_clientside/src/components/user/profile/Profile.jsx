@@ -6,7 +6,7 @@ import s from './Profile.module.css'
 import ChangePasswordModal from "../modal/ChangePasswordModal";
 
 import {SUCCESS} from "../../../constants";
-import {updateUserProfileRequest} from "../../util/utilsAPI";
+import {getBasketRequest, updateUserProfileRequest} from "../../util/utilsAPI";
 import {validatePhoneNumber, validateUserName} from "../../common/validation/ValidationFunctions";
 import ImageLoader from "../../common/image/ImageLoader";
 import {withRouter} from "react-router-dom";
@@ -84,7 +84,7 @@ class Profile extends Component {
         return (
             <div className="container py-5 px-3 mb-5">
                 <Tabs defaultActiveKey="1" onChange={callback}>
-                    <TabPane tab="Личный кабинет" key="1">
+                    <TabPane tab="Личный кабинет" key="personal-cabinet">
                         <div className="col-sm-12 mb-5">
                                 <Form {...layout}
                                       onFinish={this.handleSubmit} className={s.form}>
@@ -179,7 +179,7 @@ class Profile extends Component {
                         </div>
                     </TabPane>
                     <TabPane tab="Ваши заказы" key="2">
-                        <OrderList/>
+                        <OrderList currentUser={this.props.currentUser}/>
                     </TabPane>
 
                 </Tabs>

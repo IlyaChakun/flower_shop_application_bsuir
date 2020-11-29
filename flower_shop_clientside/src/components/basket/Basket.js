@@ -1,58 +1,65 @@
 import React, {PureComponent} from 'react';
-import {withRouter} from "react-router-dom";
 import BasketProduct from "./BasketProduct";
-import List from "antd/es/list";
+import {withRouter} from "react-router-dom";
 
-import {Col, Form, notification, Popconfirm, Row} from "antd";
-
-import FormItem from "antd/es/form/FormItem";
-import Button from "antd/es/button";
-import Checkbox from "antd/es/checkbox";
-import {deleteProductToBasketRequest, getBasketRequest, updateProductToBasketRequest} from "../util/utilsAPI";
-import {USER_ID} from "../../constants";
+import {Button, Col, Form, Input, List, notification, Popconfirm, Row} from "antd";
+import {
+    createOrder,
+    deleteProductToBasketRequest,
+    getBasketRequest,
+    updateProductToBasketRequest
+} from "../util/utilsAPI";
+import {validateAddress, validateText} from "../common/validation/ValidationFunctions";
+import {ERROR, SUCCESS, USER_ID} from "../../constants";
 import {localizedStrings} from "../util/localization";
+
+const {TextArea} = Input;
 
 
 const layout = {
     labelCol: {
-        span: 16,
+        span: 4
     },
     wrapperCol: {
-        span: 8,
+        span: 16
     },
 };
 
 class Basket extends PureComponent {
 
-    constructor(props) {
-        super(props);
+    state = {
+        products: [],
+        totalElements: 0,
+        totalPrice: 0,
 
-        this.state = {
-            products: [],
-            totalElements: 0,
-            totalPrice: 0,
+        comment: {
+            value: ""
+        },
+        address: {
+            value: ""
+        },
+        floorNumber: {
+            value: ""
+        },
+        entranceNumber: {
+            value: ""
+        },
 
-            loading: false
-        };
+        loading: false
     }
 
-
     componentDidMount() {
-
         console.log('componentDidMount');
-
         this.setBasketState();
     }
 
 
     setBasketState = () => {
-
         this.setState({
             isLoading: true
         });
 
         const promise = getBasketRequest();
-
         if (!promise) {
             return;
         }
@@ -73,17 +80,25 @@ class Basket extends PureComponent {
     };
 
 
-    handleShippingChange = (e) => {
+    // handleShippingChange = (e) => {
+    //
+    //     if (e.target.checked) {
+    //         // this.props.addShipping();
+    //         console.log('add shipping')
+    //     } else {
+    //         // this.props.substractShipping();
+    //         console.log('remove shipping')
+    //     }
+    // };
 
-        if (e.target.checked) {
-            // this.props.addShipping();
-            console.log('add shipping')
-        } else {
-            // this.props.substractShipping();
-            console.log('remove shipping')
-        }
-    };
-
+    isFormInvalid = () => {
+        return !(
+            this.state.comment.validateStatus === SUCCESS &&
+            this.state.address.validateStatus === SUCCESS &&
+            this.state.floorNumber.validateStatus === SUCCESS &&
+            this.state.entranceNumber.validateStatus === SUCCESS
+        )
+    }
 
     confirm = () => {
         this.handleSubmitOrder();
@@ -91,26 +106,34 @@ class Basket extends PureComponent {
 
     handleSubmitOrder = () => {
         const userId = this.props.match.params.id;
+        const userIdFromProps = this.props.currentUser;
+
         console.log("userId: " + userId)
+        console.log("userIdFromProps: " + userIdFromProps)
 
         const order = {
-            userId: userId,
-        };
+            "comment": this.state.comment.value,
+            "address": this.state.address.value,
+            "floorNumber": this.state.floorNumber.value,
+            "entranceNumber": this.state.entranceNumber.value
+        }
 
-        // createOrder(order)
-        //     .then(() => {
-        //         notification.success({
-        //             message: localizedStrings.alertAppName,
-        //             description: 'Заказ принят!',
-        //         });
-        //         this.props.history.push("/")
-        //     }).catch(error => {
-        //     notification.error({
-        //         message: localizedStrings.alertAppName,
-        //         description: 'Не удалось создать заказ!' + error.message,
-        //     });
-        // });
-    };
+        createOrder(order)
+            .then(() => {
+                notification.success({
+                    message: localizedStrings.alertAppName,
+                    description: 'Заказ принят!',
+                });
+                this.props.history.push("/")
+            }).catch(error => {
+            notification.error({
+                message: localizedStrings.alertAppName,
+                description: 'Не удалось создать заказ!' + error.message,
+            });
+        });
+
+        console.log('order request: ' + {...order})
+    }
 
 
     render() {
@@ -142,7 +165,7 @@ class Basket extends PureComponent {
                             </Col>
                         </Row>
 
-                        <div className="basket-content">
+                        <div className="basket-content mb-5">
                             <List
                                 loading={this.state.loading}
                                 grid={{
@@ -162,41 +185,119 @@ class Basket extends PureComponent {
                             <Form {...layout}
                                   onFinish={this.handleSubmitOrder}>
 
-                                <FormItem wrapperCol={{span:8, offset: 8}}>
-                                    <Checkbox
-                                        style={{
-                                            lineHeight: '32px',
-                                        }}
-                                        onClick={this.handleShippingChange}>
-                                        Доставка
-                                    </Checkbox>
-                                </FormItem>
+                                {/*<FormItem wrapperCol={{span:8, offset: 8}}>*/}
+                                {/*    <Checkbox*/}
+                                {/*        style={{*/}
+                                {/*            lineHeight: '32px',*/}
+                                {/*        }}*/}
+                                {/*        onClick={this.handleShippingChange}>*/}
+                                {/*        Доставка*/}
+                                {/*    </Checkbox>*/}
+                                {/*</FormItem>*/}
 
-                                <FormItem wrapperCol={{span:8, offset: 8}}>
+
+                                <Form.Item
+                                    label={'Комментарий к заказу'}
+                                    validateStatus={this.state.comment.validateStatus}
+                                    hasFeedback
+                                    onChange={(event) => this.handleInputChange(event, validateText)}
+                                    help={this.state.comment.errorMsg}
+                                >
+                                    <TextArea
+                                        rows={3}
+                                        name="comment"
+                                        size="middle"
+                                        value={this.state.comment.value}>
+                                    </TextArea>
+                                </Form.Item>
+
+                                <Form.Item
+                                    label={'Адрес'}
+                                    validateStatus={this.state.address.validateStatus}
+                                    hasFeedback
+                                    onChange={(event) => this.handleInputChange(event, validateAddress)}
+                                    help={this.state.address.errorMsg}
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Пожалуйста, введите адрес!',
+                                        },
+                                    ]}
+                                >
+                                    <Input
+                                        name="address"
+                                        placeholder={'Адрес'}
+                                        style={{fontSize: '16px'}}
+                                        autosize={{minRows: 3, maxRows: 6}}/>
+                                </Form.Item>
+
+
+                                <Form.Item
+                                    label={'Этаж'}
+                                    validateStatus={this.state.floorNumber.validateStatus}
+                                    hasFeedback
+                                    onChange={(event) => this.handleInputChange(event, this.validateFlourNumber)}
+                                    help={this.state.floorNumber.errorMsg}
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Пожалуйста, введите этаж!',
+                                        },
+                                    ]}
+                                >
+                                    <Input
+                                        name="floorNumber"
+                                        placeholder={'Этаж'}
+                                        style={{fontSize: '16px'}}
+                                        autosize={{minRows: 3, maxRows: 6}}/>
+                                </Form.Item>
+
+                                <Form.Item
+                                    label={'Подъезд'}
+                                    validateStatus={this.state.entranceNumber.validateStatus}
+                                    hasFeedback
+                                    onChange={(event) => this.handleInputChange(event, this.validateEntranceNumber)}
+                                    help={this.state.entranceNumber.errorMsg}
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Пожалуйста, введите подъезд!',
+                                        },
+                                    ]}
+                                >
+                                    <Input
+                                        name="entranceNumber"
+                                        placeholder={'Подъезд'}
+                                        style={{fontSize: '16px'}}
+                                        autosize={{minRows: 3, maxRows: 6}}/>
+                                </Form.Item>
+
+                                <Form.Item wrapperCol={{span: 8, offset: 8}}>
                              <span className="quantity-cost-text">
-                                Общая сумма: {this.state.totalPrice} за {this.state.totalElements} товар(ов)
+                                Общая сумма: {this.state.totalPrice} руб. за {this.state.totalElements} товар(ов)
                             </span>
-                                </FormItem>
-                                <FormItem wrapperCol={{span:8, offset: 8}}>
+                                </Form.Item>
+
+                                <Form.Item wrapperCol={{span: 8, offset: 8}}>
 
                                     <div className="buttons-position">
                                         <Popconfirm
                                             title="Вы уверены, что хотите сделать заказ?"
                                             onConfirm={this.confirm}
-                                            okText="Yes"
-                                            cancelText="No">
+                                            okText="Да"
+                                            cancelText="Нет">
                                             <Button type="primary"
                                                     htmlType="submit"
                                                     size="large"
-                                                    className="basic-form-button">
+                                                    disabled={!this.isFormInvalid}
+                                            >
                                                 Оформить заказ
                                             </Button>
                                         </Popconfirm>
                                     </div>
-                                </FormItem>
+                                </Form.Item>
                             </Form>
                         </div>
-
                     </Col>
                 </Row>
             </div>
@@ -247,6 +348,71 @@ class Basket extends PureComponent {
             });
         });
     };
+
+
+    handleInputChange = (event, validationFun) => {
+
+        console.log('event ' + event)
+        console.log('event ' + event.target.name)
+
+        const target = event.target
+        const inputName = target.name
+        const inputValue = target.value
+
+        console.log('handle input change')
+        console.log('inputName= ' + inputName)
+        console.log('inputValue= ' + inputValue)
+
+        this.setState({
+            [inputName]: {
+                value: inputValue,
+                ...validationFun(inputValue)
+            }
+        })
+    }
+
+    validateFlourNumber = (number) => {
+        if (!number) {
+            return {
+                validateStatus: ERROR,
+                errorMsg: 'Нужно ввести значение'
+            }
+        }
+
+        if (number > 100) {
+            return {
+                validateStatus: ERROR,
+                errorMsg: 'Число слишком  большое, не более 100!'
+            }
+        }
+
+        return {
+            validateStatus: SUCCESS,
+            errorMsg: null
+        }
+    }
+
+
+    validateEntranceNumber = (number) => {
+        if (!number) {
+            return {
+                validateStatus: ERROR,
+                errorMsg: 'Нужно ввести значение'
+            }
+        }
+
+        if (number > 20) {
+            return {
+                validateStatus: ERROR,
+                errorMsg: 'Число слишком  большое, не более 20!'
+            }
+        }
+
+        return {
+            validateStatus: SUCCESS,
+            errorMsg: null
+        }
+    }
 }
 
 

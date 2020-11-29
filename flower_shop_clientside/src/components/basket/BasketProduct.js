@@ -52,15 +52,14 @@ class BasketProduct extends Component {
                 <Popconfirm
                     title="Вы уверены, что хотите удалить продукт из корзины?"
                     onConfirm={this.confirm}
-                    okText="Yes"
-                    cancelText="No">
+                    okText="Да"
+                    cancelText="Нет">
                     <DeleteOutlined style={{fontSize: '25px'}}/>
                 </Popconfirm>
             </div>);
 
         const countAction = (
             <div>
-
                 <InputNumber
                     key={"quantityPicker"}
                     defaultValue={this.state.quantity}
@@ -83,7 +82,7 @@ class BasketProduct extends Component {
         return (
                 <ProductCard
                     history={this.props.history}
-                    currentUser={this.props.currentUser}
+                    currentUserId={this.props.currentUserId}
                     isAuthenticated={this.props.isAuthenticated}
                     key={this.props.productWithQuantity.product.id}
                     product={this.props.productWithQuantity.product}
