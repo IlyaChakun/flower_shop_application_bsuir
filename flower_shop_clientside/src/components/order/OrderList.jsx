@@ -1,16 +1,14 @@
 import React, {Component} from 'react'
 import {withRouter} from 'react-router-dom'
 
-import {getOrdersByShopIdRequest, getOrdersRequest} from "../util/utilsAPI";
-import {List, Collapse, Row} from 'antd';
+import {getClientOrders, getOrdersByShopIdRequest} from "../util/utilsAPI";
+import {List} from 'antd';
 import OrderDetail from "./OrderDetail";
 
 
 class OrderList extends Component {
 
     state = {
-
-        shopId: this.props.shopId,
 
         orders: [],
 
@@ -21,13 +19,10 @@ class OrderList extends Component {
         totalPages: 0,
         totalElements: 0,
 
-
         isLoading: false
     }
 
-
     componentDidMount() {
-        console.log('load works')
         this.updateList()
     }
 
@@ -42,8 +37,8 @@ class OrderList extends Component {
             size: size
         };
 
-        if (!this.state.shopId) {
-            const promise = getOrdersRequest(searchCriteria);
+        if (!this.props.shopId) {
+            const promise = getClientOrders(searchCriteria);
             if (!promise) {
                 return;
             }
@@ -66,15 +61,11 @@ class OrderList extends Component {
 
         promise
             .then(response => {
-
                 this.setState({
                     orders: response.objects.slice(),
                     totalPages: response.totalPages,
                     totalElements: response.totalElements,
                 });
-
-                console.log('orders:' + {...response.objects})
-                debugger
 
             }).catch(() => {
             this.setState({
@@ -88,56 +79,48 @@ class OrderList extends Component {
         const orders = this.state.orders
             .map(order => (
                     <OrderDetail
-                        key={order.uniqueId}
+                        key={order.id}
                         order={order}
                     />
                 )
             )
 
         return (
-            <Row>
-                <Collapse accordion>
 
-                    {orders}
+            <List
+                grid={{
+                    gutter: 16,
+                    column: 1,
+                }}
 
+                pagination={{
 
-                    {/*<List*/}
-                    {/*    grid={{*/}
-                    {/*        gutter: 70,*/}
-                    {/*        column: 3,*/}
-                    {/*    }}*/}
+                    loading: this.state.isLoading,
+                    showSizeChanger: true,
 
-                    {/*    pagination={{*/}
+                    defaultCurrent: Number(this.state.page),
+                    defaultPageSize: Number(this.state.size),
 
-                    {/*        loading: this.state.isLoading,*/}
-                    {/*        showSizeChanger: true,*/}
+                    pageSizeOptions: ["6", "9", "12"],
+                    position: "bottom",
 
-                    {/*        defaultCurrent: Number(this.state.page),*/}
-                    {/*        defaultPageSize: Number(this.state.size),*/}
+                    total: this.state.totalElements,
 
-                    {/*        pageSizeOptions: ["6", "9", "12"],*/}
-                    {/*        position: "bottom",*/}
+                    showQuickJumper: true,
+                    onShowSizeChange: this.onSizeChangeHandler,
+                    onChange: this.onPageChangeHandler,
 
-                    {/*        total: this.state.totalElements,*/}
+                    loadMore: this.loadMore
+                }}
 
-                    {/*        showQuickJumper: true,*/}
-                    {/*        onShowSizeChange: this.onSizeChangeHandler,*/}
-                    {/*        onChange: this.onPageChangeHandler,*/}
+                dataSource={orders}
 
-                    {/*        loadMore: this.loadMore*/}
-                    {/*    }}*/}
-
-                    {/*    dataSource={orders}*/}
-
-                    {/*    renderItem={item => (*/}
-                    {/*        <List.Item>*/}
-                    {/*            {item}*/}
-                    {/*        </List.Item>*/}
-                    {/*        )}*/}
-                    {/*/>*/}
-
-                </Collapse>
-            </Row>
+                renderItem={item => (
+                    <List.Item>
+                        {item}
+                    </List.Item>
+                )}
+            />
         )
     }
 
@@ -152,12 +135,6 @@ class OrderList extends Component {
     };
 
     onPageChangeHandler = (pageNumber) => {
-
-        console.log('onPageChangeHandler')
-        console.log('pageNumber', pageNumber)
-        console.log('totalElements', this.state.totalElements)
-        console.log('totalPages', this.state.totalPages)
-
         this.setState({
             page: pageNumber
         });
@@ -167,9 +144,6 @@ class OrderList extends Component {
     };
 
     loadMore = () => {
-
-        console.log('LOAD MORE WORKS')
-
         this.loadList(this.state.page + 1, this.state.size);
     }
 

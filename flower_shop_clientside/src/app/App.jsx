@@ -31,6 +31,7 @@ import AboutPage from "../components/common/pages/AboutPage";
 import ShopDetail from "../components/shop/ShopDetail";
 import Basket from "../components/basket/Basket";
 import PrivateAdminRoute from "./util/PrivateAdminRoute";
+import OrderPage from "../components/order/OrderPage";
 
 const {Content} = Layout
 
@@ -44,7 +45,7 @@ class App extends Component {
             currentCompany: null,
 
             isAuthenticated: false,
-            isLoading: false,
+            isLoading: true,
 
         }
 
@@ -57,9 +58,6 @@ class App extends Component {
 
     loadCurrentCompany = () => {
 
-        this.setState({
-            isLoading: true
-        })
         getCurrentCompanyRequest()
             .then(response => {
                 console.log('RESPONSE currentCompany ' + response)
@@ -88,13 +86,9 @@ class App extends Component {
 
                 this.setState({
                     currentUser: response,
-                    isAuthenticated: true,
-                    isLoading: false
+                    isAuthenticated: true
                 })
             }).catch(() => {
-            this.setState({
-                isLoading: false
-            })
         })
 
     }
@@ -181,34 +175,57 @@ class App extends Component {
                                       component={Profile}
                                       {...this.props}/>
 
+
+                        <Route path="/orders/:id"
+                               currentUser={this.state.currentUser}
+                               component={OrderPage}/>
+
+
                         <PrivateRoute path="/basket"
                                       isAuthenticated={this.state.isAuthenticated}
                                       currentUser={this.state.currentUser}
-                                      component={Basket}/>
+                                      component={Basket}
+                                      {...this.props}/>
 
-                        <Route exact path="/about/documents"
-                               component={DocumentsPage}/>
+                        <Route exact  path="/about/documents"
+                               render={(props) =>
+                                   <DocumentsPage
+                                       {...props} />}/>
+
 
                         <Route path="/company/shops/:id"
-                               currentUser={this.state.currentUser}
-                               currentCompany={this.state.currentCompany}
-                               component={ShopDetail}/>
+                               render={(props) =>
+                                   <ShopDetail
+                                       currentUser={this.state.currentUser}
+                                       currentCompany={this.state.currentCompany}
+                                       {...props} />}/>
 
                         <Route path="/company/shops"
-                               currentUser={this.state.currentUser}
-                               currentCompany={this.state.currentCompany}
-                               component={ShopsList}/>
+                               render={(props) =>
+                                   <ShopsList
+                                       currentUser={this.state.currentUser}
+                                       currentCompany={this.state.currentCompany}
+                                       {...props} />}/>
 
                         <Route path="/company"
-                               currentUser={this.state.currentUser}
-                               currentCompany={this.state.currentCompany}
-                               component={Company}/>
+                               render={(props) =>
+                                   <Company
+                                       currentUser={this.state.currentUser}
+                                       currentCompany={this.state.currentCompany}
+                                       {...props} />}/>
+
 
                         <Route exact path="/about/legal"
-                               component={LegalPage}/>
+                               render={(props) =>
+                                   <LegalPage
+                                       {...props} />}/>
+
 
                         <Route path="/company/about"
-                               component={AboutPage}/>
+                               render={(props) =>
+                                   <AboutPage
+                                       {...props} />}/>
+
 
                         <PrivateAdminRoute path="/company"
                                            isAuthenticated={this.state.isAuthenticated}
@@ -217,26 +234,40 @@ class App extends Component {
                                            component={Company}/>
 
                         <Route exact path="/about/help"
-                               component={HelpPage}/>
+                               render={(props) =>
+                                   <HelpPage
+                                       {...props} />}/>
+
 
                         <Route path="/flowers"
-                               loadCurrentUser={this.loadCurrentUser}
-                               isAuthenticated={this.state.isAuthenticated}
-                               currentUser={this.state.currentUser}
-                               component={FlowersList}/>
+                               render={(props) =>
+                                   <FlowersList
+                                       loadCurrentUser={this.loadCurrentUser}
+                                       isAuthenticated={this.state.isAuthenticated}
+                                       currentUser={this.state.currentUser}
+                                       {...props} />}/>
 
                         <Route path="/bouquets"
-                               isAuthenticated={this.state.isAuthenticated}
-                               currentUser={this.state.currentUser}
-                               component={BouquetList}/>
+                               render={(props) =>
+                                   <BouquetList
+                                       isAuthenticated={this.state.isAuthenticated}
+                                       currentUser={this.state.currentUser}
+                                       {...props} />}/>
+
 
                         <Route path="/reviews"
-                               currentUser={this.state.currentUser}
-                               component={ReviewsList}/>
+                               render={(props) =>
+                                   <ReviewsList
+                                       currentUser={this.state.currentUser}
+                                       {...props} />}/>
+
 
                         <Route path="/"
-                               currentUser={this.state.currentUser}
-                               component={Home}/>
+                               render={(props) =>
+                                   <Home
+                                       currentUser={this.state.currentUser}
+                                       {...props} />}/>
+
 
                         <Route component={NotFound}/>
 
