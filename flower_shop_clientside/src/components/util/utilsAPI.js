@@ -210,6 +210,15 @@ export function getAllShopsRequest (searchCriteria) {
     method: 'GET'
   })
 }
+export function getAllShops () {
+
+  const url = BASE_URL + 'users/admin/company/shops'
+
+  return request({
+    url: url,
+    method: 'GET'
+  })
+}
 
 export function getShopByIdRequest (id) {
   return request({

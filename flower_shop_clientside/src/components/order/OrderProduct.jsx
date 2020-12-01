@@ -5,22 +5,22 @@ const {Meta} = Card
 
 class OrderProduct extends Component {
     state = {
-        id: this.props.product.id,
-        dateOfLastUpdate: this.props.product.dateOfLastUpdate,
-        // flowerType: this.props.product.flowerType.flowerType,
-        flowerColor: this.props.product.flowerColor,
-        flowerSort: this.props.product.flowerSort,
-        flowerLengthCosts: this.props.product.flowerLengthCosts,
-        // price: this.props.product.flowerLengthCosts.price,
-        // country: this.props.product.country.countryNameRu,
-        description: this.props.product.description,
-        availableAmountOnStock: this.props.product.availableAmountOnStock,
-        // shopAddress: this.props.product.shop.contacts.address,
-        // shopCity: this.props.product.shop.contacts.city,
-        // shopFirstPhoneNumber: this.props.product.shop.contacts.firstPhoneNumber,
-        // imageUrl: this.props.product.image === null ? '' : this.props.product.image.imageUrl,
+        id: this.props.orderProduct.id,
+        dateOfLastUpdate: this.props.orderProduct.product.dateOfLastUpdate,
+        flowerType: this.props.orderProduct.product.flowerType.flowerType,
+        flowerColor: this.props.orderProduct.product.flowerColor.colorName,
+        flowerSort: this.props.orderProduct.product.flowerSort.sortNameRu,
+        flowerLengthCosts: this.props.orderProduct.product.flowerLengthCosts,
+        price: this.props.orderProduct.product.flowerLengthCosts.price,
+        country: this.props.orderProduct.product.country.countryNameRu,
+        description: this.props.orderProduct.product.description,
+        availableAmountOnStock: this.props.orderProduct.product.availableAmountOnStock,
+        shopAddress: this.props.orderProduct.product.shop.contacts.address,
+        shopCity: this.props.orderProduct.product.shop.contacts.city,
+        shopFirstPhoneNumber: this.props.orderProduct.product.shop.contacts.firstPhoneNumber,
+        imageUrl: this.props.orderProduct.product.image === null ? '' : this.props.orderProduct.product.image.imageUrl,
 
-        quantity: this.props.product.quantity
+        quantity: this.props.orderProduct.quantity
     }
 
     render() {

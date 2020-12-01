@@ -43,7 +43,6 @@ export default class ImageLoader extends Component {
                             this.state.imageUrl ?
                                 <img src={this.state.imageUrl}
                                      alt=""
-                                     className="img-fluid"
                                 />
                                 :
                                 uploadButton

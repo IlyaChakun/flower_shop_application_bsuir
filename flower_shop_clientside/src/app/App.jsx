@@ -2,8 +2,8 @@ import React, {Component} from 'react'
 import './App.css'
 import PrivateRoute from './util/PrivateRoute'
 
-import {Layout, notification} from 'antd'
-import {Route, Switch, withRouter} from 'react-router-dom'
+import {Breadcrumb, Layout, notification} from 'antd'
+import {Link, Route, Switch, withRouter} from 'react-router-dom'
 
 import {localizedStrings} from '../components/util/localization'
 import {ACCESS_TOKEN, REFRESH_TOKEN, ROLE_ADMIN, ROLE_USER, SUCCESS, USER_ID} from '../constants'
@@ -130,7 +130,6 @@ class App extends Component {
 
     render() {
 
-
         if (this.state.isLoading) {
             return <LoadingIndicator/>
         }
@@ -138,6 +137,36 @@ class App extends Component {
         if (localStorage.getItem(ACCESS_TOKEN) && this.state.currentUser === undefined) {
             return <LoadingIndicator/>
         }
+
+        const breadcrumbNameMap = {
+            '/login': 'Авторизация',
+            '/sign-up': 'Регистрация',
+            '/profile': 'Личный кабинет',
+            '/company/shops/:id': 'Детальный просмотр магазина',
+            '/company': 'Компания',
+            '/reviews': 'Отзывы пользователей',
+            '/company/shops': 'Магазины компании',
+            '/basket': 'Корзина',
+            '/bouquets': 'Букеты',
+            '/flowers': 'Цветы поштучно',
+            '/orders/:id': 'Детальный просмотр заказа'
+        };
+
+        const {location} = this.props;
+        const pathSnippets = location.pathname.split('/').filter(i => i);
+        const extraBreadcrumbItems = pathSnippets.map((_, index) => {
+            const url = `/${pathSnippets.slice(0, index + 1).join('/')}`;
+            return (
+                <Breadcrumb.Item key={url}>
+                    <Link to={url}>{breadcrumbNameMap[url]}</Link>
+                </Breadcrumb.Item>
+            );
+        });
+        const breadcrumbItems = [
+            <Breadcrumb.Item key="home">
+                <Link to="/">Главная страница</Link>
+            </Breadcrumb.Item>,
+        ].concat(extraBreadcrumbItems);
 
         //console.log('APP : this.state.currentUser ' + this.state.currentUser.id)
 
@@ -149,6 +178,11 @@ class App extends Component {
                 />
 
                 <Content className="app-content">
+
+                    <div style={{minHeight: '50', padding: '1.3%'}}>
+                        <Breadcrumb>{breadcrumbItems}</Breadcrumb>
+                    </div>
+
                     <Switch>
 
                         <Route exact path="/login"

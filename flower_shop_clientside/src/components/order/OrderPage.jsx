@@ -26,18 +26,21 @@ class OrderPage extends Component {
     }
 
     render() {
+        if  (this.state.order === null || this.state.products === null ) {
+             return <LoadingIndicator/>
+        }
 
-        const orderProducts = (this.state.order === null && this.state.products ===null ) ? null :
-            (
+        const orderProducts =
                 this.state.products
-                    .map(product => (
+                    .map(orderProduct => (
                             <OrderProduct
-                                key={product.id}
-                                product={product}
+                                key={orderProduct.id}
+                                orderProduct={orderProduct}
                             />
                         )
                     )
-            )
+
+        console.log( 'productId' + this.state.products[0].id)
 
         return (
 

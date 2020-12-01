@@ -9,18 +9,17 @@ import EditFlowerModal from "./EditFlowerModal";
 import {addProductToBasketRequest} from "../../util/utilsAPI";
 import {notification} from 'antd'
 import {localizedStrings} from "../../util/localization";
-import {USER_ID} from "../../../constants";
 
 class FlowerCardProxy extends Component {
     state = {}
 
     addToBasket = () => {
         const productBasket = {
-            //TODO userID
-            "userId": localStorage.getItem(USER_ID),
+            "userId": this.props.currentUser.id,
             "flowerLengthCostId": this.props.product.flowerLengthCosts[0].id,
             "productId": this.props.product.id,
-            "quantity": 1
+            "quantity": 1,
+            "shopId":this.props.shopId
         };
 
         addProductToBasketRequest(productBasket)

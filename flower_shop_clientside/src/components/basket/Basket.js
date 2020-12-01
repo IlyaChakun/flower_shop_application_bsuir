@@ -49,7 +49,6 @@ class Basket extends PureComponent {
     }
 
     componentDidMount() {
-        console.log('componentDidMount');
         this.setBasketState();
     }
 
@@ -115,7 +114,8 @@ class Basket extends PureComponent {
             "comment": this.state.comment.value,
             "address": this.state.address.value,
             "floorNumber": this.state.floorNumber.value,
-            "entranceNumber": this.state.entranceNumber.value
+            "entranceNumber": this.state.entranceNumber.value,
+            "shopId": this.state.products[0].product.shopId
         }
 
         createOrder(order)

@@ -127,6 +127,7 @@ class AppHeader extends Component {
                 </Row>
 
                 <Header className="mb-5">
+                    <div></div>
                     <Menu
                         theme={"dark"}
                         mode="horizontal"
