@@ -1,8 +1,10 @@
 package by.bsuir.dto.model.order;
 
 
+import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.Setter;
 
 import javax.validation.constraints.Max;
@@ -31,4 +33,6 @@ public class OrderRequestDTO {
     @Max(value = 20, message = "номер подъезда должен быть меньше 20")
     private Integer entranceNumber;//номер подъезда
 
+    @NotNull(message = "Ид магазина не может отсутствовать")
+    private Long shopId;
 }

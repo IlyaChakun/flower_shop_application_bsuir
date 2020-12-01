@@ -195,8 +195,14 @@ public class OrderServiceImpl implements OrderService {
 
         Pageable pageable = PageRequest.of(page, size);
 
+        Page<Order> orders = orderRepository.findAllByShopId(pageable, shop.getId());
 
-        return null;
+        return
+                new PageWrapper<>(
+                        orderMapperDTO.toDtoList(orders.toList()),
+                        orders.getTotalPages(),
+                        orders.getTotalElements());
+
     }
 
 }

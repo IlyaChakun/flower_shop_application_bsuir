@@ -20,10 +20,8 @@ import java.util.Set;
 @Setter
 public class Order extends AbstractEntity {
 
-
     @OneToMany(cascade = CascadeType.ALL)
     private List<OrderProduct> orderProducts = new ArrayList<>();
-
 
     @Column(name = "unique_id")
     private String uniqueId;//для понтов типо униклаьный ид хз зачем пригодиться
@@ -49,6 +47,9 @@ public class Order extends AbstractEntity {
 
     @Column(name = "entrance_number")
     private Integer entranceNumber;//номер подъезда
+
+    @Column(name="shop_id")
+    private Long shopId;
 
 
     @PrePersist

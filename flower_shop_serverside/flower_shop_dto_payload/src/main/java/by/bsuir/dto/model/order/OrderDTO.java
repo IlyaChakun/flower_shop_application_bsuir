@@ -3,6 +3,7 @@ package by.bsuir.dto.model.order;
 import by.bsuir.dto.model.AbstractDTO;
 import by.bsuir.dto.model.user.ClientDTO;
 import by.bsuir.entity.order.OrderStatus;
+import javax.persistence.Column;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -32,5 +33,7 @@ public class OrderDTO extends AbstractDTO {
     private Integer floorNumber;
 
     private Integer entranceNumber;//номер подъезда
+
+    private Long shopId;
 
 }

@@ -64,23 +64,6 @@ public class OrderController {
         return new ResponseEntity<>(order, httpHeaders, HttpStatus.CREATED);
     }
 
-//    @PreAuthorize("hasAnyAuthority('ROLE_CLIENT')")
-//    @PutMapping("/{id}")
-//    public ResponseEntity<OrderDTO> update(@PathVariable("id") @PositiveLong String id,
-//                                           @RequestBody @Valid OrderDTO orderDTO,
-//                                           @CurrentUser UserPrincipal userPrincipal,
-//                                           BindingResult bindingResult) {
-//        checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
-//        isIdInsideDtoOrThrowException(orderDTO);
-//
-//        ClientDTO clientDTO = getClient(userPrincipal);
-//
-//        orderDTO.getOrderInfo().setClient(clientDTO);
-//        OrderDTO order = orderService.update(orderDTO);
-//
-//        return ResponseEntity.ok(order);
-//    }
-
     @PreAuthorize("hasAnyAuthority('ROLE_CLIENT')")
     @GetMapping()
     public ResponseEntity<PageWrapper<OrderDTO>> findAll(@CurrentUser UserPrincipal userPrincipal,
