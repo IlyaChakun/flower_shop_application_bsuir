@@ -20,7 +20,7 @@ public class CompanyLegalAddressDTO {
     private String payerAccountNumber;
 
     @NotBlank(message = "Расчетный счет не может быть пустым")
-    @Size(max = 20, message = "Расчетный счет должен быть не более 20 символов!")
+    @Size(max = 28, message = "Расчетный счет должен быть не более 20 символов!")
     private String checkingAccount;
 
     @Valid

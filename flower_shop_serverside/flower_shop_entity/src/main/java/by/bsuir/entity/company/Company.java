@@ -1,7 +1,6 @@
 package by.bsuir.entity.company;
 
 import by.bsuir.entity.AbstractEntity;
-import by.bsuir.entity.company.bank.Shop;
 import by.bsuir.entity.user.ShopAdmin;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

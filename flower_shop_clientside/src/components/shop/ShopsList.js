@@ -4,7 +4,7 @@ import {withRouter} from 'react-router-dom'
 import MapContainer from "../common/map/MapContainer";
 import AddShopModal from "./AddShopModal";
 import {getAllShopsRequest} from "../util/utilsAPI";
-import {List} from "antd";
+import {Col, List, Row} from "antd";
 import Link from "react-router-dom/Link";
 import SettingOutlined from "@ant-design/icons/lib/icons/SettingOutlined";
 
@@ -102,63 +102,70 @@ class ShopsList extends Component {
             )
 
         return (
-            <div className="container-fluid">
+            <div className="mb-5">
                 <div className="contacts_map mb-5">
-                    <div id="map-block" style={{height: '550px', width: '100%'}}>
-                        <MapContainer
-                            google={this.props.google}
-                            center={{lat: 53.893009, lng: 27.567444}}
-                            height='550px'
-                            zoom={14}
+                    <Row>
+                        <Col span={24}>
+                            <div id="map-block" style={{height: '550px'}}>
+                                <MapContainer
+                                    google={this.props.google}
+                                    center={{lat: 53.893009, lng: 27.567444}}
+                                    height='550px'
+                                    zoom={14}
+                                />
+                            </div>
+                        </Col>
+                    </Row>
+                </div>
+
+                <Row justify="center">
+                    <Col span={22}>
+
+                        <Row justify="space-between">
+                            <Col span={8}>
+                                <h1>Наши магазины</h1>
+                            </Col>
+                            <Col span={4}>
+                                <AddShopModal updateList={this.updateList}/>
+                            </Col>
+                        </Row>
+
+                        <List
+                            grid={{
+                                gutter: 16,
+                                column: 2,
+                            }}
+
+                            pagination={{
+
+                                loading: this.state.isLoading,
+                                showSizeChanger: true,
+
+                                defaultCurrent: Number(this.state.page),
+                                defaultPageSize: Number(this.state.size),
+
+                                pageSizeOptions: ["2", "4"],
+                                position: "bottom",
+
+                                total: this.state.totalElements,
+
+                                showQuickJumper: true,
+                                onShowSizeChange: this.onSizeChangeHandler,
+                                onChange: this.onPageChangeHandler,
+
+                                loadMore: this.loadMore
+                            }}
+
+                            dataSource={shopElements}
+
+                            renderItem={item => (
+                                <List.Item>
+                                    {item}
+                                </List.Item>
+                            )}
                         />
-                    </div>
-                </div>
-
-                <div>
-                    <AddShopModal updateList={this.updateList}/>
-                </div>
-                <h1 className="text-center mb-3">Наши магазины</h1>
-
-
-                <div className="container-fluid">
-
-                    <List
-                        grid={{
-                            gutter: 70,
-                            column: 2,
-
-                        }}
-
-                        pagination={{
-
-                            loading: this.state.isLoading,
-                            showSizeChanger: true,
-
-                            defaultCurrent: Number(this.state.page),
-                            defaultPageSize: Number(this.state.size),
-
-                            pageSizeOptions: ["2", "4"],
-                            position: "bottom",
-
-                            total: this.state.totalElements,
-
-                            showQuickJumper: true,
-                            onShowSizeChange: this.onSizeChangeHandler,
-                            onChange: this.onPageChangeHandler,
-
-                            loadMore: this.loadMore
-                        }}
-
-                        dataSource={shopElements}
-
-                        renderItem={item => (
-                            <List.Item>
-                                {item}
-                            </List.Item>
-                        )}
-                    />
-
-                </div>
+                    </Col>
+                </Row>
             </div>
         )
     }

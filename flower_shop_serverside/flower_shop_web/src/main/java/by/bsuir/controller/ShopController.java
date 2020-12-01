@@ -5,6 +5,7 @@ import by.bsuir.dto.model.company.ShopDTO;
 import by.bsuir.dto.model.order.OrderDTO;
 import by.bsuir.dto.model.product.bouquet.FlowerBouquetDTO;
 import by.bsuir.dto.model.product.flower.FlowerDTO;
+import by.bsuir.dto.model.user.ClientDTO;
 import by.bsuir.dto.model.user.ShopAdminDTO;
 import by.bsuir.dto.validation.annotation.PositiveLong;
 import by.bsuir.security.core.CurrentUser;
@@ -129,9 +130,7 @@ public class ShopController {
                                            @RequestParam(defaultValue = "1", required = false) Integer page,
                                            @RequestParam(defaultValue = "10", required = false) Integer size) {
 
-
         PageWrapper<OrderDTO> wrapper = orderService.findAllByShopId(page - 1, size, Long.valueOf(id));
-
 
         return ResponseEntity.ok(wrapper);
     }

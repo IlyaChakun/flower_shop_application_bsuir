@@ -1,4 +1,4 @@
-package by.bsuir.entity.company.bank;
+package by.bsuir.entity.company;
 
 import by.bsuir.entity.AbstractEntity;
 import by.bsuir.entity.common.Image;

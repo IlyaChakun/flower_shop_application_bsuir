@@ -47,16 +47,21 @@ export function validateName (name) {
 }
 
 export function validateBankName (name) {
-  if (name.length > 48) {
+  if (!name) {
     return {
       validateStatus: ERROR,
+      errorMsg: 'Название банка не заполнено'
+    }
+  } else if (name.length > 48) {
+    return {
+      validationStatus: ERROR,
       errorMsg: 'Название банка слишком длинное'
     }
-  }
-
-  return {
-    validateStatus: SUCCESS,
-    errorMsg: null
+  } else {
+    return {
+      validateStatus: SUCCESS,
+      errorMsg: null
+    }
   }
 }
 
@@ -89,7 +94,7 @@ export function validatePostalCode (code) {
 }
 
 export function validateCheckingAccount (number) {
-  if (number === undefined || number.length > 20) {
+  if (number === undefined || number.length > 28) {
     return {
       validateStatus: ERROR,
       errorMsg: 'Расчетный счет слишком длинный'

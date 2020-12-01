@@ -5,7 +5,7 @@ import by.bsuir.dto.model.product.AbstractFlowerProductDTO;
 import by.bsuir.dto.model.product.common.FlowerColorDTO;
 import by.bsuir.dto.model.product.common.FlowerSortDTO;
 import by.bsuir.entity.common.Country;
-import by.bsuir.entity.company.bank.Shop;
+import by.bsuir.entity.company.Shop;
 import by.bsuir.entity.product.common.FlowerColor;
 import by.bsuir.entity.product.common.FlowerSort;
 import by.bsuir.payload.exception.ResourceNotFoundException;

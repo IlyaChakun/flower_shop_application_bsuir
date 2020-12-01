@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {Link, withRouter} from 'react-router-dom'
 import {Avatar, Button, Dropdown, Layout, Menu} from 'antd'
 import {getAvatarColor} from '../../util/colors'
-
+import { Row, Col } from 'antd';
 import {localizedStrings} from '../../util/localization'
 import './AppHeader.css'
 
@@ -29,11 +29,11 @@ class AppHeader extends Component {
 
     makeMenuForUser = () => {
         return [
-            <Menu.Item key="/">
-                <Link to="/">
-                    <HomeOutlined style={{fontSize: '20px'}}/>
-                </Link>
-            </Menu.Item>,
+            // <Menu.Item key="/">
+            //     <Link to="/">
+            //         <HomeOutlined style={{fontSize: '20px'}}/>
+            //     </Link>
+            // </Menu.Item>,
 
             <Menu.Item key="/basket">
                 <Link
@@ -115,29 +115,19 @@ class AppHeader extends Component {
         }
 
         return (
-
             <>
-                <div className="row">
-
-                    <div className="col-4">
-
-                    </div>
-
-                    <div className="col-4">
-
+                <Row justify="center">
+                    <Col span={8}>
                         <img alt="logo"
                              width="50%"
                              height="35%"
                              className="img-fluid"
                              src="https://atlanticcityflorist.com/wp-content/uploads/2019/10/logoacfstransparentbg.png"/>
+                    </Col>
+                </Row>
 
-                    </div>
-
-                    <div className="col-4"></div>
-                </div>
-
-                {/*<Header style={{ position: 'fixed', zIndex: 1, width: '100%'}}>*/}
                 <Header className="mb-5">
+                    <div></div>
                     <Menu
                         theme={"dark"}
                         mode="horizontal"

@@ -6,29 +6,36 @@ import DeleteOutlined from '@ant-design/icons/lib/icons/DeleteOutlined'
 import DeleteBouquetModal from "./DeleteBouquetModal";
 import EditBouquetModal from "./EditBouquetModal";
 import BouquetCard from "./BouquetCard";
+import {addProductToBasketRequest} from "../../util/utilsAPI";
+import {localizedStrings} from "../../util/localization";
+import {notification} from "antd";
+import {USER_ID} from "../../../constants";
 
 class BouquetCardProxy extends Component {
     state = {}
-    // addToBasket = () => {
-    //     const productBasket = {
-    //         userId: this.props.currentUser.id,
-    //         productId: this.props.product.id
-    //     };
-    //
-    //     addProductToBasket(productBasket)
-    //         .then(() => {
-    //             notification.success({
-    //                 message: localizedStrings.alertAppName,
-    //                 description: 'Продукт добавлен в корзину!',
-    //             });
-    //         }).catch(error => {
-    //
-    //         notification.error({
-    //             message: localizedStrings.alertAppName,
-    //             description: 'Не удалось добавить продукт в корзину!',
-    //         });
-    //     });
-    // };
+
+    addToBasket = () => {
+        const productBasket = {
+            "userId": localStorage.getItem(USER_ID),
+            "flowerLengthCostId": this.props.product.flowerLengthCosts[0].id,
+            "productId": this.props.product.id,
+            "quantity": 1
+        };
+
+        addProductToBasketRequest(productBasket)
+            .then(() => {
+                notification.success({
+                    message: localizedStrings.alertAppName,
+                    description: 'Продукт добавлен в корзину!',
+                });
+            }).catch(error => {
+
+            notification.error({
+                message: localizedStrings.alertAppName,
+                description: 'Не удалось добавить продукт в корзину!',
+            });
+        });
+    };
 
     render() {
 
@@ -42,7 +49,6 @@ class BouquetCardProxy extends Component {
         )
 
         const deleteAction = (
-
             <div className={isAdmin(this.props.currentUser) ? '' : 'custom-hidden'}>
                 <DeleteBouquetModal
                     productId={this.props.product.id}
@@ -52,11 +58,11 @@ class BouquetCardProxy extends Component {
             </div>)
 
         const buyAction = (
-            <span className={this.props.isAuthenticated ? '' : 'custom-hidden'}
-                  onClick={() => this.addToBasket()}>
+            <div className={isAdmin(this.props.currentUser) ? 'custom-hidden' : ''}
+                 onClick={() => this.addToBasket()}>
                 <i className="fas fa-shopping-cart"></i>
-            {/*<PlusCircleOutlined style={{fontSize: '27px', color: '#cc3242'}}/>*/}
-          </span>
+                {/*<PlusCircleOutlined style={{fontSize: '27px', color: '#cc3242'}}/>*/}
+            </div>
         )
 
         return (

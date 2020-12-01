@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 
 import s from "../../user/profile/Profile.module.css";
-import {Button, Form, Select} from "antd";
+import {Button, Form, Select, Input} from "antd";
 import ImageLoader from "../../common/image/ImageLoader";
 import {
     getCountriesRequest,
@@ -10,7 +10,6 @@ import {
     getFlowerTypesRequest
 } from "../../util/utilsAPI";
 import {ERROR, SUCCESS} from "../../../constants";
-import Input from "antd/es/input";
 import validateId from "../product/ProductValidation";
 
 const Option = Select.Option;
@@ -30,12 +29,10 @@ export default class FlowerForm extends Component {
 
     state = {
 
-
         flowerTypesValues: [],
         flowerSortsValues: [],
         flowerColorsValues: [],
         countiesValues: [],
-
 
         shopId: this.props.shopId,
         id: this.props.flower.id,

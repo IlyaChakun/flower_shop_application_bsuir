@@ -9,17 +9,17 @@ import EditFlowerModal from "./EditFlowerModal";
 import {addProductToBasketRequest} from "../../util/utilsAPI";
 import {notification} from 'antd'
 import {localizedStrings} from "../../util/localization";
-import {USER_ID} from "../../../constants";
 
 class FlowerCardProxy extends Component {
     state = {}
 
     addToBasket = () => {
         const productBasket = {
-            "userId": localStorage.getItem(USER_ID),
+            "userId": this.props.currentUser.id,
             "flowerLengthCostId": this.props.product.flowerLengthCosts[0].id,
             "productId": this.props.product.id,
-            "quantity": 1
+            "quantity": 1,
+            "shopId":this.props.shopId
         };
 
         addProductToBasketRequest(productBasket)
@@ -40,16 +40,14 @@ class FlowerCardProxy extends Component {
     render() {
 
         const editAction = (
-            <span className={isAdmin(this.props.currentUser) ? '' : 'custom-hidden'}>
+            <div className={isAdmin(this.props.currentUser) ? '' : 'custom-hidden'}>
             <EditFlowerModal
                 shopId={this.props.shopId}
                 productId={this.props.productId}
             />
-
-            </span>
+            </div>
         )
         const deleteAction = (
-
             <div className={isAdmin(this.props.currentUser) ? '' : 'custom-hidden'}>
                 <DeleteFlowerModal
                     productId={this.props.product.id}
@@ -59,13 +57,11 @@ class FlowerCardProxy extends Component {
             </div>)
 
         const buyAction = (
-
             <div className={isAdmin(this.props.currentUser) ? 'custom-hidden' : ''}
                  onClick={() => this.addToBasket()}>
                 <i className="fas fa-shopping-cart"></i>
                 {/*<PlusCircleOutlined style={{fontSize: '27px', color: '#cc3242'}}/>*/}
             </div>
-
         )
 
         return (

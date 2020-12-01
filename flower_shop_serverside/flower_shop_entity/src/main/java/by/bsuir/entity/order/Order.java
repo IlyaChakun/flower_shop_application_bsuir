@@ -2,6 +2,8 @@ package by.bsuir.entity.order;
 
 import by.bsuir.entity.AbstractEntity;
 import by.bsuir.entity.user.Client;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,10 +20,8 @@ import java.util.Set;
 @Setter
 public class Order extends AbstractEntity {
 
-
     @OneToMany(cascade = CascadeType.ALL)
-    private Set<OrderProduct> orderProducts = new HashSet<>();
-
+    private List<OrderProduct> orderProducts = new ArrayList<>();
 
     @Column(name = "unique_id")
     private String uniqueId;//для понтов типо униклаьный ид хз зачем пригодиться
@@ -47,6 +47,9 @@ public class Order extends AbstractEntity {
 
     @Column(name = "entrance_number")
     private Integer entranceNumber;//номер подъезда
+
+    @Column(name="shop_id")
+    private Long shopId;
 
 
     @PrePersist

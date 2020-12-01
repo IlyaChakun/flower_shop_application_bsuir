@@ -49,3 +49,14 @@ a.black:hover, .text-wrap .text:hover {
 .ant-card-body:hover .top-prop a{
     color: #d3ada6;
 }
+
+
+.ant-card-meta-avatar img {
+    width:300px;
+    object-fit:cover;
+    height: auto;
+}
+
+.ant-card-meta-detail{
+    overflow: visible;
+}

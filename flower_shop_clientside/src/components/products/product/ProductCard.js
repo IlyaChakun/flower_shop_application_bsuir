@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Button, Card, Dropdown, Menu, message} from 'antd'
+import {Button, Card, Col, Dropdown, Menu, message, Row} from 'antd'
 import '../flower/FlowerCard.css'
 import DownOutlined from "@ant-design/icons/lib/icons/DownOutlined";
 
@@ -16,7 +16,6 @@ class ProductCard extends Component {
         dateOfLastUpdate: this.props.product.dateOfLastUpdate,
 
         flowerType: this.props.product.flowerType === undefined ? '' : this.props.product.flowerType.flowerType,
-
 
         flowerColor: this.props.product.flowerColor,
         flowerLengthCosts: this.props.product.flowerLengthCosts,
@@ -49,7 +48,8 @@ class ProductCard extends Component {
             </Menu>
         )
         const flowerLengthCostsDropdown = (
-            <Dropdown overlay={flowerLengthCostsMenu}>
+            <Dropdown overlay={flowerLengthCostsMenu}
+                      overlayStyle={{width: '100px'}}>
                 <Button>
                     Стоимость и длина <DownOutlined/>
                 </Button>
@@ -58,68 +58,54 @@ class ProductCard extends Component {
 
         return (
 
+            <div className="site-card-wrapper">
+                <Card
+                    bodyStyle={{padding: '10px'}}
+                    hoverable
+                    extra={'Страна поставщик: ' + this.state.country}
+                    title={<span>{this.state.flowerType}</span>}
+                    actions={[
+                        this.props.firstAction,
+                        this.props.secondAction,
+                        this.state.availableAmountOnStock > 0 ? this.props.thirdAction : ''
+                    ]}>
 
-            <Card
-                hoverable
-                style={{width: 600, marginTop: 16}}
-                extra={
-                    'Страна поставщик: ' + this.state.country
-                }
-                title={
-                    <span>
-                        {this.state.flowerType}
-                    </span>
-                }
-                actions={[
-                    this.props.firstAction,
-                    this.props.secondAction,
-                    this.state.availableAmountOnStock > 0 ? this.props.thirdAction : ''
-                ]}>
+                    <Meta
+                        style={{padding: "5px"}}
+                        avatar={<img alt={this.state.flowerType} src={this.state.imageUrl}/>}
+                        title={
+                            <Row>
+                                <Col span={24}>
+                                    <p>
+                                        {this.state.flowerColor.colorName}
+                                        <br/>
+                                        {this.state.flowerSort.sortName}
+                                    </p>
+                                    <div>
+                                        {flowerLengthCostsDropdown}
+                                    </div>
+                                </Col>
+                            </Row>
+                        }
 
-                <Meta
-                    avatar={
-                        <span>
-                              <img alt={this.state.flowerType}
-                                   className="img-fluid"
-                                   src={this.state.imageUrl}
-                                   width={'200px'}
-                                   height={'400px'}
-                              />
-                        </span>
-                    }
+                        description={
+                            <div>
+                                <div className="product-content-body">
+                                    <p>В наличии: {this.state.availableAmountOnStock} штук
+                                        <br/>
+                                        В магазине по адресу: {this.state.shopCity}, {this.state.shopAddress}
+                                        <br/>
+                                        Телефон: {this.state.shopFirstPhoneNumber}</p>
+                                </div>
 
-                    title={
-                        <div>
-                            <p>
-                                {this.state.flowerSort.sortName}
-                                <br/>
-                                {this.state.flowerColor.colorName}
-                            </p>
-                            <p>
-                                {flowerLengthCostsDropdown}
-                            </p>
-                        </div>
-                    }
-
-                    description={
-                        <div>
-                            <div className="product-content-body">
-                                <p>В наличии: {this.state.availableAmountOnStock} штук
-                                    <br/>
-                                    В магазине по адресу: {this.state.shopCity}, {this.state.shopAddress}
-                                    <br/>
-                                    телефон: {this.state.shopFirstPhoneNumber}</p>
+                                <div className="product-rating-footer mb-4">
+                                    Последнее обновление: {this.state.dateOfLastUpdate}
+                                </div>
                             </div>
-
-
-                            <div className="product-rating-footer mb-4">
-                                Последнее обновление: {this.state.dateOfLastUpdate}
-                            </div>
-                        </div>
-                    }
-                />
-
-            </Card>
+                        }
+                    />
+                </Card>
+            </div>
 
         )
     }

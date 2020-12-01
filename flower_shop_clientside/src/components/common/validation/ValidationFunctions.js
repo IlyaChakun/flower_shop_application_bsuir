@@ -89,7 +89,6 @@ export function validateText (text) {
 }
 
 export function validateAddress (address) {
-  console.log('address for validation: ' + address)
 
   if (!address) {
     return {
@@ -112,7 +111,6 @@ export function validateAddress (address) {
 }
 
 export function validateCity (city) {
-  console.log('city for validation: ' + city)
 
   if (!city) {
     return {
@@ -127,8 +125,6 @@ export function validateCity (city) {
       errorMsg: 'Адрес неверный!'
     }
   }
-
-  console.log('city for validation return  SUCCESS')
 
   return {
     validateStatus: SUCCESS,

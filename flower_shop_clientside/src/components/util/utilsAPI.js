@@ -210,6 +210,15 @@ export function getAllShopsRequest (searchCriteria) {
     method: 'GET'
   })
 }
+export function getAllShops () {
+
+  const url = BASE_URL + 'users/admin/company/shops'
+
+  return request({
+    url: url,
+    method: 'GET'
+  })
+}
 
 export function getShopByIdRequest (id) {
   return request({
@@ -411,7 +420,7 @@ export function deleteProductToBasketRequest (productCartRequest) {
   })
 }
 
-export function getOrdersRequest (searchCriteria) {
+export function getClientOrders (searchCriteria) {
   const page = 'page=' + Number(searchCriteria.page === 0 ? searchCriteria.page : searchCriteria.page)
   const size = '&size=' + Number(searchCriteria.size)
 
@@ -419,8 +428,16 @@ export function getOrdersRequest (searchCriteria) {
 
   return request({
     url: url,
-    method: 'GET',
-    body: JSON.stringify(searchCriteria)
+    method: 'GET'
+  })
+}
+
+export function getOrderById (id) {
+  const url = BASE_URL + 'orders/' + id
+
+  return request({
+    url: url,
+    method: 'GET'
   })
 }
 
@@ -436,12 +453,12 @@ export function getOrdersByShopIdRequest (searchCriteria, shopId) {
   })
 }
 
-export function saveOrderRequest (orderRequest) {
+export function createOrder (orderRequest) {
   const url = BASE_URL + 'orders'
 
   return request({
     url: url,
-    method: 'GET',
+    method: 'POST',
     body: JSON.stringify(orderRequest)
   })
 }

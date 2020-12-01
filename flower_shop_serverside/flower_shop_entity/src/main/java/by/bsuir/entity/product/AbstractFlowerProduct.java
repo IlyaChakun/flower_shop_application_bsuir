@@ -3,7 +3,7 @@ package by.bsuir.entity.product;
 import by.bsuir.entity.AbstractEntity;
 import by.bsuir.entity.common.Country;
 import by.bsuir.entity.common.Image;
-import by.bsuir.entity.company.bank.Shop;
+import by.bsuir.entity.company.Shop;
 import by.bsuir.entity.product.common.FlowerColor;
 import by.bsuir.entity.product.common.FlowerLengthCost;
 import by.bsuir.entity.product.common.FlowerSort;

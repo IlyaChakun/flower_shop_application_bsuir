@@ -5,7 +5,7 @@ import by.bsuir.dto.model.PageWrapper;
 import by.bsuir.dto.model.SearchAndSortParamDto;
 import by.bsuir.dto.model.product.flower.FlowerDTO;
 import by.bsuir.entity.common.Image;
-import by.bsuir.entity.company.bank.Shop;
+import by.bsuir.entity.company.Shop;
 import by.bsuir.entity.product.flower.Flower;
 import by.bsuir.payload.exception.ResourceNotFoundException;
 import by.bsuir.payload.exception.ServiceException;

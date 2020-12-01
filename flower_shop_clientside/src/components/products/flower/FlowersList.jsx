@@ -1,16 +1,25 @@
 import React, {PureComponent} from 'react'
 
-import {List} from 'antd'
-import {getFlowersByShopIdRequest, getFlowersRequest} from "../../util/utilsAPI";
+import {Col, List, Row, Select} from 'antd'
+import {getAllShops, getFlowersByShopIdRequest, getFlowersRequest} from "../../util/utilsAPI";
 import AddFlowerModal from "./AddFlowerModal";
 import FlowerCardProxy from "./FlowerCardProxy";
 import {withRouter} from "react-router-dom";
+import LoadingIndicator from "../../common/util/LoadingIndicator";
+
+const {Option} = Select;
+
 
 class FlowersList extends PureComponent {
 
     state = {
 
         flowers: [],
+        shops: [],
+
+        shopId: '',
+
+        shopValue: '',
 
         page: 1,
         size: 6,
@@ -22,18 +31,41 @@ class FlowersList extends PureComponent {
         totalElements: 0,
 
 
-        isLoading: false,
+        isLoading: true,
 
     }
 
 
     componentDidMount() {
         this.updateList()
+        this.getShopList()
     }
 
     updateList = () => {
-        this.loadList(this.state.page, this.state.size)
+        this.loadList(this.state.page, this.state.size, this.state.shopId)
     }
+
+
+    getShopList = () => {
+
+        const promise = getAllShops();
+        if (!promise) {
+            return;
+        }
+        promise
+            .then(response => {
+                this.setState({
+                    shops: response.objects.slice(),
+                    shopValue: response.objects[0] === null ? null : response.objects[0].contacts.address,
+                    shopId: response.objects[0] === null ? null : response.objects[0].id
+                });
+
+            }).catch(() => {
+            this.setState({
+                isLoading: false
+            });
+        });
+    };
 
 
     // loadSearchList = (productName, minPrice, maxPrice, sortBy, sortType, checkedBrands) => {
@@ -41,11 +73,12 @@ class FlowersList extends PureComponent {
     // };
 
 
-    loadList = (page, size, minPrice, maxPrice, sortBy, sortType) => {
+    loadList = (page, size, shopId, minPrice, maxPrice, sortBy, sortType) => {
 
         const searchCriteria = {
             page: page,
             size: size,
+            shopId: shopId,
 
             minPrice: minPrice,
             maxPrice: maxPrice,
@@ -82,6 +115,7 @@ class FlowersList extends PureComponent {
                     flowers: response.objects.slice(),
                     totalPages: response.totalPages,
                     totalElements: response.totalElements,
+                    isLoading: false
                 });
 
             }).catch(() => {
@@ -93,6 +127,10 @@ class FlowersList extends PureComponent {
 
 
     render() {
+
+        if (this.state.isLoading === true) {
+            return <LoadingIndicator/>
+        }
 
         const addProductButton = this.props.shopId === undefined ? '' :
             (
@@ -116,55 +154,91 @@ class FlowersList extends PureComponent {
                 )
             )
 
+        const shopOptions = this.state.shops.map(
+            shop =>
+                <Option key={shop.id} value={shop.contacts.address}>
+                    {shop.contacts.city}, {shop.contacts.address}
+                </Option>
+        )
 
         return (
-            <div className="container-fluid">
-                <div className="row justify-content-between">
-                    <div className="col-2"><h1>Цветы</h1></div>
 
-                    <div className="col-2">{addProductButton}</div>
-                </div>
+            <div className="pb-5">
+                <Row justify="center">
+                    <Col span={
+                        22
+                    }
 
-                <div className="row">
-                    <List
-                        grid={{
-                            gutter: 70,
-                            column: 3,
-                        }}
+                    >
+                        <Row justify="space-between">
+                            <Col span={4}>
+                                <h1>Цветы</h1>
+                            </Col>
+                            <Col>
+                                <Select
+                                    name={"shopSelect"}
+                                    showSearch
+                                    defaultValue={{key: this.state.shopId, value: this.state.shopValue}}
+                                    value={this.state.shopValue}
+                                    style={{width: 200}}
+                                    placeholder="Выберите магазин"
+                                    onChange={this.handleShopChange}
+                                >
+                                    {shopOptions}
+                                </Select>
+                            </Col>
+                            <Col span={4}>
+                                {addProductButton}
+                            </Col>
+                        </Row>
 
-                        pagination={{
+                        <List
+                            grid={{
+                                gutter: 16,
+                                column: 3,
+                            }}
+                            pagination={{
 
-                            loading: this.state.isLoading,
-                            showSizeChanger: true,
+                                loading: this.state.isLoading,
+                                showSizeChanger: true,
 
-                            defaultCurrent: Number(this.state.page),
-                            defaultPageSize: Number(this.state.size),
+                                defaultCurrent: Number(this.state.page),
+                                defaultPageSize: Number(this.state.size),
 
-                            pageSizeOptions: ["6", "9", "12"],
-                            position: "bottom",
+                                pageSizeOptions: ["6", "9", "12"],
+                                position: "bottom",
 
-                            total: this.state.totalElements,
+                                total: this.state.totalElements,
 
-                            showQuickJumper: true,
-                            onShowSizeChange: this.onSizeChangeHandler,
-                            onChange: this.onPageChangeHandler,
+                                showQuickJumper: true,
+                                onShowSizeChange: this.onSizeChangeHandler,
+                                onChange: this.onPageChangeHandler,
 
-                            loadMore: this.loadMore
-                        }}
-
-                        dataSource={flowers}
-
-                        renderItem={item => (
-                            <List.Item>
-                                {item}
-                            </List.Item>
-                        )}
-                    />
-                </div>
+                                loadMore: this.loadMore
+                            }}
+                            dataSource={flowers}
+                            renderItem={item => (
+                                <List.Item>
+                                    {item}
+                                </List.Item>
+                            )}
+                        />
+                    </Col>
+                </Row>
             </div>
         )
     }
 
+    handleShopChange = (input, option) => {
+        this.setState({
+                shopId: option.props.key,
+                shopValue: option.props.value
+            },
+            () => {
+                this.updateList(this.state.page, this.state.size, this.state.shopId)
+            })
+
+    }
 
     onSizeChangeHandler = (page, size) => {
 
@@ -176,12 +250,6 @@ class FlowersList extends PureComponent {
     };
 
     onPageChangeHandler = (pageNumber) => {
-
-        console.log('onPageChangeHandler')
-        console.log('pageNumber', pageNumber)
-        console.log('totalElements', this.state.totalElements)
-        console.log('totalPages', this.state.totalPages)
-
         this.setState({
             page: pageNumber
         });
@@ -191,9 +259,6 @@ class FlowersList extends PureComponent {
     };
 
     loadMore = () => {
-
-        console.log('LOAD MORE WORKS')
-
         this.loadList(this.state.page + 1, this.state.size);
     }
 

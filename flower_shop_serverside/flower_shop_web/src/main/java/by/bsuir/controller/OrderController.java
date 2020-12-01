@@ -10,10 +10,12 @@ import by.bsuir.security.core.UserPrincipal;
 import by.bsuir.service.api.ClientService;
 import by.bsuir.service.api.OrderService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -61,23 +63,6 @@ public class OrderController {
 
         return new ResponseEntity<>(order, httpHeaders, HttpStatus.CREATED);
     }
-
-//    @PreAuthorize("hasAnyAuthority('ROLE_CLIENT')")
-//    @PutMapping("/{id}")
-//    public ResponseEntity<OrderDTO> update(@PathVariable("id") @PositiveLong String id,
-//                                           @RequestBody @Valid OrderDTO orderDTO,
-//                                           @CurrentUser UserPrincipal userPrincipal,
-//                                           BindingResult bindingResult) {
-//        checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
-//        isIdInsideDtoOrThrowException(orderDTO);
-//
-//        ClientDTO clientDTO = getClient(userPrincipal);
-//
-//        orderDTO.getOrderInfo().setClient(clientDTO);
-//        OrderDTO order = orderService.update(orderDTO);
-//
-//        return ResponseEntity.ok(order);
-//    }
 
     @PreAuthorize("hasAnyAuthority('ROLE_CLIENT')")
     @GetMapping()
