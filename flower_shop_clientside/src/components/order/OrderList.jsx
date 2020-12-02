@@ -150,4 +150,3 @@ class OrderList extends Component {
 }
 
 export default withRouter(OrderList)
-

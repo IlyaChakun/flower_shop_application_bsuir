@@ -1,10 +1,10 @@
 import React, {Component} from 'react'
 
-import ReviewCard from "./ReviewCard";
-import {getAllReviewsRequest} from "../../util/utilsAPI";
-import AddReviewModal from "./AddReviewModal";
+import ReviewCard from './ReviewCard';
+import {getAllReviewsRequest} from '../../util/utilsAPI';
+import AddReviewModal from './AddReviewModal';
 import './ReviewsBlock.css'
-import {Col, List, Row} from "antd";
+import {Col, List, Row} from 'antd';
 
 
 class ReviewsList extends Component {
@@ -25,10 +25,8 @@ class ReviewsList extends Component {
 
 
     componentDidMount() {
-        //load list
         this.loadList(this.state.page, this.state.size)
     }
-
 
     loadList = (page, size) => {
 
@@ -93,7 +91,6 @@ class ReviewsList extends Component {
                 </Row>
 
                 <div className="reviews">
-                    {/*<div className="flex-viewport" style={{overflow: 'hidden', position: 'relative'}}>*/}
                     <List
                         grid={{
                             gutter: 16,
@@ -127,12 +124,10 @@ class ReviewsList extends Component {
                             </List.Item>
                         )}
                     />
-                    {/*</div>*/}
                 </div>
             </div>
         )
     }
-
 
     onSizeChangeHandler = (page, size) => {
 
@@ -144,28 +139,15 @@ class ReviewsList extends Component {
     };
 
     onPageChangeHandler = (pageNumber) => {
-
-        console.log('onPageChangeHandler')
-        console.log('pageNumber', pageNumber)
-        console.log('totalElements', this.state.totalElements)
-        console.log('totalPages', this.state.totalPages)
-
         this.setState({
             page: pageNumber
         });
-
-
         this.loadList(pageNumber, this.state.size);
     };
 
     loadMore = () => {
-
-        console.log('LOAD MORE WORKS')
-
         this.loadList(this.state.page + 1, this.state.size);
     }
-
 }
 
 export default ReviewsList
-

@@ -2,8 +2,8 @@ import React, {Component} from 'react'
 import './App.css'
 import PrivateRoute from './util/PrivateRoute'
 
-import {Breadcrumb, Layout, notification} from 'antd'
-import {Link, Route, Switch, withRouter} from 'react-router-dom'
+import {Col, Layout, notification, Row} from 'antd'
+import {Route, Switch, withRouter} from 'react-router-dom'
 
 import {localizedStrings} from '../components/util/localization'
 import {ACCESS_TOKEN, REFRESH_TOKEN, ROLE_ADMIN, ROLE_USER, SUCCESS, USER_ID} from '../constants'
@@ -32,6 +32,7 @@ import ShopDetail from "../components/shop/ShopDetail";
 import Basket from "../components/basket/Basket";
 import PrivateAdminRoute from "./util/PrivateAdminRoute";
 import OrderPage from "../components/order/OrderPage";
+import BreadCrumbComponent from "../components/common/breadcrumb/BreadCrumbComponent";
 
 const {Content} = Layout
 
@@ -60,7 +61,6 @@ class App extends Component {
 
         getCurrentCompanyRequest()
             .then(response => {
-                console.log('RESPONSE currentCompany ' + response)
                 this.setState({
                     currentCompany: response,
                     isLoading: false
@@ -82,7 +82,7 @@ class App extends Component {
             .then(response => {
                 console.log(response)
 
-                localStorage.setItem(USER_ID, response.id)
+                // localStorage.setItem(USER_ID, response.id)
 
                 this.setState({
                     currentUser: response,
@@ -138,38 +138,6 @@ class App extends Component {
             return <LoadingIndicator/>
         }
 
-        const breadcrumbNameMap = {
-            '/login': 'Авторизация',
-            '/sign-up': 'Регистрация',
-            '/profile': 'Личный кабинет',
-            '/company/shops/:id': 'Детальный просмотр магазина',
-            '/company': 'Компания',
-            '/reviews': 'Отзывы пользователей',
-            '/company/shops': 'Магазины компании',
-            '/basket': 'Корзина',
-            '/bouquets': 'Букеты',
-            '/flowers': 'Цветы поштучно',
-            '/orders/:id': 'Детальный просмотр заказа'
-        };
-
-        const {location} = this.props;
-        const pathSnippets = location.pathname.split('/').filter(i => i);
-        const extraBreadcrumbItems = pathSnippets.map((_, index) => {
-            const url = `/${pathSnippets.slice(0, index + 1).join('/')}`;
-            return (
-                <Breadcrumb.Item key={url}>
-                    <Link to={url}>{breadcrumbNameMap[url]}</Link>
-                </Breadcrumb.Item>
-            );
-        });
-        const breadcrumbItems = [
-            <Breadcrumb.Item key="home">
-                <Link to="/">Главная страница</Link>
-            </Breadcrumb.Item>,
-        ].concat(extraBreadcrumbItems);
-
-        //console.log('APP : this.state.currentUser ' + this.state.currentUser.id)
-
         return (
             <Layout className="app-wrapper">
                 <AppHeader isAuthenticated={this.state.isAuthenticated}
@@ -179,8 +147,12 @@ class App extends Component {
 
                 <Content className="app-content">
 
-                    <div style={{minHeight: '50', padding: '1.3%'}}>
-                        <Breadcrumb>{breadcrumbItems}</Breadcrumb>
+                    <div className="mb-5">
+                        <Row justify="center">
+                            <Col span={22}>
+                                <BreadCrumbComponent properties={this.props}/>
+                            </Col>
+                        </Row>
                     </div>
 
                     <Switch>
@@ -221,7 +193,7 @@ class App extends Component {
                                       component={Basket}
                                       {...this.props}/>
 
-                        <Route exact  path="/about/documents"
+                        <Route exact path="/about/documents"
                                render={(props) =>
                                    <DocumentsPage
                                        {...props} />}/>
@@ -314,22 +286,11 @@ class App extends Component {
 }
 
 export function isAdmin(currentUser) {
-    console.log('is admin method works')
-
-    console.log(currentUser)
 
     if (currentUser !== null && currentUser !== undefined && currentUser.roles !== undefined) {
-
-        console.log('currentUser email= ' + currentUser.email)
-
         const role = currentUser.roles.find(elem => elem.name === ROLE_ADMIN)
-
-        console.log("it`s admin ")
-
         return role === undefined ? false : role.name === ROLE_ADMIN
     }
-
-    console.log('it`s user')
     return false
 }
 
@@ -342,4 +303,3 @@ export function isUser(currentUser) {
 }
 
 export default withRouter(App)
-

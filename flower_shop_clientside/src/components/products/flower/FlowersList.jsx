@@ -165,11 +165,7 @@ class FlowersList extends PureComponent {
 
             <div className="pb-5">
                 <Row justify="center">
-                    <Col span={
-                        22
-                    }
-
-                    >
+                    <Col span={22}>
                         <Row justify="space-between">
                             <Col span={4}>
                                 <h1>Цветы</h1>

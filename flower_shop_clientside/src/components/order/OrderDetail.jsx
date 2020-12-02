@@ -7,14 +7,14 @@ const { Meta } = Card
 
 class OrderDetail extends Component {
   render () {
-    const orderProducts = this.props.order.orderProducts
-      .map(orderProduct => (
-        <OrderProduct
-          key={orderProduct.id}
-          orderProduct={orderProduct}
-        />
-      )
-      )
+    // const orderProducts = this.props.order.orderProducts
+    //   .map(orderProduct => (
+    //     <OrderProduct
+    //       key={orderProduct.id}
+    //       orderProduct={orderProduct}
+    //     />
+    //   )
+    //   )
 
     return (
       <Card
