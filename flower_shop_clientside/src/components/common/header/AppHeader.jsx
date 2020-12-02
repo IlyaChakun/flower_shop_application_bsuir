@@ -1,8 +1,7 @@
 import React, {Component} from 'react'
 import {Link, withRouter} from 'react-router-dom'
-import {Avatar, Button, Dropdown, Layout, Menu} from 'antd'
+import {Avatar, Button, Col, Dropdown, Layout, Menu, Row} from 'antd'
 import {getAvatarColor} from '../../util/colors'
-import { Row, Col } from 'antd';
 import {localizedStrings} from '../../util/localization'
 import './AppHeader.css'
 
@@ -29,12 +28,6 @@ class AppHeader extends Component {
 
     makeMenuForUser = () => {
         return [
-            // <Menu.Item key="/">
-            //     <Link to="/">
-            //         <HomeOutlined style={{fontSize: '20px'}}/>
-            //     </Link>
-            // </Menu.Item>,
-
             <Menu.Item key="/basket">
                 <Link
                     to={'/basket'}>
@@ -133,11 +126,18 @@ class AppHeader extends Component {
                         mode="horizontal"
                         selectedKeys={[this.props.location.pathname]}
                         style={{lineHeight: '60px'}}>
+                        {/*<Menu.Item key="/">*/}
+                        {/*    <Link to="/">*/}
+                        {/*        Главная страница*/}
+                        {/*    </Link>*/}
+                        {/*</Menu.Item>*/}
+
                         <Menu.Item key="/">
                             <Link to="/">
-                                Главная страница
+                                <HomeOutlined style={{fontSize: '20px'}}/>
                             </Link>
                         </Menu.Item>
+
                         <Menu.Item key="/flowers">
                             <Link to="/flowers">
                                 Цветы

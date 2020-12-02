@@ -181,12 +181,6 @@ class ShopsList extends Component {
     };
 
     onPageChangeHandler = (pageNumber) => {
-
-        console.log('onPageChangeHandler')
-        console.log('pageNumber', pageNumber)
-        console.log('totalElements', this.state.totalElements)
-        console.log('totalPages', this.state.totalPages)
-
         this.setState({
             page: pageNumber
         });

@@ -1,36 +1,31 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 
-import {withRouter} from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import ReviewsList from '../company/review/ReviewsList'
 import ShopsBlock from '../shop/ShopsBlock'
 import FlowersList from '../products/flower/FlowersList'
 import BouquetList from '../products/bouquet/BouquetList'
+import { Col, Row } from 'antd'
+import CarouselComponent from '../common/carousel/CarouselComponent'
 
 class Home extends Component {
   render () {
     return (
-      <div className="container-fluid">
-        <div className="col-12">
-          <div className="row mb-5">
-            {/*<CarouselComponent/>*/}
+      <Row>
+        <Col span={24}>
+          <div className="mb-5">
+            <CarouselComponent/>
           </div>
-
-          <div className="row mb-2">
-            <FlowersList/>
-          </div>
-
-          <div className="row mb-2">
-            <BouquetList/>
-          </div>
-
-          <div className="row">
-            <ReviewsList/>
-          </div>
-
+          <FlowersList/>
+          <BouquetList/>
+          <Row justify="center">
+            <Col span={20}>
+              <ReviewsList/>
+            </Col>
+          </Row>
           <ShopsBlock/>
-
-        </div>
-      </div>
+        </Col>
+      </Row>
     )
   }
 }
