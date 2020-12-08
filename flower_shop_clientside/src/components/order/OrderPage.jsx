@@ -9,7 +9,7 @@ class OrderPage extends Component {
 
     state = {
         order: null,
-        products: []
+        orderProducts: []
     }
 
     componentDidMount() {
@@ -19,28 +19,29 @@ class OrderPage extends Component {
                     console.log(response.orderProducts.length)
                     this.setState({
                         order: response,
-                        products: response.orderProducts.slice()
+                        orderProducts: response.orderProducts.slice()
                     })
                 }
             )
     }
 
     render() {
-        if  (this.state.order === null || this.state.products === null ) {
-             return <LoadingIndicator/>
+        if (this.state.order === null || this.state.orderProducts === null) {
+            return <LoadingIndicator/>
         }
 
         const orderProducts =
-                this.state.products
-                    .map(orderProduct => (
-                            <OrderProduct
-                                key={orderProduct.id}
-                                orderProduct={orderProduct}
-                            />
-                        )
+            this.state.orderProducts
+                .map(orderProduct => (
+                        <OrderProduct
+                            key={orderProduct.id}
+                            orderProduct={orderProduct}
+                        />
                     )
+                )
 
-        console.log( 'productId' + this.state.products[0].id)
+        console.log('product0')
+        console.log(this.state.orderProducts[0])
 
         return (
 
@@ -51,30 +52,36 @@ class OrderPage extends Component {
 
                     <Row justify="center">
                         <Col span={22}>
-                        <h1>Заказ №{this.state.order.id}</h1>
-                        <p>Комментарий к заказу: {this.state.order.comment}</p>
-                        <p>Статус заказа: {this.state.order.orderStatus}</p>
-                        <p>Общая стоимость заказа: {this.state.order.totalAmount} руб.</p>
-                        <p>Доставка: {this.state.order.address},
-                            этаж: {this.state.order.floorNumber},
-                            подъезд: {this.state.order.entranceNumber}</p>
-                        <br/>
-                        <p>Список товаров:</p>
+                            <h1>Заказ №{this.state.order.id}</h1>
+                            <p>Комментарий к заказу: {this.state.order.comment}</p>
+                            <p>Статус заказа: {this.state.order.orderStatus}</p>
+                            <p>Общая стоимость заказа: {this.state.order.totalAmount} руб.</p>
+                            <p>Доставка: {this.state.order.address},
+                                этаж: {this.state.order.floorNumber},
+                                подъезд: {this.state.order.entranceNumber}</p>
+                            <br/>
+                            <p>
+                                Заказан в магазине по адресу: {this.state.orderProducts[0].product.shop.contacts.city},
+                                {this.state.orderProducts[0].product.shop.contacts.address}
+                            </p>
+                            <br/>
 
-                        <List
-                            grid={{
-                                gutter: 8,
-                                column: 1,
-                            }}
+                            <p>Список товаров:</p>
 
-                            dataSource={orderProducts}
+                            <List
+                                grid={{
+                                    gutter: 8,
+                                    column: 1,
+                                }}
 
-                            renderItem={item => (
-                                <List.Item>
-                                    {item}
-                                </List.Item>
-                            )}
-                        />
+                                dataSource={orderProducts}
+
+                                renderItem={item => (
+                                    <List.Item>
+                                        {item}
+                                    </List.Item>
+                                )}
+                            />
                         </Col>
                     </Row>
                 )

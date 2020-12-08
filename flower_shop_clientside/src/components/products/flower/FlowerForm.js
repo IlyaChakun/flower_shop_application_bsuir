@@ -421,10 +421,6 @@ export default class FlowerForm extends Component {
         const inputName = target.name
         const inputValue = target.value
 
-        console.log('handle input change')
-        console.log('inputName= ' + inputName)
-        console.log('inputValue= ' + inputValue)
-
         this.setState({
             [inputName]: {
                 value: inputValue,
@@ -510,6 +506,4 @@ export default class FlowerForm extends Component {
         }
     }
 
-
 }
-

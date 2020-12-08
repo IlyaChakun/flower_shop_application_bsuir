@@ -28,7 +28,7 @@ const layout = {
 class Basket extends PureComponent {
 
     state = {
-        products: [],
+        cartItems: [],
         totalElements: 0,
         totalPrice: 0,
 
@@ -66,7 +66,7 @@ class Basket extends PureComponent {
         promise
             .then(response => {
                 this.setState({
-                    products: response.cartItems,
+                    cartItems: response.cartItems,
                     totalElements: response.totalElements,
                     totalPrice: response.totalPrice,
                 });
@@ -104,20 +104,13 @@ class Basket extends PureComponent {
     };
 
     handleSubmitOrder = () => {
-        const userId = this.props.match.params.id;
-        const userIdFromProps = this.props.currentUser;
-
-        console.log("userId: " + userId)
-        console.log("userIdFromProps: " + userIdFromProps)
-
         const order = {
             "comment": this.state.comment.value,
             "address": this.state.address.value,
             "floorNumber": this.state.floorNumber.value,
             "entranceNumber": this.state.entranceNumber.value,
-            "shopId": this.state.products[0].product.shopId
+            "shopId": this.state.cartItems[0].product.shop.id
         }
-
         createOrder(order)
             .then(() => {
                 notification.success({
@@ -140,7 +133,7 @@ class Basket extends PureComponent {
 
         const addedItems = [];
 
-        this.state.products.forEach((productWithQuantity) => {
+        this.state.cartItems.forEach((productWithQuantity) => {
 
             addedItems.push(
                 <BasketProduct
@@ -169,7 +162,7 @@ class Basket extends PureComponent {
                             <List
                                 loading={this.state.loading}
                                 grid={{
-                                    gutter: 70,
+                                    gutter: 16,
                                     column: 3,
                                 }}
                                 dataSource={addedItems}
@@ -184,17 +177,6 @@ class Basket extends PureComponent {
                         <div className="basket-container-footer">
                             <Form {...layout}
                                   onFinish={this.handleSubmitOrder}>
-
-                                {/*<FormItem wrapperCol={{span:8, offset: 8}}>*/}
-                                {/*    <Checkbox*/}
-                                {/*        style={{*/}
-                                {/*            lineHeight: '32px',*/}
-                                {/*        }}*/}
-                                {/*        onClick={this.handleShippingChange}>*/}
-                                {/*        Доставка*/}
-                                {/*    </Checkbox>*/}
-                                {/*</FormItem>*/}
-
 
                                 <Form.Item
                                     label={'Комментарий к заказу'}
@@ -308,7 +290,7 @@ class Basket extends PureComponent {
     deleteProductFromBasket = (productId) => {
 
         const productBasket = {
-            "userId": localStorage.getItem(USER_ID),
+            "userId": this.props.currentUser.id,
             "productId": productId
         };
 
@@ -329,9 +311,8 @@ class Basket extends PureComponent {
 
 
     updateProductQuantity = (flowerLengthCostId, quantity, productId) => {
-
         const productBasket = {
-            "userId": localStorage.getItem(USER_ID),
+            "userId": this.props.currentUser.id,
             "flowerLengthCostId": flowerLengthCostId,
             "productId": productId,
             "quantity": quantity
@@ -351,17 +332,9 @@ class Basket extends PureComponent {
 
 
     handleInputChange = (event, validationFun) => {
-
-        console.log('event ' + event)
-        console.log('event ' + event.target.name)
-
         const target = event.target
         const inputName = target.name
         const inputValue = target.value
-
-        console.log('handle input change')
-        console.log('inputName= ' + inputName)
-        console.log('inputValue= ' + inputValue)
 
         this.setState({
             [inputName]: {

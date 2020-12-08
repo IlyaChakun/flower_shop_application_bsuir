@@ -5,7 +5,6 @@ import {
   REFRESH_TOKEN_HEADER_KEY,
   GRANT_TYPE_HEADER_KEY,
   TOKEN_TYPE_HEADER_KEY,
-
   ACCESS_TOKEN,
   REFRESH_TOKEN
 } from '../../constants'
