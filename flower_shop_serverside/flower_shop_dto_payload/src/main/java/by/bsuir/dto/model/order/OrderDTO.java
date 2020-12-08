@@ -3,7 +3,7 @@ package by.bsuir.dto.model.order;
 import by.bsuir.dto.model.AbstractDTO;
 import by.bsuir.dto.model.user.ClientDTO;
 import by.bsuir.entity.order.OrderStatus;
-import javax.persistence.Column;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,6 +16,7 @@ import java.util.Set;
 @Setter
 public class OrderDTO extends AbstractDTO {
 
+    @JsonManagedReference
     private Set<OrderProductDTO> orderProducts = new HashSet<>();
 
     private String uniqueId;//для понтов типо униклаьный ид хз зачем пригодиться

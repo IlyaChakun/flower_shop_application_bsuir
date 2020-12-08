@@ -57,9 +57,29 @@ public class CartServiceImpl implements CartService {
         cartItem.setQuantity(requestCartItemDTO.getQuantity());
 
         Cart cart = client.getCart();
-        cart.getCartItems().add((cartItem));
+        cart.setShopId(product.getShop().getId());
+        List<CartItem> cartItems = cart.getCartItems();
+
+
+        int similarProductsInCart = 0;
+        for (CartItem item : cartItems) {
+            if (isAddedProductEqualsToOneFromCart(requestCartItemDTO, item)) {
+                item.setQuantity(item.getQuantity() + 1);
+                similarProductsInCart++;
+            }
+        }
+
+        if (similarProductsInCart == 0) {
+            cartItems.add(cartItem);
+        }
+
 
         return buildCart(cart);
+    }
+
+    private boolean isAddedProductEqualsToOneFromCart(RequestCartItemDTO requestCartItemDTO, CartItem item) {
+        return item.getProduct().getId().equals(requestCartItemDTO.getProductId()) &&
+                item.getFlowerLengthCost().getId().equals(requestCartItemDTO.getFlowerLengthCostId());
     }
 
     private FlowerLengthCost resolveLengthCost(Long id) {

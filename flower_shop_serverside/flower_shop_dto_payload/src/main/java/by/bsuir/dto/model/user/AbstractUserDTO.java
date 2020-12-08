@@ -17,23 +17,18 @@ import java.util.Set;
 @NoArgsConstructor
 public class AbstractUserDTO extends AbstractDTO {
 
-
     private String name;
-
 
     private String email;
 
     @JsonIgnore
     private String password;
 
-
     private SupportedAuthProvider provider;
 
     private Set<RoleDTO> roles = new HashSet<>();
 
-
     private boolean isMailConfirmed;
-
 
     private String phoneNumber;
 

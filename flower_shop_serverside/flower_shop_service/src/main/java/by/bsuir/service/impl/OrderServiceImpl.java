@@ -21,11 +21,6 @@ import by.bsuir.repository.api.ShopRepository;
 import by.bsuir.repository.api.cart.CartRepository;
 import by.bsuir.repository.api.user.ClientRepository;
 import by.bsuir.service.api.OrderService;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import javax.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +29,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -81,6 +80,8 @@ public class OrderServiceImpl implements OrderService {
         newOrder.setTotalAmount(cart.getTotalPrice());
         newOrder.setClient(resolveClient(orderRequest.getClientId()));
         newOrder.setOrderProducts(resolveProducts(cart.getCartItems()));
+
+        newOrder.setShopId(cart.getShopId());
         return newOrder;
     }
 

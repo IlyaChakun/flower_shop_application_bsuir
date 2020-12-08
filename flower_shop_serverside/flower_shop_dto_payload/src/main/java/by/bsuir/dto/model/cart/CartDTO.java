@@ -1,8 +1,6 @@
 package by.bsuir.dto.model.cart;
 
 import by.bsuir.dto.model.BaseAbstractDTO;
-import javax.persistence.Column;
-import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +9,7 @@ import lombok.Setter;
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +28,7 @@ public class CartDTO extends BaseAbstractDTO {
     @Min(value = 0, message = "Общее кол-во продуктов в корзине не может быть меньше 0!")
     private Integer totalElements;
 
-    @NotNull(message = "Ид магазина не мозет быть пустым")
+    @NotNull(message = "Ид магазина не может быть пустым")
     private Long shopId;
 
 }
