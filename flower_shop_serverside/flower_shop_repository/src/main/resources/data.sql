@@ -44,8 +44,6 @@ insert ignore into flower_types(id, flower_type)
 VALUES (7, 'Альстромерии');
 /************/
 
-# //TODO  в базу хардкодом пишем все цвета, все страны, сорта
-
 insert ignore into colors(id, color_name)
 VALUES (1, 'Красный');
 insert ignore into colors(id, color_name)
@@ -80,3 +78,5 @@ VALUES (2, 'Russia', 'Россия');
 /** типы букетов**/
 insert ignore into bouquet_types(id, bouquet_type)
 values (1, 'Букет из роз');
+insert ignore into bouquet_types(id, bouquet_type)
+values (2, 'Букет цветов');
