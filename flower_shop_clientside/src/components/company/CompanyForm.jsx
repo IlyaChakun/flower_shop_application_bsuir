@@ -242,8 +242,6 @@ class CompanyForm extends Component {
             }
         }
 
-        console.log('company request: ' + companyRequest)
-
         if (this.state.isExist) {
             updateCompanyInfoRequest(this.state.id, companyRequest)
                 .then(() => {

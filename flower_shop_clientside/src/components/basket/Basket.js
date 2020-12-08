@@ -10,7 +10,7 @@ import {
     updateProductToBasketRequest
 } from "../util/utilsAPI";
 import {validateAddress, validateText} from "../common/validation/ValidationFunctions";
-import {ERROR, SUCCESS, USER_ID} from "../../constants";
+import {ERROR, SUCCESS} from "../../constants";
 import {localizedStrings} from "../util/localization";
 
 const {TextArea} = Input;

@@ -40,9 +40,6 @@ class OrderPage extends Component {
                     )
                 )
 
-        console.log('product0')
-        console.log(this.state.orderProducts[0])
-
         return (
 
             this.state.order === null ?

@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import {Card, Col, Row} from 'antd'
-import "./OrderProduct.css"
 
 const {Meta} = Card
 
