@@ -175,7 +175,6 @@ export default class FlowerForm extends Component {
                 "id": this.state.flowerType.id
             },
             "flowerColor": {
-
                 "id": this.state.flowerColor.id
             },
             "flowerSort": {
@@ -238,195 +237,182 @@ export default class FlowerForm extends Component {
 
 
         return (
+            <Form {...layout}
+                  onFinish={this.handleSubmit}
+                  initialValues={{}}
+            >
 
-            <div>
-                <div>
+                <div className="col-sm-12">
+                    <div className="row">
+                        <div className="col-sm-6">
+                            <ImageLoader
+                                imageUrl={this.state.imageUrl}
+                                handleImageUrlChange={this.handleImageUrlChange}
+                            />
+                        </div>
 
-                    <div>
-                        <Form {...layout}
-                              onFinish={this.handleSubmit}
-                              initialValues={{}}
-                        >
+                        <div className="col-sm-6">
 
-                            <div className="col-sm-12">
-                                <div className="row">
-                                    <div className="col-sm-6">
-                                        <ImageLoader
-                                            imageUrl={this.state.imageUrl}
-                                            handleImageUrlChange={this.handleImageUrlChange}
-                                        />
-                                    </div>
-
-                                    <div className="col-sm-6">
-
-                                        <Form.Item
-                                            className={s.formItem}
-                                            label={'Страна поставщик'}
-                                            validateStatus={this.state.country.validateStatus}
-                                            hasFeedback
-                                            help={this.state.country.errorMsg}
-                                            // name="country"
-                                        >
+                            <Form.Item
+                                className={s.formItem}
+                                label={'Страна поставщик'}
+                                validateStatus={this.state.country.validateStatus}
+                                hasFeedback
+                                help={this.state.country.errorMsg}
+                                // name="country"
+                            >
 
 
-                                            <Select
-                                                name="country"
-                                                value={this.state.country.value}
-                                                showSearch
-                                                style={{width: 200}}
-                                                placeholder="Выберите страну"
-                                                onChange={this.onChangeCountrySelect}
-                                            >
-                                                {countriesOptions}
-                                            </Select>
+                                <Select
+                                    name="country"
+                                    value={this.state.country.value}
+                                    showSearch
+                                    style={{width: 200}}
+                                    placeholder="Выберите страну"
+                                    onChange={this.onChangeCountrySelect}
+                                >
+                                    {countriesOptions}
+                                </Select>
 
-                                        </Form.Item>
-
-
-                                        <Form.Item
-                                            className={s.formItem}
-                                            label={'Тип цветка'}
-                                            validateStatus={this.state.flowerType.validateStatus}
-                                            hasFeedback
-                                            help={this.state.flowerType.errorMsg}
-                                            // name="flowerType"
-                                        >
-
-                                            <Select
-                                                name="flowerType"
-                                                value={this.state.flowerType.value}
-                                                showSearch
-                                                style={{width: 200}}
-                                                placeholder="Выберите тип"
-                                                onChange={this.onChangeFlowerTypeSelect}
-                                            >
-                                                {flowerTypesOptions}
-                                            </Select>
-
-                                        </Form.Item>
+                            </Form.Item>
 
 
-                                        <Form.Item
-                                            className={s.formItem}
-                                            label={'Цвета'}
-                                            validateStatus={this.state.flowerColor.validateStatus}
-                                            hasFeedback
-                                            help={this.state.flowerColor.errorMsg}
+                            <Form.Item
+                                className={s.formItem}
+                                label={'Тип цветка'}
+                                validateStatus={this.state.flowerType.validateStatus}
+                                hasFeedback
+                                help={this.state.flowerType.errorMsg}
+                                // name="flowerType"
+                            >
 
-                                        >
-                                            <Select
-                                                name="flowerType"
-                                                value={this.state.flowerColor.value}
-                                                showSearch
-                                                style={{width: 200}}
-                                                placeholder="Выберите тип букета"
-                                                onChange={this.onChangeColorsSelect}
-                                            >
-                                                {flowerColorsOptions}
-                                            </Select>
-                                        </Form.Item>
+                                <Select
+                                    name="flowerType"
+                                    value={this.state.flowerType.value}
+                                    showSearch
+                                    style={{width: 200}}
+                                    placeholder="Выберите тип"
+                                    onChange={this.onChangeFlowerTypeSelect}
+                                >
+                                    {flowerTypesOptions}
+                                </Select>
 
-
-                                        <Form.Item
-                                            className={s.formItem}
-                                            label={'Сорта'}
-                                            validateStatus={this.state.flowerSort.validateStatus}
-                                            hasFeedback
-                                            help={this.state.flowerSort.errorMsg}
-                                            // name="flowerSorts"
-                                        >
-
-                                            <Select
-                                                name={"flowerSort"}
-                                                value={this.state.flowerSort.value}
-                                                showSearch
-                                                style={{width: 200}}
-                                                placeholder="Выберите сорт"
-                                                onChange={this.onChangeFlowerSortsSelect}
-                                            >
-                                                {flowerSortsOptions}
-                                            </Select>
-
-                                        </Form.Item>
+                            </Form.Item>
 
 
-                                        <Form.Item
-                                            className={s.formItem}
-                                            label={'Описание'}
-                                            validateStatus={this.state.description.validateStatus}
-                                            hasFeedback
-                                            onChange={(event) => this.handleInputChange(event, this.validateDescription)}
-                                            help={this.state.description.errorMsg}
-                                            rules={[
-                                                {
-                                                    required: true,
-                                                    message: 'Пожалуйста, введите описание!',
-                                                },
-                                            ]}
-                                            // name="description"
-                                        >
-                                            <Input.TextArea
-                                                name="description"
-                                                value={this.state.description.value}
-                                                placeholder={'описание'}
-                                                style={{fontSize: '16px'}}
-                                                autosize={{minRows: 3, maxRows: 6}}/>
-                                        </Form.Item>
+                            <Form.Item
+                                className={s.formItem}
+                                label={'Цвета'}
+                                validateStatus={this.state.flowerColor.validateStatus}
+                                hasFeedback
+                                help={this.state.flowerColor.errorMsg}
+
+                            >
+                                <Select
+                                    name="flowerType"
+                                    value={this.state.flowerColor.value}
+                                    showSearch
+                                    style={{width: 200}}
+                                    placeholder="Выберите тип букета"
+                                    onChange={this.onChangeColorsSelect}
+                                >
+                                    {flowerColorsOptions}
+                                </Select>
+                            </Form.Item>
 
 
-                                        <Form.Item
-                                            className={s.formItem}
-                                            label={'Колво на складе'}
-                                            validateStatus={this.state.availableAmountOnStock.validateStatus}
-                                            hasFeedback
-                                            onChange={(event) => this.handleInputChange(event, this.validateAmountOnStock)}
-                                            help={this.state.availableAmountOnStock.errorMsg}
-                                            rules={[
-                                                {
-                                                    required: true,
-                                                    message: 'Пожалуйста, введите описание!',
-                                                },
-                                            ]}
-                                            // name="availableAmountOnStock"
-                                        >
-                                            <Input
-                                                type={"number"}
-                                                min={0}
-                                                max={10_000}
-                                                name="availableAmountOnStock"
-                                                placeholder={'колво на складе'}
-                                                style={{fontSize: '16px'}}
-                                                value={this.state.availableAmountOnStock.value}
-                                                autosize={{minRows: 3, maxRows: 6}}/>
-                                        </Form.Item>
+                            <Form.Item
+                                className={s.formItem}
+                                label={'Сорта'}
+                                validateStatus={this.state.flowerSort.validateStatus}
+                                hasFeedback
+                                help={this.state.flowerSort.errorMsg}
+                                // name="flowerSorts"
+                            >
 
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col-8"></div>
-                                    <div className="col-4">
-                                        <Form.Item className={s.formItem}>
-                                            <Button
-                                                type="primary"
-                                                htmlType="submit"
-                                                size="large"
-                                                className={s.button}
-                                                disabled={this.isFormInvalid()}>
-                                                {this.props.action}
-                                            </Button>
-                                        </Form.Item>
-                                    </div>
-                                </div>
-                            </div>
-                        </Form>
+                                <Select
+                                    name={"flowerSort"}
+                                    value={this.state.flowerSort.value}
+                                    showSearch
+                                    style={{width: 200}}
+                                    placeholder="Выберите сорт"
+                                    onChange={this.onChangeFlowerSortsSelect}
+                                >
+                                    {flowerSortsOptions}
+                                </Select>
+
+                            </Form.Item>
+
+
+                            <Form.Item
+                                className={s.formItem}
+                                label={'Описание'}
+                                validateStatus={this.state.description.validateStatus}
+                                hasFeedback
+                                onChange={(event) => this.handleInputChange(event, this.validateDescription)}
+                                help={this.state.description.errorMsg}
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Пожалуйста, введите описание!',
+                                    },
+                                ]}
+                                // name="description"
+                            >
+                                <Input.TextArea
+                                    name="description"
+                                    value={this.state.description.value}
+                                    placeholder={'описание'}
+                                    style={{fontSize: '16px'}}
+                                    autosize={{minRows: 3, maxRows: 6}}/>
+                            </Form.Item>
+
+
+                            <Form.Item
+                                className={s.formItem}
+                                label={'Колво на складе'}
+                                validateStatus={this.state.availableAmountOnStock.validateStatus}
+                                hasFeedback
+                                onChange={(event) => this.handleInputChange(event, this.validateAmountOnStock)}
+                                help={this.state.availableAmountOnStock.errorMsg}
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Пожалуйста, введите описание!',
+                                    },
+                                ]}
+                                // name="availableAmountOnStock"
+                            >
+                                <Input
+                                    type={"number"}
+                                    min={0}
+                                    max={10_000}
+                                    name="availableAmountOnStock"
+                                    placeholder={'колво на складе'}
+                                    style={{fontSize: '16px'}}
+                                    value={this.state.availableAmountOnStock.value}
+                                    autosize={{minRows: 3, maxRows: 6}}/>
+                            </Form.Item>
+
+                        </div>
                     </div>
-
-
+                    <div className="row">
+                        <div className="col-8"></div>
+                        <div className="col-4">
+                            <Form.Item className={s.formItem}>
+                                <Button
+                                    type="primary"
+                                    htmlType="submit"
+                                    size="large"
+                                    className={s.button}
+                                    disabled={this.isFormInvalid()}>
+                                    {this.props.action}
+                                </Button>
+                            </Form.Item>
+                        </div>
+                    </div>
                 </div>
-
-            </div>
-
-
+            </Form>
         )
     }
 
