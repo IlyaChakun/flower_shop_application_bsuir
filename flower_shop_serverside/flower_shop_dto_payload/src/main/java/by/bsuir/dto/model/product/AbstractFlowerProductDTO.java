@@ -7,6 +7,9 @@ import by.bsuir.dto.model.company.ShopDTO;
 import by.bsuir.dto.model.product.common.FlowerColorDTO;
 import by.bsuir.dto.model.product.common.FlowerLengthCostDTO;
 import by.bsuir.dto.model.product.common.FlowerSortDTO;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,6 +22,9 @@ import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -31,7 +37,7 @@ public class AbstractFlowerProductDTO extends AbstractDTO {
 
     @Valid
     @NotNull(message = "flowerLengthCosts must be defined")
-    @Size(min = 1, message = "Min one lenght cost")
+    @Size(min = 1, message = "Min one length cost")
     private List<FlowerLengthCostDTO> flowerLengthCosts = new ArrayList<>();
 
 //    @Valid
@@ -49,7 +55,7 @@ public class AbstractFlowerProductDTO extends AbstractDTO {
 
     private ImageDTO image;
 
-    @Size(min = 0, max = 512, message = "Описание для цветов не более 512 символов!")
+    @Size(max = 512, message = "Описание для цветов не более 512 символов!")
     private String description;
 
     @NotNull(message = "Количество продукта должно быть выбрано")
@@ -58,6 +64,7 @@ public class AbstractFlowerProductDTO extends AbstractDTO {
     private Integer availableAmountOnStock;
 
     @NotNull(message = "Магазин должен быть выбран")
+    @JsonManagedReference
     private ShopDTO shop;
 
 }

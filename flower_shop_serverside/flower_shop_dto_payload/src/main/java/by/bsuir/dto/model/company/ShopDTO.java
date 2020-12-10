@@ -4,8 +4,8 @@ import by.bsuir.dto.model.AbstractDTO;
 import by.bsuir.dto.model.common.ImageDTO;
 import by.bsuir.dto.model.product.AbstractFlowerProductDTO;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,7 +14,9 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -30,7 +32,6 @@ public class ShopDTO extends AbstractDTO {
     private WorkingHoursDTO workingHours;
 
     @Valid
-//    @JsonIgnore
     @JsonBackReference
     private List<AbstractFlowerProductDTO> shopProducts = new ArrayList<>();
 

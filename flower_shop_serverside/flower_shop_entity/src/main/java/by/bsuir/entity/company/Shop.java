@@ -2,9 +2,6 @@ package by.bsuir.entity.company;
 
 import by.bsuir.entity.AbstractEntity;
 import by.bsuir.entity.common.Image;
-import by.bsuir.entity.company.Company;
-import by.bsuir.entity.company.Contacts;
-import by.bsuir.entity.company.WorkingHours;
 import by.bsuir.entity.product.AbstractFlowerProduct;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;

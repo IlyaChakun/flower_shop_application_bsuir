@@ -101,8 +101,6 @@ class CompanyForm extends Component {
         company
             .then(response => {
 
-                console.log(response.name)
-
                 this.setState({
                     id: response.id,
                     name: {
@@ -198,11 +196,6 @@ class CompanyForm extends Component {
         const inputName = target.name
         const inputValue = target.value
 
-        console.log('handle input change')
-        console.log('event ' + event.target.name)
-        console.log('inputName= ' + inputName)
-        console.log('inputValue= ' + inputValue)
-
         this.setState({
             [inputName]: {
                 value: inputValue,
@@ -214,7 +207,6 @@ class CompanyForm extends Component {
 
     editCompany = () => {
         if (this.state.isEditing === false) {
-            console.log('Start Edit company')
             this.setState({
                 isEditing: true
             })
@@ -249,8 +241,6 @@ class CompanyForm extends Component {
                 }
             }
         }
-
-        console.log('company request: ' + companyRequest)
 
         if (this.state.isExist) {
             updateCompanyInfoRequest(this.state.id, companyRequest)

@@ -60,7 +60,6 @@ class FlowerCardProxy extends Component {
             <div className={isAdmin(this.props.currentUser) ? 'custom-hidden' : ''}
                  onClick={() => this.addToBasket()}>
                 <i className="fas fa-shopping-cart"></i>
-                {/*<PlusCircleOutlined style={{fontSize: '27px', color: '#cc3242'}}/>*/}
             </div>
         )
 

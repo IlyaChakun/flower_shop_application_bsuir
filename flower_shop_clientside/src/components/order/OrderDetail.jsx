@@ -1,21 +1,11 @@
-import React, { Component } from 'react'
-import { Button, Card } from 'antd'
-import OrderProduct from './OrderProduct'
-import { Link, withRouter } from 'react-router-dom'
+import React, {Component} from 'react'
+import {Button, Card} from 'antd'
+import {Link, withRouter} from 'react-router-dom'
 
 const { Meta } = Card
 
 class OrderDetail extends Component {
   render () {
-    // const orderProducts = this.props.order.orderProducts
-    //   .map(orderProduct => (
-    //     <OrderProduct
-    //       key={orderProduct.id}
-    //       orderProduct={orderProduct}
-    //     />
-    //   )
-    //   )
-
     return (
       <Card
         bodyStyle={{ padding: '10px' }}

@@ -30,9 +30,7 @@ class FlowersList extends PureComponent {
         totalPages: 0,
         totalElements: 0,
 
-
-        isLoading: true,
-
+        isLoading: true
     }
 
 

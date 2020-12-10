@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import s from './SignUp.module.css'
 import {checkLoginAvailabilityRequest, signUpRequest} from '../../util/utilsAPI'
 import {ERROR, PASSWORD_MAX_LENGTH, PASSWORD_MIN_LENGTH, SUCCESS} from '../../../constants'
-import {Button, Form, Input, notification} from 'antd'
+import {Button, Col, Form, Input, notification, Row} from 'antd'
 import {localizedStrings} from '../../util/localization'
 import {Link} from 'react-router-dom'
 import UserOutlined from '@ant-design/icons/lib/icons/UserOutlined'
@@ -87,82 +87,86 @@ class Signup extends Component {
             <div className={s.container}>
                 <h1 className={s.title}>{localizedStrings.signUp}</h1>
                 <div className={s.content}>
-                    <Form {...layout}
-                          onFinish={this.handleSubmit} className={s.form}>
-                        <Form.Item
-                            className={s.formItem}
-                            label={localizedStrings.name}
-                            hasFeedback
-                            validateStatus={this.state.name.validateStatus}
-                            help={this.state.name.errorMsg}>
-                            <Input
-                                prefix={<UserOutlined/>}
-                                name="name"
-                                autoComplete="off"
-                                placeholder={localizedStrings.name}
-                                value={this.state.name.value}
-                                onChange={(event) => this.handleInputChange(event, validateUserName)}/>
-                        </Form.Item>
-                        <Form.Item
-                            className={s.formItem}
-                            label={localizedStrings.email}
-                            hasFeedback
-                            validateStatus={this.state.email.validateStatus}
-                            help={this.state.email.errorMsg}>
-                            <Input
-                                prefix={<UserOutlined/>}
-                                name="email"
-                                type="text"
-                                autoComplete="off"
-                                placeholder={localizedStrings.emailField}
-                                value={this.state.email.value}
-                                onBlur={this.validateEmailAvailability}
-                                onChange={(event) => this.handleInputChange(event, validateEmail)}/>
-                        </Form.Item>
-                        <Form.Item
-                            className={s.formItem}
-                            label={localizedStrings.password}
-                            validateStatus={this.state.password.validateStatus}
-                            help={this.state.password.errorMsg}>
-                            <Input.Password
-                                prefix={<LockOutlined/>}
-                                name="password"
-                                type="password"
-                                autoComplete="off"
-                                placeholder={localizedStrings.helpForPass}
-                                value={this.state.password.value}
-                                onChange={(event) => this.handleInputChange(event, this.validatePassword)}/>
-                        </Form.Item>
-                        <Form.Item
-                            className={s.formItem}
-                            label={localizedStrings.confPassword}
-                            validateStatus={this.state.confirmedPassword.validateStatus}
-                            help={this.state.confirmedPassword.errorMsg}>
-                            <Input.Password
-                                prefix={<LockOutlined/>}
-                                name="confirmedPassword"
-                                type="password"
-                                autoComplete="off"
-                                placeholder={localizedStrings.helpForPass}
-                                value={this.state.confirmedPassword.value}
-                                onChange={(event) => this.handleInputChange(event, this.validateConfirmedPassword)}/>
-                        </Form.Item>
-                        <Form.Item className={s.formItem} wrapperCol={{...layout.wrapperCol, offset: 8}}>
-                            <Button
-                                type="primary"
-                                htmlType="submit"
-                                size="large"
-                                className={s.button}
-                                disabled={this.isFormInvalid()}>
-                                {localizedStrings.signUp}
-                            </Button>
-                            <br/>
-                            {localizedStrings.alreadyRegister}
-                            <Link
-                                to="/login">{localizedStrings.signUpFromLoginNow}
-                            </Link>
-                        </Form.Item>
-                    </Form>
+                    <Row>
+                        <Col>
+                            <Form {...layout}
+                                  onFinish={this.handleSubmit} className={s.form}>
+                                <Form.Item
+                                    className={s.formItem}
+                                    label={localizedStrings.name}
+                                    hasFeedback
+                                    validateStatus={this.state.name.validateStatus}
+                                    help={this.state.name.errorMsg}>
+                                    <Input
+                                        prefix={<UserOutlined/>}
+                                        name="name"
+                                        autoComplete="off"
+                                        placeholder={localizedStrings.name}
+                                        value={this.state.name.value}
+                                        onChange={(event) => this.handleInputChange(event, validateUserName)}/>
+                                </Form.Item>
+                                <Form.Item
+                                    className={s.formItem}
+                                    label={localizedStrings.email}
+                                    hasFeedback
+                                    validateStatus={this.state.email.validateStatus}
+                                    help={this.state.email.errorMsg}>
+                                    <Input
+                                        prefix={<UserOutlined/>}
+                                        name="email"
+                                        type="text"
+                                        autoComplete="off"
+                                        placeholder={localizedStrings.emailField}
+                                        value={this.state.email.value}
+                                        onBlur={this.validateEmailAvailability}
+                                        onChange={(event) => this.handleInputChange(event, validateEmail)}/>
+                                </Form.Item>
+                                <Form.Item
+                                    className={s.formItem}
+                                    label={localizedStrings.password}
+                                    validateStatus={this.state.password.validateStatus}
+                                    help={this.state.password.errorMsg}>
+                                    <Input.Password
+                                        prefix={<LockOutlined/>}
+                                        name="password"
+                                        type="password"
+                                        autoComplete="off"
+                                        placeholder={localizedStrings.helpForPass}
+                                        value={this.state.password.value}
+                                        onChange={(event) => this.handleInputChange(event, this.validatePassword)}/>
+                                </Form.Item>
+                                <Form.Item
+                                    className={s.formItem}
+                                    label={localizedStrings.confPassword}
+                                    validateStatus={this.state.confirmedPassword.validateStatus}
+                                    help={this.state.confirmedPassword.errorMsg}>
+                                    <Input.Password
+                                        prefix={<LockOutlined/>}
+                                        name="confirmedPassword"
+                                        type="password"
+                                        autoComplete="off"
+                                        placeholder={localizedStrings.helpForPass}
+                                        value={this.state.confirmedPassword.value}
+                                        onChange={(event) => this.handleInputChange(event, this.validateConfirmedPassword)}/>
+                                </Form.Item>
+                                <Form.Item className={s.formItem} wrapperCol={{...layout.wrapperCol, offset: 8}}>
+                                    <Button
+                                        type="primary"
+                                        htmlType="submit"
+                                        size="large"
+                                        className={s.button}
+                                        disabled={this.isFormInvalid()}>
+                                        {localizedStrings.signUp}
+                                    </Button>
+                                    <br/>
+                                    {localizedStrings.alreadyRegister}
+                                    <Link
+                                        to="/login">{localizedStrings.signUpFromLoginNow}
+                                    </Link>
+                                </Form.Item>
+                            </Form>
+                        </Col>
+                    </Row>
                 </div>
             </div>
         )

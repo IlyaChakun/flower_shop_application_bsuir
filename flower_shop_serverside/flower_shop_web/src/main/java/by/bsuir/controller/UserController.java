@@ -60,6 +60,8 @@ public class UserController {
             return ResponseEntity.ok(clientService.update((ClientDTO) userDTO, id));
         }
 
+        //TODO cannot cast to client???
+
         if (shopAdminService.existsByEmail(userEmail)) {
             return ResponseEntity.ok(shopAdminService.update(userDTO));
         }

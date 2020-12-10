@@ -51,9 +51,6 @@ class AppFooter extends Component {
         this.state.postalCode = this.props.currentCompany.companyLegalAddress.bankInformation.postalCode
         this.state.bankAddress = this.props.currentCompany.companyLegalAddress.bankInformation.address
 
-
-        console.log('FOOTER ' + this.state.firstPhoneNumber)
-
         return (
             <Footer>
                 <div className="footer-top pb-5">

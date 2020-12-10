@@ -40,7 +40,7 @@ class AddFlowerModal extends Component {
 
     handleSubmitButton = (flowerRequest) => {
 
-        console.log('flower request: ' + flowerRequest)
+        console.log('flower request: ' + {...flowerRequest})
 
         saveFlowerRequest(flowerRequest)
             .then(() => {
