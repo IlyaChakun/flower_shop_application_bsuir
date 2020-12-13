@@ -1,13 +1,11 @@
 package by.bsuir.service.impl;
 
 import by.bsuir.dto.mapper.common.CountryMapperDTO;
-import by.bsuir.dto.mapper.product.BouquetTypeMapperDTO;
-import by.bsuir.dto.mapper.product.FlowerColorMapperDTO;
-import by.bsuir.dto.mapper.product.FlowerSortMapperDTO;
-import by.bsuir.dto.mapper.product.FlowerTypeMapperDTO;
+import by.bsuir.dto.mapper.product.*;
 import by.bsuir.dto.model.common.CountryDTO;
 import by.bsuir.dto.model.product.bouquet.BouquetTypeDTO;
 import by.bsuir.dto.model.product.common.FlowerColorDTO;
+import by.bsuir.dto.model.product.common.FlowerLengthCostDTO;
 import by.bsuir.dto.model.product.common.FlowerSortDTO;
 import by.bsuir.dto.model.product.flower.FlowerTypeDTO;
 import by.bsuir.repository.api.*;
@@ -34,10 +32,12 @@ public class ProductCommonServiceImpl implements ProductCommonService {
     private final FlowerColorRepository flowerColorRepository;
     private final FlowerSortRepository flowerSortRepository;
     private final CountryRepository countryRepository;
+    private final FlowerLengthCostRepository flowerLengthCostRepository;
 
     private final FlowerColorMapperDTO flowerColorMapperDTO;
     private final FlowerSortMapperDTO flowerSortMapperDTO;
     private final CountryMapperDTO countryMapperDTO;
+    private final FlowerLengthCostMapperDTO flowerLengthCostMapperDTO;
 
 
     @Override
@@ -71,5 +71,9 @@ public class ProductCommonServiceImpl implements ProductCommonService {
         return flowerColorMapperDTO.toDtoList(flowerColorRepository.findAll());
     }
 
-
+    @Override
+    public List<FlowerLengthCostDTO> findAllFlowerLengthCosts() {
+        logger.info("Searching all flower length costs");
+        return flowerLengthCostMapperDTO.toDtoList(flowerLengthCostRepository.findAll());
+    }
 }

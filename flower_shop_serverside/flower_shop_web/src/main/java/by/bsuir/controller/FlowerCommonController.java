@@ -4,6 +4,7 @@ package by.bsuir.controller;
 import by.bsuir.dto.model.common.CountryDTO;
 import by.bsuir.dto.model.product.bouquet.BouquetTypeDTO;
 import by.bsuir.dto.model.product.common.FlowerColorDTO;
+import by.bsuir.dto.model.product.common.FlowerLengthCostDTO;
 import by.bsuir.dto.model.product.common.FlowerSortDTO;
 import by.bsuir.dto.model.product.flower.FlowerTypeDTO;
 import by.bsuir.service.api.ProductCommonService;
@@ -42,6 +43,12 @@ public class FlowerCommonController {
     @GetMapping("/flower-colors")
     public ResponseEntity<?> findAllFlowerColors() {
         List<FlowerColorDTO> list = productCommonService.findAllFlowerColors();
+        return ResponseEntity.ok(list);
+    }
+
+    @GetMapping("/flower-length-costs")
+    public ResponseEntity<?> findAllFlowerLengthCosts() {
+        List<FlowerLengthCostDTO> list = productCommonService.findAllFlowerLengthCosts();
         return ResponseEntity.ok(list);
     }
 

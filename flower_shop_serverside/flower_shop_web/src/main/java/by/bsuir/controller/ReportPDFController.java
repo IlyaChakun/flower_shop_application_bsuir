@@ -31,11 +31,11 @@ public class ReportPDFController {
     private final EmailService emailService;
 
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
-    @GetMapping("/users/admin/company/presentation/pdf")
+    @GetMapping("/users/admin/company-presentation/pdf")
     public void exportCarrierToPDF(Principal principal,
                                    HttpServletResponse response) throws DocumentException, IOException {
 
-        System.out.println("here");
+        System.out.println("admin here");
         String principalName = principal.getName();
         Report report = companyReportService.getCompanyPresentation(principalName);
         sendReportToEmail(principalName, report);

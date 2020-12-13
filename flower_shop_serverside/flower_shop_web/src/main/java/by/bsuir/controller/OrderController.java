@@ -9,13 +9,12 @@ import by.bsuir.security.core.CurrentUser;
 import by.bsuir.security.core.UserPrincipal;
 import by.bsuir.service.api.ClientService;
 import by.bsuir.service.api.OrderService;
+import by.bsuir.service.api.ShopAdminService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -34,15 +33,23 @@ public class OrderController {
 
     private final OrderService orderService;
     private final ClientService cLientService;
+    private final ShopAdminService shopAdminService;
 
-    @PreAuthorize("hasAnyAuthority('ROLE_CLIENT')")
+    @PreAuthorize("hasAnyAuthority('ROLE_CLIENT', 'ROLE_ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<OrderDTO> findById(@PathVariable("id") @PositiveLong String id,
                                              @CurrentUser UserPrincipal userPrincipal) {
 
-        ClientDTO clientDTO = getClient(userPrincipal);
+        boolean isAdmin = shopAdminService.existsByEmail(userPrincipal.getEmail());
 
-        OrderDTO orderDTO = orderService.findByIdAndClientId(Long.valueOf(id), clientDTO.getId());
+        OrderDTO orderDTO;
+
+        if (isAdmin) {
+            orderDTO = orderService.findById(Long.valueOf(id));
+        } else {
+            ClientDTO clientDTO = getClient(userPrincipal);
+            orderDTO = orderService.findByIdAndClientId(Long.valueOf(id), clientDTO.getId());
+        }
 
         return ResponseEntity.ok(orderDTO);
     }
@@ -64,7 +71,7 @@ public class OrderController {
         return new ResponseEntity<>(order, httpHeaders, HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasAnyAuthority('ROLE_CLIENT')")
+    @PreAuthorize("hasAnyAuthority('ROLE_CLIENT', 'ROLE_ADMIN')")
     @GetMapping()
     public ResponseEntity<PageWrapper<OrderDTO>> findAll(@CurrentUser UserPrincipal userPrincipal,
                                                          @RequestParam(defaultValue = "1", required = false) Integer page,

@@ -10,6 +10,8 @@ public interface OrderService {
 
     OrderDTO findByIdAndClientId(Long orderId, Long userId);
 
+    OrderDTO findById(Long orderId);
+
     PageWrapper<OrderDTO> findAllByClientId(int page, int size, Long userId);
 
     PageWrapper<OrderDTO> findAllByShopId(int page, int size, Long shopId);

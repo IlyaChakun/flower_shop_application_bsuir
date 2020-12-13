@@ -4,6 +4,7 @@ package by.bsuir.service.api;
 import by.bsuir.dto.model.common.CountryDTO;
 import by.bsuir.dto.model.product.bouquet.BouquetTypeDTO;
 import by.bsuir.dto.model.product.common.FlowerColorDTO;
+import by.bsuir.dto.model.product.common.FlowerLengthCostDTO;
 import by.bsuir.dto.model.product.common.FlowerSortDTO;
 import by.bsuir.dto.model.product.flower.FlowerTypeDTO;
 
@@ -20,4 +21,6 @@ public interface ProductCommonService {
     List<FlowerSortDTO> findAllFlowerSorts();
 
     List<FlowerColorDTO> findAllFlowerColors();
+
+    List<FlowerLengthCostDTO> findAllFlowerLengthCosts();
 }

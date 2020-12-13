@@ -165,6 +165,18 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public OrderDTO findById(Long orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> {
+                            logger.error("No order with id={}", orderId);
+                            return new ResourceNotFoundException("No order with id=" + orderId);
+                        }
+                );
+
+        return orderMapperDTO.toDto(order);
+    }
+
+    @Override
     public PageWrapper<OrderDTO> findAllByClientId(int page, int size, Long clientId) {
 
         Client client = clientRepository.findById(clientId)
