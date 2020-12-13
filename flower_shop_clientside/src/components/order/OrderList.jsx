@@ -44,7 +44,7 @@ class OrderList extends Component {
             }
             this.extractPromise(promise);
         } else {
-            const promise = getOrdersByShopIdRequest(searchCriteria, this.state.shopId);
+            const promise = getOrdersByShopIdRequest(searchCriteria, this.props.shopId);
             if (!promise) {
                 return;
             }

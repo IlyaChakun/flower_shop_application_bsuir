@@ -50,20 +50,27 @@ class OrderPage extends Component {
                     <Row justify="center">
                         <Col span={22}>
                             <h1>Заказ №{this.state.order.id}</h1>
-                            <p>Комментарий к заказу: {this.state.order.comment}</p>
-                            <p>Статус заказа: {this.state.order.orderStatus}</p>
-                            <p>Общая стоимость заказа: {this.state.order.totalAmount} руб.</p>
-                            <p>Доставка: {this.state.order.address},
-                                этаж: {this.state.order.floorNumber},
-                                подъезд: {this.state.order.entranceNumber}</p>
-                            <br/>
-                            <p>
-                                Заказан в магазине по адресу: {this.state.orderProducts[0].product.shop.contacts.city},
-                                {this.state.orderProducts[0].product.shop.contacts.address}
-                            </p>
-                            <br/>
+                            <div className="border-info border">
+                                <Row justify="space">
+                                    <Col span={10}>
+                                        <p>Статус заказа: {this.state.order.orderStatus}</p>
+                                        <p>Общая стоимость заказа: {this.state.order.totalAmount} руб.</p>
+                                    </Col>
+                                    <Col span={10}>
+                                        <p>Комментарий к заказу: {this.state.order.comment}</p>
+                                        <p>Доставка: {this.state.order.address},
+                                            этаж: {this.state.order.floorNumber},
+                                            подъезд: {this.state.order.entranceNumber}</p>
+                                        <br/>
+                                        <p>
+                                            Заказ размещен в магазине по адресу: {this.state.orderProducts[0].product.shop.contacts.city},
+                                            {this.state.orderProducts[0].product.shop.contacts.address}
+                                        </p>
+                                    </Col>
+                                </Row>
+                            </div>
 
-                            <p>Список товаров:</p>
+                            <h2>Список товаров:</h2>
 
                             <List
                                 grid={{

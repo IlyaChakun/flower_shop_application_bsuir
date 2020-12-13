@@ -16,6 +16,8 @@ class BreadCrumbComponent extends Component {
       '/bouquets': 'Букеты',
       '/flowers': 'Цветы поштучно',
       '/orders/:id': 'Детальный просмотр заказа'
+      //TODO на детальных заказах не отрабатывает
+      //TODO на детальных магазинах не отрабатывает
     }
 
     const { location } = this.props.properties

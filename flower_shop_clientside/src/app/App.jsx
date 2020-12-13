@@ -82,8 +82,6 @@ class App extends Component {
             .then(response => {
                 console.log(response)
 
-                // localStorage.setItem(USER_ID, response.id)
-
                 this.setState({
                     currentUser: response,
                     isAuthenticated: true

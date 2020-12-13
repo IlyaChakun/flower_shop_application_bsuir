@@ -77,6 +77,13 @@ class AppHeader extends Component {
                 </Link>
             </Menu.Item>,
 
+            <Menu.Item key="#" className="report-menu">
+                <ReportsDropdownMenu
+                    currentUser={this.props.currentUser}
+                    handleMenuClick={this.handleMenuClick}
+                />
+            </Menu.Item>,
+
             <Menu.Item key="/profile"
                        className="profile-menu">
                 <ProfileDropdownMenu
@@ -126,11 +133,6 @@ class AppHeader extends Component {
                         mode="horizontal"
                         selectedKeys={[this.props.location.pathname]}
                         style={{lineHeight: '60px'}}>
-                        {/*<Menu.Item key="/">*/}
-                        {/*    <Link to="/">*/}
-                        {/*        Главная страница*/}
-                        {/*    </Link>*/}
-                        {/*</Menu.Item>*/}
 
                         <Menu.Item key="/">
                             <Link to="/">
@@ -204,6 +206,63 @@ function ProfileDropdownMenu(props) {
 
             <Button type="link" className="ant-dropdown-link" onClick={event => event.preventDefault()}>
                 <UserOutlined style={{marginRight: 0, fontSize: '20px'}}/>
+                <CaretDownOutlined/>
+            </Button>
+        </Dropdown>
+    )
+}
+
+function ReportsDropdownMenu(props) {
+
+    const dropdownMenu = (
+        <Menu onClick={props.handleMenuClick} className="report-dropdown-menu">
+            <Menu.Item key="about"
+                       className="dropdown-item"
+                       disabled>
+                <div className="">
+                    Отчеты
+                </div>
+            </Menu.Item>
+            <Menu.Divider/>
+            <Menu.Item key="companyReport"  className="dropdown-item">
+                {/*<Link to="/users/admin/company-presentation/pdf"  target="_blank">*/}
+                {/*    Презентация компании*/}
+                {/*</Link>*/}
+
+                <Button type="link" href="/users/admin/company-presentation/pdf" target="_top">
+                    Презентация компании
+                </Button>
+            </Menu.Item>
+            <Menu.Item key="yearSaleReport" className="dropdown-item">
+                {/*<Link to="/yearSaleReport" target="_self">*/}
+                {/*    Отчет продаж годовой*/}
+                {/*</Link>*/}
+
+                <Button type="link" href="/users/admin/company-annual-report/pdf" target="_top">
+                    Отчет продаж годовой
+                </Button>
+            </Menu.Item>
+            <Menu.Item key="monthSaleReport" className="dropdown-item">
+                {/*<Link to="/monthSaleReport" target="_self">*/}
+                {/*    Отчет продаж за текущий месяц*/}
+                {/*</Link>*/}
+
+                <Button type="link" href="/users/admin/company-monthly-report/pdf" target="_top">
+                    Отчет продаж годовой
+                </Button>
+            </Menu.Item>
+        </Menu>
+    )
+
+
+    return (
+        <Dropdown
+            overlay={dropdownMenu}
+            trigger={['click']}
+            getPopupContainer={() => document.getElementsByClassName('report-menu')[0]}>
+
+            <Button type="link" className="ant-dropdown-link" onClick={event => event.preventDefault()}>
+                <i className="fa fa-file" aria-hidden="true"></i>
                 <CaretDownOutlined/>
             </Button>
         </Dropdown>

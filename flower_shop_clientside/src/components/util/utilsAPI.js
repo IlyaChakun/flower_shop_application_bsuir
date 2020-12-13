@@ -342,6 +342,13 @@ export function getFlowerSortsRequest () {
   })
 }
 
+export function getFlowerLengthCostsRequest () {
+  return request({
+    url: BASE_URL + 'common/flower-length-costs',
+    method: 'GET'
+  })
+}
+
 export function getFlowerBouquetTypesRequest () {
   return request({
     url: BASE_URL + 'common/flower-bouquet-types',
