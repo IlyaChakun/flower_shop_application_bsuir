@@ -1,12 +1,16 @@
-import {configureStore} from "@reduxjs/toolkit";
-import productSliceReducer from "./reducers/productSliceReducer";
+import {configureStore, getDefaultMiddleware} from '@reduxjs/toolkit'
+import ProductsSliceReducer from "./reducers/ProductsSliceReducer";
 
+const middleware = [
+    ...getDefaultMiddleware(),
+    /*YOUR CUSTOM MIDDLEWARES HERE*/
+];
 
 const store = configureStore({
     reducer: {
-        products: productSliceReducer,
-        // anyOtherStore: anyOtherSlice
+        productsState: ProductsSliceReducer,
     },
+    middleware
 })
 
 export default store
