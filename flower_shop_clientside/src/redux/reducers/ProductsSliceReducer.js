@@ -67,7 +67,7 @@ export const {
 } = productSlice.actions
 export default productSlice.reducer
 export const productSelector = (state) => {
-    return state;
+    return state.productsState;
 }
 
 

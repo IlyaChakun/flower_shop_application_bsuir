@@ -22,7 +22,20 @@ const {Option} = Select;
 const FlowersList = (props) => {
 
     const dispatch = useDispatch()
-    const {productsState, loading, errors} = useSelector(productSelector)
+    const {
+        products,
+        loading,
+        errors,
+        shops,
+        shopId,
+        shopValue,
+        page,
+        size,
+        pagesCount,
+        totalPages,
+        totalElements,
+        searchString
+    } = useSelector(productSelector)
 
 
     useEffect(() => {
@@ -31,7 +44,7 @@ const FlowersList = (props) => {
     }, [dispatch])
 
     const updateList = () => {
-        loadList(productsState.page, productsState.size, productsState.shopId)
+        loadList(page, size, shopId)
     }
 
     const loadList=(page, size, shopId, minPrice, maxPrice, sortBy, sortType)=> {
@@ -46,15 +59,15 @@ const FlowersList = (props) => {
             sortType: sortType
         };
 
-        if (!productsState.shopId) {
+        if (!shopId) {
             dispatch(getProducts(searchCriteria))
         } else {
-            dispatch(getProducts(searchCriteria, productsState.shopId))
+            dispatch(getProducts(searchCriteria, shopId))
         }
     }
 
     const loadSearchList = (productName, minPrice, maxPrice, sortBy, sortType, checkedBrands) => {
-        loadList(productsState.page, productsState.size, productName, minPrice, maxPrice, sortBy, sortType, checkedBrands);
+        loadList(page, size, productName, minPrice, maxPrice, sortBy, sortType, checkedBrands);
     }
 
 
@@ -62,14 +75,14 @@ const FlowersList = (props) => {
         return <LoadingIndicator/>
     }
 
-    const addProductButton = productsState.shopId === undefined ? '' :
+    const addProductButton = shopId === undefined ? '' :
         (
-            <AddFlowerModal shopId={productsState.shopId}
+            <AddFlowerModal shopId={shopId}
                             updateList={updateList}
             />
         )
 
-    const flowers = productsState.products
+    const flowers = products
         .map(product => (
                 <FlowerCardProxy
                     history={props.history}
@@ -84,7 +97,7 @@ const FlowersList = (props) => {
             )
         )
 
-    const shopOptions = productsState.shops.map(
+    const shopOptions = shops.map(
         shop =>
             <Option key={shop.id} value={shop.contacts.address}>
                 {shop.contacts.city}, {shop.contacts.address}
@@ -114,11 +127,11 @@ const FlowersList = (props) => {
 
     const onPageChangeHandler = (pageNumber) => {
         dispatch(setPage(pageNumber))
-        loadList(pageNumber, productsState.size);
+        loadList(pageNumber, size);
     };
 
     const loadMore = () => {
-        loadList(productsState.page + 1, productsState.size);
+        loadList(page + 1, size);
     }
 
 
@@ -134,8 +147,8 @@ const FlowersList = (props) => {
                             <Select
                                 name={"shopSelect"}
                                 showSearch
-                                defaultValue={{key: productsState.shopId, value: productsState.shopValue}}
-                                value={productsState.shopValue}
+                                defaultValue={{key: shopId, value: shopValue}}
+                                value={shopValue}
                                 style={{width: 200}}
                                 placeholder="Выберите магазин"
                                 onChange={handleShopChange}
@@ -155,16 +168,16 @@ const FlowersList = (props) => {
                         }}
                         pagination={{
 
-                            loading: productsState.loading,
+                            loading: loading,
                             showSizeChanger: true,
 
-                            defaultCurrent: Number(productsState.page),
-                            defaultPageSize: Number(productsState.size),
+                            defaultCurrent: Number(page),
+                            defaultPageSize: Number(size),
 
                             pageSizeOptions: ["6", "9", "12"],
                             position: "bottom",
 
-                            total: productsState.totalElements,
+                            total: totalElements,
 
                             showQuickJumper: true,
                             onShowSizeChange: onSizeChangeHandler,
