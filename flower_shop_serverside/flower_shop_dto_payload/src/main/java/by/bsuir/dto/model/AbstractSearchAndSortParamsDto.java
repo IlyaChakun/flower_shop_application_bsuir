@@ -1,6 +1,9 @@
 package by.bsuir.dto.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
@@ -9,20 +12,10 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
-public class SearchAndSortParamDto extends AbstractDTO {
-
-    @Size(min = 3, max = 30, message = "Name could not be empty! Should be not empty and in 4-30 characters range!")
-    private String name;
-
-    @Size(min = 3, max = 30, message = "Surname could not be empty! Should be not empty and in 4-30 characters range!")
-    private String surname;
-
-    @Valid
-    private Set<
-            @Size(min = 3, max = 30,
-                    message = "Tag is not valid. Should be not empty and in 3-30 characters range!")
-                    String> tags;
+@AllArgsConstructor
+@Getter
+@Setter
+public class AbstractSearchAndSortParamsDto {
 
     @Valid
     private Set<
