@@ -1,17 +1,14 @@
-package by.bsuir.entity.company.bank;
+package by.bsuir.entity.company;
 
 import by.bsuir.entity.AbstractEntity;
 import by.bsuir.entity.common.Image;
-import by.bsuir.entity.company.Company;
-import by.bsuir.entity.company.Contacts;
-import by.bsuir.entity.company.WorkingHours;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "shops")

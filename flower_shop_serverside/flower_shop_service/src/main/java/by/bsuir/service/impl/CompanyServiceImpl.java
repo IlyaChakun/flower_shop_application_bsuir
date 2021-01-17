@@ -22,6 +22,13 @@ public class CompanyServiceImpl implements CompanyService {
     private final CompanyMapperDTO companyMapper;
 
     @Override
+    public CompanyDTO findCompany() {
+        logger.info("search company ");
+        return companyMapper.toDto(companyRepository.findFirstBy());
+    }
+
+
+    @Override
     @Transactional
     public CompanyDTO update(CompanyDTO companyDTO) {
 
@@ -35,10 +42,4 @@ public class CompanyServiceImpl implements CompanyService {
         return companyMapper.toDto(companyRepository.save(companyToSave));
     }
 
-    @Override
-    public CompanyDTO getOne(Long id) {
-        logger.info("search company ");
-
-        return companyMapper.toDto(companyRepository.findFirstBy());
-    }
 }

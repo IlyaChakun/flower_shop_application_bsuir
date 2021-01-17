@@ -1,7 +1,6 @@
 package by.bsuir.dto.model.company.bank;
 
 import by.bsuir.dto.model.company.ContactsDTO;
-import by.bsuir.entity.company.Contacts;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
