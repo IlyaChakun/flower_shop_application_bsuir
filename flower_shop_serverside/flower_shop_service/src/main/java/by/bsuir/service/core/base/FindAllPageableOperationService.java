@@ -1,8 +1,8 @@
 package by.bsuir.service.core.base;
 
-import java.util.List;
+import by.bsuir.dto.model.PageWrapper;
 
 public interface FindAllPageableOperationService<T> {
 
-    List<T> findAll(int page, int size);
+    PageWrapper<T> findAll(int page, int size);
 }
