@@ -19,6 +19,7 @@ public class OrderDTO extends AbstractDTO {
 
     private Long clientId;
 
+//    TODO
 //    private OrderStatus orderStatus;
 
     private Double totalAmount;

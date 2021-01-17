@@ -7,7 +7,6 @@ import by.bsuir.dto.model.company.ShopDTO;
 import by.bsuir.entity.common.Image;
 import by.bsuir.entity.company.Company;
 import by.bsuir.entity.company.Shop;
-import by.bsuir.entity.product.Product;
 import by.bsuir.payload.exception.ResourceNotFoundException;
 import by.bsuir.payload.exception.ServiceException;
 import by.bsuir.repository.api.company.CompanyRepository;
@@ -38,6 +37,7 @@ public class ShopServiceImpl implements ShopService {
     @Override
     @Transactional
     public void delete(Long shopId) {
+        //TODO review
         Shop shop = getShopByIdOrThrowException(shopId);
         shopRepository.delete(shop);
     }
@@ -96,8 +96,6 @@ public class ShopServiceImpl implements ShopService {
         Shop shopForUpdate = shopMapper.toEntity(shopDTO);
         shopFromDb.setContacts(shopForUpdate.getContacts());
         shopFromDb.setWorkingHours(shopForUpdate.getWorkingHours());
-        //todo review
-//        shopFromDb.setShopProducts(shopForUpdate.getShopProducts());
         shopFromDb.setImage(new Image(shopDTO.getImage().getImageUrl()));
 
         return shopMapper.toDto(shopRepository.save(shopFromDb));

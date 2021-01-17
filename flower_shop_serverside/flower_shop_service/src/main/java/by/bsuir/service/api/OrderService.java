@@ -19,6 +19,6 @@ public interface OrderService extends
     OrderDTO findByIdAndClientId(Long orderId, Long userId);
 
     PageWrapper<OrderDTO> findAllByClientId(int page, int size, Long userId);
-
+//TODO
 //    PageWrapper<OrderDTO> findAllByShopId(int page, int size, Long shopId);
 }
