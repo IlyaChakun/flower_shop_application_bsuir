@@ -30,7 +30,7 @@ public class Contacts {
     @Column(name = "address", length = 48)
     private String address;
 
-    @Column(name="postal_code", length = 6)
+    @Column(name="postal_code", length = 7)
     private String postalCode;
 
 }

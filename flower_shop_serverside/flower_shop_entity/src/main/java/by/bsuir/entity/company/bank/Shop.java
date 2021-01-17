@@ -28,5 +28,4 @@ public class Shop extends AbstractEntity {
     private Long companyId;
 
     private Image image;
-
 }

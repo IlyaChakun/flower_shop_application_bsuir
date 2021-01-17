@@ -1,6 +1,7 @@
 package by.bsuir.entity.company;
 
 import by.bsuir.entity.AbstractEntity;
+import by.bsuir.entity.common.Image;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,6 @@ import javax.persistence.Table;
 @Setter
 public class Company extends AbstractEntity {
 
-
     private Long adminId;
 
     @Column(name = "name", length = 48)
@@ -34,6 +34,6 @@ public class Company extends AbstractEntity {
 
     private CompanyLegalAddress companyLegalAddress;
 
-    // private Image logo;
+    private Image logo;
 
 }
