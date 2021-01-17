@@ -40,6 +40,9 @@ const FlowersList = (props) => {
 
     useEffect(() => {
         dispatch(getShops())
+    }, [dispatch])
+
+    useEffect(() => {
         loadList()
     }, [dispatch])
 
