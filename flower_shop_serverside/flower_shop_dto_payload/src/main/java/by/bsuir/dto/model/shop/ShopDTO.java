@@ -1,7 +1,9 @@
-package by.bsuir.dto.model.company;
+package by.bsuir.dto.model.shop;
 
 import by.bsuir.dto.model.AbstractDTO;
 import by.bsuir.dto.model.common.ImageDTO;
+import by.bsuir.dto.model.company.ContactsDTO;
+import by.bsuir.dto.model.company.WorkingHoursDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

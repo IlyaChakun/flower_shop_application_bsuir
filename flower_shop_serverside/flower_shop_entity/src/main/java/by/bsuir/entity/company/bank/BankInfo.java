@@ -20,6 +20,6 @@ public class BankInfo {
     @Column(name = "bank_code", length = 34)
     private String bankCode;//идентификациооный номер банка в системе
 
-    private Contacts contacts;
+   // private Contacts contacts;
 
 }

@@ -20,20 +20,20 @@ import javax.persistence.Table;
 public class Company extends AbstractEntity {
 
    private Long adminId;
-//
-//    @Column(name = "name", length = 48)
-//    private String name;
-//
-//    @Column(name = "description", length = 512)
-//    private String description;
-//
-//    @Column(name = "licence_number", length = 20)
-//    private String licenceNumber;
-//
-//    private Contacts contacts;
-//
-//    private CompanyLegalAddress companyLegalAddress;
-//
-//    private Image logo;
+
+    @Column(name = "name", length = 48)
+    private String name;
+
+    @Column(name = "description", length = 512)
+    private String description;
+
+    @Column(name = "licence_number", length = 20)
+    private String licenceNumber;
+
+    private Contacts contacts;
+
+    private CompanyLegalAddress companyLegalAddress;
+
+    private Image logo;
 
 }

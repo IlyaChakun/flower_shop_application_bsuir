@@ -1,10 +1,9 @@
 package by.bsuir.controller;
 
 import by.bsuir.dto.model.PageWrapper;
-import by.bsuir.dto.model.company.ShopDTO;
+import by.bsuir.dto.model.shop.ShopDTO;
 import by.bsuir.dto.validation.annotation.PositiveLong;
 import by.bsuir.service.api.OrderService;
-import by.bsuir.service.api.ProductService;
 import by.bsuir.service.api.ShopService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -23,13 +22,12 @@ import static by.bsuir.controller.ControllerHelper.isIdInsideDtoOrThrowException
 
 @Validated
 @RestController
-@RequestMapping("/users/admin/company/shops")
+@RequestMapping("/shops")
 @AllArgsConstructor
 @CrossOrigin(origins = "*")
 public class ShopController {
 
     private final ShopService shopService;
-    private final ProductService productService;
     private final OrderService orderService;
 
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
@@ -82,31 +80,5 @@ public class ShopController {
         shopService.delete(Long.valueOf(id));
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
-
-//    @GetMapping("/{id}/products")
-//    public ResponseEntity<?> findAllProducts(
-//            @PathVariable("id") @PositiveLong String id,
-//            @RequestParam(defaultValue = "1", required = false) Integer page,
-//            @RequestParam(defaultValue = "10", required = false) Integer size
-//    ) {
-//
-//        //todo
-//       // PageWrapper<ProductDTO> wrapper = productService.findAllByShopId(page - 1, size, Long.valueOf(id));
-//
-//        return ResponseEntity.ok(wrapper);
-//    }
-//
-//
-//    @GetMapping("/{id}/orders")
-//    public ResponseEntity<?> findAllOrders(@PathVariable("id") @PositiveLong String id,
-//                                           @RequestParam(defaultValue = "1", required = false) Integer page,
-//                                           @RequestParam(defaultValue = "10", required = false) Integer size) {
-//
-//        //todo
-//      //  PageWrapper<OrderDTO> wrapper = orderService.findAllByShopId(page - 1, size, Long.valueOf(id));
-//
-//        return ResponseEntity.ok(wrapper);
-//    }
 
 }
