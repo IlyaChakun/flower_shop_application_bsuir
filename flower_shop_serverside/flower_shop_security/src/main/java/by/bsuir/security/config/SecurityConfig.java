@@ -68,7 +68,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/", "/error")
                 .permitAll()
-                .antMatchers("/auth/**", "/oauth2/**", "/common/**", "/reviews/**", "/companies", "/stocks", "/goods/**")
+                .antMatchers("/auth/**",
+                        "/oauth2/**",
+                        "/common/**",
+                        "/reviews/**",
+                        "/companies",
+                        "/stocks",
+                        "/categories",
+                        "/products")
                 .permitAll()
                 .antMatchers("/auth/checkEmailAvailability")
                 .permitAll()

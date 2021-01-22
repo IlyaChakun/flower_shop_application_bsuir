@@ -11,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class FlowerLengthCostDTO extends BaseAbstractDTO {
+public class ProductLengthCostDTO extends BaseAbstractDTO {
 
     private Double stemLength;
 

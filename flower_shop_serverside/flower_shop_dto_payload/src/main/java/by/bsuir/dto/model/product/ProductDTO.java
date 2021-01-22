@@ -2,13 +2,10 @@ package by.bsuir.dto.model.product;
 
 import by.bsuir.dto.model.AbstractDTO;
 import by.bsuir.dto.model.common.CountryDTO;
-import by.bsuir.dto.model.common.ImageDTO;
+import by.bsuir.entity.common.Image;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Getter
@@ -18,7 +15,7 @@ public class ProductDTO extends AbstractDTO {
 
     private Long shopId;
 
-    private ProductTypeDTO productType;
+    private Long categoryId;
 
     private String title;
 
@@ -26,10 +23,20 @@ public class ProductDTO extends AbstractDTO {
 
     private Integer availableAmountOnStock;
 
-    private List<FlowerLengthCostDTO> flowerLengthCosts = new ArrayList<>();
+//    @ManyToMany(cascade = CascadeType.ALL)
+//    @JoinTable(name = "flower_length_costs",
+//            joinColumns =
+//                    {
+//                            @JoinColumn(
+//                                    name = "flower_id",
+//                                    referencedColumnName = "id")},
+//            inverseJoinColumns = {@JoinColumn(name = "length_cost_id",
+//                    referencedColumnName = "id")})
+//    private List<FlowerLengthCost> flowerLengthCosts = new ArrayList<>();
 
-    private CountryDTO country;  // страна происхождения
 
-    private ImageDTO image;
+    private CountryDTO producer;  // страна происхождения
+
+    private Image image;
 
 }

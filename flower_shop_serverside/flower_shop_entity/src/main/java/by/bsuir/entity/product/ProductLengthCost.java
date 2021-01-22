@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @Getter
 @Setter
-public class FlowerLengthCost extends BaseAbstractEntity {
+public class ProductLengthCost extends BaseAbstractEntity {
 
     @Column(name = "stemLength", nullable = false)
     private Double stemLength;

@@ -1,9 +1,7 @@
 package by.bsuir.controller;
 
 import by.bsuir.dto.model.product.ProductDTO;
-import by.bsuir.dto.model.user.UserDTO;
 import by.bsuir.dto.validation.annotation.PositiveLong;
-import by.bsuir.exception.ControllerException;
 import by.bsuir.security.dto.ApiResponse;
 import by.bsuir.service.api.ProductService;
 import lombok.AllArgsConstructor;

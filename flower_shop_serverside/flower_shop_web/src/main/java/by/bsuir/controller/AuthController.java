@@ -56,7 +56,7 @@ public class AuthController {
         return ResponseEntity.ok(authTokenResponse);
     }
 
-    @PostMapping("/clients/sign-up")
+    @PostMapping("/sign-up")
     public ResponseEntity<ApiResponse> register(@RequestBody @Valid UserSignUpRequest signUpRequest,
                                                 BindingResult result) {
         checkBindingResultAndThrowExceptionIfInvalid(result);
