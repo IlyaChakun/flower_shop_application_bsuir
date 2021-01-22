@@ -7,7 +7,9 @@ import by.bsuir.dto.model.product.ProductDTO;
 import by.bsuir.entity.product.Product;
 import by.bsuir.payload.exception.ResourceNotFoundException;
 import by.bsuir.payload.exception.ServiceException;
+import by.bsuir.repository.api.common.CountryRepository;
 import by.bsuir.repository.api.product.ProductRepository;
+import by.bsuir.repository.api.shop.ShopRepository;
 import by.bsuir.service.api.ProductService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -28,22 +30,21 @@ public class ProductServiceImpl implements ProductService {
     private static final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
 
     private final CommonServiceHelper commonServiceHelper;
+
     private final ProductRepository productRepository;
+    private final ShopRepository shopRepository;
+    private final CountryRepository countryRepository;
+
     private final ProductMapperDTO productMapper;
 
     @Override
     @Transactional
     public ProductDTO save(ProductDTO productDTO) {
-        if (Objects.isNull(productDTO.getShopId())) {
-            throw new ServiceException(HttpStatus.BAD_REQUEST.value(),
-                    "absent_shop_error",
-                    "Shop id must be specified!");
-        }
 
-        this.resolveShopOrThrowException(productDTO.getShopId());
+        resolveLinkedEntity(productDTO);
 
         Product product = productMapper.toEntity(productDTO);
-        product.setProducer(commonServiceHelper.resolveCountry(productDTO.getProducer()));
+        product.setProducerId(productDTO.getProducerId());
 
         Product savedProduct = productRepository.save(product);
 
@@ -53,16 +54,50 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
-    private void resolveShopOrThrowException(Long shopId) {
-//        shopRepository.findById(flowerProductDTO.getShop().getId())
-//                .orElseThrow(() -> new ResourceNotFoundException("Shop with id=" + flowerProductDTO.getShop().getId() + " not found!"));
-    }
-
-
     @Override
     @Transactional
     public ProductDTO update(ProductDTO productDTO) {
-        return null;
+        checkIdOrThrowException(productDTO.getId(), "absent_product_id", "For update operation product id must be set!");
+
+        resolveLinkedEntity(productDTO);
+
+        Product prevProduct = productRepository.findById(productDTO.getId())
+                .orElseThrow(()-> new ResourceNotFoundException("Product with id =" + productDTO.getId() + " not found!"));
+
+        Product newProduct = productMapper.toEntity(productDTO);
+        newProduct.setDateOfCreation(prevProduct.getDateOfCreation());
+        newProduct.setUniqueId(prevProduct.getUniqueId());
+
+        Product savedProduct = productRepository.save(newProduct);
+
+        return productMapper.toDto(savedProduct);
+    }
+
+    private void resolveLinkedEntity(ProductDTO productDTO) {
+        checkIdOrThrowException(productDTO.getShopId(), "absent_shop_error", "Shop id must be specified!");
+        checkIdOrThrowException(productDTO.getProducerId(), "absent_producer_error", "Producer id must be specified!");
+
+        this.resolveShopOrThrowException(productDTO.getShopId());
+        this.resolveProducerOrThrowException(productDTO.getProducerId());
+    }
+
+    private void checkIdOrThrowException(Long id, String error, String message) {
+        if (Objects.isNull(id)) {
+            throw new ServiceException(HttpStatus.BAD_REQUEST.value(),
+                    error,
+                    message);
+        }
+    }
+
+
+    private void resolveShopOrThrowException(Long shopId) {
+        shopRepository.findById(shopId)
+                .orElseThrow(() -> new ResourceNotFoundException("Shop with id=" + shopId + " not found!"));
+    }
+
+    private void resolveProducerOrThrowException(Long producerId) {
+        countryRepository.findById(producerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Producer with id=" + producerId + " not found!"));
     }
 
     @Override
@@ -85,8 +120,8 @@ public class ProductServiceImpl implements ProductService {
     public ProductDTO findById(Long id) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> {
-                            logger.error("Flower with id={} not found!", id);
-                            return new ResourceNotFoundException("Flower with id=" + id + " not found!");
+                            logger.error("Product with id={} not found!", id);
+                            return new ResourceNotFoundException("Product with id=" + id + " not found!");
                         }
                 );
 

@@ -1,7 +1,6 @@
 package by.bsuir.controller;
 
 import by.bsuir.dto.model.product.CategoryDTO;
-import by.bsuir.dto.model.product.ProductDTO;
 import by.bsuir.dto.validation.annotation.PositiveLong;
 import by.bsuir.service.api.CategoryService;
 import lombok.AllArgsConstructor;
@@ -27,11 +26,10 @@ public class CategoryController {
         return ResponseEntity.ok(categoryDTO);
     }
 
-
     @GetMapping
     public ResponseEntity<?> findAll() {
 
-        List<CategoryDTO> categories =  categoryService.findAll();
+        List<CategoryDTO> categories = categoryService.findAll();
 
         return ResponseEntity.ok(categories);
     }

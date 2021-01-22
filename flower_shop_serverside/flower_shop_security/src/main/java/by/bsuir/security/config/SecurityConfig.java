@@ -75,7 +75,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/companies",
                         "/stocks",
                         "/categories",
-                        "/products")
+                        "/products/**")
                 .permitAll()
                 .antMatchers("/auth/checkEmailAvailability")
                 .permitAll()

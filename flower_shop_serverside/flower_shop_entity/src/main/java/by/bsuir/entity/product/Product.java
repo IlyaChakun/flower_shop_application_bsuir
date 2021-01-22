@@ -1,13 +1,14 @@
 package by.bsuir.entity.product;
 
 import by.bsuir.entity.AbstractEntity;
-import by.bsuir.entity.common.Country;
 import by.bsuir.entity.common.Image;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "products")
@@ -43,8 +44,7 @@ public class Product extends AbstractEntity {
 //    private List<FlowerLengthCost> flowerLengthCosts = new ArrayList<>();
 
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Country producer;  // страна происхождения
+    private Long producerId;  // страна происхождения
 
     private Image image;
 }

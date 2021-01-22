@@ -44,17 +44,17 @@ VALUES
     /* цветы  */
     (1, 4),
     (1, 8),
-        /* Готовые букеты*/
-        (4, 5),
-        (4, 6),
-        (4, 7),
-        /* */
+    /* Готовые букеты*/
+    (4, 5),
+    (4, 6),
+    (4, 7),
+    /* */
 
-        /* Цветы поштучно*/
-        (8, 9),
-        (8, 10),
-        (8, 11),
-        /* */
+    /* Цветы поштучно*/
+    (8, 9),
+    (8, 10),
+    (8, 11),
+    /* */
 
     /* шары */
     (2, 12),
@@ -130,10 +130,9 @@ VALUES
 --
 --
 -- /** countries **/
--- insert ignore into countries(id, country_name_en, country_name_ru)
--- VALUES (1, 'Belarus', 'Беларусь');
--- insert ignore into countries(id, country_name_en, country_name_ru)
--- VALUES (2, 'Russia', 'Россия');
+insert ignore into countries(id, country_name_en, country_name_ru)
+VALUES (1, 'Belarus', 'Беларусь'),
+       (2, 'Russia', 'Россия');
 --
 --
 -- /** типы букетов**/
