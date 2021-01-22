@@ -1,8 +1,8 @@
 package by.bsuir.service.impl;
 
-import by.bsuir.dto.mapper.company.CompanyMapperDTO;
 import by.bsuir.dto.mapper.shop.ShopMapperDTO;
 import by.bsuir.dto.model.PageWrapper;
+import by.bsuir.dto.model.company.ContactsDTO;
 import by.bsuir.dto.model.shop.ShopDTO;
 import by.bsuir.entity.common.Image;
 import by.bsuir.entity.company.Company;
@@ -28,10 +28,11 @@ public class ShopServiceImpl implements ShopService {
     private static final Logger logger = LoggerFactory.getLogger(ShopServiceImpl.class);
 
     private final CommonServiceHelper commonServiceHelper;
+
     private final ShopRepository shopRepository;
     private final CompanyRepository companyRepository;
+
     private final ShopMapperDTO shopMapper;
-    private final CompanyMapperDTO companyMapper;
 
 
     @Override
@@ -58,6 +59,8 @@ public class ShopServiceImpl implements ShopService {
 
     @Override
     public ShopDTO findById(Long id) {
+        commonServiceHelper.checkIdOrThrowException(id, "shop_id_invalid_exception_error", "Shop id is invalid!");
+
         Shop shop = getShopByIdOrThrowException(id);
         return shopMapper.toDto(shop);
     }
@@ -66,17 +69,9 @@ public class ShopServiceImpl implements ShopService {
     @Override
     @Transactional
     public ShopDTO save(ShopDTO shopDTO) {
-        if (isShopExistsByAddress(shopDTO.getContacts().getCity(), shopDTO.getContacts().getAddress())) {
-            logger.error("Shop with address={},{} exist. Just Update it!",
-                    shopDTO.getContacts().getCity(),
-                    shopDTO.getContacts().getAddress());
-            throw new ServiceException(HttpStatus.CONFLICT.value(),
-                    "shop_already_exist",
-                    "Shop with address=" + shopDTO.getContacts().getCity() + ", "
-                            + shopDTO.getContacts().getAddress() + " exist. Just Update it!");
-        }
+        checkIfShopExistsByAddressOrThrowException(shopDTO.getContacts());
 
-        Company company = companyRepository.findFirstBy();
+        Company company = companyRepository.findFirstBy(); //TODO
 
         Shop shop = shopMapper.toEntity(shopDTO);
         shop.setCompanyId(company.getId());
@@ -91,6 +86,9 @@ public class ShopServiceImpl implements ShopService {
     @Override
     @Transactional
     public ShopDTO update(ShopDTO shopDTO) {
+
+        commonServiceHelper.checkIdOrThrowException(shopDTO.getId(), "shop_id_absent_exception_error", "Shop id is required for update!");
+
         Shop shopFromDb = getShopByIdOrThrowException(shopDTO.getId());
 
         Shop shopForUpdate = shopMapper.toEntity(shopDTO);
@@ -101,8 +99,20 @@ public class ShopServiceImpl implements ShopService {
         return shopMapper.toDto(shopRepository.save(shopFromDb));
     }
 
-    private boolean isShopExistsByAddress(String city, String address) {
-        return shopRepository.findByContactsCityAndContactsAddress(city, address).isPresent();
+    private void checkIfShopExistsByAddressOrThrowException(ContactsDTO contacts) {
+
+        commonServiceHelper.checkIdOrThrowException(contacts.getCityId(), "city_id_absent_exception_error", "City id can`t be null!");
+
+        if (shopRepository.findByContactsCityIdAndContactsAddress(contacts.getCityId(), contacts.getAddress()).isPresent()) {
+
+            logger.error("Shop with cityId={} address={} exist. Just Update it!",
+                    contacts.getCityId(),
+                    contacts.getAddress());
+            throw new ServiceException(HttpStatus.CONFLICT.value(),
+                    "shop_already_exist",
+                    "Shop with cityId=" + contacts.getCityId() + ", address="
+                            + contacts.getAddress() + " exist. Just Update it!");
+        }
     }
 
 

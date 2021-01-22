@@ -1,4 +1,4 @@
-package by.bsuir.dto.model.common.address;
+package by.bsuir.dto.model.common;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

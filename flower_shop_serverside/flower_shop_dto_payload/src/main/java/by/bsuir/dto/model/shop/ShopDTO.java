@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 
 @Getter
@@ -16,13 +17,15 @@ import javax.validation.Valid;
 @NoArgsConstructor
 public class ShopDTO extends AbstractDTO {
 
+    @NotNull(message = "Company id must be set")
+    private Long companyId;
+
     @Valid
     private ContactsDTO contacts;
 
     @Valid
     private WorkingHoursDTO workingHours;
 
-    private Long companyId;
-
     private ImageDTO image;
+
 }

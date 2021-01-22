@@ -17,24 +17,23 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 public class ContactsDTO {
 
-    @NotNull
+    @NotBlank(message = "First phone number must be entered")
     @ValidPhone
     private String firstPhoneNumber;
 
     @EmptyOrValidPhone
     private String secondPhoneNumber;
 
+    @NotBlank(message = "Email must be entered")
     @ValidEmail
     private String email;
 
-    @NotBlank(message = "Город не может быть пустым")
-    @Size(max = 48, message = "Город не более 48 символов!")
-    private String city;
+    @NotNull(message = "City must be selected")
+    private Long cityId;
 
     @NotBlank(message = "Адрес организации не может быть пустым")
     @Size(max = 48, message = "Адрес организации не более 48 символов!")
     private String address;
-
 
     @NotBlank(message = "Почтовый индекс не может быть пустым")
     @Size(max = 7, message = "Почтовый индекс  не более 7 символов!")

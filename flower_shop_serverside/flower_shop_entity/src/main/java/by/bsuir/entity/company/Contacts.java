@@ -24,13 +24,13 @@ public class Contacts {
     @Column(name = "email", length = 48)
     private String email;
 
-    @Column(name = "city", length = 48)
-    private String city;
+    @Column(name = "city_id")
+    private Long cityId;
 
     @Column(name = "address", length = 48)
     private String address;
 
-    @Column(name="postal_code", length = 7)
+    @Column(name = "postal_code", length = 7)
     private String postalCode;
 
 }

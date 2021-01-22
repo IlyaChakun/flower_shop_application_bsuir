@@ -1,4 +1,4 @@
-package by.bsuir.entity.common.address;
+package by.bsuir.entity.common;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

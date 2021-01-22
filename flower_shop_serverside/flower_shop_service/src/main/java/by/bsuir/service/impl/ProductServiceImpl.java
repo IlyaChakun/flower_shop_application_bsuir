@@ -6,7 +6,6 @@ import by.bsuir.dto.model.PageWrapper;
 import by.bsuir.dto.model.product.ProductDTO;
 import by.bsuir.entity.product.Product;
 import by.bsuir.payload.exception.ResourceNotFoundException;
-import by.bsuir.payload.exception.ServiceException;
 import by.bsuir.repository.api.common.CountryRepository;
 import by.bsuir.repository.api.product.ProductRepository;
 import by.bsuir.repository.api.shop.ShopRepository;
@@ -14,14 +13,10 @@ import by.bsuir.service.api.ProductService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -48,7 +43,7 @@ public class ProductServiceImpl implements ProductService {
 
         Product savedProduct = productRepository.save(product);
 
-       // logger.info("Saved product with id={} and type={}", savedProduct.getId(), savedProduct.getProductType().getType());
+        // logger.info("Saved product with id={} and type={}", savedProduct.getId(), savedProduct.getProductType().getType());
 
         return productMapper.toDto(savedProduct);
     }
@@ -57,12 +52,12 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public ProductDTO update(ProductDTO productDTO) {
-        checkIdOrThrowException(productDTO.getId(), "absent_product_id", "For update operation product id must be set!");
+        commonServiceHelper.checkIdOrThrowException(productDTO.getId(), "absent_product_id", "For update operation product id must be set!");
 
         resolveLinkedEntity(productDTO);
 
         Product prevProduct = productRepository.findById(productDTO.getId())
-                .orElseThrow(()-> new ResourceNotFoundException("Product with id =" + productDTO.getId() + " not found!"));
+                .orElseThrow(() -> new ResourceNotFoundException("Product with id =" + productDTO.getId() + " not found!"));
 
         Product newProduct = productMapper.toEntity(productDTO);
         newProduct.setDateOfCreation(prevProduct.getDateOfCreation());
@@ -74,19 +69,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private void resolveLinkedEntity(ProductDTO productDTO) {
-        checkIdOrThrowException(productDTO.getShopId(), "absent_shop_error", "Shop id must be specified!");
-        checkIdOrThrowException(productDTO.getProducerId(), "absent_producer_error", "Producer id must be specified!");
+        commonServiceHelper.checkIdOrThrowException(productDTO.getShopId(), "absent_shop_error", "Shop id must be specified!");
+        commonServiceHelper.checkIdOrThrowException(productDTO.getProducerId(), "absent_producer_error", "Producer id must be specified!");
 
         this.resolveShopOrThrowException(productDTO.getShopId());
         this.resolveProducerOrThrowException(productDTO.getProducerId());
-    }
-
-    private void checkIdOrThrowException(Long id, String error, String message) {
-        if (Objects.isNull(id)) {
-            throw new ServiceException(HttpStatus.BAD_REQUEST.value(),
-                    error,
-                    message);
-        }
     }
 
 

@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -28,9 +29,8 @@ import static by.bsuir.controller.ControllerHelper.isIdInsideDtoOrThrowException
 public class ShopController {
 
     private final ShopService shopService;
-    private final OrderService orderService;
 
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
+   // @Secured("ROLE_ADMIN")
     @GetMapping("/{id}")
     public ResponseEntity<ShopDTO> findById(@PathVariable("id") @PositiveLong String id) {
 
@@ -46,7 +46,7 @@ public class ShopController {
         return ResponseEntity.ok(wrapper);
     }
 
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
+ //   @Secured("ROLE_ADMIN")
     @PostMapping
     public ResponseEntity<ShopDTO> saveShopToCompany(@RequestBody @Valid ShopDTO shopDTO,
                                                      BindingResult bindingResult) {
@@ -60,7 +60,7 @@ public class ShopController {
         return new ResponseEntity<>(shop, httpHeaders, HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
+   // @Secured("ROLE_ADMIN")
     @PutMapping("/{id}")
     public ResponseEntity<ShopDTO> update(@PathVariable("id") @PositiveLong String id,
                                           @RequestBody @Valid ShopDTO shopDTO,
@@ -73,7 +73,7 @@ public class ShopController {
         return ResponseEntity.ok(shop);
     }
 
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
+   // @Secured("ROLE_ADMIN")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") @PositiveLong String id) {
 

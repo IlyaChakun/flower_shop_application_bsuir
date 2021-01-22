@@ -1,6 +1,6 @@
 package by.bsuir.repository.api.common;
 
-import by.bsuir.entity.common.address.Region;
+import by.bsuir.entity.common.Region;
 import by.bsuir.repository.api.core.AbstractRepository;
 import org.springframework.stereotype.Repository;
 

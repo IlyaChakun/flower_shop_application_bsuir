@@ -6,6 +6,7 @@ import by.bsuir.security.core.UserPrincipal;
 import by.bsuir.service.api.CompanyService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -30,7 +31,7 @@ public class CompanyController {
         return ResponseEntity.ok(company);
     }
 
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
+    //@Secured("ROLE_ADMIN")
     @PutMapping("/{id}")
     public ResponseEntity<CompanyDTO> updateCompany(@PathVariable("id") Long id,
                                                     @RequestBody @Valid CompanyDTO companyDTO,

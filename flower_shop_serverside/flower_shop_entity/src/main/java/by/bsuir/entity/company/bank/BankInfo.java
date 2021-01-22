@@ -1,6 +1,5 @@
 package by.bsuir.entity.company.bank;
 
-import by.bsuir.entity.company.Contacts;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,6 +19,6 @@ public class BankInfo {
     @Column(name = "bank_code", length = 34)
     private String bankCode;//идентификациооный номер банка в системе
 
-   // private Contacts contacts;
+    // private Contacts contacts; //надо либо убирать либо переименовывать тк везде embeddable и два поля address одинаковых буудт
 
 }
