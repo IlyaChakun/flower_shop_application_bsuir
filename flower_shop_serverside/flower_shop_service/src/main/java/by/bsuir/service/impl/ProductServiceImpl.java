@@ -1,7 +1,7 @@
 package by.bsuir.service.impl;
 
 import by.bsuir.dto.mapper.product.ProductMapperDTO;
-import by.bsuir.dto.model.AbstractSearchAndSortParamsDto;
+import by.bsuir.dto.model.AbstractSearchCriteriaAndSortParamsDto;
 import by.bsuir.dto.model.PageWrapper;
 import by.bsuir.dto.model.product.ProductDTO;
 import by.bsuir.entity.product.Product;
@@ -115,7 +115,7 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public PageWrapper<ProductDTO> findAll(int page, int size, AbstractSearchAndSortParamsDto searchParams) {
+    public PageWrapper<ProductDTO> findAll(int page, int size, AbstractSearchCriteriaAndSortParamsDto searchParams) {
         Pageable pageable = commonServiceHelper.getPageable(page, size);
 
 //        Specification<Flower> specification = getSpecification(searchAndSortParamDto);

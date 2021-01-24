@@ -2,8 +2,11 @@ package by.bsuir.service.impl;
 
 import by.bsuir.dto.mapper.order.BuyNowOrderMapperDTO;
 import by.bsuir.dto.mapper.order.UsualOrderMapperDTO;
+import by.bsuir.dto.model.PageWrapper;
 import by.bsuir.dto.model.order.BaseOrderDTO;
 import by.bsuir.dto.model.order.buynow.BuyNowOrderDTO;
+import by.bsuir.dto.model.order.criteria.BuyNowOrderSearchCriteriaDTO;
+import by.bsuir.dto.model.order.criteria.UsualOrderSearchCriteriaDTO;
 import by.bsuir.dto.model.order.partial.OrderFloristChoiceDTO;
 import by.bsuir.dto.model.order.partial.OrderFloristCompletionDTO;
 import by.bsuir.dto.model.order.partial.OrderPartialUpdate;
@@ -22,6 +25,8 @@ import by.bsuir.repository.api.order.OrderFloristInfoRepository;
 import by.bsuir.repository.api.order.UsualOrderRepository;
 import by.bsuir.service.api.OrderService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,16 +48,31 @@ public class OrderServiceImpl implements OrderService {
 
     private final CommonServiceHelper commonServiceHelper;
 
-//    @Override
-//    public PageWrapper<BaseOrderDTO> findAll(int page, int size, AbstractSearchAndSortParamsDto searchParams) {
-//        Pageable pageable = commonServiceHelper.getPageable(page, size);
-//        Page<UsualOrder> usualOrders = usualOrderRepository.findAll(pageable);
-//        return
-//                new PageWrapper(
-//                        usualOrderMapper.toDtoList(usualOrders.toList()),
-//                        usualOrders.getTotalPages(),
-//                        usualOrders.getTotalElements());
-//    }
+    @Override
+    public PageWrapper<UsualOrderDTO> findAll(int page, int size, UsualOrderSearchCriteriaDTO searchParams) {
+        Pageable pageable = commonServiceHelper.getPageable(page, size);
+        Page<UsualOrder> usualOrders = usualOrderRepository.findAllByClientId(pageable, searchParams.getClientId());
+
+        return
+                new PageWrapper<>(
+                        usualOrderMapper.toDtoList(usualOrders.toList()),
+                        usualOrders.getTotalPages(),
+                        usualOrders.getTotalElements());
+    }
+
+    @Override
+    public PageWrapper<BuyNowOrderDTO> findAll(int page, int size, BuyNowOrderSearchCriteriaDTO searchParams) {
+        Pageable pageable = commonServiceHelper.getPageable(page, size);
+        Page<BuyNowOrder> usualOrders = buyNowOrderRepository.findAll(pageable);
+
+        return
+                new PageWrapper<>(
+                        buyNowOrderMapper.toDtoList(usualOrders.toList()),
+                        usualOrders.getTotalPages(),
+                        usualOrders.getTotalElements());
+    }
+
+
 
     @Override
     public BaseOrderDTO findById(Long id) {
@@ -113,15 +133,6 @@ public class OrderServiceImpl implements OrderService {
         return buyNowOrderMapper.toDto(savedOrder);
     }
 
-    private void resolveClientOrThrowException(Long clientId) {
-
-    }
-
-    private void resolveClientCartOrThrowException(Long clientId) {
-
-    }
-
-
     @Override
     @Transactional
     public void partialUpdate(OrderPartialUpdate partialUpdate) {
@@ -135,6 +146,8 @@ public class OrderServiceImpl implements OrderService {
             this.completeOrder(orderId);
         }
     }
+
+
 
     private void patchOrderSetChosenFlorist(final Long orderId, final OrderFloristChoiceDTO orderFloristChoice) {
         final OrderFloristInfo orderFloristInfo = resolveOrderFloristInfoByOrderId(orderId);
@@ -165,4 +178,5 @@ public class OrderServiceImpl implements OrderService {
         return orderFloristInfoRepository.findByOrderId(orderId)
                 .orElseThrow(() -> new ResourceNotFoundException("Can`t resolve order florist info  with orderId=" + orderId));
     }
+
 }
