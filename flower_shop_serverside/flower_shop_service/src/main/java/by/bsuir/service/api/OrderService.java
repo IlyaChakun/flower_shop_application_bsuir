@@ -1,24 +1,15 @@
 package by.bsuir.service.api;
 
 
-import by.bsuir.dto.model.PageWrapper;
-import by.bsuir.dto.model.order.OrderDTO;
-import by.bsuir.dto.model.product.ProductDTO;
-import by.bsuir.service.core.CustomCrudService;
-import by.bsuir.service.core.base.DeleteOperationService;
-import by.bsuir.service.core.base.FindAllPageableSortableOperationService;
+import by.bsuir.dto.model.order.BaseOrderDTO;
+import by.bsuir.dto.model.order.partial.OrderPartialUpdate;
+import by.bsuir.service.core.base.FindOperationService;
+import by.bsuir.service.core.base.SaveOperationService;
 
 public interface OrderService extends
-        CustomCrudService<ProductDTO>,
-        DeleteOperationService<ProductDTO>,
-        FindAllPageableSortableOperationService<ProductDTO> {
+        SaveOperationService<BaseOrderDTO>,
+        FindOperationService<BaseOrderDTO> {
 
-//TODO
-//    OrderDTO saveOrder(OrderRequestDTO orderRequest);
+    void partialUpdate(OrderPartialUpdate partialUpdate);
 
-    OrderDTO findByIdAndClientId(Long orderId, Long userId);
-
-    PageWrapper<OrderDTO> findAllByClientId(int page, int size, Long userId);
-//TODO
-//    PageWrapper<OrderDTO> findAllByShopId(int page, int size, Long shopId);
 }

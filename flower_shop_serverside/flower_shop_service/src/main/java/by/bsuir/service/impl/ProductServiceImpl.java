@@ -97,8 +97,6 @@ public class ProductServiceImpl implements ProductService {
                         }
                 );
 
-        // product.getShop().getShopProducts().remove(flower);//TODO
-
         productRepository.delete(product);
     }
 

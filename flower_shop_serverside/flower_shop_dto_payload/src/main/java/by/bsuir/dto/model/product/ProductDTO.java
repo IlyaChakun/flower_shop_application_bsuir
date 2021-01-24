@@ -2,7 +2,6 @@ package by.bsuir.dto.model.product;
 
 import by.bsuir.dto.model.AbstractDTO;
 import by.bsuir.dto.model.common.ImageDTO;
-import by.bsuir.entity.common.Image;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -35,6 +34,9 @@ public class ProductDTO extends AbstractDTO {
     @Max(value = 5000, message = "Available amount must not be greater than 5000")
     private Integer availableAmountOnStock;
 
+    @Min(value = 1, message = "Cost must not be lower than 1 byn")
+    @Max(value = 5000, message = "Cost must not be greater than 5000 byn")
+    private Double cost;
 //    @ManyToMany(cascade = CascadeType.ALL)
 //    @JoinTable(name = "flower_length_costs",
 //            joinColumns =

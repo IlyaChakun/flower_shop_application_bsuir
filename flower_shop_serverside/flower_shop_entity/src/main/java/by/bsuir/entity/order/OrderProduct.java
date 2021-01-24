@@ -19,8 +19,8 @@ public class OrderProduct extends BaseAbstractEntity {
     @Column(name = "product_id")
     private Long productId;
 
-    @Column(name = "product_length_cost_id")
-    private Long productLengthCostId;
+//    @Column(name = "product_length_cost_id")
+//    private Long productLengthCostId;
 
     @Column(name = "quantity")
     private Integer quantity;

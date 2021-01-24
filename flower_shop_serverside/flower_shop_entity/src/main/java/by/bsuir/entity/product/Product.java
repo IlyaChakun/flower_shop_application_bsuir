@@ -23,14 +23,20 @@ public class Product extends AbstractEntity {
     @Column(name = "category_id", nullable = false)
     private Long categoryId;
 
+    @Column(name = "producer_id", nullable = false)
+    private Long producerId;  // страна происхождения
+
     @Column(name = "title", length = 64, nullable = false)
     private String title;
 
     @Column(name = "description", length = 512)
     private String description;
 
-    @Column(name = "available_amount_on_stock")
-    private Integer availableAmountOnStock;
+    @Column(name = "available_amount")
+    private Integer availableAmount;
+
+    @Column(name = "cost")
+    private Double cost;
 
 //    @ManyToMany(cascade = CascadeType.ALL)
 //    @JoinTable(name = "flower_length_costs",
@@ -43,8 +49,6 @@ public class Product extends AbstractEntity {
 //                    referencedColumnName = "id")})
 //    private List<FlowerLengthCost> flowerLengthCosts = new ArrayList<>();
 
-
-    private Long producerId;  // страна происхождения
 
     private Image image;
 }

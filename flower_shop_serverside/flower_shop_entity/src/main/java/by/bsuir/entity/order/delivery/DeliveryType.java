@@ -1,4 +1,5 @@
-package by.bsuir.entity.product;
+package by.bsuir.entity.order.delivery;
+
 import by.bsuir.entity.BaseAbstractEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,17 +11,14 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "product_length_costs")
+@Table(name = "delivery_types")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class ProductLengthCost extends BaseAbstractEntity {
+public class DeliveryType extends BaseAbstractEntity {
 
-    @Column(name = "stemLength", nullable = false)
-    private Double stemLength;
-
-    @Column(name = "cost", nullable = false)
-    private Double cost;
+    @Column(name = "delivery_type_name")
+    private String deliveryTypeName;
 
 }

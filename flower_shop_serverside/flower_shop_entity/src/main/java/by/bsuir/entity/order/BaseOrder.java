@@ -1,6 +1,8 @@
 package by.bsuir.entity.order;
 
 import by.bsuir.entity.AbstractEntity;
+import by.bsuir.entity.order.delivery.OrderDeliveryInfo;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,14 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "orders")
-@NoArgsConstructor
+@Table(name = "orders_base")
 @Getter
 @Setter
-public class Order extends AbstractEntity {
-
-    @Column(name = "customer_id")
-    private Long customerId;
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class BaseOrder extends AbstractEntity {
 
     @Enumerated(value = EnumType.STRING)
     private OrderStatus orderStatus;
@@ -28,20 +29,24 @@ public class Order extends AbstractEntity {
     @Column(name = "comment", length = 512)
     private String comment;
 
-    @Column(name = "total_amount")
-    private Double totalAmount;
+    /**
+     * price\discount info (calculated automatically)
+     */
+    private OrderPriceInfo orderPriceInfo;
+
 
     /**
      * delivery info
      **/
-    @Column(name = "address")
-    private String address;
+    private OrderDeliveryInfo orderDeliveryInfo;
 
-    @Column(name = "floor_number")
-    private Integer floorNumber;
 
-    @Column(name = "entrance_number")
-    private Integer entranceNumber;//номер подъезда
+    /**
+     * order detail info
+     */
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "order_id")
+    private OrderFloristInfo orderFloristInfo;
 
     /****/
 
@@ -49,5 +54,4 @@ public class Order extends AbstractEntity {
     private void initOrderStatus() {
         this.setOrderStatus(OrderStatus.NEW);
     }
-
 }
