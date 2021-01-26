@@ -1,16 +1,16 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-import { withRouter } from 'react-router-dom'
+import {withRouter} from 'react-router-dom'
 import ReviewsList from '../company/review/ReviewsList'
 import ShopsBlock from '../shop/ShopsBlock'
 import FlowersList from '../products/flower/FlowersList'
 import BouquetList from '../products/bouquet/BouquetList'
-import { Col, Row } from 'antd'
+import {Col, Row} from 'antd'
 import CarouselComponent from '../common/carousel/CarouselComponent'
+import SideMenu from "../common/sidemenu/SideMenu";
 
-class Home extends Component {
-  render () {
-    return (
+function Home() {
+  return (
       <Row>
         <Col span={24}>
           <div className="mb-5">
@@ -24,10 +24,11 @@ class Home extends Component {
             </Col>
           </Row>
           <ShopsBlock/>
+
+          <SideMenu/>
         </Col>
       </Row>
-    )
-  }
+  )
 }
 
 export default withRouter(Home)

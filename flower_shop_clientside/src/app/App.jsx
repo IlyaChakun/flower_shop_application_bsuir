@@ -21,9 +21,7 @@ import Company from '../components/company/Company'
 import {getCurrentCompanyRequest, getCurrentUserRequest} from '../components/util/utilsAPI'
 import ShopsList from "../components/shop/ShopsList";
 import Home from "../components/home/Home";
-import FlowersList from "../components/products/flower/FlowersList";
 import ReviewsList from "../components/company/review/ReviewsList";
-import BouquetList from "../components/products/bouquet/BouquetList";
 import LegalPage from "../components/common/pages/LegalPage";
 import DocumentsPage from "../components/common/pages/DocumentsPage";
 import HelpPage from "../components/common/pages/HelpPage";
@@ -33,6 +31,7 @@ import Basket from "../components/basket/Basket";
 import PrivateAdminRoute from "./util/PrivateAdminRoute";
 import OrderPage from "../components/order/OrderPage";
 import BreadCrumbComponent from "../components/common/breadcrumb/BreadCrumbComponent";
+import ProductList from "../components/products/product/ProductList";
 
 const {Content} = Layout
 
@@ -243,20 +242,25 @@ class App extends Component {
                                        {...props} />}/>
 
 
-                        <Route path="/flowers"
+                        <Route path="/products"
                                render={(props) =>
-                                   <FlowersList
-                                       loadCurrentUser={this.loadCurrentUser}
-                                       isAuthenticated={this.state.isAuthenticated}
-                                       currentUser={this.state.currentUser}
-                                       {...props} />}/>
+                                   <ProductList {...props} />}/>
 
-                        <Route path="/bouquets"
-                               render={(props) =>
-                                   <BouquetList
-                                       isAuthenticated={this.state.isAuthenticated}
-                                       currentUser={this.state.currentUser}
-                                       {...props} />}/>
+
+                        {/*<Route path="/flowers"*/}
+                        {/*       render={(props) =>*/}
+                        {/*           <FlowersList*/}
+                        {/*               loadCurrentUser={this.loadCurrentUser}*/}
+                        {/*               isAuthenticated={this.state.isAuthenticated}*/}
+                        {/*               currentUser={this.state.currentUser}*/}
+                        {/*               {...props} />}/>*/}
+
+                        {/*<Route path="/bouquets"*/}
+                        {/*       render={(props) =>*/}
+                        {/*           <BouquetList*/}
+                        {/*               isAuthenticated={this.state.isAuthenticated}*/}
+                        {/*               currentUser={this.state.currentUser}*/}
+                        {/*               {...props} />}/>*/}
 
 
                         <Route path="/reviews"

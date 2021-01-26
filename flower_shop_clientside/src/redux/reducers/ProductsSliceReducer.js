@@ -1,8 +1,17 @@
 import {createSlice} from "@reduxjs/toolkit"
-import {getAllShops, getFlowersByShopIdRequest, getFlowersRequest} from "../../components/util/utilsAPI";
+import {
+    deleteFlowerRequest,
+    getAllShops,
+    getProductsByShopIdRequest,
+    getProductsRequest
+} from "../../components/util/utilsAPI";
+import {notification} from "antd";
+import {localizedStrings} from "../../components/util/localization";
 
 const initialState = {
     products: [],
+    productCategories: ['Готовые букеты', 'Премиум букеты',
+        'Корзины с цветами', 'Цветы поштучно', 'Акционные букеты'],
     loading: true,
     errors: '',
 
@@ -77,9 +86,9 @@ export const getProducts = (searchCriteria, shopId = null) => {
         try {
             let promise
             if (shopId === null) {
-                promise = getFlowersRequest(searchCriteria)
+                promise = getProductsRequest(searchCriteria)
             } else {
-                promise = getFlowersByShopIdRequest(searchCriteria, shopId)
+                promise = getProductsByShopIdRequest(searchCriteria, shopId)
             }
 
             if (!promise) {
@@ -119,6 +128,59 @@ export const getShops = () => {
         } catch (error) {
             dispatch(setErrors(error))
             dispatch(setLoading(false))
+        }
+    }
+}
+
+
+export const deleteProduct = (productId) => {
+
+    return async dispatch => {
+        // deleteFlowerRequest(productId)
+        //     .then(() => {
+        //         notification.success({
+        //             message: localizedStrings.alertAppName,
+        //             description: 'Успешное удаление!'
+        //         });
+        //         window.location.href = "/";
+        //     }).catch(error => {
+        //     if (error.status === 401) {
+        //         this.props.handleLogout('/login', 'error', localizedStrings.alertLoggedOut);
+        //     } else if (error.status === 404) {
+        //         notification.error({
+        //             message: localizedStrings.alertAppName,
+        //             description: 'Продукт не найден!'
+        //         });
+        //     } else {
+        //         notification.error({
+        //             message: localizedStrings.alertAppName,
+        //             description: error.message || localizedStrings.alertException
+        //         });
+        //     }
+        // });
+
+
+        try {
+            let promise = deleteFlowerRequest(productId)
+
+            if (!promise) {
+                return;
+            }
+            promise
+                .then(response => {
+                    notification.success({
+                        message: localizedStrings.alertAppName,
+                        description: 'Успешное удаление!'
+                    });
+                    window.location.href = "/";
+
+                    dispatch(setProducts(response.objects.slice()))
+                    dispatch(setTotalPages(response.totalPages))
+                    dispatch(setTotalElements(response.totalElements))
+                    dispatch(setLoading(false))
+                })
+        } catch (error) {
+            dispatch(setErrors(error))
         }
     }
 }

@@ -1,5 +1,6 @@
 import {configureStore, getDefaultMiddleware} from '@reduxjs/toolkit'
 import ProductsSliceReducer from "./reducers/ProductsSliceReducer";
+import AuthSliceReducer from "./reducers/AuthSliceReducer";
 
 const middleware = [
     ...getDefaultMiddleware(),
@@ -9,6 +10,7 @@ const middleware = [
 const store = configureStore({
     reducer: {
         productsState: ProductsSliceReducer,
+        authState: AuthSliceReducer,
     },
     middleware
 })

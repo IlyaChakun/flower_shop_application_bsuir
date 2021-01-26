@@ -278,7 +278,7 @@ export function deleteBouquetRequest (id) {
   })
 }
 
-export function getFlowersRequest (searchCriteria) {
+export function getProductsRequest (searchCriteria) {
   const page = 'page=' + Number(searchCriteria.page === 0 ? searchCriteria.page : searchCriteria.page)
   const size = '&size=' + Number(searchCriteria.size)
   // const searchString = searchCriteria.searchString === undefined ? '' : '&searchString=' + searchCriteria.searchString
@@ -304,7 +304,7 @@ export function getBouquetsRequest (searchCriteria) {
   })
 }
 
-export function getFlowersByShopIdRequest (searchCriteria, shopId) {
+export function getProductsByShopIdRequest (searchCriteria, shopId) {
   const page = 'page=' + Number(searchCriteria.page === 0 ? searchCriteria.page : searchCriteria.page)
   const size = '&size=' + Number(searchCriteria.size)
 

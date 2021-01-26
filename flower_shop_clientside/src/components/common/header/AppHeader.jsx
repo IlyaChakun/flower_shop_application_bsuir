@@ -140,16 +140,16 @@ class AppHeader extends Component {
                             </Link>
                         </Menu.Item>
 
-                        <Menu.Item key="/flowers">
-                            <Link to="/flowers">
-                                Цветы
+                        <Menu.Item key="/products">
+                            <Link to="/products">
+                                Каталог
                             </Link>
                         </Menu.Item>
-                        <Menu.Item key="/bouquets">
-                            <Link to="/bouquets">
-                                Букеты
-                            </Link>
-                        </Menu.Item>
+                        {/*<Menu.Item key="/bouquets">*/}
+                        {/*    <Link to="/bouquets">*/}
+                        {/*        Букеты*/}
+                        {/*    </Link>*/}
+                        {/*</Menu.Item>*/}
                         <Menu.Item key="/reviews">
                             <Link to="/reviews">
                                 Отзывы
