@@ -18,8 +18,9 @@ import {
  */
 const request = (options, grantType) => {
   const headers = new Headers({
-    'Content-Type': 'application/json'
-  })
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*'
+})
 
   if (grantType !== 'anon_action') {
     if (localStorage.getItem(ACCESS_TOKEN)) {
@@ -126,13 +127,13 @@ export function getCurrentUserRequest () {
 
 export function getCurrentCompanyRequest () {
   return request({
-    url: BASE_URL + 'users/admin/company',
+    url: BASE_URL + 'company',
     method: 'GET'
   })
 }
 
 export function saveCompanyRequest (companyRequest) {
-  const url = BASE_URL + 'users/admin/company'
+  const url = BASE_URL + 'company'
 
   return request({
     url: url,
@@ -142,7 +143,7 @@ export function saveCompanyRequest (companyRequest) {
 }
 
 export function updateCompanyInfoRequest (companyId, updateCompanyRequest) {
-  const url = BASE_URL + 'users/admin/company/' + companyId
+  const url = BASE_URL + 'company/' + companyId
 
   return request({
     url: url,
@@ -178,7 +179,7 @@ export function saveReviewRequest (reviewRequest) {
 }
 
 export function saveShopRequest (shopRequest) {
-  const url = BASE_URL + 'users/admin/company/shops'
+  const url = BASE_URL + 'company/shops'
 
   return request({
     url: url,
@@ -188,7 +189,7 @@ export function saveShopRequest (shopRequest) {
 }
 
 export function updateShopRequest (shopRequest, shopId) {
-  const url = BASE_URL + 'users/admin/company/shops/' + shopId
+  const url = BASE_URL + 'company/shops/' + shopId
 
   return request({
     url: url,
@@ -202,7 +203,7 @@ export function getAllShopsRequest (searchCriteria) {
   const size = '&size=' + Number(searchCriteria.size)
   // const searchString = searchCriteria.searchString === undefined ? '' : '&searchString=' + searchCriteria.searchString
 
-  const url = BASE_URL + 'users/admin/company/shops?' + page + size
+  const url = BASE_URL + 'company/shops?' + page + size
 
   return request({
     url: url,
@@ -211,7 +212,7 @@ export function getAllShopsRequest (searchCriteria) {
 }
 export function getAllShops () {
 
-  const url = BASE_URL + 'users/admin/company/shops'
+  const url = BASE_URL + 'company/shops'
 
   return request({
     url: url,
@@ -221,7 +222,7 @@ export function getAllShops () {
 
 export function getShopByIdRequest (id) {
   return request({
-    url: BASE_URL + 'users/admin/company/shops/' + id,
+    url: BASE_URL + 'company/shops/' + id,
     method: 'GET'
   })
 }
@@ -308,7 +309,7 @@ export function getProductsByShopIdRequest (searchCriteria, shopId) {
   const page = 'page=' + Number(searchCriteria.page === 0 ? searchCriteria.page : searchCriteria.page)
   const size = '&size=' + Number(searchCriteria.size)
 
-  const url = BASE_URL + 'users/admin/company/shops/' + shopId + '/flowers?' + page + size
+  const url = BASE_URL + 'company/shops/' + shopId + '/flowers?' + page + size
 
   return request({
     url: url,
@@ -320,7 +321,7 @@ export function getBouquetsByShopIdRequest (searchCriteria, shopId) {
   const page = 'page=' + Number(searchCriteria.page === 0 ? searchCriteria.page : searchCriteria.page)
   const size = '&size=' + Number(searchCriteria.size)
 
-  const url = BASE_URL + 'users/admin/company/shops/' + shopId + '/bouquets?' + page + size
+  const url = BASE_URL + 'company/shops/' + shopId + '/bouquets?' + page + size
 
   return request({
     url: url,
