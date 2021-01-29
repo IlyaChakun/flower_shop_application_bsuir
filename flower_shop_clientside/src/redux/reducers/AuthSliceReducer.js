@@ -1,18 +1,27 @@
 import {createSlice} from "@reduxjs/toolkit"
-import {getCurrentUserRequest, getProductsByShopIdRequest, getProductsRequest} from "../../components/util/utilsAPI";
+import {
+    getCurrentCompanyRequest,
+    getCurrentUserRequest,
+    getProductsByShopIdRequest,
+    getProductsRequest
+} from "../../components/util/utilsAPI";
+import {notification} from "antd";
 
 const initialState = {
-    loading: true,
+    isLoading: false,
     errors: '',
     currentUser: null,
-    isAuthenticated: false
+    currentCompany: null,
+    isAuthenticated: false,
 }
+
+
 const authSlice = createSlice({
     name: "authState",
     initialState,
     reducers: {
-        setLoading: (state, payload) => {
-            state.loading = payload
+        setIsLoading: (state, payload) => {
+            state.isLoading = payload
         },
         setErrors: (state, payload) => {
             state.errors = payload
@@ -20,15 +29,19 @@ const authSlice = createSlice({
         setCurrentUser: (state, payload) => {
             state.currentUser = payload
         },
+        setCurrentCompany: (state, payload) => {
+            state.currentCompany = payload
+        },
         setIsAuthenticated: (state, payload) => {
             state.isAuthenticated = payload
         }
     },
 })
 export const {
-    setLoading,
+    setIsLoading,
     setErrors,
     setCurrentUser,
+    setCurrentCompany,
     setIsAuthenticated
 } = authSlice.actions
 
@@ -41,7 +54,7 @@ export const authSelector = (state) => {
 
 export const getCurrentUser = () => {
     return async dispatch => {
-        dispatch(setLoading(true))
+        dispatch(setIsLoading(true))
         try {
             let promise = getCurrentUserRequest()
 
@@ -50,13 +63,36 @@ export const getCurrentUser = () => {
             }
             promise
                 .then(response => {
+                    console.log(response)
                     dispatch(setCurrentUser(response))
                     dispatch(setIsAuthenticated(true))
-                    dispatch(setLoading(false))
+                    dispatch(setIsLoading(false))
                 })
         } catch (error) {
             dispatch(setErrors(error))
-            dispatch(setLoading(false))
+            dispatch(setIsLoading(false))
+        }
+    }
+}
+
+export const getCurrentCompany = () => {
+    return async dispatch => {
+
+        try {
+            let promise = getCurrentCompanyRequest()
+
+            if (!promise) {
+                return;
+            }
+            promise
+                .then(response => {
+                    console.log(response)
+                    dispatch(setCurrentCompany(response))
+                    dispatch(setIsLoading(false))
+                })
+        } catch (error) {
+            dispatch(setErrors(error))
+            dispatch(setIsLoading(false))
         }
     }
 }
