@@ -3,7 +3,7 @@ import './App.css'
 import PrivateRoute from './util/PrivateRoute'
 
 import {Col, Layout, notification, Row} from 'antd'
-import {Route, Switch, withRouter} from 'react-router-dom'
+import {Route, Switch, useHistory, withRouter} from 'react-router-dom'
 
 import {localizedStrings} from '../components/util/localization'
 import {ACCESS_TOKEN, REFRESH_TOKEN, ROLE_ADMIN, ROLE_USER, SUCCESS, USER_ID} from '../constants'
@@ -16,6 +16,8 @@ import Profile from '../components/user/profile/Profile'
 import SignUp from '../components/user/signup/SignUp'
 import Login from '../components/user/login/Login'
 import Company from '../components/company/Company'
+
+
 import ShopsList from "../components/shop/ShopsList";
 import Home from "../components/home/Home";
 import ReviewsList from "../components/company/review/ReviewsList";
@@ -33,35 +35,14 @@ import {useDispatch, useSelector} from "react-redux";
 import {
     authSelector,
     getCurrentCompany,
-    getCurrentUser,
-    setCurrentUser,
-    setIsAuthenticated
+    getCurrentUser, setCurrentUser, setIsAuthenticated
 } from "../redux/reducers/AuthSliceReducer";
 
 const {Content} = Layout
 
-const App = (props) => {
 
-    // constructor(props)
-    // {
-    //     super(props)
-    //     state = {
-    //         currentUser: null,
-    //
-    //         currentCompany: null,
-    //
-    //         isAuthenticated: false,
-    //         isLoading: true,
-    //
-    //     }
-    //
-    //     notification.config({
-    //         placement: "topRight",
-    //         top: 70,
-    //         duration: 2,
-    //     })
-    // }
-
+function App(props) {
+    const history = useHistory()
 
     const dispatch = useDispatch()
 
@@ -73,11 +54,69 @@ const App = (props) => {
         isAuthenticated,
     } = useSelector(authSelector)
 
+
+    // constructor(props) {
+    //     super(props)
+    //     // this.state = {
+    //     //     currentUser: null,
+    //     //
+    //     //     currentCompany: null,
+    //     //
+    //     //     isAuthenticated: false,
+    //     //     isLoading: true,
+    //     //
+    //     // }
+    //
+    //     notification.config({
+    //         placement: "topRight",
+    //         top: 70,
+    //         duration: 2,
+    //     })
+    // }
+
+    // loadCurrentCompany = () => {
+    //
+    //     getCurrentCompanyRequest()
+    //         .then(response => {
+    //             this.setState({
+    //                 currentCompany: response,
+    //                 isLoading: false
+    //             })
+    //         }).catch(() => {
+    //         this.setState({
+    //             isLoading: false
+    //         })
+    //     })
+    //
+    // }
+    //
+    // loadCurrentUser = () => {
+    //
+    //     this.setState({
+    //         isLoading: true
+    //     })
+    //     getCurrentUserRequest()
+    //         .then(response => {
+    //             console.log(response)
+    //
+    //             this.setState({
+    //                 currentUser: response,
+    //                 isAuthenticated: true
+    //             })
+    //         }).catch(() => {
+    //     })
+    //
+    // }
+
+    // componentDidMount() {
+    //     // this.loadCurrentUser()
+    //     // this.loadCurrentCompany()
+    // }
+
     useEffect(() => {
         dispatch(getCurrentUser())
         dispatch(getCurrentCompany())
     }, [dispatch])
-
 
     const handleLogout = (redirectTo = '/',
                           notificationType = SUCCESS,
@@ -88,11 +127,15 @@ const App = (props) => {
 
         localStorage.removeItem(USER_ID)
 
-       dispatch(setCurrentUser(null))
-       dispatch(setIsAuthenticated(false))
+        dispatch(setCurrentUser(null))
+        dispatch(setIsAuthenticated(false))
+        // this.setState({
+        //     currentUser: null,
+        //     isAuthenticated: false
+        // })
 
-
-        props.history.push(redirectTo)
+        // props.history.push(redirectTo)
+        history.push(redirectTo)
 
         notification[notificationType]({
             message: localizedStrings.alertAppName,
@@ -106,17 +149,18 @@ const App = (props) => {
             description: localizedStrings.alertSuccessLogin,
         })
         dispatch(getCurrentUser())
-        props.history.push("/profile")
+        // this.props.history.push("/profile")
+        history.push("/profile")
     }
 
 
-    if (isLoading) {
-        return <LoadingIndicator/>
-    }
+    // if (isLoading) {
+    //     return <LoadingIndicator/>
+    // }
 
-    if (localStorage.getItem(ACCESS_TOKEN) && currentUser === undefined) {
-        return <LoadingIndicator/>
-    }
+    // if (localStorage.getItem(ACCESS_TOKEN) && currentUser === undefined) {
+    //     return <LoadingIndicator/>
+    // }
 
     return (
         <Layout className="app-wrapper">

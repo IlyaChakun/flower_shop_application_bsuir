@@ -1,4 +1,4 @@
-import {createSlice} from "@reduxjs/toolkit"
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit"
 import {
     getCurrentCompanyRequest,
     getCurrentUserRequest,
@@ -17,7 +17,7 @@ const initialState = {
 
 
 const authSlice = createSlice({
-    name: "authState",
+    name: "auth",
     initialState,
     reducers: {
         setIsLoading: (state, payload) => {
@@ -74,6 +74,16 @@ export const getCurrentUser = () => {
         }
     }
 }
+
+
+// First, create the thunk
+const fetchUser = createAsyncThunk(
+    'users/fetchBy',
+    async ( thunkAPI) => {
+        const response = await getCurrentUser()
+        return response
+    }
+)
 
 export const getCurrentCompany = () => {
     return async dispatch => {
