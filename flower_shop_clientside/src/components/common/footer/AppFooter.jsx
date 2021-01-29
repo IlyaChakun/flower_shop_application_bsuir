@@ -1,55 +1,43 @@
-import React, {Component} from 'react'
+import React, {useEffect} from 'react'
 import {Col, Layout, Row} from 'antd'
 import './AppFooter.css'
 import {Link, withRouter} from 'react-router-dom'
 import LoadingIndicator from "../util/LoadingIndicator";
+import {useDispatch, useSelector} from "react-redux";
+import {authSelector, getCurrentCompany, getCurrentUser} from "../../../redux/reducers/AuthSliceReducer";
 
 const Footer = Layout.Footer
 
-class AppFooter extends Component {
+const AppFooter = () => {
 
-    state = {
+    const dispatch = useDispatch()
 
-        currentCompany: this.props.currentCompany,
-        name: ' ',
-        description: ' ',
-        licenceNumber: ' ',
-        firstPhoneNumber: ' ',
-        secondPhoneNumber: ' ',
-        email: ' ',
-        city: ' ',
-        address: ' ',
-        payerAccountNumber: ' ',
-        checkingAccount: ' ',
-        bankName: ' ',
-        bankCode: ' ',
-        postalCode: ' ',
-        bankAddress: ' ',
+    const {currentCompany} = useSelector(authSelector)
 
-    }
+    useEffect(() => {
+        dispatch(getCurrentCompany())
+    }, [dispatch])
 
 
-    render() {
-
-
-        if (!this.props.currentCompany) {
+ 
+        if (!currentCompany) {
             return <LoadingIndicator/>
         }
 
-        this.state.name = this.props.currentCompany.name
-        this.state.description = this.props.currentCompany.description
-        this.state.licenceNumber = this.props.currentCompany.licenceNumber
-        this.state.firstPhoneNumber = this.props.currentCompany.contacts.firstPhoneNumber
-        this.state.secondPhoneNumber = this.props.currentCompany.contacts.secondPhoneNumber
-        this.state.email = this.props.currentCompany.contacts.email
-        this.state.city = this.props.currentCompany.contacts.city
-        this.state.address = this.props.currentCompany.contacts.address
-        this.state.payerAccountNumber = this.props.currentCompany.companyLegalAddress.payerAccountNumber
-        this.state.checkingAccount = this.props.currentCompany.companyLegalAddress.checkingAccount
-        this.state.bankName = this.props.currentCompany.companyLegalAddress.bankInformation.bankName
-        this.state.bankCode = this.props.currentCompany.companyLegalAddress.bankInformation.bankCode
-        this.state.postalCode = this.props.currentCompany.companyLegalAddress.bankInformation.postalCode
-        this.state.bankAddress = this.props.currentCompany.companyLegalAddress.bankInformation.address
+        const name = currentCompany.name
+        const description = currentCompany.description
+        const licenceNumber = currentCompany.licenceNumber
+        const firstPhoneNumber = currentCompany.contacts.firstPhoneNumber
+        const secondPhoneNumber = currentCompany.contacts.secondPhoneNumber
+        const email = currentCompany.contacts.email
+        const city = currentCompany.contacts.city
+        const address = currentCompany.contacts.address
+        const payerAccountNumber = currentCompany.companyLegalAddress.payerAccountNumber
+        const checkingAccount = currentCompany.companyLegalAddress.checkingAccount
+        const bankName = currentCompany.companyLegalAddress.bankInformation.bankName
+        const bankCode = currentCompany.companyLegalAddress.bankInformation.bankCode
+        const postalCode = currentCompany.companyLegalAddress.bankInformation.postalCode
+        const bankAddress = currentCompany.companyLegalAddress.bankInformation.address
 
         return (
             <Footer>
@@ -122,7 +110,7 @@ class AppFooter extends Component {
                                     <Row justify="center">
                                         <Col span={12}>
                                             <a rel="nofollow" href="tel:+375291456777">
-                                                {this.state.firstPhoneNumber}
+                                                {firstPhoneNumber}
                                             </a>
                                         </Col>
                                     </Row>
@@ -134,7 +122,7 @@ class AppFooter extends Component {
                                                target="_blank"
                                                rel="noopener noreferrer"
                                             >
-                                                {this.state.email}
+                                                {email}
                                             </a>
                                         </Col>
 
@@ -143,7 +131,7 @@ class AppFooter extends Component {
                                 <div className="address ">
                                     <Row justify="center">
                                         <Col span={12}>
-                                            {this.state.city}, {this.state.address}
+                                            {city}, {address}
                                         </Col>
                                     </Row>
                                 </div>
@@ -185,20 +173,19 @@ class AppFooter extends Component {
                     <Row justify="center">
                         <Col>
                             <div className="copy">
-                                2020 © {this.state.name} УНП № {this.state.checkingAccount}<br/>
+                                2020 © {name} УНП № {checkingAccount}<br/>
                                 Интернет-магазин зарегистрирован в торговом реестре 30.12.2019 под
-                                номером {this.state.licenceNumber}<br/>
-                                Адрес: {this.state.city},{this.state.address}, E-mail: {this.state.email}, <br/>
-                                Тел.: {this.state.firstPhoneNumber}, Доп. тел.: {this.state.secondPhoneNumber}<br/>
-                                Р/с: {this.state.payerAccountNumber} в {this.state.bankName},
-                                {this.state.postalCode}, {this.state.bankAddress}, код банка: {this.state.bankCode}
+                                номером {licenceNumber}<br/>
+                                Адрес: {city},{address}, E-mail: {email}, <br/>
+                                Тел.: {firstPhoneNumber}, Доп. тел.: {secondPhoneNumber}<br/>
+                                Р/с: {payerAccountNumber} в {bankName},
+                                {postalCode}, {bankAddress}, код банка: {bankCode}
                             </div>
                         </Col>
                     </Row>
                 </div>
             </Footer>
         )
-    }
 }
 
 export default withRouter(AppFooter)
