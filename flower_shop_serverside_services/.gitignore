@@ -1,0 +1,14 @@
+*/target/
+/.idea/
+*.iml
+*.xml
+/flower_shop_web/target/
+/flower_shop_service/target/
+/flower_shop_security/target/
+/flower_shop_repository/target/
+/flower_shop_entity/target/
+/flower_shop_dto_payload/target/
+/flower_shop_application_payload/target/
+/flower-shop-email-service-core/target/
+/flower-shop-email-service-core/target/classes/
+/flower-shop-email-service-core/target/generated-sources/
