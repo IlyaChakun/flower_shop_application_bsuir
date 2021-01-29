@@ -10,7 +10,7 @@ import {localizedStrings} from "../../components/util/localization";
 
 const initialState = {
     products: [],
-    productCategories: ['Готовые букеты', 'Премиум букеты',
+    categories: ['Готовые букеты', 'Премиум букеты',
         'Корзины с цветами', 'Цветы поштучно', 'Акционные букеты'],
     loading: true,
     errors: '',
@@ -74,7 +74,9 @@ export const {
     setShopValue,
     setShopId,
 } = productSlice.actions
+
 export default productSlice.reducer
+
 export const productSelector = (state) => {
     return state.productsState;
 }
