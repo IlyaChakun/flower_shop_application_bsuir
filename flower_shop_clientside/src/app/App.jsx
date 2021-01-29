@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {useEffect} from 'react'
 import './App.css'
 import PrivateRoute from './util/PrivateRoute'
 
@@ -16,9 +16,6 @@ import Profile from '../components/user/profile/Profile'
 import SignUp from '../components/user/signup/SignUp'
 import Login from '../components/user/login/Login'
 import Company from '../components/company/Company'
-
-
-import {getCurrentCompanyRequest, getCurrentUserRequest} from '../components/util/utilsAPI'
 import ShopsList from "../components/shop/ShopsList";
 import Home from "../components/home/Home";
 import ReviewsList from "../components/company/review/ReviewsList";
@@ -32,259 +29,245 @@ import PrivateAdminRoute from "./util/PrivateAdminRoute";
 import OrderPage from "../components/order/OrderPage";
 import BreadCrumbComponent from "../components/common/breadcrumb/BreadCrumbComponent";
 import ProductList from "../components/products/product/ProductList";
+import {useDispatch, useSelector} from "react-redux";
+import {
+    authSelector,
+    getCurrentCompany,
+    getCurrentUser,
+    setCurrentUser,
+    setIsAuthenticated
+} from "../redux/reducers/AuthSliceReducer";
 
 const {Content} = Layout
 
-class App extends Component {
+const App = (props) => {
 
-    constructor(props) {
-        super(props)
-        this.state = {
-            currentUser: null,
+    // constructor(props)
+    // {
+    //     super(props)
+    //     state = {
+    //         currentUser: null,
+    //
+    //         currentCompany: null,
+    //
+    //         isAuthenticated: false,
+    //         isLoading: true,
+    //
+    //     }
+    //
+    //     notification.config({
+    //         placement: "topRight",
+    //         top: 70,
+    //         duration: 2,
+    //     })
+    // }
 
-            currentCompany: null,
 
-            isAuthenticated: false,
-            isLoading: true,
+    const dispatch = useDispatch()
 
-        }
+    const {
+        isLoading,
+        errors,
+        currentUser,
+        currentCompany,
+        isAuthenticated,
+    } = useSelector(authSelector)
 
-        notification.config({
-            placement: "topRight",
-            top: 70,
-            duration: 2,
+    useEffect(() => {
+        dispatch(getCurrentUser())
+        dispatch(getCurrentCompany())
+    }, [dispatch])
+
+
+    const handleLogout = (redirectTo = '/',
+                          notificationType = SUCCESS,
+                          description = localizedStrings.alertSuccessLogOut) => {
+
+        localStorage.removeItem(ACCESS_TOKEN)
+        localStorage.removeItem(REFRESH_TOKEN)
+
+        localStorage.removeItem(USER_ID)
+
+       dispatch(setCurrentUser(null))
+       dispatch(setIsAuthenticated(false))
+
+
+        props.history.push(redirectTo)
+
+        notification[notificationType]({
+            message: localizedStrings.alertAppName,
+            description: description,
         })
     }
 
-    loadCurrentCompany = () => {
-
-        getCurrentCompanyRequest()
-            .then(response => {
-                this.setState({
-                    currentCompany: response,
-                    isLoading: false
-                })
-            }).catch(() => {
-            this.setState({
-                isLoading: false
-            })
-        })
-
-    }
-
-    loadCurrentUser = () => {
-
-        this.setState({
-            isLoading: true
-        })
-        getCurrentUserRequest()
-            .then(response => {
-                console.log(response)
-
-                this.setState({
-                    currentUser: response,
-                    isAuthenticated: true
-                })
-            }).catch(() => {
-        })
-
-    }
-
-    componentDidMount() {
-        this.loadCurrentUser()
-        this.loadCurrentCompany()
-    }
-
-    handleLogout =
-        (redirectTo = '/', notificationType = SUCCESS, description = localizedStrings.alertSuccessLogOut) => {
-
-            localStorage.removeItem(ACCESS_TOKEN)
-            localStorage.removeItem(REFRESH_TOKEN)
-
-            localStorage.removeItem(USER_ID)
-
-            this.setState({
-                currentUser: null,
-                isAuthenticated: false
-            })
-
-            this.props.history.push(redirectTo)
-
-            notification[notificationType]({
-                message: localizedStrings.alertAppName,
-                description: description,
-            })
-        }
-
-    handleLogin = () => {
+    const handleLogin = () => {
         notification.success({
             message: localizedStrings.alertAppName,
             description: localizedStrings.alertSuccessLogin,
         })
-        this.loadCurrentUser()
-        this.props.history.push("/profile")
+        dispatch(getCurrentUser())
+        props.history.push("/profile")
     }
 
-    render() {
 
-        if (this.state.isLoading) {
-            return <LoadingIndicator/>
-        }
-
-        if (localStorage.getItem(ACCESS_TOKEN) && this.state.currentUser === undefined) {
-            return <LoadingIndicator/>
-        }
-
-        return (
-            <Layout className="app-wrapper">
-                <AppHeader isAuthenticated={this.state.isAuthenticated}
-                           currentUser={this.state.currentUser}
-                           handleLogout={this.handleLogout}
-                />
-
-                <Content className="app-content">
-
-                    <div className="mb-5">
-                        <Row justify="center">
-                            <Col span={22}>
-                                <BreadCrumbComponent properties={this.props}/>
-                            </Col>
-                        </Row>
-                    </div>
-
-                    <Switch>
-
-                        <Route exact path="/login"
-                               render={(props) =>
-                                   <Login onLogin={this.handleLogin}
-                                          {...props} />}/>
-
-                        <Route path="/sign-up"
-                               render={(props) =>
-                                   <SignUp
-                                       isAuthenticated={this.state.isAuthenticated}
-                                       {...props} />}/>
-
-
-                        <Route path="/oauth2/redirect"
-                               render={(props) =>
-                                   <OAuth2RedirectHandler onLogin={this.handleLogin}
-                                                          {...props} />}/>
-
-
-                        <PrivateRoute path="/profile"
-                                      isAuthenticated={this.state.isAuthenticated}
-                                      currentUser={this.state.currentUser}
-                                      component={Profile}
-                                      {...this.props}/>
-
-
-                        <Route path="/orders/:id"
-                               currentUser={this.state.currentUser}
-                               component={OrderPage}/>
-
-
-                        <PrivateRoute path="/basket"
-                                      isAuthenticated={this.state.isAuthenticated}
-                                      currentUser={this.state.currentUser}
-                                      component={Basket}
-                                      {...this.props}/>
-
-                        <Route exact path="/about/documents"
-                               render={(props) =>
-                                   <DocumentsPage
-                                       {...props} />}/>
-
-
-                        <Route path="/company/shops/:id"
-                               render={(props) =>
-                                   <ShopDetail
-                                       currentUser={this.state.currentUser}
-                                       currentCompany={this.state.currentCompany}
-                                       {...props} />}/>
-
-                        <Route path="/company/shops"
-                               render={(props) =>
-                                   <ShopsList
-                                       currentUser={this.state.currentUser}
-                                       currentCompany={this.state.currentCompany}
-                                       {...props} />}/>
-
-                        <Route path="/company"
-                               render={(props) =>
-                                   <Company
-                                       currentUser={this.state.currentUser}
-                                       currentCompany={this.state.currentCompany}
-                                       {...props} />}/>
-
-
-                        <Route exact path="/about/legal"
-                               render={(props) =>
-                                   <LegalPage
-                                       {...props} />}/>
-
-
-                        <Route path="/company/about"
-                               render={(props) =>
-                                   <AboutPage
-                                       {...props} />}/>
-
-
-                        <PrivateAdminRoute path="/company"
-                                           isAuthenticated={this.state.isAuthenticated}
-                                           currentUser={this.state.currentUser}
-                                           currentCompany={this.state.currentCompany}
-                                           component={Company}/>
-
-                        <Route exact path="/about/help"
-                               render={(props) =>
-                                   <HelpPage
-                                       {...props} />}/>
-
-
-                        <Route path="/products"
-                               render={(props) =>
-                                   <ProductList {...props} />}/>
-
-
-                        {/*<Route path="/flowers"*/}
-                        {/*       render={(props) =>*/}
-                        {/*           <FlowersList*/}
-                        {/*               loadCurrentUser={this.loadCurrentUser}*/}
-                        {/*               isAuthenticated={this.state.isAuthenticated}*/}
-                        {/*               currentUser={this.state.currentUser}*/}
-                        {/*               {...props} />}/>*/}
-
-                        {/*<Route path="/bouquets"*/}
-                        {/*       render={(props) =>*/}
-                        {/*           <BouquetList*/}
-                        {/*               isAuthenticated={this.state.isAuthenticated}*/}
-                        {/*               currentUser={this.state.currentUser}*/}
-                        {/*               {...props} />}/>*/}
-
-
-                        <Route path="/reviews"
-                               render={(props) =>
-                                   <ReviewsList
-                                       currentUser={this.state.currentUser}
-                                       {...props} />}/>
-
-
-                        <Route path="/"
-                               render={(props) =>
-                                   <Home
-                                       currentUser={this.state.currentUser}
-                                       {...props} />}/>
-
-
-                        <Route component={NotFound}/>
-
-                    </Switch>
-                </Content>
-                <AppFooter currentCompany={this.state.currentCompany}/>
-            </Layout>
-        )
+    if (isLoading) {
+        return <LoadingIndicator/>
     }
+
+    if (localStorage.getItem(ACCESS_TOKEN) && currentUser === undefined) {
+        return <LoadingIndicator/>
+    }
+
+    return (
+        <Layout className="app-wrapper">
+            <AppHeader isAuthenticated={isAuthenticated}
+                       currentUser={currentUser}
+                       handleLogout={handleLogout}
+            />
+
+            <Content className="app-content">
+
+                <div className="mb-5">
+                    <Row justify="center">
+                        <Col span={22}>
+                            <BreadCrumbComponent properties={props}/>
+                        </Col>
+                    </Row>
+                </div>
+
+                <Switch>
+
+                    <Route exact path="/login"
+                           render={(props) =>
+                               <Login onLogin={handleLogin}
+                                      {...props} />}/>
+
+                    <Route path="/sign-up"
+                           render={(props) =>
+                               <SignUp
+                                   isAuthenticated={isAuthenticated}
+                                   {...props} />}/>
+
+
+                    <Route path="/oauth2/redirect"
+                           render={(props) =>
+                               <OAuth2RedirectHandler onLogin={handleLogin}
+                                                      {...props} />}/>
+
+
+                    <PrivateRoute path="/profile"
+                                  isAuthenticated={isAuthenticated}
+                                  currentUser={currentUser}
+                                  component={Profile}
+                                  {...props}/>
+
+
+                    <Route path="/orders/:id"
+                           currentUser={currentUser}
+                           component={OrderPage}/>
+
+
+                    <PrivateRoute path="/basket"
+                                  isAuthenticated={isAuthenticated}
+                                  currentUser={currentUser}
+                                  component={Basket}
+                                  {...props}/>
+
+                    <Route exact path="/about/documents"
+                           render={(props) =>
+                               <DocumentsPage
+                                   {...props} />}/>
+
+
+                    <Route path="/company/shops/:id"
+                           render={(props) =>
+                               <ShopDetail
+                                   currentUser={currentUser}
+                                   currentCompany={currentCompany}
+                                   {...props} />}/>
+
+                    <Route path="/company/shops"
+                           render={(props) =>
+                               <ShopsList
+                                   currentUser={currentUser}
+                                   currentCompany={currentCompany}
+                                   {...props} />}/>
+
+                    <Route path="/company"
+                           render={(props) =>
+                               <Company
+                                   currentUser={currentUser}
+                                   currentCompany={currentCompany}
+                                   {...props} />}/>
+
+
+                    <Route exact path="/about/legal"
+                           render={(props) =>
+                               <LegalPage
+                                   {...props} />}/>
+
+
+                    <Route path="/company/about"
+                           render={(props) =>
+                               <AboutPage
+                                   {...props} />}/>
+
+
+                    <PrivateAdminRoute path="/company"
+                                       isAuthenticated={isAuthenticated}
+                                       currentUser={currentUser}
+                                       currentCompany={currentCompany}
+                                       component={Company}/>
+
+                    <Route exact path="/about/help"
+                           render={(props) =>
+                               <HelpPage
+                                   {...props} />}/>
+
+
+                    <Route path="/products"
+                           render={(props) =>
+                               <ProductList {...props} />}/>
+
+
+                    {/*<Route path="/flowers"*/}
+                    {/*       render={(props) =>*/}
+                    {/*           <FlowersList*/}
+                    {/*               loadCurrentUser={loadCurrentUser}*/}
+                    {/*               isAuthenticated={isAuthenticated}*/}
+                    {/*               currentUser={currentUser}*/}
+                    {/*               {...props} />}/>*/}
+
+                    {/*<Route path="/bouquets"*/}
+                    {/*       render={(props) =>*/}
+                    {/*           <BouquetList*/}
+                    {/*               isAuthenticated={isAuthenticated}*/}
+                    {/*               currentUser={currentUser}*/}
+                    {/*               {...props} />}/>*/}
+
+
+                    <Route path="/reviews"
+                           render={(props) =>
+                               <ReviewsList
+                                   currentUser={currentUser}
+                                   {...props} />}/>
+
+
+                    <Route path="/"
+                           render={(props) =>
+                               <Home
+                                   currentUser={currentUser}
+                                   {...props} />}/>
+
+
+                    <Route component={NotFound}/>
+
+                </Switch>
+            </Content>
+            <AppFooter currentCompany={currentCompany}/>
+        </Layout>
+    )
+
 }
 
 export function isAdmin(currentUser) {
@@ -303,5 +286,6 @@ export function isUser(currentUser) {
     }
     return false
 }
+
 
 export default withRouter(App)
