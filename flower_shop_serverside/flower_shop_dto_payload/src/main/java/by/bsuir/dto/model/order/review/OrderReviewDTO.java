@@ -1,39 +1,22 @@
 package by.bsuir.dto.model.order.review;
 
-import by.bsuir.entity.AbstractEntity;
-import by.bsuir.entity.order.Order;
+import by.bsuir.dto.model.AbstractDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
-import java.time.LocalDateTime;
 
-/**
- * ОТЗЫВЫ
- */
-@Entity
-@Table(name = "transportation_reviews")
 @Getter
 @Setter
 @NoArgsConstructor
-public class OrderReviewDTO extends AbstractEntity {
+public class OrderReviewDTO extends AbstractDTO {
 
-    @Column(name = "comment", nullable = false, length = 512)
-    private String comment;
+    private Long clientId;
 
-    @Column(name = "rate", nullable = false)
-    private Short rate;
+    private Long orderId;
 
-    @Column(name = "comment_date", nullable = false)
-    private LocalDateTime commentDate;
+    private String text;
 
-    @OneToOne
-    private Order transportOrder;
-
-    @PrePersist
-    protected void transportReviewPreInit() {
-        this.commentDate = LocalDateTime.now();
-    }
+    private Integer rating;
 
 }

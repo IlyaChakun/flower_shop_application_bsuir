@@ -1,23 +1,25 @@
 package by.bsuir.security.service.api;
 
-import by.bsuir.dto.model.user.AbstractUserDTO;
-import by.bsuir.security.dto.signup.ClientSignUpRequest;
+import by.bsuir.dto.model.user.UserDTO;
+import by.bsuir.security.dto.signup.UserSignUpRequest;
 
 import java.util.Optional;
 
 public interface UserSecurityService {
 
-    AbstractUserDTO registerClient(ClientSignUpRequest signUpRequest);
+    UserDTO registerUser(UserSignUpRequest signUpRequest);
 
     boolean existsByEmail(String email);
 
-    Optional<AbstractUserDTO> findByEmail(String email);
+    Optional<UserDTO> findByEmail(String email);
 
-    AbstractUserDTO getOne(Long id);
+    UserDTO getOne(Long id);
+
+    UserDTO findById(Long id);
 
     void confirmUserAccount(final String confirmationToken);
 
-    AbstractUserDTO save(AbstractUserDTO abstractUserDTO);//means aouth2
+    UserDTO saveClient(UserDTO userDTO);//means aouth2
 
-    AbstractUserDTO update(AbstractUserDTO abstractUserDTO);
+    UserDTO update(UserDTO userDTO);
 }

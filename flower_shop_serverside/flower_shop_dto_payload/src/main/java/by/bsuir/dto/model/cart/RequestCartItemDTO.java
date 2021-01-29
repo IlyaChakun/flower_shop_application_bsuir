@@ -1,6 +1,5 @@
 package by.bsuir.dto.model.cart;
 
-import by.bsuir.dto.model.BaseAbstractDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,15 +11,16 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Getter
 @Setter
-public class RequestCartItemDTO extends BaseAbstractDTO {
+public class RequestCartItemDTO {
 
+    @NotNull(message = "clientId must be set")
     private Long clientId;
 
     @NotNull(message = "productId must be set")
     private Long productId;
 
     @NotNull(message = "flowerLengthCostId must be set")
-    private Long flowerLengthCostId;
+    private Long productLengthCostId;
 
     @NotNull(message = "product quantity must be set")
     @Min(value = 1, message = "Quantity can`t be <1")

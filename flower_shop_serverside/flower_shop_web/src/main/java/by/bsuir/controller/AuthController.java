@@ -1,16 +1,15 @@
 package by.bsuir.controller;
 
-import by.bsuir.dto.model.user.AbstractUserDTO;
-import by.bsuir.payload.exception.ControllerException;
+import by.bsuir.dto.model.user.UserDTO;
+import by.bsuir.exception.ControllerException;
 import by.bsuir.security.core.TokenProvider;
 import by.bsuir.security.dto.ApiResponse;
 import by.bsuir.security.dto.AuthTokenResponse;
+import by.bsuir.security.dto.IdentityAvailability;
 import by.bsuir.security.dto.LoginRequest;
-import by.bsuir.security.dto.UserIdentityAvailability;
-import by.bsuir.security.dto.signup.ClientSignUpRequest;
+import by.bsuir.security.dto.signup.UserSignUpRequest;
 import by.bsuir.security.service.api.UserSecurityService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,14 +27,14 @@ import java.net.URI;
 import static by.bsuir.controller.ControllerHelper.checkBindingResultAndThrowExceptionIfInvalid;
 
 @RestController
-@RequestMapping("/auth/user")
+@RequestMapping("/auth/users")
 @AllArgsConstructor
 @Validated
 @CrossOrigin(origins = "*")
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
-    private final UserSecurityService userService;
+    private final UserSecurityService userSecurityService;
     private final TokenProvider tokenProvider;
 
 
@@ -57,18 +56,16 @@ public class AuthController {
         return ResponseEntity.ok(authTokenResponse);
     }
 
-    @PostMapping("/client/sign-up")
-    public ResponseEntity<ApiResponse> register(@RequestBody @Valid ClientSignUpRequest signUpRequest,
+    @PostMapping("/sign-up")
+    public ResponseEntity<ApiResponse> register(@RequestBody @Valid UserSignUpRequest signUpRequest,
                                                 BindingResult result) {
         checkBindingResultAndThrowExceptionIfInvalid(result);
 
         if (!signUpRequest.getPassword().equals(signUpRequest.getConfirmedPassword())) {
-            throw new ControllerException(HttpStatus.CONFLICT.value(),
-                    "password_does_not_match",
-                    "The password you entered did not match the confirmed password!");
+            throw new ControllerException("The password you entered did not match the confirmed password!");
         }
 
-        AbstractUserDTO addedUser = userService.registerClient(signUpRequest);
+        UserDTO addedUser = userSecurityService.registerUser(signUpRequest);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath()
@@ -89,10 +86,10 @@ public class AuthController {
     }
 
     @GetMapping("/check-email-availability")
-    public ResponseEntity<UserIdentityAvailability> checkEmailAvailability(@RequestParam(value = "email") String email) {
-        Boolean isAvailable = !userService.existsByEmail(email);
+    public ResponseEntity<IdentityAvailability> checkEmailAvailability(@RequestParam(value = "email") String email) {
+        Boolean isAvailable = !userSecurityService.existsByEmail(email);
         return ResponseEntity.ok(
-                new UserIdentityAvailability(isAvailable)
+                new IdentityAvailability(isAvailable)
         );
     }
 
@@ -100,7 +97,7 @@ public class AuthController {
             method = {RequestMethod.GET, RequestMethod.POST})
     public ResponseEntity<ApiResponse> confirmUserAccount(@RequestParam("token") String confirmationToken) {
 
-        userService.confirmUserAccount(confirmationToken);
+        userSecurityService.confirmUserAccount(confirmationToken);
 
         return ResponseEntity.ok(
                 new ApiResponse(true, "Account confirmed successfully")

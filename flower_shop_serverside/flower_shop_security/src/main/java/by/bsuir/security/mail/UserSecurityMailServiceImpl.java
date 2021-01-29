@@ -1,5 +1,6 @@
 package by.bsuir.security.mail;
 
+
 import by.bsuir.email.configuration.BaseEmailProperties;
 import by.bsuir.email.exception.EmailServiceException;
 import by.bsuir.email.service.core.EmailSenderService;
@@ -17,6 +18,7 @@ public class UserSecurityMailServiceImpl implements UserSecurityMailService {
 
     private static final Logger logger = LoggerFactory.getLogger(RestAuthenticationEntryPoint.class);
     private final EmailSenderService emailSenderService;
+    private final BaseEmailProperties baseEmailProperties;
 
     @Override
     public void sendConfirmAccountEmail(final String recipient,
@@ -38,12 +40,13 @@ public class UserSecurityMailServiceImpl implements UserSecurityMailService {
 
         logger.info("sending to : " + recipient + " and token= " + confirmationToken);
 
+        logger.info("send from: {}", baseEmailProperties.getEmailSender());
         final String subject = "Завершение регистрации!";
 
         final SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(recipient);
         mailMessage.setSubject(subject);
-        mailMessage.setFrom(BaseEmailProperties.EMAIL_SENDER);
+        mailMessage.setFrom(baseEmailProperties.getEmailSender());
         mailMessage.setText("Для подтверждения аккаунта, перейдите по ссылке : "
                 + "http://localhost:8080/auth/user/confirm-account?token=" + confirmationToken);
 

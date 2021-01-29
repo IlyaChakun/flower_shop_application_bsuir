@@ -3,16 +3,29 @@ package by.bsuir.entity.user;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+//@Getter
+//@AllArgsConstructor
+//public enum UserRoles {
+//
+//    ROLE_ADMIN("ROLE_ADMIN"),
+//    ROLE_CLIENT("ROLE_CLIENT"),
+//    ROLE_STOCK_OWNER("ROLE_STOCK_OWNER"),
+//    ROLE_STOCK_WORKER("ROLE_STOCK_WORKER");
+//
+//    ////////////////////////////////////
+//    private final String roleName;
+//
+//}
 @Getter
 @AllArgsConstructor
-public enum UserRoles {
+public class UserRoles {
 
-    ROLE_CLIENT("ROLE_CLIENT"),
-    ROLE_ADMIN("ROLE_ADMIN"),
-    ROLE_ANONYMOUS("ROLE_ANONYMOUS"),
-    ROLE_COURIER("ROLE_COURIER");
+    public static final String ROLE_ADMIN = ("ROLE_ADMIN");
+    public static final String ROLE_CLIENT = ("ROLE_CLIENT");
+    public static final String ROLE_STOCK_OWNER = ("ROLE_STOCK_OWNER");
+    public static final String ROLE_STOCK_WORKER = ("ROLE_STOCK_WORKER");
 
     ////////////////////////////////////
-    private final String roleName;
+    //private final String roleName;
 
 }

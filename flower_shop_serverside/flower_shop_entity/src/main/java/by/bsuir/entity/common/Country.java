@@ -12,10 +12,10 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "countries")
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Country extends BaseAbstractEntity {
 
     @Column(name = "country_name_ru", nullable = false, length = 48)
@@ -23,5 +23,5 @@ public class Country extends BaseAbstractEntity {
 
     @Column(name = "country_name_en", nullable = false, length = 48)
     private String countryNameEn;
-}
 
+}

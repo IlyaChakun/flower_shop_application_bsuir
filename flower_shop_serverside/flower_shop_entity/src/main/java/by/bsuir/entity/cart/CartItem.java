@@ -1,14 +1,13 @@
 package by.bsuir.entity.cart;
 
 import by.bsuir.entity.BaseAbstractEntity;
-import by.bsuir.entity.product.AbstractFlowerProduct;
-import by.bsuir.entity.product.common.FlowerLengthCost;
-import by.bsuir.entity.user.Client;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "cart_items")
@@ -17,14 +16,17 @@ import javax.persistence.*;
 @Setter
 public class CartItem extends BaseAbstractEntity {
 
-    @ManyToOne
-    private Client client;
+    @Column(name = "basket_id")
+    private Long basketId;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private AbstractFlowerProduct product;
+    @Column(name = "client_id")
+    private Long clientId;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private FlowerLengthCost flowerLengthCost;
+    @Column(name = "product_id")
+    private Long productId;
+
+    @Column(name = "product_length_cost_id")
+    private Long productLengthCostId;
 
     @Column(name = "quantity")
     private Integer quantity;

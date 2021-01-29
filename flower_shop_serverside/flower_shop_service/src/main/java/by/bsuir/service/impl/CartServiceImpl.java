@@ -6,18 +6,11 @@ import by.bsuir.dto.model.cart.DeleteCartItemDTO;
 import by.bsuir.dto.model.cart.RequestCartItemDTO;
 import by.bsuir.entity.cart.Cart;
 import by.bsuir.entity.cart.CartItem;
-import by.bsuir.entity.product.AbstractFlowerProduct;
-import by.bsuir.entity.product.bouqet.FlowerBouquet;
-import by.bsuir.entity.product.common.FlowerLengthCost;
-import by.bsuir.entity.product.flower.Flower;
-import by.bsuir.entity.user.Client;
+
 import by.bsuir.payload.exception.ResourceNotFoundException;
 import by.bsuir.payload.exception.ServiceException;
-import by.bsuir.repository.api.FlowerBouquetRepository;
-import by.bsuir.repository.api.FlowerLengthCostRepository;
-import by.bsuir.repository.api.FlowerRepository;
+
 import by.bsuir.repository.api.cart.CartRepository;
-import by.bsuir.repository.api.user.ClientRepository;
 import by.bsuir.service.api.CartService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -35,180 +28,160 @@ public class CartServiceImpl implements CartService {
     private static final Logger logger = LoggerFactory.getLogger(CartServiceImpl.class);
 
     private final CartRepository cartRepository;
-    private final ClientRepository clientRepository;
-    private final FlowerRepository flowerRepository;
-    private final FlowerBouquetRepository flowerBouquetRepository;
     private final CartMapperDTO cartMapperDTO;
-    private final FlowerLengthCostRepository flowerLengthCostRepository;
 
     @Override
     @Transactional
     public CartDTO addItem(RequestCartItemDTO requestCartItemDTO) {
-        Client client = findClientById(requestCartItemDTO.getClientId());
-        AbstractFlowerProduct product = findAbstractFlowerProductById(requestCartItemDTO.getProductId());
+//        Client client = findClientById(requestCartItemDTO.getClientId());
+//        AbstractFlowerProduct product = findAbstractFlowerProductById(requestCartItemDTO.getProductId());
 
-        checkAvailableAmountOnStockOrException(product, requestCartItemDTO.getQuantity());
-
-        CartItem cartItem = new CartItem();
-        cartItem.setClient(client);
-        cartItem.setProduct(product);
-
-        cartItem.setFlowerLengthCost(resolveLengthCost(requestCartItemDTO.getFlowerLengthCostId()));
-        cartItem.setQuantity(requestCartItemDTO.getQuantity());
-
-        Cart cart = client.getCart();
-        cart.setShopId(product.getShop().getId());
-        List<CartItem> cartItems = cart.getCartItems();
-
-
-        int similarProductsInCart = 0;
-        for (CartItem item : cartItems) {
-            if (isAddedProductEqualsToOneFromCart(requestCartItemDTO, item)) {
-                item.setQuantity(item.getQuantity() + 1);
-                similarProductsInCart++;
-            }
-        }
-
-        if (similarProductsInCart == 0) {
-            cartItems.add(cartItem);
-        }
-
-
-        return buildCart(cart);
+//        checkAvailableAmountOnStockOrException(product, requestCartItemDTO.getQuantity());
+//
+//        CartItem cartItem = new CartItem();
+//        cartItem.setClientId(requestCartItemDTO.getClientId());
+//        cartItem.setProductId(requestCartItemDTO.getProductId());
+//
+//        cartItem.setProductLengthCostId(requestCartItemDTO.getProductLengthCostId());
+//        cartItem.setQuantity(requestCartItemDTO.getQuantity());
+//
+//        Cart cart = client.getCart();
+//        cart.getCartItems().add((cartItem));
+//
+//        return buildCart(cart);
+        return null;
     }
 
-    private boolean isAddedProductEqualsToOneFromCart(RequestCartItemDTO requestCartItemDTO, CartItem item) {
-        return item.getProduct().getId().equals(requestCartItemDTO.getProductId()) &&
-                item.getFlowerLengthCost().getId().equals(requestCartItemDTO.getFlowerLengthCostId());
-    }
-
-    private FlowerLengthCost resolveLengthCost(Long id) {
-        return flowerLengthCostRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Flower length cost with id=" + id + " not found"));
+    private void resolveLengthCost(Long id) {
+//         flowerLengthCostRepository.findById(id)
+//                .orElseThrow(() -> new ResourceNotFoundException("Flower length cost with id=" + id + " not found"));
     }
 
     @Override
     @Transactional
     public CartDTO updateItem(RequestCartItemDTO requestCartItemDTO) {
-        Client client = findClientById(requestCartItemDTO.getClientId());
-        AbstractFlowerProduct product = findAbstractFlowerProductById(requestCartItemDTO.getProductId());
-
-        checkAvailableAmountOnStockOrException(product, requestCartItemDTO.getQuantity());
-
-        Cart cart = client.getCart();
-        List<CartItem> cartItems = cart.getCartItems();
-
-        for (CartItem item : cartItems) {
-            if (item.getProduct().equals(product)) {
-                item.setQuantity(requestCartItemDTO.getQuantity());
-                item.setFlowerLengthCost(resolveLengthCost(requestCartItemDTO.getFlowerLengthCostId()));
-            }
-        }
-
-        return buildCart(cart);
+//        Client client = findClientById(requestCartItemDTO.getClientId());
+//        AbstractFlowerProduct product = findAbstractFlowerProductById(requestCartItemDTO.getProductId());
+//
+//        checkAvailableAmountOnStockOrException(product, requestCartItemDTO.getQuantity());
+//
+//        Cart cart = client.getCart();
+//        List<CartItem> cartItems = cart.getCartItems();
+//
+//        for (CartItem item : cartItems) {
+//            if (item.getProduct().equals(product)) {
+//                item.setQuantity(requestCartItemDTO.getQuantity());
+//                item.setFlowerLengthCost(resolveLengthCost(requestCartItemDTO.getProductLengthCostId()));
+//            }
+//        }
+//
+//        return buildCart(cart);
+        return null;
     }
 
     @Override
     @Transactional
     public CartDTO deleteItem(DeleteCartItemDTO deleteCartItemDTO) {
-        Client client = findClientById(deleteCartItemDTO.getClientId());
-        AbstractFlowerProduct product = findAbstractFlowerProductById(deleteCartItemDTO.getProductId());
-
-        Cart cart = client.getCart();
-        List<CartItem> cartItems = cart.getCartItems();
-        cartItems.removeIf(cartItem -> cartItem.getProduct().equals(product));
-
-        return buildCart(cart);
+//        Client client = findClientById(deleteCartItemDTO.getClientId());
+//        AbstractFlowerProduct product = findAbstractFlowerProductById(deleteCartItemDTO.getProductId());
+//
+//        Cart cart = client.getCart();
+//        List<CartItem> cartItems = cart.getCartItems();
+//        cartItems.removeIf(cartItem -> cartItem.getProduct().equals(product));
+//
+//        return buildCart(cart);
+        return null;
     }
 
     @Override
     @Transactional
     public CartDTO findCart(Long clientId) {
-        Client client = findClientById(clientId);
-        return buildCart(client.getCart());
+//        Client client = findClientById(clientId);
+//        return buildCart(client.getCart());
+        return null;
     }
 
 
-    private CartDTO buildCart(Cart cart) {
-
-        Double totalPrice = calculateTotalPrice(cart.getCartItems());
-        cart.setTotalPrice(totalPrice);
-
-        int totalElements = cart.getCartItems().size();
-
-        CartDTO cartDTO = cartMapperDTO.toDto(cart);
-        cartDTO.setTotalElements(totalElements);
-        cartDTO.setTotalPrice(cart.getTotalPrice());
-
-
-        cartRepository.save(cart);
-
-        return cartDTO;
-    }
-
-    private Double calculateTotalPrice(List<CartItem> cartItems) {
-
-        double totalSum = 0.0;
-
-        for (CartItem item : cartItems) {
-            Double price = item.getFlowerLengthCost().getPrice();
-            double total = price * item.getQuantity();
-            totalSum += total;
-        }
-
-        return totalSum;
-    }
-
-
-    private AbstractFlowerProduct findAbstractFlowerProductById(Long productId) {
-
-        AbstractFlowerProduct product;
-        if (flowerRepository.findById(productId).isPresent()) {
-            product = flowerRepository.getOne(productId);
-        } else {
-            product = flowerBouquetRepository.findById(productId)
-                    .orElseThrow(() -> {
-                        logger.error("No Flower or Flower Bouquet with id={}", productId);
-                        throw new ResourceNotFoundException("No Flower or Flower Bouquet with id=" + productId);
-                    });
-        }
-        return product;
-    }
-
-
-    private void checkAvailableAmountOnStockOrException(AbstractFlowerProduct product, Integer orderedAmount) {
-
-        Integer availableOnStock = product.getAvailableAmountOnStock();
-        boolean isEnoughToOrder = (availableOnStock - orderedAmount) >= 0;
-
-        if (availableOnStock == 0 || !isEnoughToOrder) {
-            if (product instanceof Flower) {
-                logger.error("You have ordered flower={} with amount={}, but available only={}!" +
-                        ((Flower) product).getFlowerType().getFlowerType() +
-                        +orderedAmount +
-                        availableOnStock);
-                throw new ServiceException(HttpStatus.CONFLICT.value(),
-                        "flowers_not_enough_on_stock",
-                        "You have ordered flower=" + ((Flower) product).getFlowerType().getFlowerType() +
-                                " with amount=" + orderedAmount + " ,but available only =" + availableOnStock);
-
-
-            } else {
-                logger.error("You have ordered flower bouquet={} with amount={}, but available only={}!" +
-                        ((FlowerBouquet) product).getTitle() +
-                        +orderedAmount +
-                        availableOnStock);
-                throw new ServiceException(HttpStatus.CONFLICT.value(),
-                        "flower_bouquets_not_enough_on_stock",
-                        "You have ordered flower bouquet=" + ((FlowerBouquet) product).getTitle() +
-                                " with amount=" + orderedAmount + " ,but available only =" + availableOnStock);
-            }
-        }
-    }
-
-
-    private Client findClientById(Long userId) {
-        return clientRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("No user with id=" + userId));
-    }
+//    private CartDTO buildCart(Cart cart) {
+//
+//        Double totalPrice = calculateTotalPrice(cart.getCartItems());
+//        cart.setTotalPrice(totalPrice);
+//
+//        int totalElements = cart.getCartItems().size();
+//
+//        CartDTO cartDTO = cartMapperDTO.toDto(cart);
+//        cartDTO.setTotalElements(totalElements);
+//        cartDTO.setTotalPrice(cart.getTotalPrice());
+//
+//
+//        cartRepository.save(cart);
+//
+//        return cartDTO;
+//    }
+//
+//    private Double calculateTotalPrice(List<CartItem> cartItems) {
+//
+//        double totalSum = 0.0;
+//
+//        for (CartItem item : cartItems) {
+//            Double price = item.getFlowerLengthCost().getPrice();
+//            double total = price * item.getQuantity();
+//            totalSum += total;
+//        }
+//
+//        return totalSum;
+//    }
+//
+//
+//    private AbstractFlowerProduct findAbstractFlowerProductById(Long productId) {
+//
+//        AbstractFlowerProduct product;
+//        if (flowerRepository.findById(productId).isPresent()) {
+//            product = flowerRepository.getOne(productId);
+//        } else {
+//            product = flowerBouquetRepository.findById(productId)
+//                    .orElseThrow(() -> {
+//                        logger.error("No Flower or Flower Bouquet with id={}", productId);
+//                        throw new ResourceNotFoundException("No Flower or Flower Bouquet with id=" + productId);
+//                    });
+//        }
+//        return product;
+//    }
+//
+//
+//    private void checkAvailableAmountOnStockOrException(AbstractFlowerProduct product, Integer orderedAmount) {
+//
+//        Integer availableOnStock = product.getAvailableAmountOnStock();
+//        boolean isEnoughToOrder = (availableOnStock - orderedAmount) >= 0;
+//
+//        if (availableOnStock == 0 || !isEnoughToOrder) {
+//            if (product instanceof Flower) {
+//                logger.error("You have ordered flower={} with amount={}, but available only={}!" +
+//                        ((Flower) product).getFlowerType().getFlowerType() +
+//                        +orderedAmount +
+//                        availableOnStock);
+//                throw new ServiceException(HttpStatus.CONFLICT.value(),
+//                        "flowers_not_enough_on_stock",
+//                        "You have ordered flower=" + ((Flower) product).getFlowerType().getFlowerType() +
+//                                " with amount=" + orderedAmount + " ,but available only =" + availableOnStock);
+//
+//
+//            } else {
+//                logger.error("You have ordered flower bouquet={} with amount={}, but available only={}!" +
+//                        ((FlowerBouquet) product).getTitle() +
+//                        +orderedAmount +
+//                        availableOnStock);
+//                throw new ServiceException(HttpStatus.CONFLICT.value(),
+//                        "flower_bouquets_not_enough_on_stock",
+//                        "You have ordered flower bouquet=" + ((FlowerBouquet) product).getTitle() +
+//                                " with amount=" + orderedAmount + " ,but available only =" + availableOnStock);
+//            }
+//        }
+//    }
+//
+//
+//    private Client findClientById(Long userId) {
+//        return clientRepository.findById(userId)
+//                .orElseThrow(() -> new ResourceNotFoundException("No user with id=" + userId));
+//    }
 }

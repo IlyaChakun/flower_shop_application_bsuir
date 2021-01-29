@@ -1,25 +1,21 @@
 package by.bsuir.dto.model.cart;
 
 import by.bsuir.dto.model.BaseAbstractDTO;
-import by.bsuir.dto.model.product.AbstractFlowerProductDTO;
-import by.bsuir.dto.model.product.common.FlowerLengthCostDTO;
-import by.bsuir.dto.model.user.ClientDTO;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
+@NoArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class CartItemDTO extends BaseAbstractDTO {
 
-    private ClientDTO client;
+    private Long basketId;
 
-    private AbstractFlowerProductDTO product;
+    private Long productId;
 
-    private FlowerLengthCostDTO flowerLengthCost;
+    private Long productLengthCostId;
 
     private Integer quantity;
 

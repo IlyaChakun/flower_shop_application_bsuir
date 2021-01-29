@@ -1,69 +1,53 @@
 package by.bsuir.security.service.impl;
 
 import by.bsuir.dto.mapper.user.UserMapperDTO;
-import by.bsuir.dto.model.user.AbstractUserDTO;
-import by.bsuir.entity.cart.Cart;
-import by.bsuir.entity.user.AbstractUser;
-import by.bsuir.entity.user.Client;
-import by.bsuir.entity.user.Role;
-import by.bsuir.entity.user.UserRoles;
+import by.bsuir.dto.model.user.UserDTO;
+import by.bsuir.entity.user.User;
 import by.bsuir.entity.user.token.UserConfirmationToken;
 import by.bsuir.payload.exception.ResourceNotFoundException;
-import by.bsuir.repository.api.user.ClientRepository;
-import by.bsuir.repository.api.user.RoleRepository;
-import by.bsuir.repository.api.user.UserBaseRepository;
 import by.bsuir.repository.api.user.UserConfirmationTokenRepository;
-import by.bsuir.security.dto.signup.ClientSignUpRequest;
+import by.bsuir.repository.api.user.UserRepository;
+import by.bsuir.security.dto.signup.UserSignUpRequest;
 import by.bsuir.security.exception.ConfirmationTokeBrokenLinkException;
 import by.bsuir.security.exception.DuplicateEmailException;
 import by.bsuir.security.mail.UserSecurityMailService;
 import by.bsuir.security.service.api.UserSecurityService;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
 import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class UserSecurityServiceImpl implements UserSecurityService {
 
-    private final UserBaseRepository userRepository;
-    private final ClientRepository clientRepository;
-    private final RoleRepository roleRepository;
+    private static final Logger logger = LoggerFactory.getLogger(UserSecurityServiceImpl.class);
+
+    private final UserRepository userRepository;
     private final UserConfirmationTokenRepository userConfirmationTokenRepository;
     private final UserSecurityMailService userSecurityMailService;
 
     private final UserMapperDTO userMapper;
-    private final ClientConverter clientConverter;
+    private final UserConverter userConverter;
 
     @Override
     @Transactional
-    public AbstractUserDTO registerClient(ClientSignUpRequest signUpRequest) {
+    public UserDTO registerUser(UserSignUpRequest signUpRequest) {
 
-        userRepository.findByEmail(signUpRequest.getEmail())
-                .ifPresent(value -> {
-                            throw new DuplicateEmailException("Email address " + value.getEmail() + " already in use.");
-                        }
-                );
+        checkUserEmailAvailability(signUpRequest.getEmail());
 
-        Client client = clientConverter.getClient(signUpRequest);
+        User client = userRepository.save(userConverter.getUser(signUpRequest));
+        createAndSendConfirmationToken(client);
+        return this.userMapper.toDto(client);
 
-        Cart cart = new Cart();
-        client.setCart(cart);
-
-        Client savedClient = clientRepository.save(client);
-        //
-        UserConfirmationToken confirmationToken = new UserConfirmationToken(client);
-        userConfirmationTokenRepository.save(confirmationToken);
-        doSendConfirmationMail(client, confirmationToken);
-        return userMapper.toDto(savedClient);
     }
 
-    private void doSendConfirmationMail(Client client, UserConfirmationToken confirmationToken) {
+    private void doSendConfirmationMail(User user, UserConfirmationToken confirmationToken) {
         //
-        userSecurityMailService.sendConfirmAccountEmail(client.getEmail(), confirmationToken.getConfirmationToken());
+        userSecurityMailService.sendConfirmAccountEmail(user.getEmail(), confirmationToken.getConfirmationToken());
         //
     }
 
@@ -74,14 +58,20 @@ public class UserSecurityServiceImpl implements UserSecurityService {
     }
 
     @Override
-    public Optional<AbstractUserDTO> findByEmail(String email) {
-        Optional<AbstractUser> userOptional = userRepository.findByEmail(email);
+    public Optional<UserDTO> findByEmail(String email) {
+        Optional<User> userOptional = userRepository.findByEmail(email);
         return userOptional.map(userMapper::toDto);
     }
 
     @Override
-    public AbstractUserDTO getOne(Long id) {
+    public UserDTO getOne(Long id) {
         return userMapper.toDto(userRepository.getOne(id));
+    }
+
+    @Override
+    public UserDTO findById(Long id) {
+        return userMapper.toDto(userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User with id=" + id + " not found.")));
     }
 
     @Override
@@ -91,7 +81,7 @@ public class UserSecurityServiceImpl implements UserSecurityService {
         Optional<UserConfirmationToken> token = userConfirmationTokenRepository.findByConfirmationToken(confirmationToken);
 
         if (token.isPresent()) {
-            AbstractUser user = userRepository.getByEmail(token.get().getUser().getEmail());
+            User user = userRepository.getByEmail(token.get().getUser().getEmail());
             user.setMailConfirmed(true);
             userRepository.save(user);
         } else {
@@ -101,41 +91,50 @@ public class UserSecurityServiceImpl implements UserSecurityService {
 
     @Override
     @Transactional
-    public AbstractUserDTO save(AbstractUserDTO abstractUserDTO) {
+    public UserDTO saveClient(UserDTO userDTO) {
+        return doSaveUser(userDTO);
+    }
 
-        clientRepository.findByEmail(abstractUserDTO.getEmail())
-                .ifPresent(value -> {
-                            throw new DuplicateEmailException("Email address " + value.getEmail() + " already in use.");
-                        }
-                );
 
-        Client userToSave = new Client();
-        userToSave.setName(abstractUserDTO.getName());
-        userToSave.setEmail(abstractUserDTO.getEmail());
-        userToSave.setProvider(abstractUserDTO.getProvider());
+    private UserDTO doSaveUser(UserDTO userDTO) {
+        checkUserEmailAvailability(userDTO.getEmail());
 
-        Role role = roleRepository.findByName(UserRoles.ROLE_CLIENT.getRoleName());
-        userToSave.setRoles(Collections.singleton(role));
+        User userToSave = userConverter.getUser(userDTO);
 
-        Client savedClient = clientRepository.save(userToSave);
+        User savedClient = userRepository.save(userToSave);
         //
-        UserConfirmationToken confirmationToken = new UserConfirmationToken(savedClient);
-        userConfirmationTokenRepository.save(confirmationToken);
-        doSendConfirmationMail(savedClient, confirmationToken);
+        createAndSendConfirmationToken(savedClient);
         //
         return userMapper.toDto(savedClient);
     }
 
+    private void createAndSendConfirmationToken(User savedUser) {
+        UserConfirmationToken confirmationToken = new UserConfirmationToken(savedUser);
+        userConfirmationTokenRepository.save(confirmationToken);
+        doSendConfirmationMail(savedUser, confirmationToken);
+    }
+
+    private void checkUserEmailAvailability(String email) {
+        logger.info("find users by email {}", email);
+        userRepository.findByEmail(email).ifPresent(value -> System.out.println(value.getEmail()));
+
+        userRepository.findByEmail(email)
+                .ifPresent(value -> {
+                            throw new DuplicateEmailException("Email address " + value.getEmail() + " already in use.");
+                        }
+                );
+    }
+
     @Override
     @Transactional
-    public AbstractUserDTO update(AbstractUserDTO abstractUserDTO) {
+    public UserDTO update(UserDTO userDTO) {
 
-        Client prevUser = clientRepository.findById(abstractUserDTO.getId())
+        User prevUser = userRepository.findById(userDTO.getId())
                 .orElseThrow(() ->
-                        new ResourceNotFoundException("Client with id = " + abstractUserDTO.getId() + " not found!")
+                        new ResourceNotFoundException("Client with id = " + userDTO.getId() + " not found!")
                 );
 
-        clientConverter.resetClientField(prevUser, abstractUserDTO);
+        userConverter.resetClientField(prevUser, userDTO);
 
         return userMapper.toDto(prevUser);
     }

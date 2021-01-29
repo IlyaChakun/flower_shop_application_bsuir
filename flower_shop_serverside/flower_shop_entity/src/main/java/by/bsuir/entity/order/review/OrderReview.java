@@ -1,39 +1,31 @@
 package by.bsuir.entity.order.review;
 
 import by.bsuir.entity.AbstractEntity;
-import by.bsuir.entity.order.Order;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
-import java.time.LocalDateTime;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
-/**
- * ОТЗЫВЫ
- */
 @Entity
-@Table(name = "transportation_reviews")
+@Table(name = "order_reviews")
 @Getter
 @Setter
 @NoArgsConstructor
 public class OrderReview extends AbstractEntity {
 
-    @Column(name = "comment", nullable = false, length = 512)
-    private String comment;
+    @Column(name = "client_id", nullable = false)
+    private Long clientId;
 
-    @Column(name = "rate", nullable = false)
-    private Short rate;
+    @Column(name = "order_id", nullable = false)
+    private Long orderId;
 
-    @Column(name = "comment_date", nullable = false)
-    private LocalDateTime commentDate;
+    @Column(name = "text")
+    private String text;
 
-    @OneToOne
-    private Order transportOrder;
-
-    @PrePersist
-    protected void transportReviewPreInit() {
-        this.commentDate = LocalDateTime.now();
-    }
+    @Column(name = "rating")
+    private Integer rating;
 
 }

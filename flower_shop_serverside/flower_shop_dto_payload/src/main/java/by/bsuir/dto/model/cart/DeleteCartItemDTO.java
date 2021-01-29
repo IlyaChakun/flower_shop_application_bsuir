@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class DeleteCartItemDTO {
 
+    @NotNull(message = "clientId must be set")
     private Long clientId;
 
     @NotNull(message = "productId must be set")

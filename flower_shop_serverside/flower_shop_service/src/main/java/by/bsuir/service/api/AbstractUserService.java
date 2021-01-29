@@ -1,8 +1,8 @@
 package by.bsuir.service.api;
 
-import by.bsuir.dto.model.user.AbstractUserDTO;
+import by.bsuir.dto.model.user.UserDTO;
 
-public interface AbstractUserService<T extends AbstractUserDTO> {
+public interface AbstractUserService<T extends UserDTO> {
 
     T findByEmail(String email);
 

@@ -1,18 +1,24 @@
 package by.bsuir.service.api;
 
+
 import by.bsuir.dto.model.PageWrapper;
-import by.bsuir.dto.model.order.OrderDTO;
-import by.bsuir.dto.model.order.OrderRequestDTO;
+import by.bsuir.dto.model.order.BaseOrderDTO;
+import by.bsuir.dto.model.order.buynow.BuyNowOrderDTO;
+import by.bsuir.dto.model.order.criteria.BuyNowOrderSearchCriteriaDTO;
+import by.bsuir.dto.model.order.criteria.UsualOrderSearchCriteriaDTO;
+import by.bsuir.dto.model.order.partial.OrderPartialUpdate;
+import by.bsuir.dto.model.order.usual.UsualOrderDTO;
+import by.bsuir.service.core.base.FindOperationService;
+import by.bsuir.service.core.base.SaveOperationService;
 
-public interface OrderService {
+public interface OrderService extends
+        SaveOperationService<BaseOrderDTO>,
+        FindOperationService<BaseOrderDTO> {
 
-    OrderDTO saveOrder(OrderRequestDTO orderRequest);
+    void partialUpdate(OrderPartialUpdate partialUpdate);
 
-    OrderDTO findByIdAndClientId(Long orderId, Long userId);
+    PageWrapper<UsualOrderDTO> findAll(int page, int size, UsualOrderSearchCriteriaDTO searchParams);
 
-    OrderDTO findById(Long orderId);
+    PageWrapper<BuyNowOrderDTO> findAll(int page, int size, BuyNowOrderSearchCriteriaDTO searchParams);
 
-    PageWrapper<OrderDTO> findAllByClientId(int page, int size, Long userId);
-
-    PageWrapper<OrderDTO> findAllByShopId(int page, int size, Long shopId);
 }

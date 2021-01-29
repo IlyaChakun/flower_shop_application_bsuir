@@ -1,15 +1,15 @@
 package by.bsuir.entity.company;
 
 import by.bsuir.entity.AbstractEntity;
-import by.bsuir.entity.user.ShopAdmin;
+import by.bsuir.entity.common.Image;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "companies")
@@ -19,8 +19,7 @@ import java.util.Set;
 @Setter
 public class Company extends AbstractEntity {
 
-    @OneToOne
-    private ShopAdmin shopAdmin;
+   private Long adminId;
 
     @Column(name = "name", length = 48)
     private String name;
@@ -35,15 +34,6 @@ public class Company extends AbstractEntity {
 
     private CompanyLegalAddress companyLegalAddress;
 
-    // private Image logo;
-
-    @OneToMany(
-            cascade = {
-                    CascadeType.MERGE,
-                    CascadeType.PERSIST
-            },
-            fetch = FetchType.LAZY,
-            mappedBy = "company")
-    private Set<Shop> shops = new HashSet<>();
+    private Image logo;
 
 }

@@ -1,22 +1,13 @@
 package by.bsuir.entity.cart;
 
 import by.bsuir.entity.AbstractEntity;
-import by.bsuir.entity.user.Client;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
-import javax.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "carts")
@@ -25,26 +16,14 @@ import lombok.Setter;
 @Setter
 public class Cart extends AbstractEntity {
 
-    @OneToOne(mappedBy = "cart")
-    private Client client;
+    @Column(name = "client_id")
+    private Long clientId;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "basket_id")
     private List<CartItem> cartItems = new ArrayList<>();
 
     @Column(name = "total_price", nullable = false)
     private Double totalPrice = 0D;
-
-    @PrePersist
-    private void onCreate() {
-        super.setDateOfLastUpdate(LocalDateTime.now());
-    }
-
-    @PreUpdate
-    private void onUpdate() {
-        super.setDateOfLastUpdate(LocalDateTime.now());
-    }
-
-    @Column(name = "shop_id")
-    private Long shopId;
 
 }

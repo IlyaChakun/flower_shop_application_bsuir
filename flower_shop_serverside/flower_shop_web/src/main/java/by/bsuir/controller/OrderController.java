@@ -1,30 +1,27 @@
 package by.bsuir.controller;
 
+
 import by.bsuir.dto.model.PageWrapper;
-import by.bsuir.dto.model.order.OrderDTO;
-import by.bsuir.dto.model.order.OrderRequestDTO;
-import by.bsuir.dto.model.user.ClientDTO;
+import by.bsuir.dto.model.order.BaseOrderDTO;
+import by.bsuir.dto.model.order.buynow.BuyNowOrderDTO;
+import by.bsuir.dto.model.order.criteria.BuyNowOrderSearchCriteriaDTO;
+import by.bsuir.dto.model.order.criteria.UsualOrderSearchCriteriaDTO;
+import by.bsuir.dto.model.order.partial.OrderPartialUpdate;
+import by.bsuir.dto.model.order.usual.UsualOrderDTO;
 import by.bsuir.dto.validation.annotation.PositiveLong;
-import by.bsuir.security.core.CurrentUser;
-import by.bsuir.security.core.UserPrincipal;
-import by.bsuir.service.api.ClientService;
+import by.bsuir.security.dto.ApiResponse;
 import by.bsuir.service.api.OrderService;
-import by.bsuir.service.api.ShopAdminService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.net.URI;
 
 import static by.bsuir.controller.ControllerHelper.checkBindingResultAndThrowExceptionIfInvalid;
 
-@Validated
 @RestController
 @RequestMapping("/orders")
 @AllArgsConstructor
@@ -32,60 +29,84 @@ import static by.bsuir.controller.ControllerHelper.checkBindingResultAndThrowExc
 public class OrderController {
 
     private final OrderService orderService;
-    private final ClientService cLientService;
-    private final ShopAdminService shopAdminService;
 
-    @PreAuthorize("hasAnyAuthority('ROLE_CLIENT', 'ROLE_ADMIN')")
+
+    @GetMapping("/buy-now-orders")
+    public ResponseEntity<PageWrapper<BuyNowOrderDTO>> findAllBuyNowOrders(
+            @RequestParam(defaultValue = "1", required = false) Integer page,
+            @RequestParam(defaultValue = "10", required = false) Integer size,
+            BuyNowOrderSearchCriteriaDTO buyNowOrderSearchCriteriaDTO) {
+
+        PageWrapper<BuyNowOrderDTO> wrapper = orderService.findAll(page - 1, size, buyNowOrderSearchCriteriaDTO);
+
+        return ResponseEntity.ok(wrapper);
+    }
+
+    @GetMapping
+    public ResponseEntity<PageWrapper<UsualOrderDTO>> findAllUsualOrders(
+            @RequestParam(defaultValue = "1", required = false) Integer page,
+            @RequestParam(defaultValue = "10", required = false) Integer size,
+            UsualOrderSearchCriteriaDTO orderSearchCriteriaCriteria) {
+
+        PageWrapper<UsualOrderDTO> wrapper = orderService.findAll(page - 1, size, orderSearchCriteriaCriteria);
+
+        return ResponseEntity.ok(wrapper);
+    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<OrderDTO> findById(@PathVariable("id") @PositiveLong String id,
-                                             @CurrentUser UserPrincipal userPrincipal) {
+    //@Secured("ROLE_CLIENT")
+    public ResponseEntity<?> findById(@PathVariable("id") @PositiveLong String id) {
 
-        boolean isAdmin = shopAdminService.existsByEmail(userPrincipal.getEmail());
-
-        OrderDTO orderDTO;
-
-        if (isAdmin) {
-            orderDTO = orderService.findById(Long.valueOf(id));
-        } else {
-            ClientDTO clientDTO = getClient(userPrincipal);
-            orderDTO = orderService.findByIdAndClientId(Long.valueOf(id), clientDTO.getId());
-        }
+        BaseOrderDTO orderDTO = orderService.findById(Long.valueOf(id));
 
         return ResponseEntity.ok(orderDTO);
     }
 
-    @PreAuthorize("hasAnyAuthority('ROLE_CLIENT')")
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> orderPartialUpdate(@PathVariable("id") @PositiveLong String id,
+                                                @RequestBody @Valid OrderPartialUpdate orderPartialUpdate,
+                                                BindingResult result) {
+        checkBindingResultAndThrowExceptionIfInvalid(result);
+
+        orderService.partialUpdate(orderPartialUpdate);
+
+        BaseOrderDTO orderDTO = orderService.findById(Long.valueOf(id));
+
+        return ResponseEntity.ok(orderDTO);
+    }
+
     @PostMapping
-    public ResponseEntity<OrderDTO> saveOrder(@RequestBody @Valid OrderRequestDTO orderRequest,
-                                              @CurrentUser UserPrincipal userPrincipal,
-                                              BindingResult bindingResult) {
-        checkBindingResultAndThrowExceptionIfInvalid(bindingResult);
+    //@Secured("ROLE_CLIENT")
+    public ResponseEntity<ApiResponse> saveOrder(@RequestBody @Valid UsualOrderDTO usualOrderDTO,
+                                                 BindingResult result) {
+        checkBindingResultAndThrowExceptionIfInvalid(result);
 
-        orderRequest.setClientId(userPrincipal.getId());
+        BaseOrderDTO order = orderService.save(usualOrderDTO);
 
-        OrderDTO order = orderService.saveOrder(orderRequest);
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                .buildAndExpand(order.getId()).toUri());
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentContextPath()
+                .path("/orders/{id}")
+                .buildAndExpand(order.getId())
+                .toUri();
 
-        return new ResponseEntity<>(order, httpHeaders, HttpStatus.CREATED);
+        return ResponseEntity.created(location)
+                .body(new ApiResponse(true, "Order registered successfully!"));
     }
 
-    @PreAuthorize("hasAnyAuthority('ROLE_CLIENT', 'ROLE_ADMIN')")
-    @GetMapping()
-    public ResponseEntity<PageWrapper<OrderDTO>> findAll(@CurrentUser UserPrincipal userPrincipal,
-                                                         @RequestParam(defaultValue = "1", required = false) Integer page,
-                                                         @RequestParam(defaultValue = "10", required = false) Integer size) {
+    @PostMapping("/buy-now-orders")
+    public ResponseEntity<ApiResponse> saveBuyNowOrder(@RequestBody @Valid BuyNowOrderDTO buyNowOrderDTO,
+                                                       BindingResult result) {
+        checkBindingResultAndThrowExceptionIfInvalid(result);
 
-        ClientDTO clientDTO = getClient(userPrincipal);
+        BaseOrderDTO order = orderService.save(buyNowOrderDTO);
 
-        PageWrapper<OrderDTO> wrapper = orderService.findAllByClientId(page - 1, size, clientDTO.getId());
-        return ResponseEntity.ok(wrapper);
-    }
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentContextPath()
+                .path("/orders/{id}")
+                .buildAndExpand(order.getId())
+                .toUri();
 
-
-    private ClientDTO getClient(UserPrincipal userPrincipal) {
-        final String userEmail = userPrincipal.getEmail();
-        return cLientService.findByEmail(userEmail);
+        return ResponseEntity.created(location)
+                .body(new ApiResponse(true, "Order registered successfully!"));
     }
 }

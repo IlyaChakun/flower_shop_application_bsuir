@@ -1,8 +1,8 @@
 package by.bsuir.controller;
 
 import by.bsuir.dto.model.AbstractDTO;
-import by.bsuir.payload.exception.ControllerException;
 import by.bsuir.exception.IllegalRequestException;
+import by.bsuir.payload.exception.ControllerException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 
@@ -18,7 +18,6 @@ final class ControllerHelper {
             throw new IllegalRequestException(result.getFieldErrors());
         }
     }
-
 
     static void isIdInsideDtoOrThrowException(AbstractDTO abstractDTO){
         if (Objects.isNull(abstractDTO.getId())){

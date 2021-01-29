@@ -1,8 +1,7 @@
 package by.bsuir.dto.model.company;
 
 import by.bsuir.dto.model.AbstractDTO;
-import by.bsuir.dto.model.user.ShopAdminDTO;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import by.bsuir.entity.common.Image;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,8 +9,6 @@ import lombok.Setter;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Getter
@@ -19,13 +16,13 @@ import java.util.List;
 @NoArgsConstructor
 public class CompanyDTO extends AbstractDTO {
 
-    @Valid
-    private ShopAdminDTO shopAdmin;
+    private Long adminId;
 
     @NotBlank(message = "Название организации не может быть пустым")
     @Size(max = 48, message = "Название организации не более 48 символов!")
     private String name;
 
+    @NotBlank
     @Size(max = 512, message = "Описание для организации не более 48 символов!")
     private String description;
 
@@ -38,8 +35,6 @@ public class CompanyDTO extends AbstractDTO {
     @Valid
     private CompanyLegalAddressDTO companyLegalAddress;
 
-    @Valid
-    @JsonBackReference
-    private List<ShopDTO> shops = new ArrayList<>();
+    private Image logo;
 
 }

@@ -22,5 +22,4 @@ public class AuthTokenResponse {
 
     private String tokenType = SecurityContextConstants.VALID_TOKEN_TYPE.getValue();
 
-
 }

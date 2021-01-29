@@ -1,8 +1,11 @@
 package by.bsuir.security.oauth2;
 
 
-import by.bsuir.dto.model.user.AbstractUserDTO;
+import by.bsuir.dto.model.common.ImageDTO;
+import by.bsuir.dto.model.user.UserDTO;
+import by.bsuir.dto.model.user.UserRoleDTO;
 import by.bsuir.entity.user.SupportedAuthProvider;
+import by.bsuir.entity.user.UserRoles;
 import by.bsuir.security.core.UserPrincipal;
 import by.bsuir.security.exception.OAuth2AuthenticationProcessingException;
 import by.bsuir.security.oauth2.user.OAuth2UserInfo;
@@ -55,9 +58,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             throw new OAuth2AuthenticationProcessingException("Email not found from OAuth2 provider");
         }
 
-        final Optional<AbstractUserDTO> userOptional = userService.findByEmail(oAuth2UserInfo.getEmail());
+        final Optional<UserDTO> userOptional = userService.findByEmail(oAuth2UserInfo.getEmail());
 
-        AbstractUserDTO user;
+        UserDTO user;
         if (userOptional.isPresent()) {
             user = userOptional.get();
             resolveProvider(oAuth2UserRequest, user);
@@ -70,7 +73,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     private void resolveProvider(final OAuth2UserRequest oAuth2UserRequest,
-                                 final AbstractUserDTO user) {
+                                 final UserDTO user) {
         if (!user.getProvider().equals(
                 SupportedAuthProvider.valueOf(
                         oAuth2UserRequest.getClientRegistration().getRegistrationId()))) {
@@ -81,24 +84,24 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
 
-    private AbstractUserDTO registerNewUser(final OAuth2UserRequest oAuth2UserRequest,
-                                            final OAuth2UserInfo oAuth2UserInfo) {
-        AbstractUserDTO user = new AbstractUserDTO();
+    private UserDTO registerNewUser(final OAuth2UserRequest oAuth2UserRequest,
+                                    final OAuth2UserInfo oAuth2UserInfo) {
+        UserDTO user = new UserDTO();
         user.setProvider(SupportedAuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()));
         user.setName(oAuth2UserInfo.getName());
         user.setEmail(oAuth2UserInfo.getEmail());
-//        user.setImageUrl(oAuth2UserInfo.getImageUrl());
-//        user.setLastVisit(LocalDateTime.now());
+        user.setImage(new ImageDTO(oAuth2UserInfo.getImageUrl()));
+        user.setUserRole(new UserRoleDTO(UserRoles.ROLE_CLIENT));
 
-        return userService.save(user);
+        return userService.saveClient(user);
     }
 
-    private AbstractUserDTO updateExistingUser(final AbstractUserDTO existingUser,
-                                               final OAuth2UserInfo oAuth2UserInfo) {
+    private UserDTO updateExistingUser(final UserDTO existingUser,
+                                       final OAuth2UserInfo oAuth2UserInfo) {
         existingUser.setName(oAuth2UserInfo.getName());
         //existingUser.setImageUrl(oAuth2UserInfo.getImageUrl());
 
-        return userService.save(existingUser);
+        return userService.saveClient(existingUser);
     }
 
 }

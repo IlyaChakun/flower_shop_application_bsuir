@@ -1,7 +1,7 @@
 package by.bsuir.entity.user.token;
 
 import by.bsuir.entity.AbstractEntity;
-import by.bsuir.entity.user.AbstractUser;
+import by.bsuir.entity.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,11 +19,11 @@ public class UserConfirmationToken extends AbstractEntity {
     @Column(name = "confirmation_token")
     private String confirmationToken;
 
-    @OneToOne(targetEntity = AbstractUser.class, fetch = FetchType.EAGER)
+    @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "user_id")
-    private AbstractUser user;
+    private User user;
 
-    public UserConfirmationToken(AbstractUser user) {
+    public UserConfirmationToken(User user) {
         this.user = user;
         confirmationToken = UUID.randomUUID().toString();
     }

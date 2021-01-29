@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CartRepository extends AbstractRepository<Cart> {
 
-    Cart getByClientId(long id);
+    Cart getByClientId(Long id);
 }

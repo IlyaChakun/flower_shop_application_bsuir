@@ -22,10 +22,14 @@ public abstract class AbstractEntity extends BaseAbstractEntity {
     @Column(name = "date_of_last_update")
     private LocalDateTime dateOfLastUpdate;
 
+    @Column(name = "unique_id")
+    private String uniqueId;//для понтов типо униклаьный ид хз зачем пригодиться
+
     @PrePersist
     protected void abstractEntityPreInit() {
         this.dateOfCreation = LocalDateTime.now();
         this.dateOfLastUpdate = LocalDateTime.now();
+        this.uniqueId = java.util.UUID.randomUUID().toString();
     }
 
     @PreUpdate
