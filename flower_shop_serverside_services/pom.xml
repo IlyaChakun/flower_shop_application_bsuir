@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>by.bsuir.flowershop</groupId>
+    <artifactId>flower_shop_serverside_services</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <parent>
+        <groupId>com.github.iChekun</groupId>
+        <artifactId>parent_project</artifactId>
+        <version>c308855642</version>
+    </parent>
+
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+        <repository>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>central</id>
+            <name>bintray</name>
+            <url>https://jcenter.bintray.com</url>
+        </repository>
+    </repositories>
+
+    <modules>
+        <module>flower_shop_account_service</module>
+        <module>flower_shop_company_service</module>
+
+    </modules>
+
+    <name>parent_service</name>
+
+    <properties>
+        <!-- project global properties-->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>9</java.version>
+        <maven.compiler.source>1.9</maven.compiler.source>
+        <maven.compiler.target>1.9</maven.compiler.target>
+    </properties>
+
+
+    <dependencies>
+
+        <dependency>
+            <groupId>com.github.iChekun.parent_project</groupId>
+            <artifactId>email_service_core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.iChekun.parent_project</groupId>
+            <artifactId>common_payload</artifactId>
+        </dependency>
+
+    </dependencies>
+
+</project>
