@@ -41,6 +41,12 @@ import {
 const {Content} = Layout
 
 
+notification.config({
+    placement: "topRight",
+    top: 70,
+    duration: 2,
+})
+
 function App(props) {
     const history = useHistory()
 
@@ -54,64 +60,6 @@ function App(props) {
         isAuthenticated,
     } = useSelector(authSelector)
 
-
-    // constructor(props) {
-    //     super(props)
-    //     // this.state = {
-    //     //     currentUser: null,
-    //     //
-    //     //     currentCompany: null,
-    //     //
-    //     //     isAuthenticated: false,
-    //     //     isLoading: true,
-    //     //
-    //     // }
-    //
-    //     notification.config({
-    //         placement: "topRight",
-    //         top: 70,
-    //         duration: 2,
-    //     })
-    // }
-
-    // loadCurrentCompany = () => {
-    //
-    //     getCurrentCompanyRequest()
-    //         .then(response => {
-    //             this.setState({
-    //                 currentCompany: response,
-    //                 isLoading: false
-    //             })
-    //         }).catch(() => {
-    //         this.setState({
-    //             isLoading: false
-    //         })
-    //     })
-    //
-    // }
-    //
-    // loadCurrentUser = () => {
-    //
-    //     this.setState({
-    //         isLoading: true
-    //     })
-    //     getCurrentUserRequest()
-    //         .then(response => {
-    //             console.log(response)
-    //
-    //             this.setState({
-    //                 currentUser: response,
-    //                 isAuthenticated: true
-    //             })
-    //         }).catch(() => {
-    //     })
-    //
-    // }
-
-    // componentDidMount() {
-    //     // this.loadCurrentUser()
-    //     // this.loadCurrentCompany()
-    // }
 
     useEffect(() => {
         dispatch(getCurrentUser())
@@ -129,10 +77,6 @@ function App(props) {
 
         dispatch(setCurrentUser(null))
         dispatch(setIsAuthenticated(false))
-        // this.setState({
-        //     currentUser: null,
-        //     isAuthenticated: false
-        // })
 
         // props.history.push(redirectTo)
         history.push(redirectTo)
@@ -149,7 +93,6 @@ function App(props) {
             description: localizedStrings.alertSuccessLogin,
         })
         dispatch(getCurrentUser())
-        // this.props.history.push("/profile")
         history.push("/profile")
     }
 

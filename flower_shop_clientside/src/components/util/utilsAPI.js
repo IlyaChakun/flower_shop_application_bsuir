@@ -82,7 +82,7 @@ const request = (options, grantType) => {
 
 export function loginRequest (loginRequest) {
   return request({
-    url: BASE_URL + 'auth/user/login',
+    url: BASE_URL + 'auth/users/login',
     method: 'POST',
     body: JSON.stringify(loginRequest)
   })
@@ -90,7 +90,7 @@ export function loginRequest (loginRequest) {
 
 export function signUpRequest (signupRequest) {
   return request({
-    url: BASE_URL + 'auth/user/client/sign-up',
+    url: BASE_URL + 'auth/users/sign-up',
     method: 'POST',
     body: JSON.stringify(signupRequest)
   })
