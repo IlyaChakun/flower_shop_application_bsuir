@@ -10,33 +10,22 @@
     <packaging>pom</packaging>
 
     <parent>
-        <groupId>com.github.iChekun</groupId>
-        <artifactId>parent_project</artifactId>
-        <version>c308855642</version>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.3.3.RELEASE</version>
+        <relativePath/>
     </parent>
 
-    <repositories>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-        <repository>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <id>central</id>
-            <name>bintray</name>
-            <url>https://jcenter.bintray.com</url>
-        </repository>
-    </repositories>
 
     <modules>
         <module>flower_shop_account_service</module>
         <module>flower_shop_company_service</module>
-
+        <module>common_email_service_core</module>
+        <module>common_payload</module>
     </modules>
 
     <name>parent_service</name>
+
 
     <properties>
         <!-- project global properties-->
@@ -45,20 +34,156 @@
         <java.version>9</java.version>
         <maven.compiler.source>1.9</maven.compiler.source>
         <maven.compiler.target>1.9</maven.compiler.target>
+        <!-- dependencies versions-->
+        <spring-global-version>2.3.3.RELEASE</spring-global-version>
+        <spring-security-taglibs-version>5.1.6.RELEASE</spring-security-taglibs-version>
+        <mysql-connector-java-version>8.0.17</mysql-connector-java-version>
+        <model-mapper-version>2.3.8</model-mapper-version>
+        <lombok-version>1.18.12</lombok-version>
+        <passay-version>1.0</passay-version>
+        <guava-version>20.0</guava-version>
+        <open-pdf-version>1.3.8</open-pdf-version>
+        <apache-http-client-version>4.5.12</apache-http-client-version>
+        <apache-tomcat-emdeb-version>9.0.37</apache-tomcat-emdeb-version>
+        <jstl-version>1.2</jstl-version>
     </properties>
 
 
     <dependencies>
 
+        <!-- lombok -->
         <dependency>
-            <groupId>com.github.iChekun.parent_project</groupId>
-            <artifactId>email_service_core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.iChekun.parent_project</groupId>
-            <artifactId>common_payload</artifactId>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok-version}</version>
+            <scope>provided</scope>
         </dependency>
 
+
     </dependencies>
+
+    <dependencyManagement>
+
+        <dependencies>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>common_email_service_core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>common_payload</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>flower_shop_account_service</artifactId>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>flower_shop_company_service</artifactId>
+            </dependency>
+
+
+            <!-- SPRING -->
+
+            <!-- web -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>${spring-global-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>0.9.1</version>
+            </dependency>
+
+            <!-- JPA -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-jpa</artifactId>
+                <version>${spring-global-version}</version>
+            </dependency>
+
+            <!-- security dependencies -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-security</artifactId>
+                <version>${spring-global-version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-oauth2-client</artifactId>
+                <version>5.2.1.RELEASE</version>
+            </dependency>
+
+            <!-- spring mail -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-mail</artifactId>
+                <version>${spring-global-version}</version>
+            </dependency>
+
+            <!-- validation -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-validation</artifactId>
+                <version>${spring-global-version}</version>
+            </dependency>
+
+            <!-- Password Validation -->
+            <dependency>
+                <groupId>org.passay</groupId>
+                <artifactId>passay</artifactId>
+                <version>${passay-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava-version}</version>
+            </dependency>
+
+            <!-- -->
+
+            <!-- DB DRIVER -->
+            <!--  mysql connector -->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql-connector-java-version}</version>
+                <scope>runtime</scope>
+            </dependency>
+
+            <!-- for quick mapping -->
+            <dependency>
+                <groupId>org.modelmapper</groupId>
+                <artifactId>modelmapper</artifactId>
+                <version>${model-mapper-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${apache-http-client-version}</version>
+            </dependency>
+
+            <!-- Pdf library -->
+            <dependency>
+                <groupId>com.github.librepdf</groupId>
+                <artifactId>openpdf</artifactId>
+                <version>${open-pdf-version}</version>
+            </dependency>
+
+        </dependencies>
+
+    </dependencyManagement>
 
 </project>

@@ -36,6 +36,17 @@
             <artifactId>jjwt</artifactId>
         </dependency>
 
+
+
+        <dependency>
+            <groupId>by.bsuir.flowershop</groupId>
+            <artifactId>common_payload</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>by.bsuir.flowershop</groupId>
+            <artifactId>common_email_service_core</artifactId>
+        </dependency>
+
     </dependencies>
 
 
