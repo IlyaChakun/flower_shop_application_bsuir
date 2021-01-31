@@ -1,4 +1,4 @@
-package by.bsuir.security.dto;
+package by.bsuir.dto.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

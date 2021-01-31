@@ -1,10 +1,10 @@
 package by.bsuir.controller;
 
 
+import by.bsuir.dto.model.ApiResponse;
 import by.bsuir.dto.user.UserDTO;
 
 import by.bsuir.security.core.TokenProvider;
-import by.bsuir.security.dto.ApiResponse;
 import by.bsuir.security.dto.AuthTokenResponse;
 import by.bsuir.security.dto.IdentityAvailability;
 import by.bsuir.security.dto.LoginRequest;

@@ -22,6 +22,7 @@
         <module>flower_shop_company_service</module>
         <module>common_email_service_core</module>
         <module>common_payload</module>
+        <module>flower_shop_order_service</module>
     </modules>
 
     <name>parent_service</name>

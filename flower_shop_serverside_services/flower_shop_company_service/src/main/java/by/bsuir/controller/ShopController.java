@@ -22,7 +22,7 @@ import static by.bsuir.controller.ControllerHelper.isIdInsideDtoOrThrowException
 
 @Validated
 @RestController
-@RequestMapping("/shops")
+@RequestMapping("/company/shops")
 @AllArgsConstructor
 @CrossOrigin(origins = "*")
 public class ShopController {

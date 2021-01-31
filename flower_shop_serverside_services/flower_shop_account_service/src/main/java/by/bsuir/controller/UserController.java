@@ -1,11 +1,11 @@
 package by.bsuir.controller;
 
+import by.bsuir.dto.model.ApiResponse;
 import by.bsuir.dto.validation.annotation.PositiveLong;
 import by.bsuir.dto.user.UserDTO;
 
 import by.bsuir.security.core.CurrentUser;
 import by.bsuir.security.core.UserPrincipal;
-import by.bsuir.security.dto.ApiResponse;
 import by.bsuir.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
