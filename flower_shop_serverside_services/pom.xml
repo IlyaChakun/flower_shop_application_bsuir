@@ -23,6 +23,7 @@
         <module>common_email_service_core</module>
         <module>common_payload</module>
         <module>flower_shop_order_service</module>
+        <module>flower_shop_product_service</module>
     </modules>
 
     <name>parent_service</name>
@@ -47,6 +48,9 @@
         <apache-http-client-version>4.5.12</apache-http-client-version>
         <apache-tomcat-emdeb-version>9.0.37</apache-tomcat-emdeb-version>
         <jstl-version>1.2</jstl-version>
+        <!-- -->
+        <spring-cloud.version>Greenwich.M3</spring-cloud.version>
+
     </properties>
 
 
@@ -62,6 +66,18 @@
 
 
     </dependencies>
+
+    <repositories>
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
 
     <dependencyManagement>
 
@@ -90,6 +106,7 @@
 
 
             <!-- SPRING -->
+
 
             <!-- web -->
             <dependency>

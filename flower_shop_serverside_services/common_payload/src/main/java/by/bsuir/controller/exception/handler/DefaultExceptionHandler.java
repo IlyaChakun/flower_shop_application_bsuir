@@ -1,7 +1,6 @@
 package by.bsuir.controller.exception.handler;
 
 
-
 import by.bsuir.controller.exception.IllegalRequestException;
 import by.bsuir.payload.AbstractException;
 import by.bsuir.payload.ErrorMessage;
@@ -11,8 +10,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.DataBinder;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -22,10 +19,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
-import java.io.IOException;
-import java.nio.file.AccessDeniedException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -99,30 +93,6 @@ public class DefaultExceptionHandler {
                 new ResponseEntity<>(
                         new ErrorMessage(ex.getCode(), ex.getError(), ex.getErrorDescription()),
                         HttpStatus.valueOf(ex.getCode()));
-    }
-
-    @ExceptionHandler(AccessDeniedException.class)
-    public void handleAccessDeniedException(HttpServletResponse httpServletResponse,
-                                            AccessDeniedException ex) throws IOException {
-        /*
-         * Handles AccessDeniedException exceptions. Status code 403.
-         */
-        ex.getStackTrace();
-        logger.error(ex.getMessage());
-        httpServletResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "You do not have permissions!");
-    }
-
-    @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<ErrorMessage> handleBadCredentialsException(BadCredentialsException ex) {
-        /*
-         * Handles AccessDeniedException exceptions. Status code 403.
-         */
-        ex.getStackTrace();
-        return new ResponseEntity<>(
-                new ErrorMessage(HttpStatus.FORBIDDEN.value(),
-                        "forbidden",
-                        "Email or password is not valid!"),
-                HttpStatus.FORBIDDEN);
     }
 
 
