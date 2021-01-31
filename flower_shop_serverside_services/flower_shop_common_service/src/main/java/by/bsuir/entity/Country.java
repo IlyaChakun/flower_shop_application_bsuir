@@ -1,4 +1,4 @@
-package by.bsuir.entity.common;
+package by.bsuir.entity;
 
 
 import by.bsuir.entity.BaseAbstractEntity;

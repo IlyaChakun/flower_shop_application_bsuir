@@ -1,4 +1,4 @@
-package by.bsuir.dto.model.common;
+package by.bsuir.dto;
 
 
 import by.bsuir.dto.model.BaseAbstractDTO;

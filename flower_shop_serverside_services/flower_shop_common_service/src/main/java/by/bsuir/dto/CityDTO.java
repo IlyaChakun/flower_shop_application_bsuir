@@ -1,4 +1,5 @@
-package by.bsuir.dto.model.common;
+package by.bsuir.dto;
+
 
 import by.bsuir.dto.model.BaseAbstractDTO;
 import lombok.AllArgsConstructor;
@@ -11,8 +12,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegionDTO extends BaseAbstractDTO {
+public class CityDTO extends BaseAbstractDTO {
 
-    private String regionName;
+    private String cityName;
 
 }

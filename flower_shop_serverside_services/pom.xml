@@ -24,6 +24,7 @@
         <module>common_payload</module>
         <module>flower_shop_order_service</module>
         <module>flower_shop_product_service</module>
+        <module>flower_shop_common_service</module>
     </modules>
 
     <name>parent_service</name>
@@ -133,6 +134,12 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-security</artifactId>
                 <version>${spring-global-version}</version>
+            </dependency>
+
+            <!-- CACHING-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-cache</artifactId>
             </dependency>
 
 

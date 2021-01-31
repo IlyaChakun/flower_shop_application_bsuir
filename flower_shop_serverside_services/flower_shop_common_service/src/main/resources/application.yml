@@ -1,0 +1,46 @@
+##########################################################
+##########            COMMON_SERVICE            ##########
+##########     Application file properties      ##########
+##########                                      ##########
+##########################################################
+
+##################### SERVER PROP #################################
+server:
+  port: 8085
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+##################### SPRING GLOBAL #################################
+spring:
+  ##################### DATA SOURCE #################################
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 100
+    initialization-mode: always
+    ##################### MY SQL DATABASE #################################
+    url: jdbc:mysql://localhost:3306/flower_shop_application?serverTimezone=Europe/Moscow
+    password: 1111
+    username: root
+  ##################### JPA USED SPRING DATA #################################
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      format-sql: true
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        event:
+          merge:
+            entity_copy_observer: allow
+      use_sql_comments: true
+    show-sql: true
+
+
+
+
+
+

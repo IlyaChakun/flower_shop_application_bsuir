@@ -1,4 +1,4 @@
-package by.bsuir.repository.api.common;
+package by.bsuir.repository;
 
 
 import by.bsuir.entity.common.City;

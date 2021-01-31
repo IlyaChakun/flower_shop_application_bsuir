@@ -7,7 +7,6 @@ import by.bsuir.dto.model.ProductDTO;
 import by.bsuir.entity.Product;
 import by.bsuir.payload.ResourceNotFoundException;
 import by.bsuir.repository.ProductRepository;
-import by.bsuir.repository.api.common.CountryRepository;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +24,7 @@ public class ProductServiceImpl implements ProductService {
     private final CommonServiceHelper commonServiceHelper;
 
     private final ProductRepository productRepository;
-    private final CountryRepository countryRepository;
+
 
     private final ProductMapperDTO productMapper;
 
@@ -80,8 +79,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private void resolveProducerOrThrowException(Long producerId) {
-        countryRepository.findById(producerId)
-                .orElseThrow(() -> new ResourceNotFoundException("Producer with id=" + producerId + " not found!"));
+//        countryRepository.findById(producerId)
+//                .orElseThrow(() -> new ResourceNotFoundException("Producer with id=" + producerId + " not found!"));
     }
 
     @Override

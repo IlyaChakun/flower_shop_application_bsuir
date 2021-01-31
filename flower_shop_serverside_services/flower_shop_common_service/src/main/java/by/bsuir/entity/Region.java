@@ -1,5 +1,4 @@
-package by.bsuir.entity.common;
-
+package by.bsuir.entity;
 
 import by.bsuir.entity.BaseAbstractEntity;
 import lombok.AllArgsConstructor;
@@ -12,14 +11,14 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "cities")
+@Table(name = "regions")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class City extends BaseAbstractEntity {
+public class Region extends BaseAbstractEntity {
 
-    @Column(name = "city_name", nullable = false, length = 48)
-    private String cityName;
+    @Column(name = "region_name", nullable = false, length = 48)
+    private String regionName;
 
 }
