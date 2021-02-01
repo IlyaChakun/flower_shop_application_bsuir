@@ -36,5 +36,5 @@ phases:
       - ls
 artifacts:
   files:
-    - imagedefinitions.json
+    - ./imagedefinitions.json
     - target/product_service.war
