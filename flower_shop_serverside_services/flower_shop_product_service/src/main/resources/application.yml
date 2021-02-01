@@ -6,7 +6,7 @@
 
 ##################### SERVER PROP #################################
 server:
-  port: 8084
+#  port: 8084
   servlet:
     encoding:
       charset: UTF-8
@@ -22,8 +22,6 @@ spring:
       file-size-threshold: 2KB
       max-file-size: 200MB
       max-request-size: 215MB
-  main:
-    allow-bean-definition-overriding: true #important for security part
   ##################### DATA SOURCE #################################
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver

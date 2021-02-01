@@ -11,7 +11,7 @@ services:
       context: flower_shop_account_service
       dockerfile: Dockerfile
     ports:
-      - "8081:8081"
+      - "8081:8080"
     restart: always
     depends_on:
       - flower_shop_db_mysql
@@ -28,7 +28,7 @@ services:
       context: flower_shop_product_service # Use an image built from the specified dockerfile in the `flower_shop_product_service` directory.
       dockerfile: Dockerfile
     ports:
-      - "8084:8084" # Forward the exposed port 8080 on the container to port 8080 on the host machine
+      - "8084:8080" # Forward the exposed port 8080 on the container to port 8080 on the host machine
     restart: always # Tell to container to restart every time it fails
     depends_on:
       - flower_shop_db_mysql # This service depends on flower_shop_db_mysql. Start that first.
