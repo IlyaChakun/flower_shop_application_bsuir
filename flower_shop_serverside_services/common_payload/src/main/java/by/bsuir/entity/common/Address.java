@@ -14,11 +14,11 @@ import javax.persistence.ManyToOne;
 public class Address {
 
 
-    @ManyToOne
-    private Region region;
-
-    @ManyToOne
-    private City city;
+//    @ManyToOne
+//    private Region region;
+//
+//    @ManyToOne
+//    private City city;
 
     private String address;
 

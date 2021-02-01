@@ -89,12 +89,12 @@
                 <artifactId>common_email_service_core</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>common_payload</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
@@ -103,6 +103,18 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>flower_shop_company_service</artifactId>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>flower_shop_order_service</artifactId>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>flower_shop_product_service</artifactId>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>flower_shop_common_service</artifactId>
             </dependency>
 
 
@@ -137,10 +149,10 @@
             </dependency>
 
             <!-- CACHING-->
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-cache</artifactId>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>org.springframework.boot</groupId>-->
+<!--                <artifactId>spring-boot-starter-cache</artifactId>-->
+<!--            </dependency>-->
 
 
             <dependency>

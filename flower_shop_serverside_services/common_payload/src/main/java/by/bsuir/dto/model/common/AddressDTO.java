@@ -10,9 +10,9 @@ import lombok.Setter;
 @NoArgsConstructor
 public class AddressDTO {
 
-    private RegionDTO region;
-
-    private CityDTO city;
+//    private RegionDTO region;
+//
+//    private CityDTO city;
 
     private String address;
 

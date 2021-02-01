@@ -1,0 +1,60 @@
+# Docker Compose file Reference (https://docs.docker.com/compose/compose-file/)
+
+version: '3.7'
+
+# Define services
+services:
+
+
+  flower_shop_account_service:
+    build:
+      context: flower_shop_account_service
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    restart: always
+    depends_on:
+      - flower_shop_db_mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://flower_shop_db_mysql:3306/flower_shop_db?useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: password
+    networks:
+      - backend
+
+  flower_shop_product_service:
+    # Configuration for building the docker image for the backend service
+    build:
+      context: flower_shop_product_service # Use an image built from the specified dockerfile in the `flower_shop_product_service` directory.
+      dockerfile: Dockerfile
+    ports:
+      - "8084:8084" # Forward the exposed port 8080 on the container to port 8080 on the host machine
+    restart: always # Tell to container to restart every time it fails
+    depends_on:
+      - flower_shop_db_mysql # This service depends on flower_shop_db_mysql. Start that first.
+    environment: # Pass environment variables to the service
+      SPRING_DATASOURCE_URL: jdbc:mysql://flower_shop_db_mysql:3306/flower_shop_db?useSSL=false&allowPublicKeyRetrieval=true # giving url to datasourse
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: password
+    networks: # Networks to join (Services on the same network can communicate with each other using their name)
+      - backend
+
+
+  # Database Service (MYSQL)
+  flower_shop_db_mysql:
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=flower_shop_db
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+    networks:
+      - backend
+
+
+# Networks to be created to facilitate communication between containers
+networks:
+  backend:

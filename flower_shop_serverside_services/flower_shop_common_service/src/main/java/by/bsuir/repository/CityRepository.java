@@ -1,7 +1,7 @@
 package by.bsuir.repository;
 
 
-import by.bsuir.entity.common.City;
+import by.bsuir.entity.City;
 import by.bsuir.repository.api.core.AbstractRepository;
 import org.springframework.stereotype.Repository;
 
