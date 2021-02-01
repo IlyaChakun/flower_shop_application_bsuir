@@ -4,9 +4,8 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - echo Moving to flower_shop_serverside_services/flower_shop_product_service
+      - echo Moving to flower_shop_serverside_services
       - cd flower_shop_serverside_services
-      - cd flower_shop_product_service
       - echo Start building project with maven
       - mvn clean install
       - echo Logging in to Amazon ECR...
@@ -17,6 +16,8 @@ phases:
       - IMAGE_TAG=build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
   build:
     commands:
+      - echo Build end. moved to flower_shop_product_service
+      - cd flower_shop_product_service
       - echo Build started on `date`
       - echo Building the Docker image...
       - docker build -t $REPOSITORY_URI:latest .
