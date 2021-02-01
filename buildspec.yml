@@ -34,7 +34,9 @@ phases:
       - ls
       - cd target
       - ls
+      - $CODEBUILD_SRC_DIR/imagedefinitions.json
+      - $CODEBUILD_SRC_DIR/target/product_service.war
 artifacts:
   files:
-    - ./imagedefinitions.json
+    - imagedefinitions.json
     - target/product_service.war
