@@ -37,4 +37,4 @@ phases:
 artifacts:
   files:
     - imagedefinitions.json
-    - target/product_service.jar
+    - target/product_service.war
