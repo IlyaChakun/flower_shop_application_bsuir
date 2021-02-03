@@ -120,7 +120,7 @@ public class ProductServiceImpl implements ProductService {
 
         return
                 new PageWrapper<>(
-                        productMapper.toDtoList(products.toList()),
+                        productMapper.toDtoList(products.getContent()),
                         products.getTotalPages(),
                         products.getTotalElements());
     }

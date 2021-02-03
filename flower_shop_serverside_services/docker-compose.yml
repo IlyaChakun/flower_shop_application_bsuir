@@ -6,6 +6,21 @@ version: '3.7'
 services:
 
 
+  # Database Service (MYSQL)
+  flower_shop_db_mysql:
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=flower_shop_db
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+    networks:
+      - backend
+
+
   flower_shop_account_service:
     build:
       context: flower_shop_account_service
@@ -40,19 +55,7 @@ services:
       - backend
 
 
-  # Database Service (MYSQL)
-  flower_shop_db_mysql:
-    image: mysql:5.7
-    ports:
-      - "3306:3306"
-    restart: always
-    environment:
-      - MYSQL_ROOT_PASSWORD=password
-      - MYSQL_DATABASE=flower_shop_db
-      - MYSQL_USER=user
-      - MYSQL_PASSWORD=password
-    networks:
-      - backend
+
 
 
 # Networks to be created to facilitate communication between containers

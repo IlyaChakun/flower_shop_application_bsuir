@@ -13,7 +13,6 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.3.3.RELEASE</version>
-
     </parent>
 
 
@@ -25,6 +24,7 @@
         <module>flower_shop_order_service</module>
         <module>flower_shop_product_service</module>
         <module>flower_shop_common_service</module>
+        <module>flower_shop_discovery_server</module>
     </modules>
 
     <name>parent_service</name>
@@ -34,9 +34,11 @@
         <!-- project global properties-->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
         <java.version>9</java.version>
         <maven.compiler.source>1.9</maven.compiler.source>
         <maven.compiler.target>1.9</maven.compiler.target>
+
         <!-- dependencies versions-->
         <spring-global-version>2.3.3.RELEASE</spring-global-version>
         <spring-security-taglibs-version>5.1.6.RELEASE</spring-security-taglibs-version>
@@ -49,8 +51,8 @@
         <apache-http-client-version>4.5.12</apache-http-client-version>
         <apache-tomcat-emdeb-version>9.0.37</apache-tomcat-emdeb-version>
         <jstl-version>1.2</jstl-version>
+        <io.jsonwebtoken.version>0.9.1</io.jsonwebtoken.version>
         <!-- -->
-        <spring-cloud.version>Greenwich.M3</spring-cloud.version>
 
     </properties>
 
@@ -65,19 +67,7 @@
             <scope>provided</scope>
         </dependency>
 
-
     </dependencies>
-
-    <repositories>
-        <repository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/milestone</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
 
 
     <dependencyManagement>
@@ -120,7 +110,6 @@
 
             <!-- SPRING -->
 
-
             <!-- web -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -131,7 +120,7 @@
             <dependency>
                 <groupId>io.jsonwebtoken</groupId>
                 <artifactId>jjwt</artifactId>
-                <version>0.9.1</version>
+                <version>${io.jsonwebtoken.version}</version>
             </dependency>
 
             <!-- JPA -->
@@ -222,5 +211,17 @@
         </dependencies>
 
     </dependencyManagement>
+
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
 </project>

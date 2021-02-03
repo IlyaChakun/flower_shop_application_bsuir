@@ -15,6 +15,8 @@ server:
 
 ##################### SPRING GLOBAL #################################
 spring:
+  application:
+    name: product_service
 
   servlet:
     multipart:
@@ -29,9 +31,9 @@ spring:
       maximum-pool-size: 100
     initialization-mode: always
     ##################### MY SQL DATABASE #################################
-#    url: jdbc:mysql://localhost:3306/flower_shop_application?serverTimezone=Europe/Moscow
-#    password: 1111
-#    username: root
+    url: jdbc:mysql://localhost:3306/flower_shop_application?serverTimezone=Europe/Moscow
+    password: 1111
+    username: root
   ##################### JPA USED SPRING DATA #################################
   jpa:
     hibernate:
