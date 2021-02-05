@@ -14,7 +14,14 @@ server:
       force: true
 
 ##################### SPRING GLOBAL #################################
+eureka:
+  client:
+    fetchRegistry: true
+
 spring:
+  application:
+    name: common-service
+
   ##################### DATA SOURCE #################################
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver

@@ -6,7 +6,7 @@
 
 ##################### SERVER PROP #################################
 server:
-#  port: 8084
+  port: 8084
   servlet:
     encoding:
       charset: UTF-8
@@ -14,9 +14,13 @@ server:
       force: true
 
 ##################### SPRING GLOBAL #################################
+eureka:
+  client:
+    fetchRegistry: true
+
 spring:
   application:
-    name: product_service
+    name: product-service
 
   servlet:
     multipart:

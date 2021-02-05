@@ -6,6 +6,8 @@ import by.bsuir.dto.model.PageWrapper;
 import by.bsuir.dto.model.ProductDTO;
 import by.bsuir.entity.Product;
 import by.bsuir.payload.ResourceNotFoundException;
+import by.bsuir.remoteclients.CommonServiceClient;
+import by.bsuir.remoteclients.CountryDTO;
 import by.bsuir.repository.ProductRepository;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -15,6 +17,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
+
 @Service
 @AllArgsConstructor
 public class ProductServiceImpl implements ProductService {
@@ -23,9 +27,9 @@ public class ProductServiceImpl implements ProductService {
 
     private final CommonServiceHelper commonServiceHelper;
 
+    private final CommonServiceClient commonServiceClient;
+
     private final ProductRepository productRepository;
-
-
     private final ProductMapperDTO productMapper;
 
     @Override
@@ -69,7 +73,7 @@ public class ProductServiceImpl implements ProductService {
         commonServiceHelper.checkIdOrThrowException(productDTO.getProducerId(), "absent_producer_error", "Producer id must be specified!");
 
         //  this.resolveShopOrThrowException(productDTO.getShopId());
-        //this.resolveProducerOrThrowException(productDTO.getProducerId());
+        this.resolveProducerOrThrowException(productDTO.getProducerId());
     }
 
 
@@ -79,6 +83,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private void resolveProducerOrThrowException(Long producerId) {
+        CountryDTO countryDTO = commonServiceClient.findById(producerId);
+        System.out.println(countryDTO);
+        if (Objects.isNull(countryDTO)) {
+            throw new ResourceNotFoundException("Producer with id=" + producerId + " not found!");
+        }
 //        countryRepository.findById(producerId)
 //                .orElseThrow(() -> new ResourceNotFoundException("Producer with id=" + producerId + " not found!"));
     }
