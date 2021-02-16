@@ -12,7 +12,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.3.RELEASE</version>
+        <version>2.3.4.RELEASE</version>
     </parent>
 
 
@@ -25,6 +25,9 @@
         <module>flower_shop_product_service</module>
         <module>flower_shop_common_service</module>
         <module>flower_shop_discovery_server</module>
+        <module>flower_shop_api_gateway</module>
+        <module>flower_shop_hystrix_dashboard</module>
+        <module>flower_shop_cloud_config_server</module>
     </modules>
 
     <name>parent_service</name>
@@ -40,7 +43,7 @@
         <maven.compiler.target>1.9</maven.compiler.target>
 
         <!-- dependencies versions-->
-        <spring-global-version>2.3.3.RELEASE</spring-global-version>
+        <spring-global-version>2.3.4.RELEASE</spring-global-version>
         <spring-security-taglibs-version>5.1.6.RELEASE</spring-security-taglibs-version>
         <mysql-connector-java-version>8.0.17</mysql-connector-java-version>
         <model-mapper-version>2.3.8</model-mapper-version>
@@ -53,7 +56,9 @@
         <jstl-version>1.2</jstl-version>
         <io.jsonwebtoken.version>0.9.1</io.jsonwebtoken.version>
         <!-- -->
-        <spring-cloud.version>Greenwich.M3</spring-cloud.version>
+<!--        <spring-cloud.version>Greenwich.M3</spring-cloud.version>-->
+        <spring-cloud.version>Hoxton.SR8</spring-cloud.version>
+<!--        <spring-cloud.version>Finchley.RELEASE</spring-cloud.version>-->
     </properties>
 
 

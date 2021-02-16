@@ -26,7 +26,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UserSecurityServiceImpl implements UserSecurityService {
 
-    private static final Logger logger = LoggerFactory.getLogger(UserSecurityServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(UserSecurityServiceImpl.class);
 
     private final UserRepository userRepository;
     private final UserConfirmationTokenRepository userConfirmationTokenRepository;
@@ -117,7 +117,7 @@ public class UserSecurityServiceImpl implements UserSecurityService {
     }
 
     private void checkUserEmailAvailability(String email) {
-        logger.info("find users by email {}", email);
+        log.info("find users by email {}", email);
         userRepository.findByEmail(email).ifPresent(value -> System.out.println(value.getEmail()));
 
         userRepository.findByEmail(email)

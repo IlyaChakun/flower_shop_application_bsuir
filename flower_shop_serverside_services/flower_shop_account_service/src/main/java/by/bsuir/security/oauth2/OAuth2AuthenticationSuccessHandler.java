@@ -25,7 +25,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(OAuth2AuthenticationSuccessHandler.class);
+    private static final Logger log = LoggerFactory.getLogger(OAuth2AuthenticationSuccessHandler.class);
 
     private final TokenProvider tokenProvider;
     private final ApplicationTokenSecurityProperties applicationTokenSecurityProperties;
@@ -37,10 +37,10 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
                                         final Authentication authentication) throws IOException {
         final String targetUrl = determineTargetUrl(request, response, authentication);
 
-        logger.info("On auth success  url: " + targetUrl);
+        log.info("On auth success  url: " + targetUrl);
 
         if (response.isCommitted()) {
-            logger.debug("Response has already been committed. Unable to redirect to " + targetUrl);
+            log.debug("Response has already been committed. Unable to redirect to " + targetUrl);
             return;
         }
 

@@ -17,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 public class CommonServiceImpl implements CommonService {
 
-    private static final Logger logger = LoggerFactory.getLogger(CommonServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(CommonServiceImpl.class);
 
     private final CountryRepository countryRepository;
     private final CountryMapperDTO countryMapper;
@@ -34,7 +34,7 @@ public class CommonServiceImpl implements CommonService {
     public CountryDTO getOneCountry(Long id) {
         Country country = countryRepository.findById(id)
                 .orElseThrow(() -> {
-                            logger.error("Country with id={} not found!", id);
+                            log.error("Country with id={} not found!", id);
                             return new ResourceNotFoundException("Country with id=" + id + " not found!");
                         }
                 );

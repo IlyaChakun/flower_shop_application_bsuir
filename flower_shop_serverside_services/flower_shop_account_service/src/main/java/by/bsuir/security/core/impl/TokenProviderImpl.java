@@ -21,7 +21,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class TokenProviderImpl implements TokenProvider {
 
-    private static final Logger logger = LoggerFactory.getLogger(TokenProvider.class);
+    private static final Logger log = LoggerFactory.getLogger(TokenProvider.class);
     private final ApplicationTokenSecurityProperties applicationTokenSecurityProperties;
 
     @Override
@@ -43,9 +43,9 @@ public class TokenProviderImpl implements TokenProvider {
                         applicationTokenSecurityProperties.getAuth().getRefreshTokenExpirationMsec(),
                         applicationTokenSecurityProperties.getAuth().getRefreshTokenSecret());
 
-        logger.info("TOKENS AFTER UPDATE");
-        logger.info("ACCESS TOKEN=   " + accessToken);
-        logger.info("NEW REFRESH TOKEN=   " + newRefreshToken);
+        log.info("TOKENS AFTER UPDATE");
+        log.info("ACCESS TOKEN=   " + accessToken);
+        log.info("NEW REFRESH TOKEN=   " + newRefreshToken);
 
         return this.getAuthTokenResponse(accessToken, newRefreshToken);
 
@@ -56,8 +56,8 @@ public class TokenProviderImpl implements TokenProvider {
         final String accessToken = createAccessToken(authentication);
         final String refreshToken = createRefreshToken(authentication);
 
-        logger.info("ACCESS TOKEN=   " + accessToken);
-        logger.info("REFRESH TOKEN=   " + refreshToken);
+        log.info("ACCESS TOKEN=   " + accessToken);
+        log.info("REFRESH TOKEN=   " + refreshToken);
 
         return getAuthTokenResponse(accessToken, refreshToken);
     }
@@ -94,12 +94,12 @@ public class TokenProviderImpl implements TokenProvider {
                             final long tokenExpirationMsec,
                             final String tokenSecret) {
 
-        logger.info("userId= " + userId + ", tokenExpirationMsec=" + tokenExpirationMsec + ", tokenSecret=" + tokenSecret);
+        log.info("userId= " + userId + ", tokenExpirationMsec=" + tokenExpirationMsec + ", tokenSecret=" + tokenSecret);
 
         final Date now = new Date();
         final Date expiryDate = doGetExpiryDate(now, tokenExpirationMsec);
 
-        logger.info("expiryDate=" + expiryDate);
+        log.info("expiryDate=" + expiryDate);
 
         return
                 Jwts.builder()
@@ -143,21 +143,21 @@ public class TokenProviderImpl implements TokenProvider {
             Jwts.parser()
                     .setSigningKey(applicationTokenSecurityProperties.getAuth().getAccessTokenSecret())
                     .parseClaimsJws(accessToken);
-            logger.info("access token valid!");
+            log.info("access token valid!");
         } catch (SignatureException ex) {
-            logger.error("Invalid access JWT signature");
+            log.error("Invalid access JWT signature");
             throw new AccessTokenException("Invalid access JWT signature");
         } catch (MalformedJwtException ex) {
-            logger.error("Invalid access JWT token");
+            log.error("Invalid access JWT token");
             throw new AccessTokenException("Invalid access JWT token");
         } catch (ExpiredJwtException ex) {
-            logger.error("Expired access JWT token");
+            log.error("Expired access JWT token");
             throw new AccessTokenException("Expired access JWT token");
         } catch (UnsupportedJwtException ex) {
-            logger.error("Unsupported access JWT token");
+            log.error("Unsupported access JWT token");
             throw new AccessTokenException("Unsupported access JWT token");
         } catch (IllegalArgumentException ex) {
-            logger.error("access JWT claims string is empty.");
+            log.error("access JWT claims string is empty.");
             throw new AccessTokenException("access JWT claims string is empty");
         }
     }
@@ -169,21 +169,21 @@ public class TokenProviderImpl implements TokenProvider {
             Jwts.parser()
                     .setSigningKey(applicationTokenSecurityProperties.getAuth().getRefreshTokenSecret())
                     .parseClaimsJws(refreshToken);
-            logger.info("refresh token valid!");
+            log.info("refresh token valid!");
         } catch (SignatureException ex) {
-            logger.error("Invalid refresh JWT signature");
+            log.error("Invalid refresh JWT signature");
             throw new RefreshTokenException("Invalid refresh JWT signature");
         } catch (MalformedJwtException ex) {
-            logger.error("Invalid refresh JWT token");
+            log.error("Invalid refresh JWT token");
             throw new RefreshTokenException("Invalid refresh JWT token");
         } catch (ExpiredJwtException ex) {
-            logger.error("Expired refresh JWT token");
+            log.error("Expired refresh JWT token");
             throw new RefreshTokenException("Expired refresh  JWT token");
         } catch (UnsupportedJwtException ex) {
-            logger.error("Unsupported refresh JWT token");
+            log.error("Unsupported refresh JWT token");
             throw new RefreshTokenException("Unsupported refresh JWT token");
         } catch (IllegalArgumentException ex) {
-            logger.error("refresh JWT claims string is empty.");
+            log.error("refresh JWT claims string is empty.");
             throw new RefreshTokenException("refresh JWT claims string is empty");
         }
     }

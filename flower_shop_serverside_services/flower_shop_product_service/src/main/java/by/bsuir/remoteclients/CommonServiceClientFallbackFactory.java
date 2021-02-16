@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 class UserClientFallbackFactory implements FallbackFactory<CommonServiceClient> {
 
-    private static final Logger logger = LoggerFactory.getLogger(UserClientFallbackFactory.class);
+    private static final Logger log = LoggerFactory.getLogger(UserClientFallbackFactory.class);
 
 
     @Override
@@ -19,7 +19,7 @@ class UserClientFallbackFactory implements FallbackFactory<CommonServiceClient> 
         String httpStatus = cause instanceof FeignException ? Integer.toString(((FeignException) cause).status()) : "";
 
         return countryId -> {
-            logger.error(httpStatus);
+            log.error(httpStatus);
             System.out.println("exception handler");
             return null;
         };

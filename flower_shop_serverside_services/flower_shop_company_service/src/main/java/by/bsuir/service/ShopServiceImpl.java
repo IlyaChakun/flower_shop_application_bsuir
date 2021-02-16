@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 @AllArgsConstructor
 public class ShopServiceImpl implements ShopService {
 
-    private static final Logger logger = LoggerFactory.getLogger(ShopServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(ShopServiceImpl.class);
 
     private final CommonServiceHelper commonServiceHelper;
 
@@ -76,7 +76,7 @@ public class ShopServiceImpl implements ShopService {
         shop.setCompanyId(company.getId());
         Shop savedShop = shopRepository.save(shop);
 
-        logger.info("Saved Shop with id={}", shop.getId());
+        log.info("Saved Shop with id={}", shop.getId());
 
         return shopMapper.toDto(savedShop);
     }
@@ -104,7 +104,7 @@ public class ShopServiceImpl implements ShopService {
 
         if (shopRepository.findByContactsCityIdAndContactsAddress(contacts.getCityId(), contacts.getAddress()).isPresent()) {
 
-            logger.error("Shop with cityId={} address={} exist. Just Update it!",
+            log.error("Shop with cityId={} address={} exist. Just Update it!",
                     contacts.getCityId(),
                     contacts.getAddress());
             throw new ServiceException(HttpStatus.CONFLICT.value(),
@@ -118,7 +118,7 @@ public class ShopServiceImpl implements ShopService {
     private Shop getShopByIdOrThrowException(Long id) {
         return shopRepository.findById(id)
                 .orElseThrow(() -> {
-                            logger.error("Shop with id=" + id + " not found!");
+                            log.error("Shop with id=" + id + " not found!");
                             return new ResourceNotFoundException("Shop with id=" + id + " not found!");
                         }
                 );
