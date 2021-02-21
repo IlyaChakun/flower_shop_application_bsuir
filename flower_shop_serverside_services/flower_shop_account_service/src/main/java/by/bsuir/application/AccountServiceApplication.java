@@ -2,10 +2,12 @@ package by.bsuir.application;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 @SpringBootApplication(scanBasePackages = {"by.bsuir"})
-public class Application {
+@EnableEurekaClient
+public class AccountServiceApplication {
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(AccountServiceApplication.class, args);
     }
 }

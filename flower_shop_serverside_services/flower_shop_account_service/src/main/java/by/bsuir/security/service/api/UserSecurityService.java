@@ -1,7 +1,7 @@
 package by.bsuir.security.service.api;
 
 import by.bsuir.dto.user.UserDTO;
-import by.bsuir.security.dto.signup.UserSignUpRequest;
+import by.bsuir.dto.signup.UserSignUpRequest;
 
 import java.util.Optional;
 

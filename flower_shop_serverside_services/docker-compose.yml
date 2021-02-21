@@ -5,12 +5,66 @@ version: '3.7'
 # Define services
 services:
 
+  config-service:
+    build:
+      context: flower_shop_cloud_config_server
+      dockerfile: Dockerfile
+    ports:
+      - "8888:8888"
+    restart: always
+
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+    networks:
+      - backend
+
+  #eureka discovery service
+  discovery-service:
+    build:
+      context: flower_shop_discovery_server
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "8761:8761"
+#    depends_on:
+#      - config-service
+
+    depends_on:
+      config-service:
+        condition: service_healthy
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+    networks:
+      - backend
+
+
+  api-gateway-service:
+    build:
+      context: flower_shop_api_gateway
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    restart: always
+    depends_on:
+      config-service:
+        condition: service_healthy
+
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+    networks:
+      - backend
 
   # Database Service (MYSQL)
   flower_shop_db_mysql:
     image: mysql:5.7
     ports:
-      - "3306:3306"
+      - "3305:3306"
     restart: always
     environment:
       - MYSQL_ROOT_PASSWORD=password
@@ -21,21 +75,21 @@ services:
       - backend
 
 
-  flower_shop_account_service:
-    build:
-      context: flower_shop_account_service
-      dockerfile: Dockerfile
-    ports:
-      - "8081:8080"
-    restart: always
-    depends_on:
-      - flower_shop_db_mysql
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://flower_shop_db_mysql:3306/flower_shop_db?useSSL=false&allowPublicKeyRetrieval=true
-      SPRING_DATASOURCE_USERNAME: user
-      SPRING_DATASOURCE_PASSWORD: password
-    networks:
-      - backend
+  #  flower_shop_account_service:
+  #    build:
+  #      context: flower_shop_account_service
+  #      dockerfile: Dockerfile
+  #    ports:
+  #      - "8081:8080"
+  #    restart: always
+  #    depends_on:
+  #      - flower_shop_db_mysql
+  #    environment:
+  #      SPRING_DATASOURCE_URL: jdbc:mysql://flower_shop_db_mysql:3306/flower_shop_db?useSSL=false&allowPublicKeyRetrieval=true
+  #      SPRING_DATASOURCE_USERNAME: user
+  #      SPRING_DATASOURCE_PASSWORD: password
+  #    networks:
+  #      - backend
 
   flower_shop_product_service:
     # Configuration for building the docker image for the backend service
@@ -47,8 +101,9 @@ services:
     restart: always # Tell to container to restart every time it fails
     depends_on:
       - flower_shop_db_mysql # This service depends on flower_shop_db_mysql. Start that first.
+      - config-service
     environment: # Pass environment variables to the service
-      SPRING_DATASOURCE_URL: jdbc:mysql://flower_shop_db_mysql:3306/flower_shop_db?useSSL=false&allowPublicKeyRetrieval=true # giving url to datasourse
+      SPRING_DATASOURCE_URL: jdbc:mysql://flower_shop_db_mysql:3305/flower_shop_db?useSSL=false&allowPublicKeyRetrieval=true # giving url to datasourse
       SPRING_DATASOURCE_USERNAME: user
       SPRING_DATASOURCE_PASSWORD: password
     networks: # Networks to join (Services on the same network can communicate with each other using their name)

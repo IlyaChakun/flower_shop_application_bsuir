@@ -2,15 +2,14 @@ package by.bsuir.controller;
 
 
 import by.bsuir.dto.model.ApiResponse;
+import by.bsuir.dto.signup.UserSignUpRequest;
 import by.bsuir.dto.user.UserDTO;
-
+import by.bsuir.payload.ControllerException;
 import by.bsuir.security.core.TokenProvider;
 import by.bsuir.security.dto.AuthTokenResponse;
 import by.bsuir.security.dto.IdentityAvailability;
 import by.bsuir.security.dto.LoginRequest;
-import by.bsuir.security.dto.signup.UserSignUpRequest;
 import by.bsuir.security.service.api.UserSecurityService;
-import by.bsuir.payload.ControllerException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -61,8 +60,8 @@ public class AuthController {
     }
 
     @PostMapping("/sign-up")
-    public ResponseEntity<ApiResponse> register(@RequestBody @Valid UserSignUpRequest signUpRequest,
-                                                BindingResult result) {
+    public ResponseEntity<UserDTO> register(@RequestBody @Valid UserSignUpRequest signUpRequest,
+                                                       BindingResult result) {
         checkBindingResultAndThrowExceptionIfInvalid(result);
 
         if (!signUpRequest.getPassword().equals(signUpRequest.getConfirmedPassword())) {
@@ -80,7 +79,7 @@ public class AuthController {
                 .toUri();
 
         return ResponseEntity.created(location)
-                .body(new ApiResponse(true, "User registered successfully!"));
+                .body(addedUser);
     }
 
     @PostMapping("/update-token")

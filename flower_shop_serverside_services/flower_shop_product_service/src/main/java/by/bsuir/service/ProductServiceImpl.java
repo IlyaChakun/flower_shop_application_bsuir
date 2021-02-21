@@ -6,13 +6,11 @@ import by.bsuir.dto.model.PageWrapper;
 import by.bsuir.dto.model.ProductDTO;
 import by.bsuir.entity.Product;
 import by.bsuir.payload.ResourceNotFoundException;
-import by.bsuir.remoteclients.CommonServiceClient;
+import by.bsuir.remoteclients.CommonClient;
 import by.bsuir.remoteclients.CountryDTO;
 import by.bsuir.repository.ProductRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -27,7 +25,7 @@ public class ProductServiceImpl implements ProductService {
 
     private final CommonServiceHelper commonServiceHelper;
 
-    private final CommonServiceClient commonServiceClient;
+    private final CommonClient commonClient;
 
     private final ProductRepository productRepository;
     private final ProductMapperDTO productMapper;
@@ -43,7 +41,7 @@ public class ProductServiceImpl implements ProductService {
 
         Product savedProduct = productRepository.save(product);
 
-        // log.info("Saved product with id={} and type={}", savedProduct.getId(), savedProduct.getProductType().getType());
+        log.info("Saved product with id={} and categoryId={}", savedProduct.getId(), savedProduct.getCategoryId());
 
         return productMapper.toDto(savedProduct);
     }
@@ -83,7 +81,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private void resolveProducerOrThrowException(Long producerId) {
-        CountryDTO countryDTO = commonServiceClient.findById(producerId);
+        CountryDTO countryDTO = commonClient.findById(producerId);
         System.out.println(countryDTO);
         if (Objects.isNull(countryDTO)) {
             throw new ResourceNotFoundException("Producer with id=" + producerId + " not found!");

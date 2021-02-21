@@ -1,0 +1,23 @@
+server:
+  port: 8761
+
+
+spring:
+  application:
+    name: discovery-server
+  cloud:
+    config:
+      enabled: true
+      uri: http://localhost:8888
+      fail-fast: true
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://discovery-server:8761/eureka/
+    registerWithEureka: false
+    fetchRegistry: false
+    server:
+      waitTimeInMsWhenSyncEmpty: 0

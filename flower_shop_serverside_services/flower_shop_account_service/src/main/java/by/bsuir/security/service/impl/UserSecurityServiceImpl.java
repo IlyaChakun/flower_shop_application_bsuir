@@ -9,7 +9,7 @@ import by.bsuir.payload.ResourceNotFoundException;
 
 import by.bsuir.repository.api.UserConfirmationTokenRepository;
 import by.bsuir.repository.api.UserRepository;
-import by.bsuir.security.dto.signup.UserSignUpRequest;
+import by.bsuir.dto.signup.UserSignUpRequest;
 import by.bsuir.security.exception.ConfirmationTokeBrokenLinkException;
 import by.bsuir.security.exception.DuplicateEmailException;
 import by.bsuir.security.mail.UserSecurityMailService;

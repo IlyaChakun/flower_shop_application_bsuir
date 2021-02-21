@@ -13,5 +13,8 @@ spring:
   profiles:
     active: native
 
-
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
 

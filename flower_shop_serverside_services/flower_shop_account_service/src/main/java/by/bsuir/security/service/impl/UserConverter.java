@@ -7,7 +7,7 @@ import by.bsuir.entity.SupportedAuthProvider;
 import by.bsuir.entity.User;
 import by.bsuir.entity.UserRole;
 import by.bsuir.repository.api.RoleRepository;
-import by.bsuir.security.dto.signup.UserSignUpRequest;
+import by.bsuir.dto.signup.UserSignUpRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;

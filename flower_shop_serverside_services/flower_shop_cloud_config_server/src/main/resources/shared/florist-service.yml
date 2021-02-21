@@ -1,12 +1,12 @@
 ##########################################################
-##########            COMPANY SERVICE           ##########
+##########            FLORIST_SERVICE           ##########
 ##########     Application file properties      ##########
 ##########     security/qr/datasource/custom    ##########
 ##########################################################
 
 ##################### SERVER PROP #################################
 server:
-  port: 8082
+  port: 8085
   servlet:
     encoding:
       charset: UTF-8
@@ -14,15 +14,20 @@ server:
       force: true
 
 ##################### SPRING GLOBAL #################################
+eureka:
+  client:
+    fetchRegistry: true
+
 spring:
+  application:
+    name: florist-service
+
   servlet:
     multipart:
       enabled: true
       file-size-threshold: 2KB
       max-file-size: 200MB
       max-request-size: 215MB
-  main:
-    allow-bean-definition-overriding: true #important for security part
   ##################### DATA SOURCE #################################
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -65,4 +70,8 @@ spring:
   messages:
     basename: messages
     encoding: UTF-8
+
+
+
+
 

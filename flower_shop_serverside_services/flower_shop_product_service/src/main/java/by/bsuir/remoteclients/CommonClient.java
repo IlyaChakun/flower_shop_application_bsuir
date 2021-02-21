@@ -1,15 +1,14 @@
 package by.bsuir.remoteclients;
 
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 
 @FeignClient(name = "common-service")
-public interface CommonServiceClient {
+public interface CommonClient {
 
-    @RequestMapping(method = RequestMethod.GET, value = "/common/countries/{countryId}")
+    @GetMapping("/common/countries/{countryId}")
     CountryDTO findById(@PathVariable("countryId") Long countryId);
 
 }
