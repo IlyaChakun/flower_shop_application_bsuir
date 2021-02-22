@@ -1,12 +1,6 @@
-##########################################################
-##########            FLORIST_SERVICE           ##########
-##########     Application file properties      ##########
-##########     security/qr/datasource/custom    ##########
-##########################################################
-
 ##################### SERVER PROP #################################
 server:
-  port: 8085
+  port: 5000
   servlet:
     encoding:
       charset: UTF-8
@@ -15,24 +9,12 @@ server:
 
 ##################### SPRING GLOBAL #################################
 
-
-security:
-  oauth2:
-    client:
-      clientId: florist-service
-      clientSecret: pass
-      accessTokenUri: http://auth-service:5000/oauth/token
-      grant-type: client_credentials
-      scope: server
-
 spring:
-  main:
-    allow-bean-definition-overriding: true
-
   application:
-    name: florist-service
+    name: auth-service
 
   servlet:
+
     multipart:
       enabled: true
       file-size-threshold: 2KB
@@ -61,25 +43,7 @@ spring:
             entity_copy_observer: allow
       use_sql_comments: true
     show-sql: true
-  ##################### SPRING MAIL PROPERTIES #################################
-  mail:
-    host: smtp.mail.ru
-    password: 1999WarehouseLogistic
-    port: 587
-    properties:
-      mail:
-        smtp:
-          auth: true
-          connectiontimeout: 5000
-          starttls:
-            enable: true
-            required: true
-          timeout: 5000
-          writetimeout: 5000
-    username: warehouse_logistic_worker@inbox.ru
-  messages:
-    basename: messages
-    encoding: UTF-8
+
 
 
 

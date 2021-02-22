@@ -12,6 +12,9 @@ spring:
           search-locations: classpath:/shared
   profiles:
     active: native
+  security:
+    user:
+      password: pass
 
 eureka:
   client:

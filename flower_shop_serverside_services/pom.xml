@@ -29,6 +29,7 @@
         <module>flower_shop_hystrix_dashboard</module>
         <module>flower_shop_cloud_config_server</module>
         <module>flower_shop_florist_service</module>
+        <module>flower_shop_auth_service</module>
     </modules>
 
     <name>parent_service</name>

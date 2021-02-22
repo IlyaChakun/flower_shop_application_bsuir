@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import java.security.Principal;
+
 import static by.bsuir.controller.ControllerHelper.checkBindingResultAndThrowExceptionIfInvalid;
 
 
@@ -26,6 +28,10 @@ public class UserController {
 
     private final UserService userService;
 
+    @GetMapping( "/current")
+    public Principal getUser(Principal principal) {
+        return principal;
+    }
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/me")
