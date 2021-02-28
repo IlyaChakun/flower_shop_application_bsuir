@@ -2,12 +2,13 @@ package by.bsuir.security.service.impl;
 
 import by.bsuir.dto.mapper.user.UserMapperDTO;
 import by.bsuir.dto.model.user.UserDTO;
+import by.bsuir.dto.model.user.signup.UserSignUpRequest;
 import by.bsuir.entity.user.User;
 import by.bsuir.entity.user.token.UserConfirmationToken;
 import by.bsuir.payload.exception.ResourceNotFoundException;
 import by.bsuir.repository.api.user.UserConfirmationTokenRepository;
 import by.bsuir.repository.api.user.UserRepository;
-import by.bsuir.security.dto.signup.UserSignUpRequest;
+
 import by.bsuir.security.exception.ConfirmationTokeBrokenLinkException;
 import by.bsuir.security.exception.DuplicateEmailException;
 import by.bsuir.security.mail.UserSecurityMailService;
@@ -24,7 +25,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UserSecurityServiceImpl implements UserSecurityService {
 
-    private static final Logger logger = LoggerFactory.getLogger(UserSecurityServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(UserSecurityServiceImpl.class);
 
     private final UserRepository userRepository;
     private final UserConfirmationTokenRepository userConfirmationTokenRepository;
@@ -115,7 +116,7 @@ public class UserSecurityServiceImpl implements UserSecurityService {
     }
 
     private void checkUserEmailAvailability(String email) {
-        logger.info("find users by email {}", email);
+        log.info("find users by email {}", email);
         userRepository.findByEmail(email).ifPresent(value -> System.out.println(value.getEmail()));
 
         userRepository.findByEmail(email)

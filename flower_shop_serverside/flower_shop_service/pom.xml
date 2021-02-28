@@ -21,7 +21,10 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>flower_shop_dto_payload</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>flower_shop_security</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

@@ -1,14 +1,13 @@
 package by.bsuir.entity.product;
 
 import by.bsuir.entity.AbstractEntity;
-import by.bsuir.entity.common.Image;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "products")
@@ -35,20 +34,27 @@ public class Product extends AbstractEntity {
     @Column(name = "available_amount")
     private Integer availableAmount;
 
-    @Column(name = "cost")
-    private Double cost;
-
-//    @ManyToMany(cascade = CascadeType.ALL)
-//    @JoinTable(name = "flower_length_costs",
+    //    @ManyToMany(cascade = CascadeType.ALL)
+//    @JoinTable(name = "product_length_costs",
 //            joinColumns =
 //                    {
 //                            @JoinColumn(
-//                                    name = "flower_id",
+//                                    name = "product_id",
 //                                    referencedColumnName = "id")},
 //            inverseJoinColumns = {@JoinColumn(name = "length_cost_id",
 //                    referencedColumnName = "id")})
-//    private List<FlowerLengthCost> flowerLengthCosts = new ArrayList<>();
+    @OneToMany(
+            cascade = {
+                    CascadeType.ALL
+            },
+            fetch = FetchType.LAZY)
+//    @JoinTable(
+//            name = "product_length_costs",
+//            joinColumns = @JoinColumn(name = "product_id"),
+//            inverseJoinColumns = @JoinColumn(name = "length_cost_id")
+//    )
+    private List<ProductLengthCost> productLengthCost = new ArrayList<>();
 
 
-    private Image image;
+//    private Image image;
 }

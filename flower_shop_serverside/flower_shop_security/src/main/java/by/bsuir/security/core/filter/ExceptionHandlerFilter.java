@@ -28,20 +28,20 @@ import java.util.Objects;
  */
 public class ExceptionHandlerFilter extends OncePerRequestFilter {
 
-    private static final Logger logger = LoggerFactory.getLogger(ExceptionHandlerFilter.class);
+    private static final Logger log = LoggerFactory.getLogger(ExceptionHandlerFilter.class);
 
     @Override
     public void doFilterInternal(HttpServletRequest request,
                                  HttpServletResponse response,
                                  FilterChain filterChain) throws ServletException, IOException {
 
-        logger.info("ExceptionHandlerFilter works");
+        log.info("ExceptionHandlerFilter works");
 
         try {
             filterChain.doFilter(request, response);
         } catch (RefreshTokenException | InvalidTokenTypeException | AccessTokenException ex) {
 
-            logger.error("Could not set user authentication in security context", ex);
+            log.error("Could not set user authentication in security context", ex);
 
             // custom error response class used across my project
             ErrorMessage errorResponse = new ErrorMessage(ex.getCode(), ex.getError(), ex.getErrorDescription());
@@ -52,7 +52,7 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
 
         } catch (AbstractException ex) {
             ex.printStackTrace();
-            logger.error("Could not set user authentication in security context", ex);
+            log.error("Could not set user authentication in security context", ex);
         }
     }
 

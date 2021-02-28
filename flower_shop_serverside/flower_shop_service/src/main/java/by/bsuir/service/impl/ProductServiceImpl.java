@@ -11,6 +11,7 @@ import by.bsuir.repository.api.product.ProductRepository;
 import by.bsuir.repository.api.shop.ShopRepository;
 import by.bsuir.service.api.ProductService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -20,9 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class ProductServiceImpl implements ProductService {
-
-    private static final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
 
     private final CommonServiceHelper commonServiceHelper;
 
@@ -43,7 +43,7 @@ public class ProductServiceImpl implements ProductService {
 
         Product savedProduct = productRepository.save(product);
 
-        // logger.info("Saved product with id={} and type={}", savedProduct.getId(), savedProduct.getProductType().getType());
+        log.info("Saved product with id={} and category={}", savedProduct.getId(), savedProduct.getCategoryId());
 
         return productMapper.toDto(savedProduct);
     }
@@ -92,7 +92,7 @@ public class ProductServiceImpl implements ProductService {
     public void delete(Long id) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> {
-                            logger.error("Flower with id={} not found!", id);
+                            log.error("Flower with id={} not found!", id);
                             return new ResourceNotFoundException("Flower with id=" + id + " not found!");
                         }
                 );
@@ -105,7 +105,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductDTO findById(Long id) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> {
-                            logger.error("Product with id={} not found!", id);
+                            log.error("Product with id={} not found!", id);
                             return new ResourceNotFoundException("Product with id=" + id + " not found!");
                         }
                 );

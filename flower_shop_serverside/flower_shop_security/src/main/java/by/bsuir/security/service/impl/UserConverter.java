@@ -2,12 +2,13 @@ package by.bsuir.security.service.impl;
 
 import by.bsuir.dto.model.common.ImageDTO;
 import by.bsuir.dto.model.user.UserDTO;
+import by.bsuir.dto.model.user.signup.UserSignUpRequest;
 import by.bsuir.entity.common.Image;
 import by.bsuir.entity.user.SupportedAuthProvider;
 import by.bsuir.entity.user.User;
 import by.bsuir.entity.user.UserRole;
 import by.bsuir.repository.api.user.RoleRepository;
-import by.bsuir.security.dto.signup.UserSignUpRequest;
+
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;

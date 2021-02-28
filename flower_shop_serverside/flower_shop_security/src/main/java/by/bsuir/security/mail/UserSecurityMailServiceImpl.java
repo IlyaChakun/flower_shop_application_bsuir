@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class UserSecurityMailServiceImpl implements UserSecurityMailService {
 
-    private static final Logger logger = LoggerFactory.getLogger(RestAuthenticationEntryPoint.class);
+    private static final Logger log = LoggerFactory.getLogger(RestAuthenticationEntryPoint.class);
     private final EmailSenderService emailSenderService;
     private final BaseEmailProperties baseEmailProperties;
 
@@ -27,9 +27,9 @@ public class UserSecurityMailServiceImpl implements UserSecurityMailService {
 
         try {
             this.emailSenderService.send(mailMessage);
-            logger.info("confirm acc email sent successfully");
+            log.info("confirm acc email sent successfully");
         } catch (EmailServiceException ex) {
-            logger.error("Вы указали не верный Email! Такого не существует; " + ex.getMessage());
+            log.error("Вы указали не верный Email! Такого не существует; " + ex.getMessage());
             throw new InvalidEmailException("Вы указали не верный Email! Такого не существует");
         }
 
@@ -38,9 +38,9 @@ public class UserSecurityMailServiceImpl implements UserSecurityMailService {
     private SimpleMailMessage getConfirmAccountMailMessage(final String recipient,
                                                            final String confirmationToken) {
 
-        logger.info("sending to : " + recipient + " and token= " + confirmationToken);
+        log.info("sending to : " + recipient + " and token= " + confirmationToken);
 
-        logger.info("send from: {}", baseEmailProperties.getEmailSender());
+        log.info("send from: {}", baseEmailProperties.getEmailSender());
         final String subject = "Завершение регистрации!";
 
         final SimpleMailMessage mailMessage = new SimpleMailMessage();

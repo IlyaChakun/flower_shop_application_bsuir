@@ -1,4 +1,5 @@
 package by.bsuir.entity.product;
+
 import by.bsuir.entity.BaseAbstractEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,7 +18,7 @@ import javax.persistence.Table;
 @Setter
 public class ProductLengthCost extends BaseAbstractEntity {
 
-    @Column(name = "stemLength", nullable = false)
+    @Column(name = "stem_length", nullable = false)
     private Double stemLength;
 
     @Column(name = "cost", nullable = false)

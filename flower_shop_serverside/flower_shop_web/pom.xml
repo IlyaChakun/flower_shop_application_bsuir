@@ -20,10 +20,6 @@
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>flower_shop_security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
             <artifactId>flower_shop_service</artifactId>
         </dependency>
 

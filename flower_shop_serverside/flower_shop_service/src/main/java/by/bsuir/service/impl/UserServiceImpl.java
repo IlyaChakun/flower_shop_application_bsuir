@@ -20,7 +20,7 @@ import javax.transaction.Transactional;
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
     private final UserRepository userRepository;
     private final UserMapperDTO userMapper;
@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> {
-                    logger.error("Client with userId={} doesn't exist!", userId);
+                    log.error("Client with userId={} doesn't exist!", userId);
                     throw new ServiceException(HttpStatus.NOT_FOUND.value(),
                             "client_not_found",
                             "Client with uniqueId=" + userId + " doesn't exist!");

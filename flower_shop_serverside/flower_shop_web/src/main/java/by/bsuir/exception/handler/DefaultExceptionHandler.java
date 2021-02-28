@@ -31,7 +31,7 @@ import java.util.Objects;
 @ControllerAdvice
 public class DefaultExceptionHandler {
 
-    private static final Logger logger = LogManager.getLogger(DefaultExceptionHandler.class);
+    private static final Logger log = LogManager.getLogger(DefaultExceptionHandler.class);
 
     @InitBinder
     private void activateDirectFieldAccess(DataBinder dataBinder) {
@@ -46,7 +46,7 @@ public class DefaultExceptionHandler {
          * Exception occurs when passed id is null. Status 400.
          */
         e.getStackTrace();
-        logger.error(e.getMessage());
+        log.error(e.getMessage());
         return new ResponseEntity<>(
                 new ErrorMessage(HttpStatus.BAD_REQUEST.value(), "bad_request", "Request parameters are not valid!"),
                 HttpStatus.BAD_REQUEST);
@@ -74,7 +74,7 @@ public class DefaultExceptionHandler {
 
         e.getStackTrace();
 
-        logger.error(e.getMessage());
+        log.error(e.getMessage());
         List<ErrorMessage> errors = new ArrayList<>();
         e.getConstraintViolations().forEach(er -> errors.add(
                 new ErrorMessage(400, "constraint_error",
@@ -106,7 +106,7 @@ public class DefaultExceptionHandler {
          * Handles AccessDeniedException exceptions. Status code 403.
          */
         ex.getStackTrace();
-        logger.error(ex.getMessage());
+        log.error(ex.getMessage());
         httpServletResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "You do not have permissions!");
     }
 
@@ -129,7 +129,7 @@ public class DefaultExceptionHandler {
         /* Handles all other exceptions. Status code 500. */
         System.out.println("handleOthersException 500 works");
         e.printStackTrace();
-        logger.error(e.getMessage());
+        log.error(e.getMessage());
         return
                 new ResponseEntity<>(
                         new ErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR.value(),

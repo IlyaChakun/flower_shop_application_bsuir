@@ -1,13 +1,13 @@
 package by.bsuir.controller;
 
 import by.bsuir.dto.model.user.UserDTO;
+import by.bsuir.dto.model.user.signup.UserSignUpRequest;
 import by.bsuir.exception.ControllerException;
 import by.bsuir.security.core.TokenProvider;
 import by.bsuir.security.dto.ApiResponse;
 import by.bsuir.security.dto.AuthTokenResponse;
 import by.bsuir.security.dto.IdentityAvailability;
 import by.bsuir.security.dto.LoginRequest;
-import by.bsuir.security.dto.signup.UserSignUpRequest;
 import by.bsuir.security.service.api.UserSecurityService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;

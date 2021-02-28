@@ -20,4 +20,6 @@ public class CartDTO extends AbstractDTO {
 
     private Double totalPrice = 0D;
 
+    private Integer totalElements;
+
 }

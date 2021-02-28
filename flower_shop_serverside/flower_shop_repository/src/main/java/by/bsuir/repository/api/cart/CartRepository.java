@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface CartRepository extends AbstractRepository<Cart> {
 
     Cart getByClientId(Long id);
+
+    Boolean existsByClientId(Long id);
 }

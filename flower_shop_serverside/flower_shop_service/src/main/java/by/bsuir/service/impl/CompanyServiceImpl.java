@@ -16,14 +16,14 @@ import org.springframework.transaction.annotation.Transactional;
 @AllArgsConstructor
 public class CompanyServiceImpl implements CompanyService {
 
-    private static final Logger logger = LoggerFactory.getLogger(CompanyServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(CompanyServiceImpl.class);
 
     private final CompanyRepository companyRepository;
     private final CompanyMapperDTO companyMapper;
 
     @Override
     public CompanyDTO findCompany() {
-        logger.info("search company ");
+        log.info("search company ");
         return companyMapper.toDto(companyRepository.findFirstBy());
     }
 

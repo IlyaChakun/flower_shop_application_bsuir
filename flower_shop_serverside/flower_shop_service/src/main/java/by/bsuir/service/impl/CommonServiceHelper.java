@@ -19,7 +19,7 @@ import java.util.Objects;
 @AllArgsConstructor
 public class CommonServiceHelper {
 
-    private static final Logger logger = LoggerFactory.getLogger(CommonServiceHelper.class);
+    private static final Logger log = LoggerFactory.getLogger(CommonServiceHelper.class);
 
 
     private final CountryRepository countryRepository;
@@ -28,7 +28,7 @@ public class CommonServiceHelper {
      Country resolveCountry(CountryDTO countryDTO) {
         return countryRepository.findById(countryDTO.getId())
                 .orElseThrow(() -> {
-                    logger.error("Country with id={} doesn't exist!", countryDTO.getId());
+                    log.error("Country with id={} doesn't exist!", countryDTO.getId());
                     throw new ResourceNotFoundException("Country with id=" + countryDTO.getId() + " not found!");
                 });
     }
@@ -45,7 +45,7 @@ public class CommonServiceHelper {
                                   final String error,
                                   final String message) {
         if (Objects.isNull(id)) {
-            logger.error("Resolve error: type="+error +",  message= " + message + ",  resourceId= " + id);
+            log.error("Resolve error: type="+error +",  message= " + message + ",  resourceId= " + id);
             throw new ServiceException(HttpStatus.BAD_REQUEST.value(),
                     error,
                     message);

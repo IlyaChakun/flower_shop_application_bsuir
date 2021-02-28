@@ -27,7 +27,7 @@ import java.util.Objects;
 @AllArgsConstructor
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
-    private static final Logger logger = LoggerFactory.getLogger(TokenAuthenticationFilter.class);
+    private static final Logger log = LoggerFactory.getLogger(TokenAuthenticationFilter.class);
     private final TokenProvider tokenProvider;
     private final CustomUserDetailsService userDetailsService;
 
@@ -36,11 +36,11 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
-        logger.info("TokenAuthenticationFilter works");
+        log.info("TokenAuthenticationFilter works");
 
         final String grantType = getGrantType(request);
 
-        logger.info("Grant type: " + grantType);
+        log.info("Grant type: " + grantType);
 
         if (!grantType.equals(SecurityContextConstants.GRANT_TYPE_ANON_ACTION.getValue())) {//if anon action then miss
             doTokenValidation(request, grantType);
@@ -52,8 +52,8 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     private void doTokenValidation(final HttpServletRequest request,
                                    final String grantType) {
 
-        logger.info("validation token works");
-        logger.info("grantType=" + grantType);
+        log.info("validation token works");
+        log.info("grantType=" + grantType);
 
         final String tokenType = getTokenType(request);
         final String authorizationAccessToken = getAuthorizationAccessToken(request);
@@ -61,13 +61,13 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
 
         if (!tokenType.equals(SecurityContextConstants.VALID_TOKEN_TYPE.getValue())) {
-            logger.info("The token type is invalid! Please, use " + SecurityContextConstants.VALID_TOKEN_TYPE.getValue()
+            log.info("The token type is invalid! Please, use " + SecurityContextConstants.VALID_TOKEN_TYPE.getValue()
                     + ",  actual token type= " + tokenType);
             throw new InvalidTokenTypeException("The token type is invalid! Please, use bearer!");
         }
 
         if (grantType.equals(SecurityContextConstants.GRANT_TYPE_REFRESH_TOKEN.getValue())) {//if refresh action
-            logger.info("validation refresh token");
+            log.info("validation refresh token");
             tokenProvider.validateRefreshTokenOrThrowException(authorizationRefreshToken);
         } else {
             if (StringUtils.hasText(authorizationAccessToken) &&

@@ -1,4 +1,4 @@
-package by.bsuir.security.dto.signup;
+package by.bsuir.dto.model.user.signup;
 
 import by.bsuir.dto.model.common.ImageDTO;
 import lombok.Getter;
