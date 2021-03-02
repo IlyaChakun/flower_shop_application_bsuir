@@ -61,12 +61,13 @@ VALUES
     (2, 15),
     (3, 16);
 
-
+/************************************************/
 
 INSERT IGNORE INTO companies(id, date_of_creation, date_of_last_update)
 values (1, now(), now());
 
 
+/** countries **/
 insert ignore into countries(id, country_name_ru, country_name_en)
 VALUES (1, 'Австрия', 'Austria'),
        (2, 'Азербайджан', 'Azerbaijan'),
@@ -87,3 +88,14 @@ VALUES (1, 'Австрия', 'Austria'),
        (17, 'Литва', 'Lithuania'),
        (18, 'Россия', 'Russia'),
        (19, 'Чехия', 'Czechia');
+
+
+/** product lengths **/
+insert ignore into product_lengths(id, product_length)
+VALUES (1, 40),
+       (2, 50),
+       (3, 60),
+       (4, 70),
+       (5, 80),
+       (6, 100);
+/** **/

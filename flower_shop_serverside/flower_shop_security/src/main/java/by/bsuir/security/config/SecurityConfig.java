@@ -81,6 +81,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/orders/**", //TODO remove
                         "/florists/**",
                         "/carts/**",
+                        "/common/**",
 
                         "/products/**")
                 .permitAll()
