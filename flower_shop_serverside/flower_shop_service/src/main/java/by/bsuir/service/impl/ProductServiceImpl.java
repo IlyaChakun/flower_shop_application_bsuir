@@ -69,18 +69,18 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private void resolveLinkedEntity(ProductDTO productDTO) {
-        commonServiceHelper.checkIdOrThrowException(productDTO.getShopId(), "absent_shop_error", "Shop id must be specified!");
+      //  commonServiceHelper.checkIdOrThrowException(productDTO.getShopId(), "absent_shop_error", "Shop id must be specified!");
         commonServiceHelper.checkIdOrThrowException(productDTO.getProducerId(), "absent_producer_error", "Producer id must be specified!");
 
-        this.resolveShopOrThrowException(productDTO.getShopId());
+       // this.resolveShopOrThrowException(productDTO.getShopId());
         this.resolveProducerOrThrowException(productDTO.getProducerId());
     }
 
-
-    private void resolveShopOrThrowException(Long shopId) {
-        shopRepository.findById(shopId)
-                .orElseThrow(() -> new ResourceNotFoundException("Shop with id=" + shopId + " not found!"));
-    }
+//
+//    private void resolveShopOrThrowException(Long shopId) {
+//        shopRepository.findById(shopId)
+//                .orElseThrow(() -> new ResourceNotFoundException("Shop with id=" + shopId + " not found!"));
+//    }
 
     private void resolveProducerOrThrowException(Long producerId) {
         countryRepository.findById(producerId)
