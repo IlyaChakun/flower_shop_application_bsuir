@@ -1,15 +1,17 @@
 package by.bsuir.dto.model.product;
 
 import by.bsuir.dto.model.AbstractDTO;
+import java.util.ArrayList;
+import java.util.List;
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.persistence.Column;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Getter
@@ -23,8 +25,8 @@ public class ProductDTO extends AbstractDTO {
     @NotNull(message = "Category id must be selected")
     private Long categoryId;
 
-    @NotNull(message = "Producer id must be selected")
-    private Long producerId;  // страна происхождения
+    @NotNull(message = "Country id must be selected")
+    private Long countryId;  // страна происхождения
 
     @NotBlank(message = "Title must not be blank")
     @Size(min = 4, max = 64, message = "Title can`t be more than 64 symbols or low than 4 symbols")

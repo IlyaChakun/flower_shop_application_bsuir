@@ -1,13 +1,17 @@
 package by.bsuir.entity.product;
 
 import by.bsuir.entity.AbstractEntity;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "products")
@@ -22,8 +26,8 @@ public class Product extends AbstractEntity {
     @Column(name = "category_id", nullable = false)
     private Long categoryId;
 
-    @Column(name = "producer_id", nullable = false)
-    private Long producerId;  // страна происхождения
+    @Column(name = "country_id", nullable = false)
+    private Long countryId;  // страна происхождения
 
     @Column(name = "title", length = 64, nullable = false)
     private String title;

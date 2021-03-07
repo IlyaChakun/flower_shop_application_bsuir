@@ -70,8 +70,8 @@ insert ignore into companies(id, date_of_creation, date_of_last_update,
                              description, licence_number, image_url, name)
 VALUES (1, now(), now(), '1234567890--45678',
         null,'1234567','BSB','34567890','34567890','Primorskaya str. 34-89',
-        1,'bsb@bsb.by', '+375 11 876 90 65', '220000', '','Best people bank',
-        '234567',null,'RosaBella')
+        1,'bsb@bsb.by', '+375 11 876 90 65', '220000', '+375 11 876 90 66','Best people bank',
+        '234567',null,'RosaBella');
 /** **/
 
 

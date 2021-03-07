@@ -12,8 +12,6 @@ import by.bsuir.repository.api.shop.ShopRepository;
 import by.bsuir.service.api.ProductService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -39,7 +37,7 @@ public class ProductServiceImpl implements ProductService {
         resolveLinkedEntity(productDTO);
 
         Product product = productMapper.toEntity(productDTO);
-        product.setProducerId(productDTO.getProducerId());
+        product.setCountryId(productDTO.getCountryId());
 
         Product savedProduct = productRepository.save(product);
 
@@ -70,10 +68,10 @@ public class ProductServiceImpl implements ProductService {
 
     private void resolveLinkedEntity(ProductDTO productDTO) {
       //  commonServiceHelper.checkIdOrThrowException(productDTO.getShopId(), "absent_shop_error", "Shop id must be specified!");
-        commonServiceHelper.checkIdOrThrowException(productDTO.getProducerId(), "absent_producer_error", "Producer id must be specified!");
+        commonServiceHelper.checkIdOrThrowException(productDTO.getCountryId(), "absent_country_error", "Country id must be specified!");
 
        // this.resolveShopOrThrowException(productDTO.getShopId());
-        this.resolveProducerOrThrowException(productDTO.getProducerId());
+        this.resolveCountryOrThrowException(productDTO.getCountryId());
     }
 
 //
@@ -82,9 +80,9 @@ public class ProductServiceImpl implements ProductService {
 //                .orElseThrow(() -> new ResourceNotFoundException("Shop with id=" + shopId + " not found!"));
 //    }
 
-    private void resolveProducerOrThrowException(Long producerId) {
-        countryRepository.findById(producerId)
-                .orElseThrow(() -> new ResourceNotFoundException("Producer with id=" + producerId + " not found!"));
+    private void resolveCountryOrThrowException(Long countryId) {
+        countryRepository.findById(countryId)
+                .orElseThrow(() -> new ResourceNotFoundException("Country with id=" + countryId + " not found!"));
     }
 
     @Override
