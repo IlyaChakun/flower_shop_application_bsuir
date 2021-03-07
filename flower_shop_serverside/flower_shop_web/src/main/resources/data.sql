@@ -63,8 +63,16 @@ VALUES
 
 /************************************************/
 
-INSERT IGNORE INTO companies(id, date_of_creation, date_of_last_update)
-values (1, now(), now());
+insert ignore into companies(id, date_of_creation, date_of_last_update,
+                             unique_id, admin_id, bank_code, bank_name,
+                             checking_account, tin, address, city_id,
+                             email, first_phone_number, postal_code, second_phone_number,
+                             description, licence_number, image_url, name)
+VALUES (1, now(), now(), '1234567890--45678',
+        null,'1234567','BSB','34567890','34567890','Primorskaya str. 34-89',
+        1,'bsb@bsb.by', '+375 11 876 90 65', '220000', '','Best people bank',
+        '234567',null,'RosaBella')
+/** **/
 
 
 /** countries **/
