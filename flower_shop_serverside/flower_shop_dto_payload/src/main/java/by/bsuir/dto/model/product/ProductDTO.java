@@ -17,8 +17,8 @@ import java.util.List;
 @NoArgsConstructor
 public class ProductDTO extends AbstractDTO {
 
-    @NotNull(message = "Shop id must be selected")
-    private Long shopId;
+//    @NotNull(message = "Shop id must be selected")
+//    private Long shopId;
 
     @NotNull(message = "Category id must be selected")
     private Long categoryId;

@@ -16,8 +16,8 @@ import java.util.List;
 @NoArgsConstructor
 public class Product extends AbstractEntity {
 
-    @Column(name = "shop_id")
-    private Long shopId;
+//    @Column(name = "shop_id")
+//    private Long shopId;
 
     @Column(name = "category_id", nullable = false)
     private Long categoryId;
