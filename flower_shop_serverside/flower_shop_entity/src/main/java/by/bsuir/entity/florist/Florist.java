@@ -28,4 +28,10 @@ public class Florist extends AbstractEntity {
     @Column(name = "experience")
     private Double experience;
 
+    ////
+    @Column(name = "salary")
+    private Double salary;//оклад
+
+
+
 }
