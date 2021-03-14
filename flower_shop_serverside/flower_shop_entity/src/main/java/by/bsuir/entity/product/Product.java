@@ -1,6 +1,7 @@
 package by.bsuir.entity.product;
 
 import by.bsuir.entity.AbstractEntity;
+import by.bsuir.entity.common.Image;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -60,5 +61,5 @@ public class Product extends AbstractEntity {
     private List<ProductLengthCost> productLengthCost = new ArrayList<>();
 
 
-//    private Image image;
+    private Image image;
 }

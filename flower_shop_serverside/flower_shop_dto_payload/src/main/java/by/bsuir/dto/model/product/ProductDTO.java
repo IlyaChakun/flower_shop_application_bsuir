@@ -1,6 +1,7 @@
 package by.bsuir.dto.model.product;
 
 import by.bsuir.dto.model.AbstractDTO;
+import by.bsuir.dto.model.common.ImageDTO;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
@@ -43,6 +44,6 @@ public class ProductDTO extends AbstractDTO {
     private List<ProductLengthCostDTO> productLengthCost = new ArrayList<>();
 
 
-//    private ImageDTO image;
+    private ImageDTO image;
 
 }
