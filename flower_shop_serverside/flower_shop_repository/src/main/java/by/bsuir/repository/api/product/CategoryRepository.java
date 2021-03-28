@@ -9,6 +9,6 @@ import java.util.List;
 @Repository
 public interface CategoryRepository extends AbstractRepository<Category> {
 
-    //    List<Category> findAllByChildrenIsNotNull();
     List<Category> findDistinctByChildrenIsNotNull();
+
 }

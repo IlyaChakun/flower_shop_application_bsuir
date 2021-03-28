@@ -9,7 +9,10 @@ import by.bsuir.service.api.CategoryService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -21,19 +24,33 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<CategoryDTO> findAll() {
         List<Category> categories = categoryRepository.findDistinctByChildrenIsNotNull();
-//        List<CategoryDTO> categoryDTOList = categoryMapper.toDtoList(categories);
-//        List<CategoryListDTO> list = new ArrayList<>();
-//
-//        for (CategoryDTO category : categoryDTOList) {
-//
-//            CategoryListDTO categoryListDTO =  new CategoryListDTO();
-//            categoryListDTO.setCategory(category);
-//
-//
-//            categoryListDTO.setNestedCategories();
-//        }
 
-        return categoryMapper.toDtoList(categories);
+        for (Category childNode :categories) {
+            traverseNodeAndFetchChildren(childNode);
+        }
+
+        List<Category> finalCategories = new ArrayList<>();
+        categories.forEach(category -> {
+            if(Objects.isNull(category.getParentId())){
+                finalCategories.add(category);
+            }
+        });
+
+        return categoryMapper.toDtoList(finalCategories);
+    }
+
+    public void traverseNodeAndFetchChildren(Category node) {
+        int size = node.getChildren().size();
+
+        if (size > 0) {
+            for (Category childNode : node.getChildren()) {
+                List<Category> newChildren = childNode.getChildren().stream().distinct().collect(Collectors.toList());
+                childNode.setChildren(newChildren);
+                traverseNodeAndFetchChildren(childNode);
+            }
+        }
+
+
     }
 
     @Override
