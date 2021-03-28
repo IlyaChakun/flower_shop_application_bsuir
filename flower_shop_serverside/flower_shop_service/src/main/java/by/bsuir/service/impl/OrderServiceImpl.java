@@ -22,6 +22,7 @@ import by.bsuir.entity.product.Product;
 import by.bsuir.payload.exception.ResourceNotFoundException;
 import by.bsuir.payload.exception.ServiceException;
 import by.bsuir.repository.api.cart.CartRepository;
+import by.bsuir.repository.api.florist.FloristRepository;
 import by.bsuir.repository.api.order.BuyNowOrderRepository;
 import by.bsuir.repository.api.order.DeliveryTypeRepository;
 import by.bsuir.repository.api.order.OrderFloristInfoRepository;
@@ -54,6 +55,8 @@ public class OrderServiceImpl implements OrderService {
     private final CartRepository cartRepository;
 
     private final ProductRepository productRepository;
+
+    private final FloristRepository floristRepository;
 
     private final CommonServiceHelper commonServiceHelper;
 
@@ -190,6 +193,7 @@ public class OrderServiceImpl implements OrderService {
 
     private void patchOrderSetChosenFlorist(final Long orderId, final OrderFloristChoiceDTO orderFloristChoice) {
         final OrderFloristInfo orderFloristInfo = resolveOrderFloristInfoByOrderId(orderId);
+
         orderFloristInfo.setFloristId(orderFloristChoice.getFloristId());
     }
 

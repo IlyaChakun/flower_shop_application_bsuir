@@ -10,6 +10,7 @@ import by.bsuir.entity.product.Product;
 import by.bsuir.payload.exception.ResourceNotFoundException;
 import by.bsuir.payload.exception.ServiceException;
 import by.bsuir.repository.api.cart.CartRepository;
+import by.bsuir.repository.api.order.CartItemRepository;
 import by.bsuir.repository.api.product.ProductLengthCostRepository;
 import by.bsuir.repository.api.product.ProductRepository;
 import by.bsuir.service.api.CartService;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -32,6 +34,7 @@ public class CartServiceImpl implements CartService {
 
     private final ProductLengthCostRepository productLengthCostRepository;
     private final ProductRepository productRepository;
+    private final CartItemRepository cartItemRepository;
 
     @Override
     @Transactional
@@ -50,16 +53,40 @@ public class CartServiceImpl implements CartService {
 
         checkAvailableAmountOnStockOrException(product, requestCartItemDTO.getQuantity());
 
-        CartItem cartItem = new CartItem();
-        cartItem.setClientId(requestCartItemDTO.getClientId());
-        cartItem.setProductId(requestCartItemDTO.getProductId());
-
-        cartItem.setProductLengthCostId(requestCartItemDTO.getProductLengthCostId());
-        cartItem.setQuantity(requestCartItemDTO.getQuantity());
-
         Cart cart = this.resolveByClientId(clientId);
-        cart.getCartItems().add((cartItem));
 
+//        cart.getCartItems()
+//                .forEach(cartItem -> {
+//                    if (cartItem.getProductId().equals(requestCartItemDTO.getProductId())
+//                            && cartItem.getProductLengthCostId().equals(requestCartItemDTO.getProductLengthCostId())) {
+//                        Integer quantity = cartItem.getQuantity() + requestCartItemDTO.getQuantity();
+//                        cartItem.setQuantity(quantity);
+//
+//                    }
+//                });
+
+        Optional<CartItem> cartItemOptional =
+                cartItemRepository.findByClientIdAndProductIdAndProductLengthCostId(
+                        requestCartItemDTO.getClientId(),
+                        requestCartItemDTO.getProductId(),
+                        requestCartItemDTO.getProductLengthCostId()
+                );
+
+        if (cartItemOptional.isPresent()) {
+            CartItem cartItem = cartItemOptional.get();
+            Integer quantity = cartItem.getQuantity() + requestCartItemDTO.getQuantity();
+            cartItem.setQuantity(quantity);
+            cartItemRepository.save(cartItem);
+        } else {
+            CartItem cartItem = new CartItem();
+            cartItem.setClientId(requestCartItemDTO.getClientId());
+            cartItem.setProductId(requestCartItemDTO.getProductId());
+
+            cartItem.setProductLengthCostId(requestCartItemDTO.getProductLengthCostId());
+            cartItem.setQuantity(requestCartItemDTO.getQuantity());
+
+            cart.getCartItems().add((cartItem));
+        }
         return buildCart(cart);
     }
 
