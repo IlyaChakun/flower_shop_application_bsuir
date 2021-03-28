@@ -20,7 +20,7 @@ public interface CommonController {
     @GetMapping("/countries")
     ResponseEntity<List<CountryDTO>> findAllCountries();
 
-    @GetMapping("/countries")
+    @GetMapping("/delivery-types")
     ResponseEntity<List<DeliveryTypeDTO>> findAllDeliveryTypes();
 
 }
