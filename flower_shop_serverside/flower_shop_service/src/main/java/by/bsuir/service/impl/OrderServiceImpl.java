@@ -24,14 +24,13 @@ import by.bsuir.repository.api.order.DeliveryTypeRepository;
 import by.bsuir.repository.api.order.OrderFloristInfoRepository;
 import by.bsuir.repository.api.order.UsualOrderRepository;
 import by.bsuir.service.api.OrderService;
+import java.util.Objects;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -72,8 +71,6 @@ public class OrderServiceImpl implements OrderService {
                         usualOrders.getTotalElements());
     }
 
-
-
     @Override
     public BaseOrderDTO findById(Long id) {
         if (usualOrderRepository.existsById(id)) {
@@ -84,7 +81,6 @@ public class OrderServiceImpl implements OrderService {
         throw new ResourceNotFoundException("Order with id=" + id + " does not exist!");
     }
 
-
     @Override
     @Transactional
     public BaseOrderDTO save(BaseOrderDTO baseOrderDTO) {
@@ -93,7 +89,8 @@ public class OrderServiceImpl implements OrderService {
         } else if (baseOrderDTO instanceof BuyNowOrderDTO) {
             return this.resolveBuyNowOrderSave((BuyNowOrderDTO) baseOrderDTO);
         } else {
-            throw new ServiceException(HttpStatus.INTERNAL_SERVER_ERROR.value(), "order_type_mismatch_error", "Order type can`t be resolved");
+            throw new ServiceException(HttpStatus.INTERNAL_SERVER_ERROR.value(), "order_type_mismatch_error",
+                    "Order type can`t be resolved");
         }
     }
 
@@ -116,9 +113,18 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private void resolveDeliveryType(BaseOrder baseOrder) {
-        DeliveryType deliveryType = deliveryTypeRepository.findById(baseOrder.getOrderDeliveryInfo().getDeliveryType().getId())
-                .orElseThrow(() -> new ResourceNotFoundException("Delivery type not found!"));
-        baseOrder.getOrderDeliveryInfo().setDeliveryType(deliveryType);
+        if (Objects.nonNull(baseOrder.getOrderDeliveryInfo().getDeliveryType().getId())) {
+            DeliveryType deliveryType = deliveryTypeRepository.findById(baseOrder.getOrderDeliveryInfo().getDeliveryType().getId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Delivery type founded by id does not exist!"));
+            baseOrder.getOrderDeliveryInfo().setDeliveryType(deliveryType);
+        } else if (Objects.nonNull(baseOrder.getOrderDeliveryInfo().getDeliveryType().getDeliveryTypeName())) {
+            DeliveryType deliveryType =
+                    deliveryTypeRepository.findByDeliveryTypeName(baseOrder.getOrderDeliveryInfo().getDeliveryType().getDeliveryTypeName())
+                            .orElseThrow(() -> new ResourceNotFoundException("Delivery type founded by name does not exist!"));
+            baseOrder.getOrderDeliveryInfo().setDeliveryType(deliveryType);
+        } else {
+            throw new ResourceNotFoundException("Delivery type does not present");
+        }
     }
 
     private BaseOrderDTO resolveBuyNowOrderSave(BuyNowOrderDTO buyNowOrderDTO) {
@@ -147,8 +153,6 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-
-
     private void patchOrderSetChosenFlorist(final Long orderId, final OrderFloristChoiceDTO orderFloristChoice) {
         final OrderFloristInfo orderFloristInfo = resolveOrderFloristInfoByOrderId(orderId);
         orderFloristInfo.setFloristId(orderFloristChoice.getFloristId());
@@ -172,7 +176,6 @@ public class OrderServiceImpl implements OrderService {
         }
         throw new ResourceNotFoundException("Order with id=" + orderId + " does not exist!");
     }
-
 
     private OrderFloristInfo resolveOrderFloristInfoByOrderId(final Long orderId) {
         return orderFloristInfoRepository.findByOrderId(orderId)
