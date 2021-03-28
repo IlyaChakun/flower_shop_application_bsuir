@@ -1,10 +1,9 @@
 package by.bsuir.dto.model.cart;
 
+import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.validation.constraints.NotNull;
 
 @NoArgsConstructor
 @Getter
@@ -16,5 +15,8 @@ public class DeleteCartItemDTO {
 
     @NotNull(message = "productId must be set")
     private Long productId;
+
+    @NotNull(message = "productLengthCostId must be set")
+    private Long productLengthCostId;
 
 }

@@ -14,14 +14,13 @@ import by.bsuir.repository.api.cart.CartRepository;
 import by.bsuir.repository.api.product.ProductLengthCostRepository;
 import by.bsuir.repository.api.product.ProductRepository;
 import by.bsuir.service.api.CartService;
+import java.util.List;
+import java.util.Optional;
+import javax.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -53,17 +52,17 @@ public class CartServiceImpl implements CartService {
 
         checkAvailableAmountOnStockOrException(product, requestCartItemDTO.getQuantity());
 
-        Cart cart = this.resolveByClientId(clientId);
+        Cart cart = resolveByClientId(clientId);
 
-//        cart.getCartItems()
-//                .forEach(cartItem -> {
-//                    if (cartItem.getProductId().equals(requestCartItemDTO.getProductId())
-//                            && cartItem.getProductLengthCostId().equals(requestCartItemDTO.getProductLengthCostId())) {
-//                        Integer quantity = cartItem.getQuantity() + requestCartItemDTO.getQuantity();
-//                        cartItem.setQuantity(quantity);
-//
-//                    }
-//                });
+        //        cart.getCartItems()
+        //                .forEach(cartItem -> {
+        //                    if (cartItem.getProductId().equals(requestCartItemDTO.getProductId())
+        //                            && cartItem.getProductLengthCostId().equals(requestCartItemDTO.getProductLengthCostId())) {
+        //                        Integer quantity = cartItem.getQuantity() + requestCartItemDTO.getQuantity();
+        //                        cartItem.setQuantity(quantity);
+        //
+        //                    }
+        //                });
 
         Optional<CartItem> cartItemOptional =
                 cartItemRepository.findByClientIdAndProductIdAndProductLengthCostId(
@@ -119,7 +118,7 @@ public class CartServiceImpl implements CartService {
         Long clientId = requestCartItemDTO.getClientId();
         checkAvailableAmountOnStockOrException(product, requestCartItemDTO.getQuantity());
 
-        Cart cart = this.resolveByClientId(clientId);
+        Cart cart = resolveByClientId(clientId);
         List<CartItem> cartItems = cart.getCartItems();
 
         for (CartItem item : cartItems) {
@@ -127,7 +126,7 @@ public class CartServiceImpl implements CartService {
             if (inCartProduct.equals(product)) {
                 item.setQuantity(requestCartItemDTO.getQuantity());
                 Long productLengthCostId = requestCartItemDTO.getProductLengthCostId();
-                this.resolveLengthCostOrThrowException(productLengthCostId);
+                resolveLengthCostOrThrowException(productLengthCostId);
                 item.setProductLengthCostId(productLengthCostId);
             }
         }
@@ -147,13 +146,18 @@ public class CartServiceImpl implements CartService {
         Product product = resolveProductOrThrowException(deleteCartItemDTO.getProductId());
         Long clientId = deleteCartItemDTO.getClientId();
 
-        Cart cart = this.resolveByClientId(clientId);
+        Cart cart = resolveByClientId(clientId);
 
         List<CartItem> cartItems = cart.getCartItems();
         cartItems.removeIf(
                 cartItem -> {
-                    Product inCartProduct = productRepository.getOne(cartItem.getProductId());
-                    return inCartProduct.equals(product);
+                    //                    Product inCartProduct = productRepository.getOne(cartItem.getProductId());
+                    //                    return inCartProduct.equals(product);
+                    return (cartItem.getProductId()
+                            .equals(deleteCartItemDTO.getProductId())
+                            &&
+                            cartItem.getProductLengthCostId()
+                                    .equals(deleteCartItemDTO.getProductLengthCostId()));
                 }
         );
 
@@ -164,7 +168,7 @@ public class CartServiceImpl implements CartService {
     @Transactional
     public CartDTO findCart(Long clientId) {
         log.info("in findCart method");
-        Cart cart = this.resolveByClientId(clientId);
+        Cart cart = resolveByClientId(clientId);
         return buildCart(cart);
     }
 
@@ -208,18 +212,6 @@ public class CartServiceImpl implements CartService {
 
 
     private Product resolveProductOrThrowException(Long productId) {
-
-//        AbstractFlowerProduct product;
-//        if (flowerRepository.findById(productId).isPresent()) {
-//            product = flowerRepository.getOne(productId);
-//        } else {
-//            product = flowerBouquetRepository.findById(productId)
-//                    .orElseThrow(() -> {
-//                        log.error("No Flower or Flower Bouquet with id={}", productId);
-//                        throw new ResourceNotFoundException("No Flower or Flower Bouquet with id=" + productId);
-//                    });
-//        }
-//        return product;
         return productRepository.findById(productId)
                 .orElseThrow(() -> {
                     log.error("No Product with id={}", productId);
