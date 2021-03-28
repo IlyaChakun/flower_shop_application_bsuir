@@ -13,24 +13,30 @@ import by.bsuir.dto.model.order.partial.OrderPartialUpdate;
 import by.bsuir.dto.model.order.usual.UsualOrderDTO;
 import by.bsuir.entity.order.BaseOrder;
 import by.bsuir.entity.order.OrderFloristInfo;
+import by.bsuir.entity.order.OrderProduct;
 import by.bsuir.entity.order.OrderStatus;
 import by.bsuir.entity.order.buynow.BuyNowOrder;
 import by.bsuir.entity.order.delivery.DeliveryType;
 import by.bsuir.entity.order.usual.UsualOrder;
+import by.bsuir.entity.product.Product;
 import by.bsuir.payload.exception.ResourceNotFoundException;
 import by.bsuir.payload.exception.ServiceException;
+import by.bsuir.repository.api.cart.CartRepository;
 import by.bsuir.repository.api.order.BuyNowOrderRepository;
 import by.bsuir.repository.api.order.DeliveryTypeRepository;
 import by.bsuir.repository.api.order.OrderFloristInfoRepository;
 import by.bsuir.repository.api.order.UsualOrderRepository;
+import by.bsuir.repository.api.product.ProductRepository;
 import by.bsuir.service.api.OrderService;
-import java.util.Objects;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -44,6 +50,10 @@ public class OrderServiceImpl implements OrderService {
 
     private final DeliveryTypeRepository deliveryTypeRepository;
     private final OrderFloristInfoRepository orderFloristInfoRepository;
+
+    private final CartRepository cartRepository;
+
+    private final ProductRepository productRepository;
 
     private final CommonServiceHelper commonServiceHelper;
 
@@ -92,6 +102,15 @@ public class OrderServiceImpl implements OrderService {
             throw new ServiceException(HttpStatus.INTERNAL_SERVER_ERROR.value(), "order_type_mismatch_error",
                     "Order type can`t be resolved");
         }
+
+    }
+
+    private void deleteCart(Long clientId) {
+        if (cartRepository.existsByClientId(clientId)) {
+            cartRepository.deleteByClientId(clientId);
+        } else {
+            throw new ResourceNotFoundException("Cart with clientId=" + clientId + " does not found!");
+        }
     }
 
     private BaseOrderDTO resolveUsualOrderSave(UsualOrderDTO usualOrderDTO) {
@@ -99,11 +118,25 @@ public class OrderServiceImpl implements OrderService {
         //
         resolveDeliveryType(usualOrder);
         //
+        resolveProducts(usualOrder.getOrderProducts());
+        //
         UsualOrder savedOrder = usualOrderRepository.save(usualOrder);
         //
         resolveOrderFloristInfo(savedOrder);
         //
+        deleteCart(usualOrder.getClientId());
+        //
         return usualOrderMapper.toDto(savedOrder);
+    }
+
+    private void resolveProducts(List<OrderProduct> orderProducts) {
+        orderProducts.forEach(orderProduct -> {
+            Product product = productRepository.findById(orderProduct.getProductId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Change product quantity, Product with id=" + orderProduct.getProductId() + " does not found!"));
+            Integer availableAmount = product.getAvailableAmount() - orderProduct.getQuantity();
+            product.setAvailableAmount(availableAmount);
+            productRepository.save(product);
+        });
     }
 
     private void resolveOrderFloristInfo(BaseOrder baseOrder) {
@@ -131,6 +164,8 @@ public class OrderServiceImpl implements OrderService {
         BuyNowOrder buyNowOrder = buyNowOrderMapper.toEntity(buyNowOrderDTO);
         //
         resolveDeliveryType(buyNowOrder);
+        //
+        resolveProducts(buyNowOrder.getOrderProducts());
         //
         BuyNowOrder savedOrder = buyNowOrderRepository.save(buyNowOrder);
         //

@@ -10,4 +10,7 @@ public interface CartRepository extends AbstractRepository<Cart> {
     Cart getByClientId(Long id);
 
     Boolean existsByClientId(Long id);
+
+    void deleteByClientId(Long clientId);
+
 }

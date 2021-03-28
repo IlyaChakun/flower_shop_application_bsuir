@@ -7,7 +7,6 @@ import by.bsuir.dto.model.order.common.OrderPriceInfoDTO;
 import by.bsuir.dto.model.order.common.OrderProductDTO;
 import by.bsuir.dto.model.order.delivery.OrderDeliveryInfoDTO;
 import by.bsuir.dto.model.order.usual.UsualOrderDTO;
-import by.bsuir.entity.order.OrderFloristInfo;
 import by.bsuir.entity.order.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
@@ -52,7 +51,7 @@ public abstract class BaseOrderDTO extends AbstractDTO {
     /**
      * price\discount info
      */
-    @Null(message = "Order price info will be set automatically")
+    @NotNull(message = "Order price info required")
     private OrderPriceInfoDTO orderPriceInfo; // calculated
 
 

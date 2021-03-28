@@ -64,8 +64,8 @@ public class CartServiceImpl implements CartService {
     }
 
     private void createCartIfNotExist(Long clientId) {
-        if(!cartRepository.existsByClientId(clientId)){
-            Cart cart =  new Cart();
+        if (!cartRepository.existsByClientId(clientId)) {
+            Cart cart = new Cart();
             cart.setClientId(clientId);
             cartRepository.save(cart);
         }
@@ -224,7 +224,9 @@ public class CartServiceImpl implements CartService {
     private Cart resolveByClientId(final Long clientId) {
         log.info("in resolveByClientId method");
         log.info("clientId={}", clientId);
-
+        if (!cartRepository.existsByClientId(clientId)) {
+            throw new ServiceException(HttpStatus.BAD_REQUEST.value(), "empty_cart_error", "Your cart is empty!");
+        }
         return cartRepository.getByClientId(clientId);
     }
 
