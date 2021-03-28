@@ -2,6 +2,7 @@ package by.bsuir.dto.model.order;
 
 import by.bsuir.dto.model.AbstractDTO;
 import by.bsuir.dto.model.order.buynow.BuyNowOrderDTO;
+import by.bsuir.dto.model.order.common.OrderFloristInfoDTO;
 import by.bsuir.dto.model.order.common.OrderPriceInfoDTO;
 import by.bsuir.dto.model.order.common.OrderProductDTO;
 import by.bsuir.dto.model.order.delivery.OrderDeliveryInfoDTO;
@@ -66,6 +67,6 @@ public abstract class BaseOrderDTO extends AbstractDTO {
      * order detail info
      */
     @Null(message = "Florist will be chose by admin!")
-    private OrderFloristInfo orderFloristInfo;
+    private OrderFloristInfoDTO orderFloristInfo;
 
 }

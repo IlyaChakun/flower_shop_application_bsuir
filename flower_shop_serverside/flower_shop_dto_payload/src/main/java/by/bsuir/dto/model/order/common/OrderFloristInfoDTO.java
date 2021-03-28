@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
@@ -14,6 +15,8 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 public class OrderFloristInfoDTO {
+
+    private Long orderId;
 
     /**
      * chose florist

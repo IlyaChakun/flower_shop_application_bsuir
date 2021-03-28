@@ -2,6 +2,7 @@ package by.bsuir.controller;
 
 import by.bsuir.dto.model.common.CountryDTO;
 import by.bsuir.dto.model.common.ProductLengthDTO;
+import by.bsuir.dto.model.order.delivery.DeliveryTypeDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,5 +19,8 @@ public interface CommonController {
 
     @GetMapping("/countries")
     ResponseEntity<List<CountryDTO>> findAllCountries();
+
+    @GetMapping("/countries")
+    ResponseEntity<List<DeliveryTypeDTO>> findAllDeliveryTypes();
 
 }
