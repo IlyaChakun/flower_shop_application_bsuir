@@ -7,6 +7,7 @@ import by.bsuir.dto.model.florist.FloristDTO;
 import by.bsuir.dto.model.florist.FloristRequestDTO;
 import by.bsuir.dto.model.user.UserDTO;
 import by.bsuir.entity.florist.Florist;
+import by.bsuir.entity.florist.FloristStatistic;
 import by.bsuir.entity.user.User;
 import by.bsuir.payload.exception.ResourceNotFoundException;
 import by.bsuir.repository.api.florist.FloristRepository;
@@ -47,6 +48,11 @@ public class FloristServiceImpl implements FloristService {
         User user = userRepository.getOne(userDTO.getId());
 
         Florist florist = getFlorist(floristRequestDTO, user);
+        FloristStatistic floristStatistic = new FloristStatistic();
+        floristStatistic.setFloristRatingSum(0D);
+        floristStatistic.setCompletedOrdersCount(0);
+        floristStatistic.setFloristRatingSum(0D);
+        florist.setFloristStatistic(floristStatistic);
 
         Florist added = floristRepository.save(florist);
 

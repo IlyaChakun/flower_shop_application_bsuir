@@ -19,9 +19,6 @@ public class OrderReview extends AbstractEntity {
     @Column(name = "client_id", nullable = false)
     private Long clientId;
 
-    @Column(name = "order_id", nullable = false)
-    private Long orderId;
-
     @Column(name = "text")
     private String text;
 

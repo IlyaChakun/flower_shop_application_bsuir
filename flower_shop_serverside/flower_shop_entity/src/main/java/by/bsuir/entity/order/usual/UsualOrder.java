@@ -19,7 +19,4 @@ public class UsualOrder extends BaseOrder {
     @Column(name = "client_id")
     private Long clientId;
 
-    @Column(name = "order_review_id")
-    private Long orderReviewId;
-
 }

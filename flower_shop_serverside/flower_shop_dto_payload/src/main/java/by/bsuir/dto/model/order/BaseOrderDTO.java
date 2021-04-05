@@ -6,6 +6,7 @@ import by.bsuir.dto.model.order.common.OrderFloristInfoDTO;
 import by.bsuir.dto.model.order.common.OrderPriceInfoDTO;
 import by.bsuir.dto.model.order.common.OrderProductDTO;
 import by.bsuir.dto.model.order.delivery.OrderDeliveryInfoDTO;
+import by.bsuir.dto.model.order.review.OrderReviewDTO;
 import by.bsuir.dto.model.order.usual.UsualOrderDTO;
 import by.bsuir.entity.order.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -67,5 +68,7 @@ public abstract class BaseOrderDTO extends AbstractDTO {
      */
     @Null(message = "Florist will be chose by admin!")
     private OrderFloristInfoDTO orderFloristInfo;
+
+    private OrderReviewDTO orderReview;
 
 }

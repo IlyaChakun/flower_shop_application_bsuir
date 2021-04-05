@@ -1,6 +1,7 @@
 package by.bsuir.service.impl;
 
 import by.bsuir.dto.mapper.order.BuyNowOrderMapperDTO;
+import by.bsuir.dto.mapper.order.OrderReviewMapperDTO;
 import by.bsuir.dto.mapper.order.UsualOrderMapperDTO;
 import by.bsuir.dto.model.PageWrapper;
 import by.bsuir.dto.model.order.BaseOrderDTO;
@@ -10,7 +11,10 @@ import by.bsuir.dto.model.order.criteria.UsualOrderSearchCriteriaDTO;
 import by.bsuir.dto.model.order.partial.OrderFloristChoiceDTO;
 import by.bsuir.dto.model.order.partial.OrderFloristCompletionDTO;
 import by.bsuir.dto.model.order.partial.OrderPartialUpdate;
+import by.bsuir.dto.model.order.review.OrderReviewDTO;
 import by.bsuir.dto.model.order.usual.UsualOrderDTO;
+import by.bsuir.entity.florist.Florist;
+import by.bsuir.entity.florist.FloristStatistic;
 import by.bsuir.entity.order.BaseOrder;
 import by.bsuir.entity.order.OrderFloristInfo;
 import by.bsuir.entity.order.OrderProduct;
@@ -23,10 +27,7 @@ import by.bsuir.payload.exception.ResourceNotFoundException;
 import by.bsuir.payload.exception.ServiceException;
 import by.bsuir.repository.api.cart.CartRepository;
 import by.bsuir.repository.api.florist.FloristRepository;
-import by.bsuir.repository.api.order.BuyNowOrderRepository;
-import by.bsuir.repository.api.order.DeliveryTypeRepository;
-import by.bsuir.repository.api.order.OrderFloristInfoRepository;
-import by.bsuir.repository.api.order.UsualOrderRepository;
+import by.bsuir.repository.api.order.*;
 import by.bsuir.repository.api.product.ProductRepository;
 import by.bsuir.service.api.OrderService;
 import lombok.AllArgsConstructor;
@@ -51,6 +52,9 @@ public class OrderServiceImpl implements OrderService {
 
     private final DeliveryTypeRepository deliveryTypeRepository;
     private final OrderFloristInfoRepository orderFloristInfoRepository;
+
+    private final OrderReviewRepository orderReviewRepository;
+    private final OrderReviewMapperDTO orderReviewMapper;
 
     private final CartRepository cartRepository;
 
@@ -185,10 +189,38 @@ public class OrderServiceImpl implements OrderService {
         if (Objects.nonNull(partialUpdate.getOrderFloristChoice())) {
             this.patchOrderSetChosenFlorist(orderId, partialUpdate.getOrderFloristChoice());
         }
+
+
         if (Objects.nonNull(partialUpdate.getOrderFloristCompletion())) {
             this.patchOrderCompletionByFlorist(orderId, partialUpdate.getOrderFloristCompletion());
             this.completeOrder(orderId);
         }
+
+        if (Objects.nonNull(partialUpdate.getOrderReviewDTO())) {
+            patchUserOrderRating(orderId, partialUpdate.getOrderReviewDTO());
+        }
+    }
+
+    private void patchUserOrderRating(Long orderId, OrderReviewDTO orderReviewDTO) {
+        final BaseOrder baseOrder = resolveBaseOrderById(orderId);
+        baseOrder.setOrderReview(orderReviewMapper.toEntity(orderReviewDTO));
+
+        updateFloristRating(orderReviewDTO, baseOrder);
+    }
+
+    private void updateFloristRating(OrderReviewDTO orderReviewDTO, BaseOrder baseOrder) {
+        Florist florist = floristRepository.getOne(baseOrder.getOrderFloristInfo().getFloristId());
+        FloristStatistic floristStatistic = florist.getFloristStatistic();
+
+        //calculate new orders count
+        final int initialCompletedOrderCount = Objects.isNull(floristStatistic.getCompletedOrdersCount()) ? 0 : floristStatistic.getCompletedOrdersCount();
+        final int floristCompletedOrdersCount = initialCompletedOrderCount + 1;
+        floristStatistic.setCompletedOrdersCount(floristCompletedOrdersCount);
+
+        //calculate new rating sum
+        final double initialFloristRatingSum = Objects.isNull(floristStatistic.getFloristRatingSum()) ? 0 : floristStatistic.getFloristRatingSum();
+        final double floristRatingSum = initialFloristRatingSum + orderReviewDTO.getRating();
+        floristStatistic.setFloristRatingSum(floristRatingSum);
     }
 
     private void patchOrderSetChosenFlorist(final Long orderId, final OrderFloristChoiceDTO orderFloristChoice) {

@@ -2,6 +2,7 @@ package by.bsuir.entity.order;
 
 import by.bsuir.entity.AbstractEntity;
 import by.bsuir.entity.order.delivery.OrderDeliveryInfo;
+import by.bsuir.entity.order.review.OrderReview;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -47,6 +48,9 @@ public abstract class BaseOrder extends AbstractEntity {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "order_id")
     private OrderFloristInfo orderFloristInfo;
+
+    @OneToOne(cascade = {CascadeType.ALL})
+    private OrderReview orderReview;
 
     /****/
 

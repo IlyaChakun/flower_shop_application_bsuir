@@ -32,6 +32,7 @@ public class Florist extends AbstractEntity {
     @Column(name = "salary")
     private Double salary;//оклад
 
-
+    @OneToOne(cascade = {CascadeType.ALL})
+    private FloristStatistic floristStatistic;
 
 }

@@ -1,5 +1,6 @@
 package by.bsuir.dto.model.order.partial;
 
+import by.bsuir.dto.model.order.review.OrderReviewDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,5 +22,7 @@ public class OrderPartialUpdate {
     @Valid
     private OrderFloristCompletionDTO orderFloristCompletion;
 
+    @Valid
+    private OrderReviewDTO orderReviewDTO;
 
 }

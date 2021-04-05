@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 
 @Getter
 @Setter
@@ -22,4 +23,6 @@ public class FloristDTO extends AbstractDTO {
 
     private Double experience;
 
+    @Null(message = "statistic wil set automatically")
+    private FloristStatisticDTO floristStatistic;
 }
