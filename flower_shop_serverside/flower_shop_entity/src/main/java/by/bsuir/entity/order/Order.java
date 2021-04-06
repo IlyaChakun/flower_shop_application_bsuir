@@ -13,13 +13,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "orders_base")
+@Table(name = "orders")
 @Getter
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@Inheritance(strategy = InheritanceType.JOINED)
-public abstract class BaseOrder extends AbstractEntity {
+//@Inheritance(strategy = InheritanceType.JOINED)
+public class Order extends AbstractEntity {
+
+    @Column(name = "client_id")
+    private Long clientId;
 
     @Enumerated(value = EnumType.STRING)
     private OrderStatus orderStatus;

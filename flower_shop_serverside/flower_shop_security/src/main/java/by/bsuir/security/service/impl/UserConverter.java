@@ -8,7 +8,6 @@ import by.bsuir.entity.user.SupportedAuthProvider;
 import by.bsuir.entity.user.User;
 import by.bsuir.entity.user.UserRole;
 import by.bsuir.repository.api.user.RoleRepository;
-
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -30,7 +29,8 @@ public final class UserConverter {
                 signUpRequest.getEmail(),
                 signUpRequest.getPassword(),
                 SupportedAuthProvider.local,
-                imageUrl
+                imageUrl,
+                signUpRequest.getPhoneNumber()
         );
     }
 
@@ -46,7 +46,8 @@ public final class UserConverter {
                 userDTO.getEmail(),
                 userDTO.getPassword(),
                 userDTO.getProvider(),
-                imageUrl
+                imageUrl,
+                userDTO.getPhoneNumber()
         );
     }
 
@@ -55,7 +56,8 @@ public final class UserConverter {
                          String email,
                          String password,
                          SupportedAuthProvider provider,
-                         String image) {
+                         String image,
+                         String phoneNumber) {
         User user = new User();
         UserRole userRole = roleRepository.findByName(roleName);
         user.setName(name);
@@ -66,6 +68,7 @@ public final class UserConverter {
         user.setProvider(provider);
         user.setUserRole(userRole);
         user.setImage(new Image(image));
+        user.setPhoneNumber(phoneNumber);
 
         return user;
     }

@@ -1,26 +1,29 @@
 package by.bsuir.dto.model.order.buynow;
 
-import by.bsuir.dto.model.order.BaseOrderDTO;
+import by.bsuir.dto.model.order.OrderDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.Pattern;
 
 
 @NoArgsConstructor
 @Getter
 @Setter
-public class BuyNowOrderDTO extends BaseOrderDTO {
+public class BuyNowOrderDTO extends OrderDTO {
 
-    @NotBlank(message = "First name can`t be blank or spaces")
-    @Size(min = 2, max = 64, message = "First name must be in 2 from 64")
-    private String firstName;
 
-    @NotBlank(message = "Last name can`t be blank or spaces")
-    @Size(min = 2, max = 64, message = "Last name must be in 2 from 64")
-    private String lastName;
+    @NotBlank(message = "Name can`t be null or spaces")
+    @Pattern(regexp = ".{5,30}", message = "Name can`t be smaller then 5 symbols and bigger then 30 symbols")
+    private String name;
+
+    @NotBlank(message = "email can`t be null or spaces")
+    @Email(message = "Email should be correct!")
+    private String email;
+
 
     private String phoneNumber;
 

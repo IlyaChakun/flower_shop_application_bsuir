@@ -2,6 +2,7 @@ package by.bsuir.controller;
 
 import by.bsuir.dto.model.PageWrapper;
 import by.bsuir.dto.model.product.ProductDTO;
+import by.bsuir.dto.model.product.ProductSearchCriteria;
 import by.bsuir.dto.validation.annotation.PositiveLong;
 import by.bsuir.security.dto.ApiResponse;
 import by.bsuir.service.api.ProductService;
@@ -74,9 +75,10 @@ public class ProductController {
     @GetMapping
     public ResponseEntity<?> findAllProducts(
             @RequestParam(defaultValue = "1", required = false) Integer page,
-            @RequestParam(defaultValue = "10", required = false) Integer size) {
+            @RequestParam(defaultValue = "10", required = false) Integer size,
+            ProductSearchCriteria productSearchCriteria) {
 
-        PageWrapper<ProductDTO> wrapper = productService.findAll(page - 1, size, null);
+        PageWrapper<ProductDTO> wrapper = productService.findAll(page - 1, size, productSearchCriteria);
 
         return ResponseEntity.ok(wrapper);
     }

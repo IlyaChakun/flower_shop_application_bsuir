@@ -70,6 +70,11 @@ public class UserSecurityServiceImpl implements UserSecurityService {
     }
 
     @Override
+    public UserDTO getOneByMail(String email) {
+        return userMapper.toDto(userRepository.getByEmail(email));
+    }
+
+    @Override
     public UserDTO findById(Long id) {
         return userMapper.toDto(userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User with id=" + id + " not found.")));

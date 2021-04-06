@@ -35,4 +35,6 @@ public class UserSignUpRequest {
 
     private ImageDTO image;
 
+    private String phoneNumber;
+
 }

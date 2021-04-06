@@ -16,7 +16,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 public class OrderReview extends AbstractEntity {
 
-    @Column(name = "client_id", nullable = false)
+    @Column(name = "client_id")
     private Long clientId;
 
     @Column(name = "text")

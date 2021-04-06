@@ -1,39 +1,38 @@
 package by.bsuir.service.impl;
 
-import by.bsuir.dto.mapper.order.BuyNowOrderMapperDTO;
+import by.bsuir.dto.mapper.order.OrderMapperDTO;
 import by.bsuir.dto.mapper.order.OrderReviewMapperDTO;
-import by.bsuir.dto.mapper.order.UsualOrderMapperDTO;
 import by.bsuir.dto.model.PageWrapper;
-import by.bsuir.dto.model.order.BaseOrderDTO;
+import by.bsuir.dto.model.order.OrderDTO;
 import by.bsuir.dto.model.order.buynow.BuyNowOrderDTO;
-import by.bsuir.dto.model.order.criteria.BuyNowOrderSearchCriteriaDTO;
 import by.bsuir.dto.model.order.criteria.UsualOrderSearchCriteriaDTO;
 import by.bsuir.dto.model.order.partial.OrderFloristChoiceDTO;
 import by.bsuir.dto.model.order.partial.OrderFloristCompletionDTO;
 import by.bsuir.dto.model.order.partial.OrderPartialUpdate;
 import by.bsuir.dto.model.order.review.OrderReviewDTO;
-import by.bsuir.dto.model.order.usual.UsualOrderDTO;
+import by.bsuir.dto.model.user.UserDTO;
+import by.bsuir.dto.model.user.signup.UserSignUpRequest;
 import by.bsuir.entity.florist.Florist;
 import by.bsuir.entity.florist.FloristStatistic;
-import by.bsuir.entity.order.BaseOrder;
+import by.bsuir.entity.order.Order;
 import by.bsuir.entity.order.OrderFloristInfo;
 import by.bsuir.entity.order.OrderProduct;
 import by.bsuir.entity.order.OrderStatus;
-import by.bsuir.entity.order.buynow.BuyNowOrder;
 import by.bsuir.entity.order.delivery.DeliveryType;
-import by.bsuir.entity.order.usual.UsualOrder;
 import by.bsuir.entity.product.Product;
 import by.bsuir.payload.exception.ResourceNotFoundException;
-import by.bsuir.payload.exception.ServiceException;
 import by.bsuir.repository.api.cart.CartRepository;
 import by.bsuir.repository.api.florist.FloristRepository;
-import by.bsuir.repository.api.order.*;
+import by.bsuir.repository.api.order.DeliveryTypeRepository;
+import by.bsuir.repository.api.order.OrderFloristInfoRepository;
+import by.bsuir.repository.api.order.OrderRepository;
+import by.bsuir.repository.api.order.OrderReviewRepository;
 import by.bsuir.repository.api.product.ProductRepository;
+import by.bsuir.security.service.api.UserSecurityService;
 import by.bsuir.service.api.OrderService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,11 +43,10 @@ import java.util.Objects;
 @AllArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
-    private final BuyNowOrderMapperDTO buyNowOrderMapper;
-    private final UsualOrderMapperDTO usualOrderMapper;
 
-    private final UsualOrderRepository usualOrderRepository;
-    private final BuyNowOrderRepository buyNowOrderRepository;
+    private final OrderMapperDTO orderMapper;
+    private final OrderRepository orderRepository;
+
 
     private final DeliveryTypeRepository deliveryTypeRepository;
     private final OrderFloristInfoRepository orderFloristInfoRepository;
@@ -64,52 +62,49 @@ public class OrderServiceImpl implements OrderService {
 
     private final CommonServiceHelper commonServiceHelper;
 
+    private final UserSecurityService accountClient;
+
     @Override
-    public PageWrapper<UsualOrderDTO> findAll(int page, int size, UsualOrderSearchCriteriaDTO searchParams) {
+    public PageWrapper<OrderDTO> findAll(int page, int size, UsualOrderSearchCriteriaDTO searchParams) {
         Pageable pageable = commonServiceHelper.getPageable(page, size);
-        Page<UsualOrder> usualOrders = usualOrderRepository.findAllByClientId(pageable, searchParams.getClientId());
+
+        Page<Order> usualOrders =
+                orderRepository.findAllByClientIdAndOrderStatus(
+                        pageable,
+                        searchParams.getClientId(),
+                        searchParams.getOrderStatus());
+
 
         return
                 new PageWrapper<>(
-                        usualOrderMapper.toDtoList(usualOrders.toList()),
+                        orderMapper.toDtoList(usualOrders.toList()),
                         usualOrders.getTotalPages(),
                         usualOrders.getTotalElements());
     }
 
-    @Override
-    public PageWrapper<BuyNowOrderDTO> findAll(int page, int size, BuyNowOrderSearchCriteriaDTO searchParams) {
-        Pageable pageable = commonServiceHelper.getPageable(page, size);
-        Page<BuyNowOrder> usualOrders = buyNowOrderRepository.findAll(pageable);
-
-        return
-                new PageWrapper<>(
-                        buyNowOrderMapper.toDtoList(usualOrders.toList()),
-                        usualOrders.getTotalPages(),
-                        usualOrders.getTotalElements());
-    }
 
     @Override
-    public BaseOrderDTO findById(Long id) {
-        if (usualOrderRepository.existsById(id)) {
-            return usualOrderMapper.toDto(usualOrderRepository.getOne(id));
-        } else if (buyNowOrderRepository.existsById(id)) {
-            return buyNowOrderMapper.toDto(buyNowOrderRepository.getOne(id));
-        }
-        throw new ResourceNotFoundException("Order with id=" + id + " does not exist!");
+    public OrderDTO findById(Long id) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Order with id=" + id + " does not exist!"));
+
+        return orderMapper.toDto(order);
     }
 
     @Override
     @Transactional
-    public BaseOrderDTO save(BaseOrderDTO baseOrderDTO) {
-        if (baseOrderDTO instanceof UsualOrderDTO) {
-            return this.resolveUsualOrderSave((UsualOrderDTO) baseOrderDTO);
-        } else if (baseOrderDTO instanceof BuyNowOrderDTO) {
-            return this.resolveBuyNowOrderSave((BuyNowOrderDTO) baseOrderDTO);
+    public OrderDTO save(OrderDTO orderDTO) {
+
+        Order order;
+        boolean deleteCart = true;
+        if (orderDTO instanceof BuyNowOrderDTO) {
+            deleteCart = false;
+            order = this.resolveBuyNowOrderToOrder((BuyNowOrderDTO) orderDTO);
         } else {
-            throw new ServiceException(HttpStatus.INTERNAL_SERVER_ERROR.value(), "order_type_mismatch_error",
-                    "Order type can`t be resolved");
+            order = orderMapper.toEntity(orderDTO);
         }
 
+        return this.resolveOrderSave(order, deleteCart);
     }
 
     private void deleteCart(Long clientId) {
@@ -120,20 +115,21 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-    private BaseOrderDTO resolveUsualOrderSave(UsualOrderDTO usualOrderDTO) {
-        UsualOrder usualOrder = usualOrderMapper.toEntity(usualOrderDTO);
+    private OrderDTO resolveOrderSave(Order order, boolean deleteCart) {
         //
-        resolveDeliveryType(usualOrder);
+        resolveDeliveryType(order);
         //
-        resolveProducts(usualOrder.getOrderProducts());
+        resolveProducts(order.getOrderProducts());
         //
-        UsualOrder savedOrder = usualOrderRepository.save(usualOrder);
+        Order savedOrder = orderRepository.save(order);
         //
         resolveOrderFloristInfo(savedOrder);
         //
-        deleteCart(usualOrder.getClientId());
+        if (deleteCart) {//если обычный заказ то будет что удалять
+            deleteCart(order.getClientId());
+        }
         //
-        return usualOrderMapper.toDto(savedOrder);
+        return orderMapper.toDto(savedOrder);
     }
 
     private void resolveProducts(List<OrderProduct> orderProducts) {
@@ -146,40 +142,51 @@ public class OrderServiceImpl implements OrderService {
         });
     }
 
-    private void resolveOrderFloristInfo(BaseOrder baseOrder) {
+    private void resolveOrderFloristInfo(Order order) {
         OrderFloristInfo orderFloristInfo = new OrderFloristInfo();
-        orderFloristInfo.setOrderId(baseOrder.getId());
-        baseOrder.setOrderFloristInfo(orderFloristInfo);
+        orderFloristInfo.setOrderId(order.getId());
+        order.setOrderFloristInfo(orderFloristInfo);
     }
 
-    private void resolveDeliveryType(BaseOrder baseOrder) {
-        if (Objects.nonNull(baseOrder.getOrderDeliveryInfo().getDeliveryType().getId())) {
-            DeliveryType deliveryType = deliveryTypeRepository.findById(baseOrder.getOrderDeliveryInfo().getDeliveryType().getId())
+    private void resolveDeliveryType(Order order) {
+        if (Objects.nonNull(order.getOrderDeliveryInfo().getDeliveryType().getId())) {
+            DeliveryType deliveryType = deliveryTypeRepository.findById(order.getOrderDeliveryInfo().getDeliveryType().getId())
                     .orElseThrow(() -> new ResourceNotFoundException("Delivery type founded by id does not exist!"));
-            baseOrder.getOrderDeliveryInfo().setDeliveryType(deliveryType);
-        } else if (Objects.nonNull(baseOrder.getOrderDeliveryInfo().getDeliveryType().getDeliveryTypeName())) {
+            order.getOrderDeliveryInfo().setDeliveryType(deliveryType);
+        } else if (Objects.nonNull(order.getOrderDeliveryInfo().getDeliveryType().getDeliveryTypeName())) {
             DeliveryType deliveryType =
-                    deliveryTypeRepository.findByDeliveryTypeName(baseOrder.getOrderDeliveryInfo().getDeliveryType().getDeliveryTypeName())
+                    deliveryTypeRepository.findByDeliveryTypeName(order.getOrderDeliveryInfo().getDeliveryType().getDeliveryTypeName())
                             .orElseThrow(() -> new ResourceNotFoundException("Delivery type founded by name does not exist!"));
-            baseOrder.getOrderDeliveryInfo().setDeliveryType(deliveryType);
+            order.getOrderDeliveryInfo().setDeliveryType(deliveryType);
         } else {
             throw new ResourceNotFoundException("Delivery type does not present");
         }
     }
 
-    private BaseOrderDTO resolveBuyNowOrderSave(BuyNowOrderDTO buyNowOrderDTO) {
-        BuyNowOrder buyNowOrder = buyNowOrderMapper.toEntity(buyNowOrderDTO);
-        //
-        resolveDeliveryType(buyNowOrder);
-        //
-        resolveProducts(buyNowOrder.getOrderProducts());
-        //
-        BuyNowOrder savedOrder = buyNowOrderRepository.save(buyNowOrder);
-        //
-        resolveOrderFloristInfo(savedOrder);
-        //
-        return buyNowOrderMapper.toDto(savedOrder);
+    private Order resolveBuyNowOrderToOrder(BuyNowOrderDTO buyNowOrderDTO) {
+
+        UserDTO userDTO;
+        if (accountClient.existsByEmail(buyNowOrderDTO.getEmail())) {
+            userDTO = accountClient.getOneByMail(buyNowOrderDTO.getEmail());
+        } else {
+            UserSignUpRequest userSignUpRequest = new UserSignUpRequest();
+            userSignUpRequest.setRoleType("ROLE_CLIENT");
+            userSignUpRequest.setEmail(buyNowOrderDTO.getEmail());
+            userSignUpRequest.setName(buyNowOrderDTO.getName());
+            userSignUpRequest.setPhoneNumber(buyNowOrderDTO.getPhoneNumber());
+            userSignUpRequest.setPassword(java.util.UUID.randomUUID().toString());
+
+            //TODO сгенерировать пароль и отправить его потом на почту
+
+            userDTO = accountClient.registerUser(userSignUpRequest);
+        }
+
+        Order order = orderMapper.toEntity((OrderDTO) buyNowOrderDTO);
+        order.setClientId(userDTO.getId());
+
+        return order;
     }
+
 
     @Override
     @Transactional
@@ -202,14 +209,14 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private void patchUserOrderRating(Long orderId, OrderReviewDTO orderReviewDTO) {
-        final BaseOrder baseOrder = resolveBaseOrderById(orderId);
-        baseOrder.setOrderReview(orderReviewMapper.toEntity(orderReviewDTO));
+        final Order order = resolveOrderById(orderId);
+        order.setOrderReview(orderReviewMapper.toEntity(orderReviewDTO));
 
-        updateFloristRating(orderReviewDTO, baseOrder);
+        updateFloristRating(orderReviewDTO, order);
     }
 
-    private void updateFloristRating(OrderReviewDTO orderReviewDTO, BaseOrder baseOrder) {
-        Florist florist = floristRepository.getOne(baseOrder.getOrderFloristInfo().getFloristId());
+    private void updateFloristRating(OrderReviewDTO orderReviewDTO, Order order) {
+        Florist florist = floristRepository.getOne(order.getOrderFloristInfo().getFloristId());
         FloristStatistic floristStatistic = florist.getFloristStatistic();
 
         //calculate new orders count
@@ -227,6 +234,10 @@ public class OrderServiceImpl implements OrderService {
         final OrderFloristInfo orderFloristInfo = resolveOrderFloristInfoByOrderId(orderId);
 
         orderFloristInfo.setFloristId(orderFloristChoice.getFloristId());
+
+        Order order = resolveOrderById(orderId);
+        order.setOrderStatus(OrderStatus.IN_PROCESS);
+
     }
 
     private void patchOrderCompletionByFlorist(final Long orderId, final OrderFloristCompletionDTO orderFloristCompletion) {
@@ -235,15 +246,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private void completeOrder(final Long orderId) {
-        final BaseOrder baseOrder = resolveBaseOrderById(orderId);
-        baseOrder.setOrderStatus(OrderStatus.COMPLETED);
+        final Order order = resolveOrderById(orderId);
+        order.setOrderStatus(OrderStatus.COMPLETED);
     }
 
-    private BaseOrder resolveBaseOrderById(final Long orderId) {
-        if (usualOrderRepository.existsById(orderId)) {
-            return usualOrderRepository.getOne(orderId);
-        } else if (buyNowOrderRepository.existsById(orderId)) {
-            return buyNowOrderRepository.getOne(orderId);
+    private Order resolveOrderById(final Long orderId) {
+        if (orderRepository.existsById(orderId)) {
+            return orderRepository.getOne(orderId);
         }
         throw new ResourceNotFoundException("Order with id=" + orderId + " does not exist!");
     }

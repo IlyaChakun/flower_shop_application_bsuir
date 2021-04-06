@@ -1,11 +1,10 @@
 package by.bsuir.controller;
 
 import by.bsuir.dto.model.PageWrapper;
+import by.bsuir.dto.model.order.OrderDTO;
 import by.bsuir.dto.model.order.buynow.BuyNowOrderDTO;
-import by.bsuir.dto.model.order.criteria.BuyNowOrderSearchCriteriaDTO;
 import by.bsuir.dto.model.order.criteria.UsualOrderSearchCriteriaDTO;
 import by.bsuir.dto.model.order.partial.OrderPartialUpdate;
-import by.bsuir.dto.model.order.usual.UsualOrderDTO;
 import by.bsuir.dto.validation.annotation.PositiveLong;
 import by.bsuir.security.dto.ApiResponse;
 import org.springframework.http.ResponseEntity;
@@ -18,15 +17,8 @@ import javax.validation.Valid;
 @CrossOrigin(origins = "*")
 public interface OrderController {
 
-
-    @GetMapping("/buy-now-orders")
-    ResponseEntity<PageWrapper<BuyNowOrderDTO>> findAllBuyNowOrders(
-            @RequestParam(defaultValue = "1", required = false) Integer page,
-            @RequestParam(defaultValue = "10", required = false) Integer size,
-            BuyNowOrderSearchCriteriaDTO buyNowOrderSearchCriteriaDTO);
-
     @GetMapping
-    ResponseEntity<PageWrapper<UsualOrderDTO>> findAllUsualOrders(
+    ResponseEntity<PageWrapper<OrderDTO>> findAll(
             @RequestParam(defaultValue = "1", required = false) Integer page,
             @RequestParam(defaultValue = "10", required = false) Integer size,
             UsualOrderSearchCriteriaDTO orderSearchCriteriaCriteria);
@@ -40,10 +32,10 @@ public interface OrderController {
                                          BindingResult result);
 
     @PostMapping
-    ResponseEntity<ApiResponse> saveOrder(@RequestBody @Valid UsualOrderDTO usualOrderDTO,
+    ResponseEntity<OrderDTO> saveOrder(@RequestBody @Valid OrderDTO usualOrderDTO,
                                           BindingResult result);
 
     @PostMapping("/buy-now-orders")
-    ResponseEntity<ApiResponse> saveBuyNowOrder(@RequestBody @Valid BuyNowOrderDTO buyNowOrderDTO,
+    ResponseEntity<OrderDTO> saveBuyNowOrder(@RequestBody @Valid BuyNowOrderDTO buyNowOrderDTO,
                                                 BindingResult result);
 }

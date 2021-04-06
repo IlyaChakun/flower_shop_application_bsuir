@@ -1,9 +1,9 @@
 package by.bsuir.service.impl;
 
 import by.bsuir.dto.mapper.product.ProductMapperDTO;
-import by.bsuir.dto.model.AbstractSearchCriteriaAndSortParamsDto;
 import by.bsuir.dto.model.PageWrapper;
 import by.bsuir.dto.model.product.ProductDTO;
+import by.bsuir.dto.model.product.ProductSearchCriteria;
 import by.bsuir.entity.product.Product;
 import by.bsuir.payload.exception.ResourceNotFoundException;
 import by.bsuir.repository.api.common.CountryRepository;
@@ -67,10 +67,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private void resolveLinkedEntity(ProductDTO productDTO) {
-      //  commonServiceHelper.checkIdOrThrowException(productDTO.getShopId(), "absent_shop_error", "Shop id must be specified!");
+        //  commonServiceHelper.checkIdOrThrowException(productDTO.getShopId(), "absent_shop_error", "Shop id must be specified!");
         commonServiceHelper.checkIdOrThrowException(productDTO.getCountryId(), "absent_country_error", "Country id must be specified!");
 
-       // this.resolveShopOrThrowException(productDTO.getShopId());
+        // this.resolveShopOrThrowException(productDTO.getShopId());
         this.resolveCountryOrThrowException(productDTO.getCountryId());
     }
 
@@ -95,7 +95,8 @@ public class ProductServiceImpl implements ProductService {
                         }
                 );
 
-        productRepository.delete(product);
+        product.setIsDeleted(true);
+        //productRepository.delete(product);
     }
 
 
@@ -113,12 +114,16 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public PageWrapper<ProductDTO> findAll(int page, int size, AbstractSearchCriteriaAndSortParamsDto searchParams) {
+    public PageWrapper<ProductDTO> findAll(int page, int size, ProductSearchCriteria searchParams) {
         Pageable pageable = commonServiceHelper.getPageable(page, size);
 
 //        Specification<Flower> specification = getSpecification(searchAndSortParamDto);
 //        Page<Flower> flowers = flowerRepository.findAll(specification, pageable);
-        Page<Product> products = productRepository.findAll(pageable);
+        //TODO
+        //1. искать где не удален
+        //2. id category
+        //3. стоимость От X до Y
+        Page<Product> products = productRepository.findAllByIsDeletedFalse(pageable);
 
         return
                 new PageWrapper<>(

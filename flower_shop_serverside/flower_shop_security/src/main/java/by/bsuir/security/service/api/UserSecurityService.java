@@ -3,7 +3,6 @@ package by.bsuir.security.service.api;
 import by.bsuir.dto.model.user.UserDTO;
 import by.bsuir.dto.model.user.signup.UserSignUpRequest;
 
-
 import java.util.Optional;
 
 public interface UserSecurityService {
@@ -15,6 +14,8 @@ public interface UserSecurityService {
     Optional<UserDTO> findByEmail(String email);
 
     UserDTO getOne(Long id);
+
+    UserDTO getOneByMail(String email);
 
     UserDTO findById(Long id);
 
