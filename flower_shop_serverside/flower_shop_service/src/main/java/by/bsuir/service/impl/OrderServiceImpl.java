@@ -68,11 +68,22 @@ public class OrderServiceImpl implements OrderService {
     public PageWrapper<OrderDTO> findAll(int page, int size, UsualOrderSearchCriteriaDTO searchParams) {
         Pageable pageable = commonServiceHelper.getPageable(page, size);
 
-        Page<Order> usualOrders =
-                orderRepository.findAllByClientIdAndOrderStatus(
-                        pageable,
-                        searchParams.getClientId(),
-                        searchParams.getOrderStatus());
+        //TODO сделать спецификацию 1. ид клиента (если есть) 2. ордер статус( есть всегда  с него можно начинать)
+
+
+        Page<Order> usualOrders;
+        if(Objects.nonNull(searchParams.getClientId())) {
+            usualOrders =
+                    orderRepository.findAllByClientIdAndOrderStatus(
+                            pageable,
+                            searchParams.getClientId(),
+                            searchParams.getOrderStatus());
+        }else{
+            usualOrders =
+                    orderRepository.findAllByOrderStatus(
+                            pageable,
+                            searchParams.getOrderStatus());
+        }
 
 
         return
@@ -216,13 +227,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private void updateFloristRating(OrderReviewDTO orderReviewDTO, Order order) {
-        Florist florist = floristRepository.getOne(order.getOrderFloristInfo().getFloristId());
-        FloristStatistic floristStatistic = florist.getFloristStatistic();
-
-        //calculate new orders count
-        final int initialCompletedOrderCount = Objects.isNull(floristStatistic.getCompletedOrdersCount()) ? 0 : floristStatistic.getCompletedOrdersCount();
-        final int floristCompletedOrdersCount = initialCompletedOrderCount + 1;
-        floristStatistic.setCompletedOrdersCount(floristCompletedOrdersCount);
+        FloristStatistic floristStatistic = getFloristStatistic(order);
 
         //calculate new rating sum
         final double initialFloristRatingSum = Objects.isNull(floristStatistic.getFloristRatingSum()) ? 0 : floristStatistic.getFloristRatingSum();
@@ -243,6 +248,20 @@ public class OrderServiceImpl implements OrderService {
     private void patchOrderCompletionByFlorist(final Long orderId, final OrderFloristCompletionDTO orderFloristCompletion) {
         final OrderFloristInfo orderFloristInfo = resolveOrderFloristInfoByOrderId(orderId);
         orderFloristInfo.setFloristComment(orderFloristCompletion.getFloristComment());
+
+        final Order order = resolveOrderById(orderId);
+
+        FloristStatistic floristStatistic = getFloristStatistic(order);
+
+        //calculate new orders count
+        final int initialCompletedOrderCount = Objects.isNull(floristStatistic.getCompletedOrdersCount()) ? 0 : floristStatistic.getCompletedOrdersCount();
+        final int floristCompletedOrdersCount = initialCompletedOrderCount + 1;
+        floristStatistic.setCompletedOrdersCount(floristCompletedOrdersCount);
+    }
+
+    private FloristStatistic getFloristStatistic(Order order) {
+        Florist florist = floristRepository.getOne(order.getOrderFloristInfo().getFloristId());
+        return florist.getFloristStatistic();
     }
 
     private void completeOrder(final Long orderId) {
