@@ -114,3 +114,13 @@ VALUES (1, 40),
        (5, 80),
        (6, 100);
 /** **/
+
+insert ignore into users(id, date_of_creation, date_of_last_update, unique_id, email, image_url, is_mail_confirmed, name, password,
+                         phone_number, provider, user_type, user_role_id)
+values (0, now(), now(), '27646238-432d-4906-9cd1-44e1347abf8e', 'admin@mail.ru', '', false, 'admin',
+        '$2a$10$LmX4NrA/iAmR.VI8yREnLeJBymA3CFJ12z2XpssOmVWCzRt8StIhK', 1234567, 'local', 'ROLE_ADMIN', 1);
+# pass: 123456
+
+
+insert ignore into user_confirmation_tokens(id, date_of_creation, date_of_last_update, unique_id, confirmation_token, user_id)
+values (0, now(), now(), '94fa5c47-ef32-45a5-903d-e25ff80b5640', '962d6188-ee6f-43e6-bd48-34df6d2785c0', 0);
