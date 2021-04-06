@@ -16,6 +16,9 @@ import javax.persistence.*;
 @Setter
 public class Florist extends AbstractEntity {
 
+    @Column(name = "active_orders_count")
+    private Integer activeOrdersCount = 0;//не более 3 заказов одновременно!
+
     @Column(name = "shop_id")
     private Long shopId;
 
@@ -34,5 +37,6 @@ public class Florist extends AbstractEntity {
 
     @OneToOne(cascade = {CascadeType.ALL})
     private FloristStatistic floristStatistic;
+
 
 }

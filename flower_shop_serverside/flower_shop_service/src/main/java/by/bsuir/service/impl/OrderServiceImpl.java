@@ -6,6 +6,7 @@ import by.bsuir.dto.model.PageWrapper;
 import by.bsuir.dto.model.order.OrderDTO;
 import by.bsuir.dto.model.order.buynow.BuyNowOrderDTO;
 import by.bsuir.dto.model.order.criteria.UsualOrderSearchCriteriaDTO;
+import by.bsuir.dto.model.order.partial.OrderCloseDTO;
 import by.bsuir.dto.model.order.partial.OrderFloristChoiceDTO;
 import by.bsuir.dto.model.order.partial.OrderFloristCompletionDTO;
 import by.bsuir.dto.model.order.partial.OrderPartialUpdate;
@@ -21,6 +22,7 @@ import by.bsuir.entity.order.OrderStatus;
 import by.bsuir.entity.order.delivery.DeliveryType;
 import by.bsuir.entity.product.Product;
 import by.bsuir.payload.exception.ResourceNotFoundException;
+import by.bsuir.payload.exception.ServiceException;
 import by.bsuir.repository.api.cart.CartRepository;
 import by.bsuir.repository.api.florist.FloristRepository;
 import by.bsuir.repository.api.order.DeliveryTypeRepository;
@@ -33,11 +35,13 @@ import by.bsuir.service.api.OrderService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -72,13 +76,13 @@ public class OrderServiceImpl implements OrderService {
 
 
         Page<Order> usualOrders;
-        if(Objects.nonNull(searchParams.getClientId())) {
+        if (Objects.nonNull(searchParams.getClientId())) {
             usualOrders =
                     orderRepository.findAllByClientIdAndOrderStatus(
                             pageable,
                             searchParams.getClientId(),
                             searchParams.getOrderStatus());
-        }else{
+        } else {
             usualOrders =
                     orderRepository.findAllByOrderStatus(
                             pageable,
@@ -208,15 +212,57 @@ public class OrderServiceImpl implements OrderService {
             this.patchOrderSetChosenFlorist(orderId, partialUpdate.getOrderFloristChoice());
         }
 
-
         if (Objects.nonNull(partialUpdate.getOrderFloristCompletion())) {
             this.patchOrderCompletionByFlorist(orderId, partialUpdate.getOrderFloristCompletion());
             this.completeOrder(orderId);
         }
 
-        if (Objects.nonNull(partialUpdate.getOrderReviewDTO())) {
-            patchUserOrderRating(orderId, partialUpdate.getOrderReviewDTO());
+        if (Objects.nonNull(partialUpdate.getOrderReview())) {
+            patchUserOrderRating(orderId, partialUpdate.getOrderReview());
         }
+
+        if (Objects.nonNull(partialUpdate.getOrderClose())) {
+            this.closeOrder(orderId, partialUpdate.getOrderClose());
+        }
+
+        if (Objects.nonNull(partialUpdate.getOrderAutoFloristChoose())) {
+            this.autoFloristChoose(orderId);
+        }
+
+    }
+
+    private void autoFloristChoose(Long orderId) {
+        final Order order = resolveOrderById(orderId);
+
+        Optional<Florist> floristOptional = floristRepository.findByActiveOrdersCountBetweenAndFloristStatisticFloristRatingBetween(0, 2, 4D, 5D);
+
+        if (floristOptional.isPresent()) {
+            final OrderFloristInfo orderFloristInfo = resolveOrderFloristInfoByOrderId(orderId);
+            Florist florist = floristOptional.get();
+            decreaseActiveOrdersCount(florist, florist.getActiveOrdersCount() + 1);
+            orderFloristInfo.setFloristId(florist.getId());
+            order.setOrderStatus(OrderStatus.IN_PROCESS);
+        } else {
+            throw new ServiceException(HttpStatus.CONFLICT.value(), "no_florist_error", " Can`t find available florist, please wait!");
+        }
+    }
+
+    private void closeOrder(Long orderId, OrderCloseDTO orderCloseDTO) {
+        final Order order = resolveOrderById(orderId);
+        order.setOrderStatus(OrderStatus.CLOSED);
+        order.setCloseDescription(orderCloseDTO.getDescription());
+
+        if(Objects.nonNull(order.getOrderFloristInfo().getFloristId())) {
+            final Long floristId = order.getOrderFloristInfo().getFloristId();
+            Florist florist = floristRepository.getOne(floristId);
+
+            decreaseActiveOrdersCount(florist, florist.getActiveOrdersCount() - 1);
+        }
+
+    }
+
+    private void decreaseActiveOrdersCount(Florist florist, int i) {
+        florist.setActiveOrdersCount(i);
     }
 
     private void patchUserOrderRating(Long orderId, OrderReviewDTO orderReviewDTO) {
@@ -238,7 +284,16 @@ public class OrderServiceImpl implements OrderService {
     private void patchOrderSetChosenFlorist(final Long orderId, final OrderFloristChoiceDTO orderFloristChoice) {
         final OrderFloristInfo orderFloristInfo = resolveOrderFloristInfoByOrderId(orderId);
 
-        orderFloristInfo.setFloristId(orderFloristChoice.getFloristId());
+        final Long floristId = orderFloristChoice.getFloristId();
+        Florist florist = floristRepository.getOne(floristId);
+
+        if (florist.getActiveOrdersCount() >= 3) {
+            throw new ServiceException(HttpStatus.CONFLICT.value(), "florist_not_available_error", "Florist can`t have more than 3 active orders");
+        } else {
+            decreaseActiveOrdersCount(florist, florist.getActiveOrdersCount() + 1);
+        }
+
+        orderFloristInfo.setFloristId(floristId);
 
         Order order = resolveOrderById(orderId);
         order.setOrderStatus(OrderStatus.IN_PROCESS);
@@ -257,6 +312,11 @@ public class OrderServiceImpl implements OrderService {
         final int initialCompletedOrderCount = Objects.isNull(floristStatistic.getCompletedOrdersCount()) ? 0 : floristStatistic.getCompletedOrdersCount();
         final int floristCompletedOrdersCount = initialCompletedOrderCount + 1;
         floristStatistic.setCompletedOrdersCount(floristCompletedOrdersCount);
+
+        ///SET FLORIST FREE
+        Florist florist = floristRepository.getOne(order.getOrderFloristInfo().getFloristId());
+        decreaseActiveOrdersCount(florist, florist.getActiveOrdersCount() - 1);
+
     }
 
     private FloristStatistic getFloristStatistic(Order order) {

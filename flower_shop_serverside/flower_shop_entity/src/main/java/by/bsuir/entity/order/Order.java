@@ -27,6 +27,9 @@ public class Order extends AbstractEntity {
     @Enumerated(value = EnumType.STRING)
     private OrderStatus orderStatus;
 
+    @Column(name = "close_description")
+    private String closeDescription;
+
     @OneToMany(cascade = CascadeType.ALL)
     private List<OrderProduct> orderProducts = new ArrayList<>();
 

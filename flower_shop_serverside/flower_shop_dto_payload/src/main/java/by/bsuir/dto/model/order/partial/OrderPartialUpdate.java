@@ -23,6 +23,12 @@ public class OrderPartialUpdate {
     private OrderFloristCompletionDTO orderFloristCompletion;
 
     @Valid
-    private OrderReviewDTO orderReviewDTO;
+    private OrderReviewDTO orderReview;
+
+    @Valid
+    private OrderAutoFloristChooseDTO orderAutoFloristChoose;
+
+    @Valid
+    private OrderCloseDTO orderClose;
 
 }

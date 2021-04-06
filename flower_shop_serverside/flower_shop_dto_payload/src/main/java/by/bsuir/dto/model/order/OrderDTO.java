@@ -43,6 +43,9 @@ public class OrderDTO extends AbstractDTO {
     @Null(message = "Order status can`t be set! This will be done automatically")
     private OrderStatus orderStatus;
 
+    @Null(message = "only if close")
+    private String closeDescription;
+
     private List<OrderProductDTO> orderProducts = new ArrayList<>();
 
     @Size(max = 512, message = "Comment can`t be bigger than 512")
