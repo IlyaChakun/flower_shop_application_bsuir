@@ -30,18 +30,19 @@ import by.bsuir.repository.api.order.OrderFloristInfoRepository;
 import by.bsuir.repository.api.order.OrderRepository;
 import by.bsuir.repository.api.order.OrderReviewRepository;
 import by.bsuir.repository.api.product.ProductRepository;
+import by.bsuir.repository.specification.OrderSpecification;
 import by.bsuir.security.service.api.UserSecurityService;
 import by.bsuir.service.api.OrderService;
-import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @AllArgsConstructor
@@ -72,23 +73,14 @@ public class OrderServiceImpl implements OrderService {
     public PageWrapper<OrderDTO> findAll(int page, int size, UsualOrderSearchCriteriaDTO searchParams) {
         Pageable pageable = commonServiceHelper.getPageable(page, size);
 
-        //TODO сделать спецификацию 1. ид клиента (если есть) 2. ордер статус( есть всегда  с него можно начинать)
+        Specification<Order> specification = Specification
+                .where(OrderSpecification.findByOrderStatus(searchParams.getOrderStatus()));
 
-
-        Page<Order> usualOrders;
         if (Objects.nonNull(searchParams.getClientId())) {
-            usualOrders =
-                    orderRepository.findAllByClientIdAndOrderStatus(
-                            pageable,
-                            searchParams.getClientId(),
-                            searchParams.getOrderStatus());
-        } else {
-            usualOrders =
-                    orderRepository.findAllByOrderStatus(
-                            pageable,
-                            searchParams.getOrderStatus());
+            specification = specification.and(OrderSpecification.findByClientId(searchParams.getClientId()));
         }
 
+        Page<Order> usualOrders = orderRepository.findAll(specification, pageable);
 
         return
                 new PageWrapper<>(
