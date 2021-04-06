@@ -112,6 +112,7 @@ public class FloristServiceImpl implements FloristService {
         florist.setUser(user);
         florist.setShopId(floristRequestDTO.getShopId());
         florist.setExperience(floristRequestDTO.getExperience());
+        florist.setSalary(floristRequestDTO.getSalary());
 
         return florist;
     }
