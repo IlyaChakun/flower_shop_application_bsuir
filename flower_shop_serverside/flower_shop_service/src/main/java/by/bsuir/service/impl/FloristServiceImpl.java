@@ -69,6 +69,8 @@ public class FloristServiceImpl implements FloristService {
         Florist florist = getFloristOrThrowException(floristDTO.getId());
 
         florist.setExperience(floristDTO.getExperience());
+        florist.setSalary(floristDTO.getSalary());
+        florist.getUser().setPhoneNumber(floristDTO.getUser().getPhoneNumber());
 
         return floristMapper.toDto(florist);
     }
