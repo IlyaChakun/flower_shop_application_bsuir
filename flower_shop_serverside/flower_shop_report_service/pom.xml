@@ -29,6 +29,10 @@
             <groupId>com.github.librepdf</groupId>
             <artifactId>openpdf</artifactId>
         </dependency>
+        <dependency>
+            <groupId>by.bsuir</groupId>
+            <artifactId>flower_shop_dto_payload</artifactId>
+        </dependency>
 
     </dependencies>
 
