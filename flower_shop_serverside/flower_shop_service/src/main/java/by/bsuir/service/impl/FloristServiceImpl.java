@@ -6,6 +6,7 @@ import by.bsuir.dto.model.PageWrapper;
 import by.bsuir.dto.model.florist.FloristDTO;
 import by.bsuir.dto.model.florist.FloristRequestDTO;
 import by.bsuir.dto.model.user.UserDTO;
+import by.bsuir.email.service.core.EmailSenderService;
 import by.bsuir.entity.florist.Florist;
 import by.bsuir.entity.florist.FloristStatistic;
 import by.bsuir.entity.user.User;
@@ -33,6 +34,8 @@ public class FloristServiceImpl implements FloristService {
     private final CommonServiceHelper commonServiceHelper;
 
     private final UserRepository userRepository;//TODO
+
+    private final EmailSenderService emailService;
 
     @Override
     @Transactional
