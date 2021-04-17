@@ -2,6 +2,8 @@ package by.bsuir.dto.model.florist;
 
 import by.bsuir.dto.model.AbstractDTO;
 import by.bsuir.dto.model.user.UserDTO;
+
+import javax.persistence.Column;
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
@@ -15,6 +17,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class FloristDTO extends AbstractDTO {
+
+    private Integer activeOrdersCount;//не более 3 заказов одновременно!
 
     @Valid
     private UserDTO user;
