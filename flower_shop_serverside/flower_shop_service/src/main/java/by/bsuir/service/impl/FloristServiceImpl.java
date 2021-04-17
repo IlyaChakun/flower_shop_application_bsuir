@@ -6,6 +6,8 @@ import by.bsuir.dto.model.PageWrapper;
 import by.bsuir.dto.model.florist.FloristDTO;
 import by.bsuir.dto.model.florist.FloristRequestDTO;
 import by.bsuir.dto.model.user.UserDTO;
+import by.bsuir.email.configuration.BaseEmailProperties;
+import by.bsuir.email.exception.EmailServiceException;
 import by.bsuir.email.service.core.EmailSenderService;
 import by.bsuir.entity.florist.Florist;
 import by.bsuir.entity.florist.FloristStatistic;
@@ -13,12 +15,14 @@ import by.bsuir.entity.user.User;
 import by.bsuir.payload.exception.ResourceNotFoundException;
 import by.bsuir.repository.api.florist.FloristRepository;
 import by.bsuir.repository.api.user.UserRepository;
+import by.bsuir.security.exception.InvalidEmailException;
 import by.bsuir.security.service.api.UserSecurityService;
 import by.bsuir.service.api.FloristService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,7 +39,8 @@ public class FloristServiceImpl implements FloristService {
 
     private final UserRepository userRepository;//TODO
 
-    private final EmailSenderService emailService;
+    private final EmailSenderService emailSenderService;
+    private final BaseEmailProperties baseEmailProperties;
 
     @Override
     @Transactional
@@ -43,12 +48,17 @@ public class FloristServiceImpl implements FloristService {
 
         log.info("in save method florist service");
         log.info("florist {}", floristRequestDTO);
+        log.info("florist {}", floristRequestDTO.getUserSignUpRequest().getPassword());
+
+        String password = floristRequestDTO.getUserSignUpRequest().getPassword();
 
         UserDTO userDTO = accountClient.registerUser(floristRequestDTO.getUserSignUpRequest());
 
         log.info("Userid={}", userDTO.getId());
 
         User user = userRepository.getOne(userDTO.getId());
+
+        this.sendFloristDataOnHisMail(user, password);
 
         Florist florist = getFlorist(floristRequestDTO, user);
         FloristStatistic floristStatistic = new FloristStatistic();
@@ -62,6 +72,36 @@ public class FloristServiceImpl implements FloristService {
         return floristMapper.toDto(added);
     }
 
+
+    private void sendFloristDataOnHisMail(User user, String password) {
+        final SimpleMailMessage mailMessage = getMessage(user.getEmail(), user, password);
+
+        try {
+            this.emailSenderService.send(mailMessage);
+            log.info("confirm acc email sent successfully");
+        } catch (EmailServiceException ex) {
+            log.error("Вы указали не верный Email! Такого не существует; " + ex.getMessage());
+            throw new InvalidEmailException("Вы указали не верный Email! Такого не существует");
+        }
+    }
+
+    private SimpleMailMessage getMessage(final String email,
+                                         final User user,
+                                         final String password) {
+
+        log.info("sending to : " + email + " and name= " + user.getName());
+
+        log.info("send from: {}", baseEmailProperties.getEmailSender());
+        final String subject = "Флорист, тут Ваши данные аккаунта!";
+
+        final SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(email);
+        mailMessage.setSubject(subject);
+        mailMessage.setFrom(baseEmailProperties.getEmailSender());
+        mailMessage.setText("Ваш логин: " + email + ",\n Ваш пароль: " + password + ", не забудьте сменить пароль");
+
+        return mailMessage;
+    }
 
     @Override
     @Transactional
