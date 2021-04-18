@@ -21,4 +21,10 @@ public final class OrderSpecification {
                 criteriaBuilder
                         .equal(root.get("orderStatus"), orderStatus);
     }
+
+    public static Specification<Order> findByFloristId(Long floristId) {
+        return (root, query, criteriaBuilder) ->
+                criteriaBuilder
+                        .equal(root.get("orderFloristInfo").get("floristId"), floristId);
+    }
 }

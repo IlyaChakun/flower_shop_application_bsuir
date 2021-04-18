@@ -80,6 +80,10 @@ public class OrderServiceImpl implements OrderService {
             specification = specification.and(OrderSpecification.findByClientId(searchParams.getClientId()));
         }
 
+        if (Objects.nonNull(searchParams.getClientId())) {
+            specification = specification.and(OrderSpecification.findByFloristId(searchParams.getFloristId()));
+        }
+
         Page<Order> usualOrders = orderRepository.findAll(specification, pageable);
 
         return
