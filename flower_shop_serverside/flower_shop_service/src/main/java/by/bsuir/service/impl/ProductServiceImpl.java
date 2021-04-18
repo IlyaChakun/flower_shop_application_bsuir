@@ -9,13 +9,17 @@ import by.bsuir.payload.exception.ResourceNotFoundException;
 import by.bsuir.repository.api.common.CountryRepository;
 import by.bsuir.repository.api.product.ProductRepository;
 import by.bsuir.repository.api.shop.ShopRepository;
+import by.bsuir.repository.specification.ProductSpecification;
 import by.bsuir.service.api.ProductService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -115,15 +119,21 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public PageWrapper<ProductDTO> findAll(int page, int size, ProductSearchCriteria searchParams) {
+
         Pageable pageable = commonServiceHelper.getPageable(page, size);
 
-//        Specification<Flower> specification = getSpecification(searchAndSortParamDto);
-//        Page<Flower> flowers = flowerRepository.findAll(specification, pageable);
-        //TODO
-        //1. искать где не удален
-        //2. id category
-        //3. стоимость От X до Y
-        Page<Product> products = productRepository.findAllByIsDeletedFalse(pageable);
+        Specification<Product> specification = Specification
+                .where(ProductSpecification.findByProductTitleLike(""));
+
+        specification = specification.
+                and(ProductSpecification.findByIsDeleted());
+
+        if (Objects.nonNull(searchParams.getCategoryId())) {
+            specification = specification.and(ProductSpecification.findCategoryId(searchParams.getCategoryId()));
+        }
+
+//        Page<Product> products = productRepository.findAllByIsDeletedFalse(specification,pageable);
+        Page<Product> products = productRepository.findAll(specification, pageable);
 
         return
                 new PageWrapper<>(

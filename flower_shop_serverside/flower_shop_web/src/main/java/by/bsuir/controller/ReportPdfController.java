@@ -5,9 +5,11 @@ import com.lowagie.text.DocumentException;
 import java.io.IOException;
 import java.security.Principal;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+@CrossOrigin(origins = "*")
 public interface ReportPdfController {
 
     @GetMapping("/company/presentation/pdf")
