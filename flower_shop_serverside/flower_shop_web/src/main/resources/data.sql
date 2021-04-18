@@ -124,3 +124,9 @@ values (0, now(), now(), '27646238-432d-4906-9cd1-44e1347abf8e', 'admin@mail.ru'
 
 insert ignore into user_confirmation_tokens(id, date_of_creation, date_of_last_update, unique_id, confirmation_token, user_id)
 values (0, now(), now(), '94fa5c47-ef32-45a5-903d-e25ff80b5640', '962d6188-ee6f-43e6-bd48-34df6d2785c0', 0);
+
+/** product lengths **/
+insert ignore into delivery_types(id,delivery_type_name)
+VALUES (1, 'Самовывоз'),
+       (2, 'Доставка курьером');
+/** **/
