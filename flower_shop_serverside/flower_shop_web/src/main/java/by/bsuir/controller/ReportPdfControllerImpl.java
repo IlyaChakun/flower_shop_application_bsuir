@@ -23,31 +23,31 @@ public class ReportPdfControllerImpl implements ReportPdfController {
     private final CompanyReportService companyReportService;
 
     @Override
-    public void exportCompanyPresentationReport(Principal principal,
+    public void exportCompanyPresentationReport(
+            Principal principal,
             HttpServletResponse response) throws DocumentException, IOException {
 
         Report report = companyReportService.getCompanyPresentationReport();
-
         emailService.sendReportOnMail(principal.getName(), report);
-
         composeHeaders(response, report);
     }
 
     @Override
-    public void exportCompanyAnnualReport(Principal principal, HttpServletResponse response) throws DocumentException, IOException {
+    public void exportCompanyAnnualReport(
+            Principal principal,
+            HttpServletResponse response) throws DocumentException, IOException {
         Report report = companyReportService.getCompanyAnnualReport();
-
         emailService.sendReportOnMail(principal.getName(), report);
-
         composeHeaders(response, report);
     }
 
     @Override
-    public void exportCompanyMonthlyReport(Principal principal, HttpServletResponse response) throws DocumentException, IOException {
+    public void exportCompanyMonthlyReport(
+            Principal principal,
+            HttpServletResponse response) throws DocumentException, IOException {
+
         Report report = companyReportService.getCompanyMonthlyReport(LocalDate.now().getMonthValue());
-
         emailService.sendReportOnMail(principal.getName(), report);
-
         composeHeaders(response, report);
     }
 
@@ -72,7 +72,6 @@ public class ReportPdfControllerImpl implements ReportPdfController {
 
         composeHeaders(response, report);
     }
-
 
     private void composeHeaders(HttpServletResponse response, Report report) throws IOException {
         response.setContentType(report.getContentType());
