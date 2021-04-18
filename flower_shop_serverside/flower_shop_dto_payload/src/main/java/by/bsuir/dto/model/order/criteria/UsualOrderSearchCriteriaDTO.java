@@ -15,6 +15,8 @@ public class UsualOrderSearchCriteriaDTO extends AbstractSearchCriteriaAndSortPa
 
     private Long clientId;
 
+    private Long floristId;
+
     private OrderStatus orderStatus = OrderStatus.NEW;
 
 }
