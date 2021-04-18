@@ -80,7 +80,7 @@ public class OrderServiceImpl implements OrderService {
             specification = specification.and(OrderSpecification.findByClientId(searchParams.getClientId()));
         }
 
-        if (Objects.nonNull(searchParams.getClientId())) {
+        if (Objects.nonNull(searchParams.getFloristId())) {
             specification = specification.and(OrderSpecification.findByFloristId(searchParams.getFloristId()));
         }
 
