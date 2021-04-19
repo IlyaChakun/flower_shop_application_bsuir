@@ -7,7 +7,6 @@ import by.bsuir.service.report.dto.Report;
 import by.bsuir.service.report.mail.EmailService;
 import com.lowagie.text.DocumentException;
 import java.io.IOException;
-import java.security.Principal;
 import java.time.LocalDate;
 import javax.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
@@ -24,51 +23,49 @@ public class ReportPdfControllerImpl implements ReportPdfController {
 
     @Override
     public void exportCompanyPresentationReport(
-            Principal principal,
             HttpServletResponse response) throws DocumentException, IOException {
 
         Report report = companyReportService.getCompanyPresentationReport();
-        emailService.sendReportOnMail(principal.getName(), report);
+//        emailService.sendReportOnMail(principal.getName(), report);
         composeHeaders(response, report);
     }
 
     @Override
     public void exportCompanyAnnualReport(
-            Principal principal,
             HttpServletResponse response) throws DocumentException, IOException {
         Report report = companyReportService.getCompanyAnnualReport();
-        emailService.sendReportOnMail(principal.getName(), report);
+//        emailService.sendReportOnMail(principal.getName(), report);
         composeHeaders(response, report);
     }
 
     @Override
     public void exportCompanyMonthlyReport(
-            Principal principal,
             HttpServletResponse response) throws DocumentException, IOException {
 
         Report report = companyReportService.getCompanyMonthlyReport(LocalDate.now().getMonthValue());
-        emailService.sendReportOnMail(principal.getName(), report);
+//        emailService.sendReportOnMail(principal.getName(), report);
         composeHeaders(response, report);
     }
 
     @Override
     public void exportFloristAnnualReport(String id,
-            Principal principal,
             HttpServletResponse response) throws DocumentException, IOException {
-        Report report = floristReportService.getFloristYearSalaryReport(principal.getName());
+        Report report = floristReportService.getFloristYearSalaryReport(Long.parseLong(id));
 
-        emailService.sendReportOnMail(principal.getName(), report);
+//        emailService.sendReportOnMail(principal.getName(), report);
 
         composeHeaders(response, report);
     }
 
-    @Override
-    public void exportFloristMonthlyReport(String id,
-            Principal principal,
-            HttpServletResponse response) throws DocumentException, IOException {
-        Report report = floristReportService.getFloristMonthSalaryReport(principal.getName(), LocalDate.now().getMonthValue());
 
-        emailService.sendReportOnMail(principal.getName(), report);
+    @Override
+    public void exportFloristMonthlyReport(String id, HttpServletResponse response) throws DocumentException, IOException {
+        System.out.println(id);
+        Report report = floristReportService
+                .getFloristMonthSalaryReport(Long.parseLong(id), LocalDate.now().getMonthValue());
+
+        //        emailService.sendReportOnMail(principal.getName(), report);
+
 
         composeHeaders(response, report);
     }

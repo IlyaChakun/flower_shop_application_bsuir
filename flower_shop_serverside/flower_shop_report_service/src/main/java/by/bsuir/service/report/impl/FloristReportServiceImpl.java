@@ -34,11 +34,12 @@ public class FloristReportServiceImpl implements FloristReportService {
     private final FloristMapperDTO floristMapper;
 
     @Override
-    public Report getFloristMonthSalaryReport(String email, Integer monthNumber) {
+    public Report getFloristMonthSalaryReport(Long id, Integer monthNumber) {
         final String contentType = "application/pdf";
         final String fileSuffix = ".pdf";
 
-        FloristDTO floristDto = getFloristDtoByEmail(email);
+        System.out.println(id);
+        FloristDTO floristDto = getFloristDtoById(id);
 
         Report report = new Report();
 
@@ -74,11 +75,11 @@ public class FloristReportServiceImpl implements FloristReportService {
     }
 
     @Override
-    public Report getFloristYearSalaryReport(String email) {
+    public Report getFloristYearSalaryReport(Long floristId) {
         final String contentType = "application/pdf";
         final String fileSuffix = ".pdf";
 
-        FloristDTO floristDto = getFloristDtoByEmail(email);
+        FloristDTO floristDto = getFloristDtoById(floristId);
 
         Report report = new Report();
 
@@ -114,12 +115,12 @@ public class FloristReportServiceImpl implements FloristReportService {
     }
 
     @Override
-    public Report getFloristOrdersReport(String email) {
+    public Report getFloristOrdersReport(Long floristId) {
         return null;
     }
 
-    private FloristDTO getFloristDtoByEmail(String email) {
-        return floristMapper.toDto(floristRepository.getByUserEmail(email));
+    private FloristDTO getFloristDtoById(Long id) {
+        return floristMapper.toDto(floristRepository.getOneByUserId(id));
     }
 
     private List<PdfPCell> getFloristTableHeaders() {
@@ -140,12 +141,22 @@ public class FloristReportServiceImpl implements FloristReportService {
         //driver info
 
         final Double paymentPerHour = 10.5;
+        final Double salary = floristDTO.getSalary();
+
+        LocalDateTime startDate = LocalDateTime.now().withDayOfMonth(1);
+        LocalDateTime endDate = LocalDateTime.now().plusMonths(1).withDayOfMonth(1);
 
         List<Order> floristOrders = orderRepository
-                .findAllByOrderFloristInfoFloristId(floristDTO.getId());
+                .findAllByOrderFloristInfoFloristIdAndOrderFloristInfoFloristCompletionTimeIsBetween(floristDTO.getId(), startDate, endDate);
+
+        double bonus = 0.0;
+        if (floristOrders.size() > 50) {
+            bonus = salary * 0.5;
+        }
 
         AtomicReference<Double> sum = new AtomicReference<>(0.0);
 
+        double finalBonus = bonus;
         floristOrders.forEach(order -> {
 
             if (Objects.nonNull(order.getOrderFloristInfo()) &&
@@ -162,13 +173,14 @@ public class FloristReportServiceImpl implements FloristReportService {
                         .collect(Collectors.joining(" ,"));
 
                 String orderComment = order.getOrderFloristInfo().getFloristComment();
-                LocalDateTime orderStartTime = order.getOrderFloristInfo().getFloristAppointmentTime();
-                LocalDateTime orderEndTime = order.getOrderFloristInfo().getFloristCompletionTime();
-                Double timeToCompleteOrder = LocalDateTime
-                        .ofEpochSecond(orderEndTime.toEpochSecond(ZoneOffset.UTC) - orderStartTime.toEpochSecond(ZoneOffset.UTC), 0,
-                                ZoneOffset.UTC).getMinute() / 60.0;
+                //                LocalDateTime orderStartTime = order.getOrderFloristInfo().getFloristAppointmentTime();
+                //                LocalDateTime orderEndTime = order.getOrderFloristInfo().getFloristCompletionTime();
+                //                Double timeToCompleteOrder = LocalDateTime
+                //                        .ofEpochSecond(orderEndTime.toEpochSecond(ZoneOffset.UTC) - orderStartTime.toEpochSecond(ZoneOffset.UTC), 0,
+                //                                ZoneOffset.UTC).getMinute() / 60.0;
 
-                double payment = paymentPerHour * timeToCompleteOrder;
+                //                double payment = paymentPerHour * timeToCompleteOrder;
+                double payment = salary + finalBonus;
                 sum.updateAndGet(v -> v + payment);
 
                 tableCells.add(pdfUtils.getTableCell(Integer.toString(count.incrementAndGet())));

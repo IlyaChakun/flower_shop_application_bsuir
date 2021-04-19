@@ -80,6 +80,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                         "/orders/**", //TODO remove
                         "/florists/**",
+                        "/clients/**",
                         "/carts/**",
                         "/common/**",
 

@@ -11,4 +11,6 @@ public interface FloristRepository extends AbstractRepository<Florist> {
     Optional<Florist> findByActiveOrdersCountBetweenAndFloristStatisticFloristRatingBetween(Integer orderCountStart, Integer ordersCountFinish, Double ratingStart,Double ratingFinish);
 
     Florist getByUserEmail(String email);
+
+    Florist getOneByUserId(Long userId);
 }

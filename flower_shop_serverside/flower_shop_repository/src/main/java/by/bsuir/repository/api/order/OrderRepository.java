@@ -2,6 +2,7 @@ package by.bsuir.repository.api.order;
 
 import by.bsuir.entity.order.Order;
 import by.bsuir.entity.order.OrderStatus;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,4 +16,6 @@ public interface OrderRepository extends BaseOrderRepository<Order> {
     Page<Order> findAllByOrderStatus(Pageable pageable, OrderStatus orderStatus);
 
     List<Order> findAllByOrderFloristInfoFloristId(Long floristId);
+
+    List<Order> findAllByOrderFloristInfoFloristIdAndOrderFloristInfoFloristCompletionTimeIsBetween(Long floristId, LocalDateTime startDate, LocalDateTime endDate);
 }

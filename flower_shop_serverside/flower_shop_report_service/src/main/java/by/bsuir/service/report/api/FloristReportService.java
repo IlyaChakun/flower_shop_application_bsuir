@@ -7,23 +7,23 @@ public interface FloristReportService {
     /**
      *  получить отчет по месячной зарплате флориста С изветсным месяцев: взять его оклад, посчитать колво заказов за этот месяц
      *  и если колво заказов Больше чем допустим 50, то умножить оклад на 0,5  и добавить как премию (статискику в базу сохранить)
-     * @param email
+     * @param floristId
      * @Param monthNumber мб не интр а че ни ть другое
      * @return
      */
-    Report getFloristMonthSalaryReport(String email, Integer monthNumber);
+    Report getFloristMonthSalaryReport(Long floristId, Integer monthNumber);
 
     /**
      * Отчет по годовой зарплате
-     * @param email
+     * @param floristId
      * @return
      */
-    Report getFloristYearSalaryReport(String email);
+    Report getFloristYearSalaryReport(Long floristId);
 
     /**
      * Отчет по заказам МБ Сделать за определннывй период!
-     * @param email
+     * @param floristId
      * @return
      */
-    Report getFloristOrdersReport(String email);
+    Report getFloristOrdersReport(Long floristId);
 }
