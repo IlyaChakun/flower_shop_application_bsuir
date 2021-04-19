@@ -1,6 +1,9 @@
 package by.bsuir.service.impl;
 
+import static by.bsuir.entity.user.UserRoles.ROLE_CLIENT;
+
 import by.bsuir.dto.mapper.user.UserMapperDTO;
+import by.bsuir.dto.model.PageWrapper;
 import by.bsuir.dto.model.user.UserDTO;
 import by.bsuir.entity.common.Image;
 import by.bsuir.entity.user.User;
@@ -8,13 +11,14 @@ import by.bsuir.payload.exception.ResourceNotFoundException;
 import by.bsuir.payload.exception.ServiceException;
 import by.bsuir.repository.api.user.UserRepository;
 import by.bsuir.service.api.UserService;
+import javax.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
 
 @Service
 @AllArgsConstructor
@@ -24,6 +28,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapperDTO userMapper;
+    private final CommonServiceHelper commonServiceHelper;
 
     @Override
     public UserDTO findByEmail(String email) {
@@ -62,4 +67,18 @@ public class UserServiceImpl implements UserService {
         return userMapper.toDto(user);
     }
 
+    @Override
+    public PageWrapper<UserDTO> findAllClients(int page, int size) {
+        log.info("in findAll method user service  searching clients page={} size={}", page, size);
+
+        Pageable pageable = commonServiceHelper.getPageable(page, size);
+
+        Page<User> clients = userRepository.findAllByUserRoleName(pageable, ROLE_CLIENT);
+
+        return
+                new PageWrapper<>(
+                        userMapper.toDtoList(clients.toList()),
+                        clients.getTotalPages(),
+                        clients.getTotalElements());
+    }
 }

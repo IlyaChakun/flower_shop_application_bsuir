@@ -60,7 +60,6 @@ public class ReportPdfControllerImpl implements ReportPdfController {
 
     @Override
     public void exportFloristMonthlyReport(String id, HttpServletResponse response) throws DocumentException, IOException {
-        System.out.println(id);
         Report report = floristReportService
                 .getFloristMonthSalaryReport(Long.parseLong(id), LocalDate.now().getMonthValue());
 

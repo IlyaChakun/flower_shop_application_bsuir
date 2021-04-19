@@ -38,7 +38,6 @@ public class FloristReportServiceImpl implements FloristReportService {
         final String contentType = "application/pdf";
         final String fileSuffix = ".pdf";
 
-        System.out.println(id);
         FloristDTO floristDto = getFloristDtoById(id);
 
         Report report = new Report();
