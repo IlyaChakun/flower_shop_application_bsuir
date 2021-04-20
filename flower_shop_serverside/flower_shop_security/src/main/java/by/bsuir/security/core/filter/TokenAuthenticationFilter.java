@@ -38,13 +38,21 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
         log.info("TokenAuthenticationFilter works");
 
-        final String grantType = getGrantType(request);
+        log.info("path=" + request.getRequestURL().toString());
 
-        log.info("Grant type: " + grantType);
 
-        if (!grantType.equals(SecurityContextConstants.GRANT_TYPE_ANON_ACTION.getValue())) {//if anon action then miss
-            doTokenValidation(request, grantType);
+        if(request.getRequestURL().toString().contains("report")){
+            log.info("fake go out");
+        }else{
+            final String grantType = getGrantType(request);
+
+            log.info("Grant type: " + grantType);
+
+            if (!grantType.equals(SecurityContextConstants.GRANT_TYPE_ANON_ACTION.getValue())) {//if anon action then miss
+                doTokenValidation(request, grantType);
+            }
         }
+
 
         filterChain.doFilter(request, response);
     }

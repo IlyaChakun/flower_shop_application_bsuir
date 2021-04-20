@@ -84,6 +84,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/carts/**",
                         "/common/**",
 
+                        "/report/**",
+
                         "/products/**")
                 .permitAll()
                 .antMatchers("/auth/checkEmailAvailability")

@@ -32,6 +32,6 @@ public interface ReportPdfController {
 //    void exportFloristAnnualReport(@PathVariable("id") @PositiveLong String id,
 //            HttpServletResponse response) throws DocumentException, IOException;
 
-    @GetMapping(path= "/florists/{id}/monthly-report/pdf", produces = MediaType.)
+    @GetMapping(path= "/report/florists/{id}/monthly-report/pdf")
     ResponseEntity<byte[]> exportFloristMonthlyReport(@PathVariable("id") @PositiveLong String id) throws DocumentException, IOException;
 }
