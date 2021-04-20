@@ -1,11 +1,9 @@
 package by.bsuir.dto.model.order.common;
 
+import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.validation.constraints.NotNull;
-
 
 @Getter
 @Setter
@@ -15,7 +13,5 @@ public class OrderPriceInfoDTO {
     @NotNull(message = "totalAmount is required")
     private Double totalAmount;
 
-    // private Double clientPersonalDiscount;// at the order moment
-
-
+    private Double clientPersonalDiscount; // at the order moment
 }

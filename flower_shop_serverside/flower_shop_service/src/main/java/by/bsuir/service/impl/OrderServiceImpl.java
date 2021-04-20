@@ -2,9 +2,13 @@ package by.bsuir.service.impl;
 
 import by.bsuir.dto.mapper.order.OrderMapperDTO;
 import by.bsuir.dto.mapper.order.OrderReviewMapperDTO;
+import by.bsuir.dto.mapper.product.ProductMapperDTO;
+import by.bsuir.dto.mapper.user.UserMapperDTO;
 import by.bsuir.dto.model.PageWrapper;
 import by.bsuir.dto.model.order.OrderDTO;
+import by.bsuir.dto.model.order.OrderDetailDTO;
 import by.bsuir.dto.model.order.buynow.BuyNowOrderDTO;
+import by.bsuir.dto.model.order.common.OrderProductDetailDTO;
 import by.bsuir.dto.model.order.criteria.UsualOrderSearchCriteriaDTO;
 import by.bsuir.dto.model.order.partial.OrderCloseDTO;
 import by.bsuir.dto.model.order.partial.OrderFloristChoiceDTO;
@@ -30,12 +34,14 @@ import by.bsuir.repository.api.order.OrderFloristInfoRepository;
 import by.bsuir.repository.api.order.OrderRepository;
 import by.bsuir.repository.api.order.OrderReviewRepository;
 import by.bsuir.repository.api.product.ProductRepository;
+import by.bsuir.repository.api.user.UserRepository;
 import by.bsuir.repository.specification.OrderSpecification;
 import by.bsuir.security.service.api.UserSecurityService;
 import by.bsuir.service.api.OrderService;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -48,10 +54,11 @@ import org.springframework.transaction.annotation.Transactional;
 @AllArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
-
     private final OrderMapperDTO orderMapper;
     private final OrderRepository orderRepository;
 
+    private final UserRepository userRepository;
+    private final UserMapperDTO userMapperDTO;
 
     private final DeliveryTypeRepository deliveryTypeRepository;
     private final OrderFloristInfoRepository orderFloristInfoRepository;
@@ -62,6 +69,7 @@ public class OrderServiceImpl implements OrderService {
     private final CartRepository cartRepository;
 
     private final ProductRepository productRepository;
+    private final ProductMapperDTO productMapperDTO;
 
     private final FloristRepository floristRepository;
 
@@ -93,13 +101,53 @@ public class OrderServiceImpl implements OrderService {
                         usualOrders.getTotalElements());
     }
 
-
     @Override
     public OrderDTO findById(Long id) {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Order with id=" + id + " does not exist!"));
 
         return orderMapper.toDto(order);
+    }
+
+    @Override
+    public OrderDetailDTO findOrderDetailById(Long id) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Order with id=" + id + " does not exist!"));
+
+        OrderDTO orderDTO = orderMapper.toDto(order);
+
+        OrderDetailDTO orderDetailDTO = new OrderDetailDTO();
+
+        // todo need  to check is everything ok with props
+        orderDetailDTO.setId(orderDTO.getId());
+        orderDetailDTO.setDateOfCreation(orderDTO.getDateOfCreation());
+        orderDetailDTO.setDateOfLastUpdate(orderDTO.getDateOfLastUpdate());
+        orderDetailDTO.setUniqueId(orderDTO.getUniqueId());
+        orderDetailDTO.setClient(userMapperDTO.toDto(userRepository.getOne(order.getClientId())));
+        orderDetailDTO.setOrderStatus(orderDTO.getOrderStatus());
+        orderDetailDTO.setCloseDescription(orderDTO.getCloseDescription());
+
+        List<OrderProductDetailDTO> orderProductDetailDTOList =
+                orderDTO.getOrderProducts()
+                        .stream()
+                        .map(orderProductDTO -> {
+                            OrderProductDetailDTO orderProductDetailDTO = new OrderProductDetailDTO();
+                            orderProductDetailDTO
+                                    .setProduct(productMapperDTO.toDto(productRepository.getOne(orderProductDTO.getProductId())));
+                            orderProductDetailDTO
+                                    .setQuantity(orderProductDTO.getQuantity());
+                            return orderProductDetailDTO;
+                        })
+                        .collect(Collectors.toList());
+
+        orderDetailDTO.setProducts(orderProductDetailDTOList);
+        orderDetailDTO.setComment(orderDTO.getComment());
+        orderDetailDTO.setOrderPriceInfo(orderDetailDTO.getOrderPriceInfo());
+        orderDetailDTO.setOrderDeliveryInfo(orderDetailDTO.getOrderDeliveryInfo());
+        orderDetailDTO.setOrderFloristInfo(orderDetailDTO.getOrderFloristInfo());
+        orderDetailDTO.setOrderReview(orderDetailDTO.getOrderReview());
+
+        return orderDetailDTO;
     }
 
     @Override
@@ -146,7 +194,8 @@ public class OrderServiceImpl implements OrderService {
     private void resolveProducts(List<OrderProduct> orderProducts) {
         orderProducts.forEach(orderProduct -> {
             Product product = productRepository.findById(orderProduct.getProductId())
-                    .orElseThrow(() -> new ResourceNotFoundException("Change product quantity, Product with id=" + orderProduct.getProductId() + " does not found!"));
+                    .orElseThrow(() -> new ResourceNotFoundException(
+                            "Change product quantity, Product with id=" + orderProduct.getProductId() + " does not found!"));
             Integer availableAmount = product.getAvailableAmount() - orderProduct.getQuantity();
             product.setAvailableAmount(availableAmount);
             productRepository.save(product);
@@ -198,7 +247,6 @@ public class OrderServiceImpl implements OrderService {
         return order;
     }
 
-
     @Override
     @Transactional
     public void partialUpdate(OrderPartialUpdate partialUpdate) {
@@ -230,7 +278,8 @@ public class OrderServiceImpl implements OrderService {
     private void autoFloristChoose(Long orderId) {
         final Order order = resolveOrderById(orderId);
 
-        Optional<Florist> floristOptional = floristRepository.findByActiveOrdersCountBetweenAndFloristStatisticFloristRatingBetween(0, 2, 4D, 5D);
+        Optional<Florist> floristOptional =
+                floristRepository.findByActiveOrdersCountBetweenAndFloristStatisticFloristRatingBetween(0, 2, 4D, 5D);
 
         if (floristOptional.isPresent()) {
             final OrderFloristInfo orderFloristInfo = resolveOrderFloristInfoByOrderId(orderId);
@@ -248,7 +297,7 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderStatus(OrderStatus.CLOSED);
         order.setCloseDescription(orderCloseDTO.getDescription());
 
-        if(Objects.nonNull(order.getOrderFloristInfo().getFloristId())) {
+        if (Objects.nonNull(order.getOrderFloristInfo().getFloristId())) {
             final Long floristId = order.getOrderFloristInfo().getFloristId();
             Florist florist = floristRepository.getOne(floristId);
 
@@ -272,7 +321,8 @@ public class OrderServiceImpl implements OrderService {
         FloristStatistic floristStatistic = getFloristStatistic(order);
 
         //calculate new rating sum
-        final double initialFloristRatingSum = Objects.isNull(floristStatistic.getFloristRatingSum()) ? 0 : floristStatistic.getFloristRatingSum();
+        final double initialFloristRatingSum =
+                Objects.isNull(floristStatistic.getFloristRatingSum()) ? 0 : floristStatistic.getFloristRatingSum();
         final double floristRatingSum = initialFloristRatingSum + orderReviewDTO.getRating();
         floristStatistic.setFloristRatingSum(floristRatingSum);
     }
@@ -284,7 +334,8 @@ public class OrderServiceImpl implements OrderService {
         Florist florist = floristRepository.getOne(floristId);
 
         if (florist.getActiveOrdersCount() >= 3) {
-            throw new ServiceException(HttpStatus.CONFLICT.value(), "florist_not_available_error", "Florist can`t have more than 3 active orders");
+            throw new ServiceException(HttpStatus.CONFLICT.value(), "florist_not_available_error",
+                    "Florist can`t have more than 3 active orders");
         } else {
             decreaseActiveOrdersCount(florist, florist.getActiveOrdersCount() + 1);
         }
@@ -305,7 +356,8 @@ public class OrderServiceImpl implements OrderService {
         FloristStatistic floristStatistic = getFloristStatistic(order);
 
         //calculate new orders count
-        final int initialCompletedOrderCount = Objects.isNull(floristStatistic.getCompletedOrdersCount()) ? 0 : floristStatistic.getCompletedOrdersCount();
+        final int initialCompletedOrderCount =
+                Objects.isNull(floristStatistic.getCompletedOrdersCount()) ? 0 : floristStatistic.getCompletedOrdersCount();
         final int floristCompletedOrdersCount = initialCompletedOrderCount + 1;
         floristStatistic.setCompletedOrdersCount(floristCompletedOrdersCount);
 
