@@ -1,4 +1,5 @@
 package by.bsuir.service.report.core;
+
 import by.bsuir.service.report.dto.Report;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
@@ -8,18 +9,18 @@ import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 
 @Component
 public final class PdfExporterImpl implements PdfExporter {
 
+
     @Override
-    public void export(final Report report,
-                       final OutputStream outputStream) throws DocumentException {
+    public void export(Report report, OutputStream outputStream) throws DocumentException, IOException {
         doExport(report, outputStream);
     }
-
 
     private void doExport(final Report report,
                           final OutputStream outputStream) throws DocumentException {
