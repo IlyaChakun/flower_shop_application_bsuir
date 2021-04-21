@@ -18,4 +18,7 @@ public interface OrderRepository extends BaseOrderRepository<Order> {
     List<Order> findAllByOrderFloristInfoFloristId(Long floristId);
 
     List<Order> findAllByOrderFloristInfoFloristIdAndOrderFloristInfoFloristCompletionTimeIsBetween(Long floristId, LocalDateTime startDate, LocalDateTime endDate);
+
+    Integer countOrderByClientId(Long clientId);
+
 }

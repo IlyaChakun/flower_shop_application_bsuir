@@ -2,10 +2,12 @@ package by.bsuir.repository.api.user;
 
 import by.bsuir.entity.user.User;
 import by.bsuir.repository.api.core.AbstractRepository;
-import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
 
 @Repository
 public interface UserRepository extends AbstractRepository<User> {
@@ -18,4 +20,6 @@ public interface UserRepository extends AbstractRepository<User> {
 
     Page<User> findAllByUserRoleName(Pageable pageable, String userRoleName);
 
+    @Query("select discount from User u where u.id=?1")
+    Integer getUserDiscountById(Long id);
 }

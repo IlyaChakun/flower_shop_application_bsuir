@@ -44,6 +44,9 @@ public class User extends AbstractEntity {
 
     private Image image;
 
+    @Column(name = "discount")
+    private Integer discount;
+
     @PrePersist
     private void prePersist() {
         if (Objects.nonNull(userRole)) {

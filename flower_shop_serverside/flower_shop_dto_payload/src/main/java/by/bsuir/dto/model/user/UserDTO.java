@@ -33,4 +33,6 @@ public class UserDTO extends AbstractDTO {
 
     private ImageDTO image;
 
+    private Integer discount;
+
 }

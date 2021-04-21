@@ -13,14 +13,17 @@ import by.bsuir.repository.api.cart.CartItemRepository;
 import by.bsuir.repository.api.cart.CartRepository;
 import by.bsuir.repository.api.product.ProductLengthCostRepository;
 import by.bsuir.repository.api.product.ProductRepository;
+import by.bsuir.repository.api.user.UserRepository;
 import by.bsuir.service.api.CartService;
-import java.util.List;
-import java.util.Optional;
-import javax.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -34,6 +37,7 @@ public class CartServiceImpl implements CartService {
     private final ProductLengthCostRepository productLengthCostRepository;
     private final ProductRepository productRepository;
     private final CartItemRepository cartItemRepository;
+    private final UserRepository userRepository;
 
     @Override
     @Transactional
@@ -177,7 +181,12 @@ public class CartServiceImpl implements CartService {
 
         log.info("in buildCart method");
 
-        Double totalPrice = calculateTotalPrice(cart.getCartItems());
+    Integer discount  = null;
+
+        if(userRepository.existsById(cart.getClientId())) {
+            discount = userRepository.getUserDiscountById(cart.getClientId());
+        }
+        Double totalPrice = calculateTotalPrice(cart.getCartItems(),discount );
         cart.setTotalPrice(totalPrice);
 
         int totalElements = cart.getCartItems().size();
@@ -194,7 +203,7 @@ public class CartServiceImpl implements CartService {
         return cartDTO;
     }
 
-    private Double calculateTotalPrice(List<CartItem> cartItems) {
+    private Double calculateTotalPrice(List<CartItem> cartItems, Integer userDiscount) {
         log.info("in calculateTotalPrice method");
 
         double totalSum = 0.0;
@@ -207,7 +216,7 @@ public class CartServiceImpl implements CartService {
         }
 
         log.info("totalSum={}", totalSum);
-        return totalSum;
+        return Objects.isNull(userDiscount)? totalSum : totalSum - (totalSum*userDiscount /100);
     }
 
 

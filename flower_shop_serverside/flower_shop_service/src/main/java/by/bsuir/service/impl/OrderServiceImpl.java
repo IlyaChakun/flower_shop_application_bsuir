@@ -25,6 +25,7 @@ import by.bsuir.entity.order.OrderProduct;
 import by.bsuir.entity.order.OrderStatus;
 import by.bsuir.entity.order.delivery.DeliveryType;
 import by.bsuir.entity.product.Product;
+import by.bsuir.entity.user.User;
 import by.bsuir.payload.exception.ResourceNotFoundException;
 import by.bsuir.payload.exception.ServiceException;
 import by.bsuir.repository.api.cart.CartRepository;
@@ -38,11 +39,8 @@ import by.bsuir.repository.api.user.UserRepository;
 import by.bsuir.repository.specification.OrderSpecification;
 import by.bsuir.security.service.api.UserSecurityService;
 import by.bsuir.service.api.OrderService;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -50,8 +48,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 @Service
 @AllArgsConstructor
+@Slf4j
 public class OrderServiceImpl implements OrderService {
 
     private final OrderMapperDTO orderMapper;
@@ -88,8 +92,9 @@ public class OrderServiceImpl implements OrderService {
             specification = specification.and(OrderSpecification.findByClientId(searchParams.getClientId()));
         }
 
+        Long floristId = floristRepository.getFloristIdByUserId(searchParams.getFloristId());
         if (Objects.nonNull(searchParams.getFloristId())) {
-            specification = specification.and(OrderSpecification.findByFloristId(searchParams.getFloristId()));
+            specification = specification.and(OrderSpecification.findByFloristId(floristId));
         }
 
         Page<Order> usualOrders = orderRepository.findAll(specification, pageable);
@@ -328,6 +333,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private void patchOrderSetChosenFlorist(final Long orderId, final OrderFloristChoiceDTO orderFloristChoice) {
+        log.info("orderFloristChoise works orderid={} floristId={}", orderId, orderFloristChoice.getFloristId());
         final OrderFloristInfo orderFloristInfo = resolveOrderFloristInfoByOrderId(orderId);
 
         final Long floristId = orderFloristChoice.getFloristId();
@@ -375,6 +381,26 @@ public class OrderServiceImpl implements OrderService {
     private void completeOrder(final Long orderId) {
         final Order order = resolveOrderById(orderId);
         order.setOrderStatus(OrderStatus.COMPLETED);
+
+        Integer currentUserOrderCount = orderRepository.countOrderByClientId(order.getClientId());
+        User user = userRepository.getOne(order.getClientId());
+
+        log.info("do order complete");
+        log.info("currentUserOrderCount= {}", currentUserOrderCount);
+        log.info(String.valueOf(Objects.isNull(user.getDiscount())));
+
+        if (Objects.isNull(user.getDiscount()) || user.getDiscount() < 10) {
+            if (currentUserOrderCount == 3) {
+                log.info("setDiscount(3)");
+                user.setDiscount(3);
+            } else if (currentUserOrderCount >= 5 && currentUserOrderCount < 10) {
+                log.info("setDiscount(5)");
+                user.setDiscount(5);
+            } else if (currentUserOrderCount >= 10) {
+                log.info("setDiscount(10)");
+                user.setDiscount(10);
+            }
+        }
     }
 
     private Order resolveOrderById(final Long orderId) {
