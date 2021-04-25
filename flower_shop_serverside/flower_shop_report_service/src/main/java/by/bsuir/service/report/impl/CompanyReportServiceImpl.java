@@ -15,6 +15,8 @@ import by.bsuir.service.report.dto.Report;
 import com.lowagie.text.pdf.PdfPCell;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -43,7 +45,6 @@ public class CompanyReportServiceImpl implements CompanyReportService {
         final String contentType = "application/pdf";
         final String fileSuffix = ".pdf";
 
-
         CompanyDTO companyDTO = getCompany();
 
         Report report = new Report();
@@ -57,8 +58,8 @@ public class CompanyReportServiceImpl implements CompanyReportService {
 
         pdfUtils.setTableSettings(report,
                 4,
-                Arrays.asList(14f, 5f, 7f, 5f),
-                10f);
+                Arrays.asList(14f, 9f, 5f, 11f),
+                6f);
 
         report.setParagraph(pdfUtils.getParagraph(companyDTO.getName()));
 
@@ -92,10 +93,10 @@ public class CompanyReportServiceImpl implements CompanyReportService {
         report.setDateOfCreation(LocalDateTime.now());
         report.setContent("Сводный отчет компании за " + LocalDate.now().getMonth().name() + " месяц");
 
-                pdfUtils.setTableSettings(report,
-                        4,
-                        Arrays.asList(2f, 12f, 10f, 10f),
-                        10f);
+        pdfUtils.setTableSettings(report,
+                4,
+                Arrays.asList(2f, 12f, 10f, 10f),
+                10f);
 
         report.setParagraph(pdfUtils.getParagraph("Сводный отчет компании " + companyDTO.getName() + " за месяц."));
 
@@ -154,7 +155,7 @@ public class CompanyReportServiceImpl implements CompanyReportService {
     private List<PdfPCell> getPresentationTableHeaders() {
         List<PdfPCell> tableHeaders = new ArrayList<>();
         tableHeaders.add(pdfUtils.getHeaderCell("Информация о компании"));
-        tableHeaders.add(pdfUtils.getHeaderCell("Информация о точках продаж компании"));
+        tableHeaders.add(pdfUtils.getHeaderCell("Точки продаж компании"));
         tableHeaders.add(pdfUtils.getHeaderCell("Виды продуктов"));
         tableHeaders.add(pdfUtils.getHeaderCell("Штат сотрудников"));
         return tableHeaders;
@@ -176,13 +177,13 @@ public class CompanyReportServiceImpl implements CompanyReportService {
         final String organizationDate;
 
         if (Objects.nonNull(companyDTO.getDateOfCreation())) {
-            organizationDate = "Дата основания компании: "
-                    + companyDTO.getDateOfCreation();
+            organizationDate = "Дата основания компании:\n"
+                    + companyDTO.getDateOfCreation().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG));
         } else {
             organizationDate = "Дата основания компании: не указана";
         }
 
-        final String address = "Адрес: " +
+        final String address = "Адрес:\n" +
                 getCityById(companyDTO.getContacts().getCityId()) +
                 ", " + companyDTO.getContacts().getAddress();
 
@@ -214,18 +215,18 @@ public class CompanyReportServiceImpl implements CompanyReportService {
         tableCells.add(pdfUtils.getTableCell(fullData));
 
         String shopsNames = shopRepository.findAll().stream()
-                .map(shop -> getCityById(shop.getContacts().getCityId()) + shop.getContacts().getAddress())
-                .collect(Collectors.joining(","));
+                .map(shop -> getCityById(shop.getContacts().getCityId()) + ", " + shop.getContacts().getAddress())
+                .collect(Collectors.joining(", "));
         tableCells.add(pdfUtils.getTableCell(shopsNames));
 
         String productTypes = productRepository.findAll().stream()
                 .map(product -> product.getTitle())
-                .collect(Collectors.joining(","));
+                .collect(Collectors.joining(",\n"));
         tableCells.add(pdfUtils.getTableCell(productTypes));
 
         String floristNames = florists.stream()
-                .map(florist -> florist.getUser().getName())
-                .collect(Collectors.joining(","));
+                .map(florist -> florist.getUser().getName() + ", " + florist.getUser().getPhoneNumber())
+                .collect(Collectors.joining(",\n"));
         tableCells.add(pdfUtils.getTableCell(floristNames));
 
         return tableCells;
