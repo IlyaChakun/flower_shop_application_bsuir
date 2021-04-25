@@ -1,6 +1,5 @@
 package by.bsuir.repository.specification;
 
-import by.bsuir.entity.order.Order;
 import by.bsuir.entity.product.Product;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -11,7 +10,7 @@ public final class ProductSpecification {
     }
 
     public static Specification<Product> findByProductTitleLike(String title) {
-        return (Specification<Product>) (root, query, criteriaBuilder) ->
+        return (root, query, criteriaBuilder) ->
                 criteriaBuilder
                         .like(root.get("title"), '%' + title + '%');
     }
