@@ -43,6 +43,7 @@ public class CompanyReportServiceImpl implements CompanyReportService {
         final String contentType = "application/pdf";
         final String fileSuffix = ".pdf";
 
+
         CompanyDTO companyDTO = getCompany();
 
         Report report = new Report();
@@ -92,7 +93,7 @@ public class CompanyReportServiceImpl implements CompanyReportService {
         report.setContent("Сводный отчет компании за " + LocalDate.now().getMonth().name() + " месяц");
 
                 pdfUtils.setTableSettings(report,
-                        7,
+                        4,
                         Arrays.asList(2f, 12f, 10f, 10f),
                         10f);
 
@@ -128,7 +129,7 @@ public class CompanyReportServiceImpl implements CompanyReportService {
         report.setContent("Сводный годовой отчет компании");
 
         pdfUtils.setTableSettings(report,
-                7,
+                4,
                 Arrays.asList(2f, 12f, 10f, 10f),
                 10f);
 
@@ -143,7 +144,7 @@ public class CompanyReportServiceImpl implements CompanyReportService {
         pdfUtils.createMetadata(report, "Сводный годовой отчет компании.",
                 companyDTO.getName(),
                 companyDTO.getLicenceNumber(),
-                "accountingMonthlyCard",
+                "accountingAnnualCard",
                 "Сводный годовой отчет компании."
         );
 
@@ -232,7 +233,7 @@ public class CompanyReportServiceImpl implements CompanyReportService {
 
     private List<PdfPCell> getAccountingReportHeaders() {
         List<PdfPCell> monthlyAccountingReportHeaders = new ArrayList<>();
-        monthlyAccountingReportHeaders.add(pdfUtils.getHeaderCell("№ п/п"));
+        monthlyAccountingReportHeaders.add(pdfUtils.getHeaderCell("№ п/п \u010c,\u0106"));
         monthlyAccountingReportHeaders.add(pdfUtils.getHeaderCell("Сводная информация"));
         monthlyAccountingReportHeaders.add(pdfUtils.getHeaderCell("Зарплата работников"));
         monthlyAccountingReportHeaders.add(pdfUtils.getHeaderCell("Итого"));

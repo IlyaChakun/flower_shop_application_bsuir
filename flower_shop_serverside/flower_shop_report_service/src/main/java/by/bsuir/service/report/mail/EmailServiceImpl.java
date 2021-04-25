@@ -104,6 +104,7 @@ public class EmailServiceImpl implements EmailService {
             //
             return mimeMessage;
         } catch (Exception ignore) {
+            ignore.printStackTrace();
             throw new EmailServiceException("Can`t send email");
         }
     }
@@ -140,6 +141,10 @@ public class EmailServiceImpl implements EmailService {
         final Properties properties = new Properties();
         properties.put("mail.smtp.host", smtpHost);
         properties.put("mail.smtp.port", smtpPort);
+
+        properties.put("mail.smtp.starttls.enable", "true");
+        properties.setProperty("mail.smtps.auth", "true");
+
         return properties;
     }
 }

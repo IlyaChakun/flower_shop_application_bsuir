@@ -130,3 +130,9 @@ insert ignore into delivery_types(id,delivery_type_name)
 VALUES (1, 'Самовывоз'),
        (2, 'Доставка курьером');
 /** **/
+
+/** cities  **/
+insert ignore into cities(id,city_name)
+VALUES (1, 'Минск'),
+       (2, 'Киев');
+/** **/

@@ -115,7 +115,41 @@ public class FloristReportServiceImpl implements FloristReportService {
 
     @Override
     public Report getFloristOrdersReport(Long floristId) {
-        return null;
+        final String contentType = "application/pdf";
+        final String fileSuffix = ".pdf";
+
+        FloristDTO floristDto = getFloristDtoById(floristId);
+
+        Report report = new Report();
+
+        report.setFileName(floristDto.getUser().getName() + "_florist orders report");
+        report.setContentType(contentType);
+        report.setFileSuffix(fileSuffix);
+        report.setDateOfCreation(LocalDateTime.now());
+        report.setContent("Сводный отчет по заказам флориста за месяц");
+
+        pdfUtils.setTableSettings(report,
+                6,
+                Arrays.asList(2f, 4f, 8f, 12f, 4f, 4f),
+                10f);
+
+        report.setParagraph(pdfUtils
+                .getParagraph(
+                        "Сводный отчет по заказам флориста за месяц " +
+                                floristDto.getUser().getName()
+                ));
+
+        List<PdfPCell> floristTableHeaders = getFloristTableHeaders();
+        report.setTableHeaders(floristTableHeaders);
+
+        List<PdfPCell> floristTableCells = getFloristOrdersTableCells(floristDto);
+        report.setTableCells(floristTableCells);
+
+        pdfUtils.createMetadata(report, "Сводный отчет по заказам флориста за месяц",
+                floristDto.getUser().getName(), floristDto.getUser().getName(), "floristYearSalaryCard",
+                "Сводный отчет по заказам флориста за месяц");
+
+        return report;
     }
 
     private FloristDTO getFloristDtoById(Long id) {
@@ -125,12 +159,81 @@ public class FloristReportServiceImpl implements FloristReportService {
     private List<PdfPCell> getFloristTableHeaders() {
         List<PdfPCell> floristTableHeaders = new ArrayList<>();
         floristTableHeaders.add(pdfUtils.getHeaderCell("№ п/п"));
-        floristTableHeaders.add(pdfUtils.getHeaderCell("№ заказа"));
+        floristTableHeaders.add(pdfUtils.getHeaderCell("№ order"));
         floristTableHeaders.add(pdfUtils.getHeaderCell("Состав букета"));
         floristTableHeaders.add(pdfUtils.getHeaderCell("Комментарий"));
         floristTableHeaders.add(pdfUtils.getHeaderCell("Ставка оплаты ($/час)"));
         floristTableHeaders.add(pdfUtils.getHeaderCell("Выплата"));
         return floristTableHeaders;
+    }
+
+    private List<PdfPCell> getFloristOrdersTableCells(FloristDTO floristDTO) {
+        List<PdfPCell> tableCells = new ArrayList<>();
+
+        AtomicInteger count = new AtomicInteger();
+        //driver info
+
+        final double paymentPerHour = 10.5;
+        final Double salary = floristDTO.getSalary();
+
+        LocalDateTime startDate = LocalDateTime.now().withDayOfMonth(1);
+        LocalDateTime endDate = LocalDateTime.now().plusMonths(1).withDayOfMonth(1);
+
+        List<Order> floristOrders = orderRepository
+                .findAllByOrderFloristInfoFloristIdAndOrderFloristInfoFloristCompletionTimeIsBetween(floristDTO.getId(), startDate,
+                        endDate);
+
+        double bonus = 0.0;
+        if (floristOrders.size() > 50) {
+            bonus = salary * 0.5;
+        }
+
+        AtomicReference<Double> sum = new AtomicReference<>(0.0);
+
+        double finalBonus = bonus;
+        floristOrders.forEach(order -> {
+
+            if (Objects.nonNull(order.getOrderFloristInfo()) &&
+                    order.getOrderStatus().equals(OrderStatus.COMPLETED)) {
+                String orderNum = order.getUniqueId();
+
+                List<OrderProduct> orderProducts = order.getOrderProducts();
+                String products = orderProducts
+                        .stream()
+                        .map(orderProduct -> {
+                            Product product = productRepository.getOne(orderProduct.getProductId());
+                            return product.getTitle() + " " + orderProduct.getQuantity() + " шт";
+                        })
+                        .collect(Collectors.joining(" ,"));
+
+                String orderComment = order.getOrderFloristInfo().getFloristComment();
+                //                LocalDateTime orderStartTime = order.getOrderFloristInfo().getFloristAppointmentTime();
+                //                LocalDateTime orderEndTime = order.getOrderFloristInfo().getFloristCompletionTime();
+                //                Double timeToCompleteOrder = LocalDateTime
+                //                        .ofEpochSecond(orderEndTime.toEpochSecond(ZoneOffset.UTC) - orderStartTime.toEpochSecond(ZoneOffset.UTC), 0,
+                //                                ZoneOffset.UTC).getMinute() / 60.0;
+
+                //                double payment = paymentPerHour * timeToCompleteOrder;
+                double payment = salary + finalBonus;
+                sum.updateAndGet(v -> v + payment);
+
+                tableCells.add(pdfUtils.getTableCell(Integer.toString(count.incrementAndGet())));
+                tableCells.add(pdfUtils.getTableCell(orderNum));
+                tableCells.add(pdfUtils.getTableCell(products));
+                tableCells.add(pdfUtils.getTableCell(order.getOrderFloristInfo().getFloristComment()));
+                tableCells.add(pdfUtils.getTableCell(Double.toString(paymentPerHour)));
+                tableCells.add(pdfUtils.getTableCell(Double.toString(payment)));
+            }
+        });
+
+        tableCells.add(pdfUtils.getTableCell(Integer.toString(count.incrementAndGet())));
+        tableCells.add(pdfUtils.getTableCell(""));
+        tableCells.add(pdfUtils.getTableCell(""));
+        tableCells.add(pdfUtils.getTableCell("Оклад: " + floristDTO.getSalary()));
+        tableCells.add(pdfUtils.getTableCell("Итого:"));
+        tableCells.add(pdfUtils.getTableCell(Double.toString(floristDTO.getSalary() + sum.get())));
+
+        return tableCells;
     }
 
     private List<PdfPCell> getFloristMonthlySalaryTableCells(FloristDTO floristDTO) {
@@ -146,7 +249,8 @@ public class FloristReportServiceImpl implements FloristReportService {
         LocalDateTime endDate = LocalDateTime.now().plusMonths(1).withDayOfMonth(1);
 
         List<Order> floristOrders = orderRepository
-                .findAllByOrderFloristInfoFloristIdAndOrderFloristInfoFloristCompletionTimeIsBetween(floristDTO.getId(), startDate, endDate);
+                .findAllByOrderFloristInfoFloristIdAndOrderFloristInfoFloristCompletionTimeIsBetween(floristDTO.getId(), startDate,
+                        endDate);
 
         double bonus = 0.0;
         if (floristOrders.size() > 50) {

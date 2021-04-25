@@ -13,7 +13,7 @@ import java.util.List;
 
 final class PdfUtils {
 
-    private static final String FONT = "src/main/resources/font/arial.ttf";
+    private static final String FONT = "D:\\DIP\\flower_shop_application_bsuir\\flower_shop_serverside\\flower_shop_report_service\\src\\main\\resources\\font\\arial.ttf";
 
     PdfPCell getHeaderCell(final String cellData) {
         final int padding = 5;
@@ -70,8 +70,10 @@ final class PdfUtils {
     private Font getFont() {
         try {
             BaseFont bf = BaseFont.createFont(FONT, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            System.out.println(bf.toString());
             return new Font(bf, 30, Font.NORMAL);
         } catch (IOException ex) {
+            ex.printStackTrace();
             return FontFactory.getFont(FontFactory.HELVETICA_BOLD);
         }
     }
