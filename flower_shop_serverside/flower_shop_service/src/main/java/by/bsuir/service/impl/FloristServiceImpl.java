@@ -72,6 +72,10 @@ public class FloristServiceImpl implements FloristService {
         return floristMapper.toDto(added);
     }
 
+    @Override
+    public FloristDTO findFloristByUserId(Long userId) {
+        return floristMapper.toDto(floristRepository.getOneByUserId(userId));
+    }
 
     private void sendFloristDataOnHisMail(User user, String password) {
         final SimpleMailMessage mailMessage = getMessage(user.getEmail(), user, password);
@@ -161,6 +165,4 @@ public class FloristServiceImpl implements FloristService {
 
         return florist;
     }
-
-
 }

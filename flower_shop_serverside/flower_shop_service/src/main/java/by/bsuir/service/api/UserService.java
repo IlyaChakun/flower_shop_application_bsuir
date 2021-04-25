@@ -7,5 +7,7 @@ public interface UserService extends AbstractUserService<UserDTO> {
 
     UserDTO update(UserDTO user, Long userId);
 
+    UserDTO findAdminByUserId(Long userId);
+
     PageWrapper<UserDTO> findAllClients(int page, int size);
 }

@@ -68,6 +68,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserDTO findAdminByUserId(Long userId) {
+        User user = userRepository.getOne(userId);
+        return userMapper.toDto(user);
+    }
+
+    @Override
     public PageWrapper<UserDTO> findAllClients(int page, int size) {
         log.info("in findAll method user service  searching clients page={} size={}", page, size);
 

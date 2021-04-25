@@ -12,4 +12,6 @@ public interface FloristService extends UpdateOperationService<FloristDTO>,
 
     FloristDTO save(FloristRequestDTO floristRequestDTO);
 
+    FloristDTO findFloristByUserId(Long userId);
+
 }

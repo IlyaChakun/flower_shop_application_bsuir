@@ -3,10 +3,8 @@ package by.bsuir.service.report.mail;
 import by.bsuir.email.service.core.EmailSenderService;
 import by.bsuir.service.report.core.PdfExporter;
 import by.bsuir.service.report.dto.Report;
-import lombok.AllArgsConstructor;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.stereotype.Service;
-
+import java.io.ByteArrayOutputStream;
+import java.util.Properties;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.mail.Message;
@@ -17,15 +15,16 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.util.ByteArrayDataSource;
-import java.io.ByteArrayOutputStream;
-import java.util.Properties;
+import lombok.AllArgsConstructor;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
 public class EmailServiceImpl implements EmailService {
 
     //@Value("${spring.mail.username}")
-    private final String sender = "cargo_transportation_worker@inbox.ru";
+    private final String sender = "warehouse_logistic_worker@inbox.ru";
     // @Value("${spring.mail.host}")
     private final String smtpHost = "smtp.mail.ru";
     // @Value("${spring.mail.port}")
@@ -143,5 +142,4 @@ public class EmailServiceImpl implements EmailService {
         properties.put("mail.smtp.port", smtpPort);
         return properties;
     }
-
 }
