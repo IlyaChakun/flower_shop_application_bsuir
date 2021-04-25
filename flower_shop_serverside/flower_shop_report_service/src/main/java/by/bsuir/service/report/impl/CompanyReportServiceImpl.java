@@ -3,10 +3,14 @@ package by.bsuir.service.report.impl;
 import by.bsuir.dto.mapper.company.CompanyMapperDTO;
 import by.bsuir.dto.model.company.CompanyDTO;
 import by.bsuir.entity.florist.Florist;
+import by.bsuir.entity.order.Order;
+import by.bsuir.entity.order.OrderStatus;
+import by.bsuir.entity.shop.Shop;
 import by.bsuir.entity.user.User;
 import by.bsuir.repository.api.common.CityRepository;
 import by.bsuir.repository.api.company.CompanyRepository;
 import by.bsuir.repository.api.florist.FloristRepository;
+import by.bsuir.repository.api.order.OrderRepository;
 import by.bsuir.repository.api.product.ProductRepository;
 import by.bsuir.repository.api.shop.ShopRepository;
 import by.bsuir.repository.api.user.UserRepository;
@@ -36,6 +40,7 @@ public class CompanyReportServiceImpl implements CompanyReportService {
     private final ShopRepository shopRepository;
     private final CityRepository cityRepository;
     private final ProductRepository productRepository;
+    private final OrderRepository orderRepository;
     private final UserRepository userRepository;
     private final CompanyMapperDTO companyMapperDTO;
 
@@ -95,7 +100,7 @@ public class CompanyReportServiceImpl implements CompanyReportService {
 
         pdfUtils.setTableSettings(report,
                 4,
-                Arrays.asList(2f, 12f, 10f, 10f),
+                Arrays.asList(2f, 12f, 10f, 8f),
                 10f);
 
         report.setParagraph(pdfUtils.getParagraph("Сводный отчет компании " + companyDTO.getName() + " за месяц."));
@@ -164,8 +169,6 @@ public class CompanyReportServiceImpl implements CompanyReportService {
     private List<PdfPCell> getPresentationTableCells(CompanyDTO companyDTO) {
         List<PdfPCell> tableCells = new ArrayList<>();
 
-        //company info
-
         User admin = userRepository.getOne(companyDTO.getAdminId());
 
         final String fio = "Администратор компании: \n" + admin.getName();
@@ -216,16 +219,16 @@ public class CompanyReportServiceImpl implements CompanyReportService {
 
         String shopsNames = shopRepository.findAll().stream()
                 .map(shop -> getCityById(shop.getContacts().getCityId()) + ", " + shop.getContacts().getAddress())
-                .collect(Collectors.joining(", "));
+                .collect(Collectors.joining(";\n"));
         tableCells.add(pdfUtils.getTableCell(shopsNames));
 
         String productTypes = productRepository.findAll().stream()
                 .map(product -> product.getTitle())
-                .collect(Collectors.joining(",\n"));
+                .collect(Collectors.joining(";\n"));
         tableCells.add(pdfUtils.getTableCell(productTypes));
 
         String floristNames = florists.stream()
-                .map(florist -> florist.getUser().getName() + ", " + florist.getUser().getPhoneNumber())
+                .map(florist -> florist.getUser().getName() + ", тел.:" + florist.getUser().getPhoneNumber())
                 .collect(Collectors.joining(",\n"));
         tableCells.add(pdfUtils.getTableCell(floristNames));
 
@@ -234,10 +237,10 @@ public class CompanyReportServiceImpl implements CompanyReportService {
 
     private List<PdfPCell> getAccountingReportHeaders() {
         List<PdfPCell> monthlyAccountingReportHeaders = new ArrayList<>();
-        monthlyAccountingReportHeaders.add(pdfUtils.getHeaderCell("№ п/п \u010c,\u0106"));
+        monthlyAccountingReportHeaders.add(pdfUtils.getHeaderCell("№ п/п"));
         monthlyAccountingReportHeaders.add(pdfUtils.getHeaderCell("Сводная информация"));
         monthlyAccountingReportHeaders.add(pdfUtils.getHeaderCell("Зарплата работников"));
-        monthlyAccountingReportHeaders.add(pdfUtils.getHeaderCell("Итого"));
+        monthlyAccountingReportHeaders.add(pdfUtils.getHeaderCell("Отчет по продажам"));
         return monthlyAccountingReportHeaders;
     }
 
@@ -245,21 +248,49 @@ public class CompanyReportServiceImpl implements CompanyReportService {
         List<PdfPCell> tableCells = new ArrayList<>();
 
         AtomicInteger count = new AtomicInteger();
+        String aboutCompany = getInfoAboutCompany(companyDTO);
 
-        List<Florist> florists = floristRepository.findAll();
+        int monthNumber = LocalDate.now().getMonthValue();
+        StringBuilder salaryInfo = new StringBuilder();
+        StringBuilder ordersProfitInfo = new StringBuilder();
+        double totalSalary = 0.0;
+        double totalProfit = 0.0;
 
-        Double salary = florists.stream()
-                .map(Florist::getSalary)
-                .mapToDouble(Double::doubleValue)
-                .sum() * 12;
+        for (int month = 1; month <= monthNumber; month++) {
+            double monthlySalary = getSalaryForMonth(month);
+            salaryInfo.append("За ")
+                    .append(month)
+                    .append(" месяц: ")
+                    .append(monthlySalary)
+                    .append(" руб\n");
+            totalSalary += monthlySalary;
 
-        String info = "Затраты на содержание в месяц: " +
-                "\nЗарплата сотрудников: " + salary + " руб";
+            double monthlyProfit = getOrdersForMonth(month).stream()
+                    .map(order -> order.getOrderPriceInfo().getTotalAmount())
+                    .mapToDouble(Double::doubleValue)
+                    .sum();
+            ordersProfitInfo.append("Выручка за ")
+                    .append(month)
+                    .append(" месяц: ")
+                    .append(monthlyProfit)
+                    .append(" руб\n");
+            totalProfit += monthlyProfit;
+        }
+
+        salaryInfo
+                .append("ИТОГО: ")
+                .append(totalSalary)
+                .append(" руб.");
+
+        ordersProfitInfo
+                .append("ИТОГО: ")
+                .append(totalProfit)
+                .append(" руб.");
 
         tableCells.add(pdfUtils.getTableCell(Integer.toString(count.incrementAndGet())));
-        tableCells.add(pdfUtils.getTableCell(info));
-        tableCells.add(pdfUtils.getTableCell(info));
-        tableCells.add(pdfUtils.getTableCell("ИТОГО: "));
+        tableCells.add(pdfUtils.getTableCell(aboutCompany));
+        tableCells.add(pdfUtils.getTableCell(salaryInfo.toString()));
+        tableCells.add(pdfUtils.getTableCell(ordersProfitInfo.toString()));
 
         return tableCells;
     }
@@ -269,26 +300,76 @@ public class CompanyReportServiceImpl implements CompanyReportService {
 
         AtomicInteger count = new AtomicInteger();
 
-        List<Florist> florists = floristRepository.findAll();
+        String aboutCompany = getInfoAboutCompany(companyDTO);
 
-        Double salary = florists.stream()
-                .map(Florist::getSalary)
+        int monthNumber = LocalDate.now().getMonthValue();
+        double salary = getSalaryForMonth(monthNumber);
+        String info = "За " + monthNumber + " месяц: " + salary + " руб";
+
+        double ordersSellSum = getOrdersForMonth(monthNumber).stream()
+                .map(order -> order.getOrderPriceInfo().getTotalAmount())
                 .mapToDouble(Double::doubleValue)
                 .sum();
 
-        String info = "Затраты на содержание в месяц: " +
-                "\nЗарплата сотрудников: " + salary + " руб";
-
         tableCells.add(pdfUtils.getTableCell(Integer.toString(count.incrementAndGet())));
+        tableCells.add(pdfUtils.getTableCell(aboutCompany));
         tableCells.add(pdfUtils.getTableCell(info));
-        tableCells.add(pdfUtils.getTableCell(info));
-        tableCells.add(pdfUtils.getTableCell("ИТОГО: "));
+        tableCells.add(pdfUtils.getTableCell("ИТОГО: " + ordersSellSum + " руб."));
 
         return tableCells;
     }
 
+    private List<Order> getOrdersForMonth(int currentMonth) {
+        LocalDateTime startDate = LocalDateTime.of(LocalDateTime.now().getYear(), currentMonth, 1, 0, 0);
+        LocalDateTime endDate = startDate.plusMonths(1).minusDays(1);
+        return orderRepository
+                .findAllByOrderStatusAndAndDateOfLastUpdateIsBetween(
+                        OrderStatus.COMPLETED,
+                        startDate,
+                        endDate);
+    }
+
     private String getCityById(Long cityId) {
         return cityRepository.getOne(cityId).getCityName();
+    }
+
+    private double getSalaryForMonth(int monthNumber) {
+        LocalDateTime startDate = LocalDateTime.of(LocalDateTime.now().getYear(), monthNumber, 1, 0, 0);
+        LocalDateTime endDate = startDate.plusMonths(1).minusDays(1);
+        List<Florist> florists = floristRepository.findAllByDateOfCreationIsBetween(startDate, endDate);
+
+        double sum = 0.0;
+
+        for (Florist florist : florists) {
+            double salary = florist.getSalary();
+            List<Order> floristOrders = orderRepository
+                    .findAllByOrderFloristInfoFloristIdAndOrderFloristInfoFloristCompletionTimeIsBetween(
+                            florist.getId(),
+                            startDate,
+                            endDate);
+
+            double bonus = 0.0;
+            if (floristOrders.size() > 10) {
+                bonus = salary * 0.5;
+            }
+
+            sum += salary + bonus;
+        }
+
+        return sum;
+    }
+
+    private String getInfoAboutCompany(CompanyDTO companyDTO) {
+        List<Florist> florists = floristRepository.findAll();
+        List<Shop> shops = shopRepository.findAll();
+        return companyDTO.getName() +
+                "\n" + companyDTO.getContacts().getPostalCode() + ", " +
+                getCityById(companyDTO.getContacts().getCityId()) +
+                ", " + companyDTO.getContacts().getAddress() +
+                "\n" + companyDTO.getContacts().getFirstPhoneNumber() +
+                ", " + companyDTO.getContacts().getEmail() +
+                ", \n Кол-во магазинов: " + shops.size() +
+                ", \n Кол-во сотрудников: " + florists.size();
     }
 
     private CompanyDTO getCompany() {

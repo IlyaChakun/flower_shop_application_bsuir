@@ -15,9 +15,17 @@ public interface OrderRepository extends BaseOrderRepository<Order> {
 
     Page<Order> findAllByOrderStatus(Pageable pageable, OrderStatus orderStatus);
 
+    List<Order> findAllByOrderStatusAndAndDateOfLastUpdateIsBetween(
+            OrderStatus orderStatus,
+            LocalDateTime startDate,
+            LocalDateTime endDate);
+
     List<Order> findAllByOrderFloristInfoFloristId(Long floristId);
 
-    List<Order> findAllByOrderFloristInfoFloristIdAndOrderFloristInfoFloristCompletionTimeIsBetween(Long floristId, LocalDateTime startDate, LocalDateTime endDate);
+    List<Order> findAllByOrderFloristInfoFloristIdAndOrderFloristInfoFloristCompletionTimeIsBetween(
+            Long floristId,
+            LocalDateTime startDate,
+            LocalDateTime endDate);
 
     Integer countOrderByClientId(Long clientId);
 

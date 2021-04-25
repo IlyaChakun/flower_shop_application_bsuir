@@ -18,7 +18,7 @@ public interface FloristReportService {
      * @param floristId
      * @return
      */
-    Report getFloristYearSalaryReport(Long floristId);
+    Report getFloristAnnualSalaryReport(Long floristId);
 
     /**
      * Отчет по заказам МБ Сделать за определннывй период!

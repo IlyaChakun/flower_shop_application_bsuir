@@ -24,7 +24,11 @@ public interface ReportPdfController {
     ResponseEntity<byte[]> exportFloristAnnualReport(
             @PathVariable("id") @PositiveLong String id) throws DocumentException, IOException;
 
-    @GetMapping(path= "/report/florists/{id}/monthly-report/pdf")
+    @GetMapping(path = "/report/florists/{id}/monthly-report/pdf")
     ResponseEntity<byte[]> exportFloristMonthlyReport(
+            @PathVariable("id") @PositiveLong String id) throws DocumentException, IOException;
+
+    @GetMapping(path = "/report/florists/{id}/monthly-orders-report/pdf")
+    ResponseEntity<byte[]> exportFloristOrdersReport(
             @PathVariable("id") @PositiveLong String id) throws DocumentException, IOException;
 }

@@ -63,7 +63,6 @@ public class ReportPdfControllerImpl implements ReportPdfController {
                 .body(bytes);
     }
 
-
     @Override
     public ResponseEntity<byte[]> exportCompanyMonthlyReport() throws DocumentException, IOException {
 
@@ -82,7 +81,7 @@ public class ReportPdfControllerImpl implements ReportPdfController {
 
     @Override
     public ResponseEntity<byte[]> exportFloristAnnualReport(String id) throws DocumentException, IOException {
-        Report report = floristReportService.getFloristYearSalaryReport(Long.parseLong(id));
+        Report report = floristReportService.getFloristAnnualSalaryReport(Long.parseLong(id));
         sendReportToUserByUserId(id, report);
 
         HttpHeaders headers = composeHeaders(report);
@@ -111,6 +110,21 @@ public class ReportPdfControllerImpl implements ReportPdfController {
                 .body(bytes);
     }
 
+    @Override
+    public ResponseEntity<byte[]> exportFloristOrdersReport(String id) throws DocumentException, IOException {
+        Report report = floristReportService.getFloristOrdersReport(Long.parseLong(id));
+        sendReportToUserByUserId(id, report);
+
+        HttpHeaders headers = composeHeaders(report);
+        final byte[] bytes = getByteArrayFromReport(report);
+
+        return ResponseEntity
+                .ok()
+                .headers(headers)
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(bytes);
+    }
+
     private HttpHeaders composeHeaders(Report report) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Disposition", "attachment; filename=" + report.getFileName() + "_"
@@ -119,6 +133,11 @@ public class ReportPdfControllerImpl implements ReportPdfController {
         return headers;
     }
 
+    private byte[] getByteArrayFromReport(Report report) throws IOException {
+        final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        pdfExporter.export(report, outputStream);
+        return outputStream.toByteArray();
+    }
 
     private UserDTO getAdmin() {
         return userService.findAdminByUserId(companyService.findCompany().getAdminId());
@@ -127,11 +146,5 @@ public class ReportPdfControllerImpl implements ReportPdfController {
     private void sendReportToUserByUserId(String id, Report report) {
         FloristDTO floristDTO = floristService.findFloristByUserId(Long.parseLong(id));
         emailService.sendReportOnMail(floristDTO.getUser().getEmail(), report);
-    }
-
-    private byte[] getByteArrayFromReport(Report report) throws IOException {
-        final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        pdfExporter.export(report, outputStream);
-        return outputStream.toByteArray();
     }
 }
