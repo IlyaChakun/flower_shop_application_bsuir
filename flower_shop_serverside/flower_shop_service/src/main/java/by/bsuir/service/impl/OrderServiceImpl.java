@@ -39,6 +39,10 @@ import by.bsuir.repository.api.user.UserRepository;
 import by.bsuir.repository.specification.OrderSpecification;
 import by.bsuir.security.service.api.UserSecurityService;
 import by.bsuir.service.api.OrderService;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -47,11 +51,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -147,10 +146,10 @@ public class OrderServiceImpl implements OrderService {
 
         orderDetailDTO.setProducts(orderProductDetailDTOList);
         orderDetailDTO.setComment(orderDTO.getComment());
-        orderDetailDTO.setOrderPriceInfo(orderDetailDTO.getOrderPriceInfo());
-        orderDetailDTO.setOrderDeliveryInfo(orderDetailDTO.getOrderDeliveryInfo());
-        orderDetailDTO.setOrderFloristInfo(orderDetailDTO.getOrderFloristInfo());
-        orderDetailDTO.setOrderReview(orderDetailDTO.getOrderReview());
+        orderDetailDTO.setOrderPriceInfo(orderDTO.getOrderPriceInfo());
+        orderDetailDTO.setOrderDeliveryInfo(orderDTO.getOrderDeliveryInfo());
+        orderDetailDTO.setOrderFloristInfo(orderDTO.getOrderFloristInfo());
+        orderDetailDTO.setOrderReview(orderDTO.getOrderReview());
 
         return orderDetailDTO;
     }
